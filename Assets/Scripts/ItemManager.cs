@@ -90,7 +90,8 @@ public class ItemManager : MonoBehaviour
                                 // 7) Place the item in the slot
                                 AddItemToSlot(clickedItem, itemSlots[i]);
                                 // 8) Deduct coins
-                                Singleton.Instance.playerStats.AddCoins(-cost);;
+                                Singleton.Instance.playerStats.AddCoins(-cost);
+                                clickedItem.purchasable = false;
                                 break;
                             }
                         }

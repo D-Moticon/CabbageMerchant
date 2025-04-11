@@ -35,10 +35,10 @@ public class GameStateMachine : MonoBehaviour
 
     public int currentLives = 3;
     
-    public List<Ball> activeBalls = new List<Ball>();
-    private List<Cabbage> activeCabbages = new List<Cabbage>();
-    
-    
+    [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
+    [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
+
+    public static Action BoardFinishedPopulatingAction;
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
 
@@ -120,7 +120,7 @@ public class GameStateMachine : MonoBehaviour
 
         public override void ExitState()
         {
-            
+            BoardFinishedPopulatingAction?.Invoke();
         }
 
         IEnumerator PopulateBoard()

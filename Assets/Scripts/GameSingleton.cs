@@ -7,6 +7,7 @@ public class GameSingleton : MonoBehaviour
     public ObjectPoolManager objectPoolManager;
     public GameStateMachine gameStateMachine;
     public BoardMetrics boardMetrics;
+    public Transform gameSceneParent;
     
     private void OnEnable()
     {

@@ -248,6 +248,7 @@ MonoBehaviour:
   objectPoolManager: {fileID: 2139992005}
   gameStateMachine: {fileID: 1878277602}
   boardMetrics: {fileID: 42168035}
+  gameSceneParent: {fileID: 0}
 --- !u!4 &263745639
 Transform:
   m_ObjectHideFlags: 0
@@ -939,6 +940,7 @@ MonoBehaviour:
   maxLives: 3
   currentLives: 3
   activeBalls: []
+  activeCabbages: []
 --- !u!1 &2030076682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,6 +1385,10 @@ MonoBehaviour:
     initialQuantity: 50
   - objectData: {fileID: 11400000, guid: b58ae19dc9adde446b25405cdefc3369, type: 2}
     initialQuantity: 90
+  - objectData: {fileID: 11400000, guid: 12df07918005f8b498512c255add32e6, type: 2}
+    initialQuantity: 10
+  - objectData: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}
+    initialQuantity: 15
 --- !u!4 &2139992006
 Transform:
   m_ObjectHideFlags: 0

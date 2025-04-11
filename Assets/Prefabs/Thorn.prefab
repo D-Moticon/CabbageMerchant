@@ -321,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16629f2f8ef142408309231f3b3311d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bonkValue: 0.5
   deactivateOnBonk: 1
 --- !u!50 &3052483765442395347
 Rigidbody2D:

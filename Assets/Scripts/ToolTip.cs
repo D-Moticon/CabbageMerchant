@@ -10,6 +10,7 @@ public class ToolTip : MonoBehaviour
     public TMP_Text titleText;
     public TMP_Text descriptionText;
     public TMP_Text rarityText;
+    public TMP_Text triggerText;
     public Image itemImage;
 
     [Header("World Space Settings")]
@@ -74,6 +75,7 @@ public class ToolTip : MonoBehaviour
         descriptionText.text = hoverable.GetDescriptionText();
         rarityText.text      = hoverable.GetRarityText();
         itemImage.sprite     = hoverable.GetImage();
+        triggerText.text = hoverable.GetTriggerText();
 
         FadeCanvasGroup(1f);
     }

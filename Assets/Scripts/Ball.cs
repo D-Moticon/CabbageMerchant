@@ -11,6 +11,8 @@ public class Ball : MonoBehaviour
     private static float timeoutVel = 0.1f;
     private float timeoutCounter = 0f;
     public SFXInfo wallBonkSFX;
+    public float bonkCooldown = 0.05f;
+    private float bonkCooldownCounter;
     
     private void OnEnable()
     {
@@ -48,6 +50,10 @@ public class Ball : MonoBehaviour
             timeoutCounter = 0f;
         }
 
+        if (bonkCooldownCounter > 0f)
+        {
+            bonkCooldownCounter -= Time.deltaTime;
+        }
     }
 
     void KillBall()
@@ -58,10 +64,11 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         Cabbage c = other.gameObject.GetComponent<Cabbage>();
-        if (c != null)
+        if (c != null && bonkCooldownCounter <= 0f)
         {
-            c.Bonk(other.contacts[0].point);
+            c.Bonk(1f, other.contacts[0].point);
             BallHitCabbageEvent?.Invoke(this, c, other.GetContact(0).point, other.GetContact(0).normal);
+            bonkCooldownCounter = bonkCooldown;
         }
 
         else

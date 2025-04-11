@@ -30,7 +30,7 @@ public class Cabbage : MonoBehaviour
     public FloaterReference scoreFloater;
 
     [Header("Levels & Hue")]
-    [HideInInspector] public int sizeLevel;
+    [HideInInspector] public float sizeLevel;
     [HideInInspector] public int colorLevel;
     public int maxSizeLevel = 1000;
     public int maxColorLevel = 100;
@@ -109,14 +109,15 @@ public class Cabbage : MonoBehaviour
         }
     }
 
-    public void Bonk(Vector2 collisionPos, Vector2 normal = default)
+    public void Bonk(float bonkValue, Vector2 collisionPos, Vector2 normal = default)
     {
-        sizeLevel = Mathf.Min(sizeLevel + 1, maxSizeLevel);
+        sizeLevel = Mathf.Min(sizeLevel + bonkValue, maxSizeLevel);
         UpdateSizeLevel();
 
         // VFX and feedback
-        bonkSFX.Play();
-        bonkVFX.Spawn(collisionPos, Quaternion.identity);
+        bonkSFX.Play(collisionPos, bonkSFX.vol * bonkValue);
+        GameObject vfx = bonkVFX.Spawn(collisionPos, Quaternion.identity);
+        vfx.transform.localScale = new Vector3(bonkValue, bonkValue, 1f);
 
         float sca = transform.localScale.x;
         float intensity = 1f / sca;
@@ -157,7 +158,7 @@ public class Cabbage : MonoBehaviour
 
         Vector2 pos = 0.5f * (transform.position + otherCabbage.transform.position);
         int newColorLevel = Mathf.Min(Mathf.Max(colorLevel, otherCabbage.colorLevel) + 1, maxColorLevel);
-        int newSizeLevel = Mathf.Min(Mathf.Max(sizeLevel, otherCabbage.sizeLevel) + 1, maxSizeLevel);
+        float newSizeLevel = Mathf.Min(Mathf.Max(sizeLevel, otherCabbage.sizeLevel) + 1, maxSizeLevel);
 
         Cabbage c = GameSingleton.Instance.gameStateMachine
             .cabbagePooledObject.Spawn(pos, Quaternion.identity)
