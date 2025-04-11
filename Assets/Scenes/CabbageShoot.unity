@@ -388,8 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6d985845897514b9d4b1ec925eee42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridBounds: {x: 8, y: 5}
-  gridSpacing: {x: 1, y: 1}
+  gridBounds: {x: 7.5, y: 5}
+  gridSpacing: {x: 1.2, y: 1.2}
 --- !u!4 &42168036
 Transform:
   m_ObjectHideFlags: 0
@@ -733,7 +733,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1092,7 +1092,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1065934623
+--- !u!1 &1211908265
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1100,49 +1100,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1065934625}
-  - component: {fileID: 1065934624}
+  - component: {fileID: 1211908267}
+  - component: {fileID: 1211908266}
   m_Layer: 0
-  m_Name: BallSplitterItem
+  m_Name: Post
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1065934624
+--- !u!114 &1211908266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065934623}
+  m_GameObject: {fileID: 1211908265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8970c35d54e1173409e58d98ce45a23a, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggers:
-  - rid: 328109895874511209
-  ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
-  ballLaunchSpeed: 7
-  ballLaunchAngleRange: {x: 45, y: 135}
-  references:
-    version: 2
-    RefIds:
-    - rid: 328109895874511209
-      type: {class: Item/FirstCabbageHitTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
---- !u!4 &1065934625
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: cf31ea58fc3ba4944bc6cc53ba72d64f, type: 2}
+--- !u!4 &1211908267
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065934623}
+  m_GameObject: {fileID: 1211908265}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.07, y: -0.1837549, z: 0.042274285}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1362,7 +1355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberPegs: 20
-  pegPooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
+  cabbagePooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
   boardMetrics: {fileID: 42168035}
   launcher: {fileID: 297416520}
   maxLives: 3
@@ -2189,6 +2182,8 @@ MonoBehaviour:
     initialQuantity: 50
   - objectData: {fileID: 11400000, guid: 3382dbf66acc0574cbc96037591e44d2, type: 2}
     initialQuantity: 50
+  - objectData: {fileID: 11400000, guid: b58ae19dc9adde446b25405cdefc3369, type: 2}
+    initialQuantity: 90
 --- !u!4 &2139992006
 Transform:
   m_ObjectHideFlags: 0
@@ -2267,6 +2262,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 263745639}
   - {fileID: 1497995672}
+  - {fileID: 1211908267}
   - {fileID: 619394802}
   - {fileID: 822746522}
   - {fileID: 297416521}
@@ -2274,4 +2270,3 @@ SceneRoots:
   - {fileID: 8074825222272031334}
   - {fileID: 1770616643}
   - {fileID: 2124275149}
-  - {fileID: 1065934625}

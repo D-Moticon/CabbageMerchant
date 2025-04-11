@@ -8,6 +8,8 @@ public class Singleton : MonoBehaviour
     public PlayerInputManager playerInputManager;
     public FloaterManager floaterManager;
     public AudioManager audioManager;
+    public PrefabReferences prefabReferences;
+    public ItemManager itemManager;
     
     private void OnEnable()
     {

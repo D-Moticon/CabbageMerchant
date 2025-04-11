@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class Item : MonoBehaviour
 {
     [SerializeReference] public List<Trigger> triggers;
+    public Sprite icon;
+    [HideInInspector] public ItemSlot currentItemSlot;
+    [HideInInspector] public ItemWrapper itemWrapper;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void OnEnable()
@@ -30,13 +33,15 @@ public class Item : MonoBehaviour
 
     protected virtual void TriggerItem(TriggerContext tc = null)
     {
-        
+        itemWrapper.triggerFeel.PlayFeedbacks();
     }
 
     public class TriggerContext
     {
         public Ball ball;
         public Cabbage cabbage;
+        public Vector2 point;
+        public Vector2 normal;
     }
     
     //Triggers
@@ -65,7 +70,7 @@ public class Item : MonoBehaviour
             GameStateMachine.EnteringAimStateAction -= AimStateEnteredListener;
         }
 
-        void CabbageHitListener(Ball b, Cabbage c)
+        void CabbageHitListener(Ball b, Cabbage c, Vector2 point, Vector2 normal)
         {
             hitCounter++;
             if (hitCounter >= everyXHit)
@@ -73,6 +78,8 @@ public class Item : MonoBehaviour
                 TriggerContext tc = new TriggerContext();
                 tc.ball = b;
                 tc.cabbage = c;
+                tc.point = point;
+                tc.normal = normal;
                 owningItem.TryTriggerItem(tc);
                 hitCounter = 0;
             }
@@ -100,7 +107,7 @@ public class Item : MonoBehaviour
             GameStateMachine.EnteringAimStateAction -= AimStateEnteredListener;
         }
 
-        void CabbageHitListener(Ball b, Cabbage c)
+        void CabbageHitListener(Ball b, Cabbage c, Vector2 point, Vector2 normal)
         {
             if (hit)
             {
@@ -110,6 +117,8 @@ public class Item : MonoBehaviour
             TriggerContext tc = new TriggerContext();
             tc.ball = b;
             tc.cabbage = c;
+            tc.point = point;
+            tc.normal = normal;
             owningItem.TryTriggerItem(tc);
             hit = true;
             

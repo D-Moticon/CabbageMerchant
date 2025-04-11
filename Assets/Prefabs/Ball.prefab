@@ -85,6 +85,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 772339724308061480}
+  wallBonkSFX:
+    sfx:
+      Guid:
+        Data1: -545545764
+        Data2: 1243950969
+        Data3: 1276786876
+        Data4: 478948933
+      Path: event:/WallBonk
+    vol: 0.2
 --- !u!50 &772339724308061480
 Rigidbody2D:
   serializedVersion: 5

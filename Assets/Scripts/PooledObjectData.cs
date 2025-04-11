@@ -5,7 +5,7 @@ public class PooledObjectData : ScriptableObject
 {
     public GameObject prefab;
 
-    public GameObject Spawn(Vector2 pos, Quaternion rot)
+    public GameObject Spawn(Vector2 pos = default, Quaternion rot = default)
     {
         for (int i = 0; i < GameSingleton.Instance.objectPoolManager.pooledObjectsList.Count; i++)
         {

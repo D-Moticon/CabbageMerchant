@@ -1,34 +1,65 @@
 using System;
 using UnityEngine;
 using MoreMountains.Feedbacks;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Sirenix.OdinInspector;
 
 public class Cabbage : MonoBehaviour
 {
+    public enum GrowthMode
+    {
+        Linear,
+        Logarithmic,
+        Root
+    }
+
+    [Header("References")]
     public Rigidbody2D rb;
     public PooledObjectData bonkVFX;
     public PooledObjectData popVFX;
     public MMF_Player bonkFeel;
+    public MMF_Player popFeel;
     public Color floaterColor = Color.white;
     public SFXInfo bonkSFX;
     public SFXInfo popSFX;
-    [HideInInspector]public int sizeLevel = 0;
-    [HideInInspector]public int colorLevel = 0;
+
+    [Header("Levels & Hue")]
+    [HideInInspector] public int sizeLevel;
+    [HideInInspector] public int colorLevel;
+    public int maxSizeLevel = 1000;
+    public int maxColorLevel = 100;
     public float huePerLevel = 0.05f;
     public float maxHue = 0.65f;
+
+    [Header("Scale Controls")]
     public float startingScale = 0.5f;
     public float scalePerLevel = 0.2f;
+
+    [FoldoutGroup("Advanced Growth")]
+    [EnumToggleButtons]
+    public GrowthMode growthMode = GrowthMode.Root;
+
+    [FoldoutGroup("Advanced Growth"), ShowIf("@growthMode == GrowthMode.Logarithmic")]
+    [LabelText("Log Base")]
+    public float logBase = 1.2f;
+
+    [FoldoutGroup("Advanced Growth"), ShowIf("@growthMode == GrowthMode.Logarithmic")]
+    [LabelText("Log Multiplier")]
+    public float logMultiplier = 1f;
+
+    [FoldoutGroup("Advanced Growth"), ShowIf("@growthMode == GrowthMode.Root")]
+    [LabelText("Root Exponent")]
+    [Tooltip("Typical range: 0.5-1.0. Lower = gentler growth.")]
+    public float rootExponent = 0.7f;
+
+    [HideInInspector] public bool isMerging = false;
     private SpriteRenderer sr;
-    public bool isMerging = false;
 
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Static;
         sr = GetComponentInChildren<SpriteRenderer>();
 
-        float sca = startingScale + sizeLevel * scalePerLevel;
-        transform.localScale = new Vector3(sca, sca, 1f);
         UpdateSizeLevel();
         UpdateColorLevel();
     }
@@ -44,100 +75,119 @@ public class Cabbage : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, rad);
         foreach (Collider2D col in colliders)
         {
+            if (col.gameObject == this.gameObject) continue;
+
             Cabbage c = col.GetComponent<Cabbage>();
-            
-            if (col.gameObject != this.gameObject && c != null)
+            if (c != null && c.enabled)
             {
-                if (c.enabled)
-                {
-                    Merge(c);
-                }
-                
+                Merge(c);
             }
         }
     }
 
-    public void Bonk(Vector2 collisionPos)
+    public void Bonk(Vector2 collisionPos, Vector2 normal = default)
     {
-        sizeLevel++;
-
+        sizeLevel = Mathf.Min(sizeLevel + 1, maxSizeLevel);
         UpdateSizeLevel();
 
+        // VFX and feedback
         bonkSFX.Play();
         bonkVFX.Spawn(collisionPos, Quaternion.identity);
-        bonkFeel.PlayFeedbacks(this.transform.position,1f);
+
+        float sca = transform.localScale.x;
+        float intensity = 1f / sca;
+        bonkFeel.PlayFeedbacks(transform.position, intensity);
     }
 
     public void Pop(Vector2 collisionPos)
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
         popVFX.Spawn(collisionPos, Quaternion.identity);
-        bonkFeel.PlayFeedbacks(this.transform.position,2f,false);
+        bonkFeel.PlayFeedbacks(transform.position, 2f, false);
         GameSingleton.Instance.screenShaker.ShakeScreen();
-        Singleton.Instance.floaterManager.SpawnFloater("100", this.transform.position, floaterColor);
+        Singleton.Instance.floaterManager.SpawnFloater("100", transform.position, floaterColor);
+
         rb.angularVelocity = Random.Range(-400f, 400f);
         popSFX.Play();
         gameObject.layer = LayerMask.NameToLayer("TransparentFX");
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-
-    }
+    private void OnCollisionEnter2D(Collision2D other) { }
+    private void OnCollisionStay(Collision other) { }
 
     void Merge(Cabbage otherCabbage)
     {
-        if (isMerging || otherCabbage.isMerging)
-        {
-            return;
-        }
+        if (isMerging || otherCabbage.isMerging) return;
 
         isMerging = true;
         otherCabbage.isMerging = true;
 
-        Vector2 pos = (this.transform.position + otherCabbage.transform.position) * 0.5f;
-        int newColorLevel = Mathf.Max(this.colorLevel, otherCabbage.colorLevel) + 1;
-        int newSizeLevel = Mathf.Max(this.sizeLevel, otherCabbage.sizeLevel) + 1;
+        Vector2 pos = 0.5f * (transform.position + otherCabbage.transform.position);
+        int newColorLevel = Mathf.Min(Mathf.Max(colorLevel, otherCabbage.colorLevel) + 1, maxColorLevel);
+        int newSizeLevel = Mathf.Min(Mathf.Max(sizeLevel, otherCabbage.sizeLevel) + 1, maxSizeLevel);
 
-        Cabbage c = GameSingleton.Instance.gameStateMachine.cabbagePooledObject.Spawn(pos, Quaternion.identity)
+        Cabbage c = GameSingleton.Instance.gameStateMachine
+            .cabbagePooledObject.Spawn(pos, Quaternion.identity)
             .GetComponent<Cabbage>();
+
         c.colorLevel = newColorLevel;
         c.sizeLevel = newSizeLevel;
         c.UpdateColorLevel();
         c.UpdateSizeLevel();
-        c.bonkFeel.PlayFeedbacks(this.transform.position,2f);
-        c.popSFX.Play();
-        GameObject pVFX = c.popVFX.Spawn(pos, Quaternion.identity);
-        float sca = sizeLevel * scalePerLevel;
-        pVFX.transform.localScale = new Vector3(sca, sca, 1f);
-        
 
-        this.gameObject.SetActive(false);
+        c.bonkFeel.PlayFeedbacks(transform.position, 2f);
+        c.popSFX.Play();
+        c.popFeel.PlayFeedbacks();
+
+        // Spawn VFX at the merged position
+        GameObject pVFX = c.popVFX.Spawn(pos, Quaternion.identity);
+        float sca = scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
+        pVFX.transform.localScale = new Vector3(sca, sca, 1f);
+
+        gameObject.SetActive(false);
         otherCabbage.gameObject.SetActive(false);
     }
 
     public void UpdateColorLevel()
     {
-        if (sr == null)
-        {
-            sr = GetComponentInChildren<SpriteRenderer>();
-        }
-        
+        if (!sr) sr = GetComponentInChildren<SpriteRenderer>();
+
         MaterialPropertyBlock mpb = new MaterialPropertyBlock();
         sr.GetPropertyBlock(mpb);
+
         float newHue = Mathf.Min(colorLevel * huePerLevel, maxHue);
         mpb.SetFloat("_Hue", newHue);
+
         sr.SetPropertyBlock(mpb);
     }
 
     public void UpdateSizeLevel()
     {
-        float sca = startingScale + sizeLevel * scalePerLevel;
+        if (!sr) sr = GetComponentInChildren<SpriteRenderer>();
+
+        float sca;
+        switch (growthMode)
+        {
+            case GrowthMode.Linear:
+                // Straight line growth
+                sca = startingScale + sizeLevel * scalePerLevel;
+                break;
+
+            case GrowthMode.Logarithmic:
+                // Slower at higher levels
+                sca = startingScale + scalePerLevel * logMultiplier * Mathf.Log(sizeLevel + 1, logBase);
+                break;
+
+            case GrowthMode.Root:
+                // Gentle, unbounded growth (sizeLevel^(rootExponent < 1) grows slower than linear but faster than log for large numbers).
+                sca = startingScale + scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
+                break;
+
+            default:
+                sca = startingScale;
+                break;
+        }
+
         transform.localScale = new Vector3(sca, sca, 1f);
     }
 }

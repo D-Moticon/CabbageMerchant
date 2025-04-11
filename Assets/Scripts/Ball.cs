@@ -5,8 +5,12 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
 
-    public delegate void BallCabbageDelegate(Ball b, Cabbage c);
+    public delegate void BallCabbageDelegate(Ball b, Cabbage c, Vector2 point, Vector2 normal);
     public static BallCabbageDelegate BallHitCabbageEvent;
+    private static float timeoutDuration = 0.5f;
+    private static float timeoutVel = 0.1f;
+    private float timeoutCounter = 0f;
+    public SFXInfo wallBonkSFX;
     
     private void OnEnable()
     {
@@ -27,8 +31,28 @@ public class Ball : MonoBehaviour
     {
         if (rb.position.y < -6)
         {
-            gameObject.SetActive(false);
+            KillBall();
         }
+
+        if (rb.linearVelocity.magnitude < timeoutVel)
+        {
+            timeoutCounter += Time.deltaTime;
+            if (timeoutCounter > timeoutDuration)
+            {
+                KillBall();
+            }
+        }
+
+        else
+        {
+            timeoutCounter = 0f;
+        }
+
+    }
+
+    void KillBall()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -37,7 +61,12 @@ public class Ball : MonoBehaviour
         if (c != null)
         {
             c.Bonk(other.contacts[0].point);
-            BallHitCabbageEvent?.Invoke(this, c);
+            BallHitCabbageEvent?.Invoke(this, c, other.GetContact(0).point, other.GetContact(0).normal);
+        }
+
+        else
+        {
+            wallBonkSFX.Play();
         }
     }
 }

@@ -51,7 +51,7 @@ public class TrajectoryTraceSim : MonoBehaviour
     {
         if ((previousAimPos - (Vector2)targetTransform.position).magnitude > 0.00001f)
         {
-            SimulateLaunch(launcher.transform, launcher.currentLaunchVelocity);
+            SimulateLaunch();
         }
     }
 
@@ -91,8 +91,11 @@ public class TrajectoryTraceSim : MonoBehaviour
     }
 
     Vector2 _lastVel = Vector2.zero;
-    public void SimulateLaunch(Transform player, Vector2 vel)
+    public void SimulateLaunch()
     {
+        Transform player = launcher.transform;
+        Vector2 vel = launcher.currentLaunchVelocity;
+        
         _simulatedObject.transform.position = player.position;
         _simulatedObject.transform.rotation = player.rotation;
 
@@ -119,6 +122,7 @@ public class TrajectoryTraceSim : MonoBehaviour
     {
         CreateSimObjects();
         EnableLine(true);
+        SimulateLaunch();
     }
 
     void ExitingAimStateListener()
