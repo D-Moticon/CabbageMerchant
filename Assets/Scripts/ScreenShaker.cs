@@ -4,8 +4,8 @@ using UnityEngine;
 public class ScreenShaker : MonoBehaviour
 {
     public MMF_Player shakePlayer;
-    public void ShakeScreen()
+    public void ShakeScreen(float intensity = 1f)
     {
-        shakePlayer.PlayFeedbacks();
+        shakePlayer.PlayFeedbacks(this.transform.position, intensity);
     }
 }

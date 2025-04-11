@@ -66,7 +66,7 @@ public class Ball : MonoBehaviour
 
         else
         {
-            wallBonkSFX.Play();
+            wallBonkSFX.Play(other.GetContact(0).point);
         }
     }
 }

@@ -5,7 +5,6 @@ public class GameSingleton : MonoBehaviour
     public static GameSingleton Instance { get; private set; }
 
     public ObjectPoolManager objectPoolManager;
-    public ScreenShaker screenShaker;
     public GameStateMachine gameStateMachine;
     public BoardMetrics boardMetrics;
     

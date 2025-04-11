@@ -2,12 +2,17 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IHoverable
 {
-    [SerializeReference] public List<Trigger> triggers;
+    public string itemName;
     public Sprite icon;
+    [SerializeReference] public List<Trigger> triggers;
+    public Rarity rarity = Rarity.Common;
+    public float normalizedPrice = 1f;
+    public static float globalItemPriceMult = 100f;
     [HideInInspector] public ItemSlot currentItemSlot;
     [HideInInspector] public ItemWrapper itemWrapper;
+    [HideInInspector] public bool purchasable = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void OnEnable()
@@ -26,6 +31,12 @@ public class Item : MonoBehaviour
             t.RemoveTrigger(this);
         }
     }
+
+    public float GetItemBasePrice()
+    {
+        return (normalizedPrice * globalItemPriceMult);
+    }
+    
     protected virtual void TryTriggerItem(TriggerContext tc = null)
     {
         TriggerItem(tc);
@@ -128,5 +139,25 @@ public class Item : MonoBehaviour
         {
             hit = false;
         }
+    }
+
+    public virtual string GetTitleText()
+    {
+        return itemName;
+    }
+
+    public virtual string GetDescriptionText()
+    {
+        return "";
+    }
+
+    public string GetRarityText()
+    {
+        return rarity.ToString();
+    }
+
+    public Sprite GetImage()
+    {
+        return icon;
     }
 }

@@ -12,6 +12,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public Vector2 crosshairMove;
     public Vector2 mousePos;
+    public Vector2 mousePosWorldSpace;
     public bool fireDown;
     public bool fireHeld;
     public bool fireUp;
@@ -29,7 +30,8 @@ public class PlayerInputManager : MonoBehaviour
     {
         crosshairMove = crosshairMoveInput.action.ReadValue<Vector2>() * crosshairSens;
         mousePos = mousePosInput.action.ReadValue<Vector2>();
-
+        mousePosWorldSpace = Camera.main.ScreenToWorldPoint(mousePos);
+        
         fireDown = fireInput.action.WasPressedThisFrame();
         fireHeld = fireInput.action.IsPressed();
         fireUp = fireInput.action.WasReleasedThisFrame();

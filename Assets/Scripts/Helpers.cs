@@ -77,4 +77,44 @@ public static class Helpers
         float multiplier = Mathf.Pow(10, decimalPlaces);
         return Mathf.Round(value * multiplier) / multiplier;
     }
+    
+    public static string FormatWithSuffix(double value)
+    {
+        // Preserve negative sign if needed
+        bool isNegative = value < 0;
+        double absValue =  System.Math.Abs(value);
+
+        string suffix;
+        double displayValue;
+
+        if (absValue >= 1e9)
+        {
+            suffix = "B";
+            displayValue = absValue / 1e9;
+        }
+        else if (absValue >= 1e6)
+        {
+            suffix = "M";
+            displayValue = absValue / 1e6;
+        }
+        else if (absValue >= 1e3)
+        {
+            suffix = "k";
+            displayValue = absValue / 1e3;
+        }
+        else
+        {
+            suffix = "";
+            displayValue = System.Math.Round(absValue);
+        }
+
+        // Format to up to 3 decimals, trimming trailing zeros automatically
+        string formatted = displayValue.ToString("0.###");
+
+        // Reapply negative sign if required
+        if (isNegative)
+            formatted = "-" + formatted;
+
+        return formatted + suffix;
+    }
 }

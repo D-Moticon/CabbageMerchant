@@ -10,6 +10,10 @@ public class Singleton : MonoBehaviour
     public AudioManager audioManager;
     public PrefabReferences prefabReferences;
     public ItemManager itemManager;
+    public UIManager uiManager;
+    public PlayerStats playerStats;
+    public ScreenShaker screenShaker;
+    public RunManager runManager;
     
     private void OnEnable()
     {

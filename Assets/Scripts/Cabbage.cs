@@ -3,6 +3,8 @@ using UnityEngine;
 using MoreMountains.Feedbacks;
 using Random = UnityEngine.Random;
 using Sirenix.OdinInspector;
+using TMPro;
+using System.Collections.Generic;
 
 public class Cabbage : MonoBehaviour
 {
@@ -22,6 +24,10 @@ public class Cabbage : MonoBehaviour
     public Color floaterColor = Color.white;
     public SFXInfo bonkSFX;
     public SFXInfo popSFX;
+    public TMP_Text pointsText;
+    public MMF_Player pointsTextFeel;
+    public FloaterReference popFloater;
+    public FloaterReference scoreFloater;
 
     [Header("Levels & Hue")]
     [HideInInspector] public int sizeLevel;
@@ -55,6 +61,23 @@ public class Cabbage : MonoBehaviour
     [HideInInspector] public bool isMerging = false;
     private SpriteRenderer sr;
 
+    [Header("Scoring")]
+    public float startingPoints = 0f;
+
+    public double pointsPerSize = 1;
+    public float pointMultPerColor = 1.5f;
+    [HideInInspector]public double points;
+
+    [System.Serializable]
+    public class ScoringInfo
+    {
+        public int colorThreshold;
+        public SFXInfo sfx;
+        public float screenShakeIntensity = 0f;
+    }
+
+    public List<ScoringInfo> scoringInfos;
+
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Static;
@@ -62,6 +85,7 @@ public class Cabbage : MonoBehaviour
 
         UpdateSizeLevel();
         UpdateColorLevel();
+        UpdatePoints();
     }
 
     void Update()
@@ -97,6 +121,9 @@ public class Cabbage : MonoBehaviour
         float sca = transform.localScale.x;
         float intensity = 1f / sca;
         bonkFeel.PlayFeedbacks(transform.position, intensity);
+        pointsTextFeel.PlayFeedbacks(transform.position, intensity);
+        
+        UpdatePoints();
     }
 
     public void Pop(Vector2 collisionPos)
@@ -104,17 +131,23 @@ public class Cabbage : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         popVFX.Spawn(collisionPos, Quaternion.identity);
         bonkFeel.PlayFeedbacks(transform.position, 2f, false);
-        GameSingleton.Instance.screenShaker.ShakeScreen();
-        Singleton.Instance.floaterManager.SpawnFloater("100", transform.position, floaterColor);
+        Singleton.Instance.screenShaker.ShakeScreen();
+        Singleton.Instance.floaterManager.SpawnFloater(popFloater, "100", transform.position, floaterColor);
 
         rb.angularVelocity = Random.Range(-400f, 400f);
-        popSFX.Play();
+        popSFX.Play(collisionPos);
         gameObject.layer = LayerMask.NameToLayer("TransparentFX");
     }
 
     private void OnCollisionEnter2D(Collision2D other) { }
     private void OnCollisionStay(Collision other) { }
 
+    void UpdatePoints()
+    {
+        points = sizeLevel * pointsPerSize * (1 + pointMultPerColor * colorLevel);
+        pointsText.text = Helpers.FormatWithSuffix(points);
+    }
+    
     void Merge(Cabbage otherCabbage)
     {
         if (isMerging || otherCabbage.isMerging) return;
@@ -136,16 +169,26 @@ public class Cabbage : MonoBehaviour
         c.UpdateSizeLevel();
 
         c.bonkFeel.PlayFeedbacks(transform.position, 2f);
-        c.popSFX.Play();
+        c.popSFX.Play(pos);
         c.popFeel.PlayFeedbacks();
+        c.pointsTextFeel.PlayFeedbacks();
+        c.UpdatePoints();
+        
+        GameSingleton.Instance.gameStateMachine.AddActiveCabbage(c);
 
         // Spawn VFX at the merged position
         GameObject pVFX = c.popVFX.Spawn(pos, Quaternion.identity);
         float sca = scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
         pVFX.transform.localScale = new Vector3(sca, sca, 1f);
+        Singleton.Instance.screenShaker.ShakeScreen();
 
+        GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(this);
+        GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(otherCabbage);
+        
         gameObject.SetActive(false);
         otherCabbage.gameObject.SetActive(false);
+        
+        
     }
 
     public void UpdateColorLevel()
@@ -189,5 +232,25 @@ public class Cabbage : MonoBehaviour
         }
 
         transform.localScale = new Vector3(sca, sca, 1f);
+    }
+
+    public void PlayPopVFX()
+    {
+        GameObject pVFX = popVFX.Spawn(transform.position, Quaternion.identity);
+        float sca = scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
+        pVFX.transform.localScale = new Vector3(sca, sca, 1f);
+    }
+
+    public void PlayScoringSFX()
+    {
+        for (int i = scoringInfos.Count - 1; i >= 0; i--)
+        {
+            if (colorLevel >= scoringInfos[i].colorThreshold)
+            {
+                scoringInfos[i].sfx.Play();
+                Singleton.Instance.screenShaker.ShakeScreen(scoringInfos[i].screenShakeIntensity);
+                break;
+            }
+        }
     }
 }

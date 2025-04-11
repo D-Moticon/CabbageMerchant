@@ -36,11 +36,14 @@ public class GameStateMachine : MonoBehaviour
     public int currentLives = 3;
     
     public List<Ball> activeBalls = new List<Ball>();
-    
+    private List<Cabbage> activeCabbages = new List<Cabbage>();
     
     
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
+
+    public delegate void BallFiredDelegate(int ballsRemaining);
+    public static BallFiredDelegate BallsRemainingEvent;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -85,12 +88,29 @@ public class GameStateMachine : MonoBehaviour
         }
     }
     
+    public void AddActiveCabbage(Cabbage c)
+    {
+        if(!activeCabbages.Contains(c))
+        {
+            activeCabbages.Add(c);
+        }
+    }
+
+    public void RemoveActiveCabbage(Cabbage c)
+    {
+        if(activeCabbages.Contains(c))
+        {
+            activeCabbages.Remove(c);
+        }
+    }
+    
     public class PopulateBoardState : State
     {
         public override void EnterState()
         {
             gameStateMachine.currentLives = gameStateMachine.maxLives;
             gameStateMachine.StartCoroutine(PopulateBoard());
+            BallsRemainingEvent?.Invoke(gameStateMachine.currentLives);
         }
 
         public override void UpdateState()
@@ -105,13 +125,18 @@ public class GameStateMachine : MonoBehaviour
 
         IEnumerator PopulateBoard()
         {
+            yield return new WaitForSeconds(.75f);
+            
             int numPegs = gameStateMachine.numberPegs;
             Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
+            
+            gameStateMachine.activeCabbages.Clear();
             
             for (int i = 0; i < numPegs; i++)
             {
                 Cabbage c = gameStateMachine.cabbagePooledObject.Spawn(positions[i], Quaternion.identity).GetComponent<Cabbage>();
                 c.bonkFeel.PlayFeedbacks();
+                gameStateMachine.activeCabbages.Add(c);
                 yield return new WaitForSeconds(0.05f);
             }
 
@@ -135,6 +160,7 @@ public class GameStateMachine : MonoBehaviour
                 gameStateMachine.currentLives--;
                 State newState = new BouncingState();
                 gameStateMachine.ChangeState(newState);
+                BallsRemainingEvent?.Invoke(gameStateMachine.currentLives);
             }
         }
 
@@ -159,7 +185,7 @@ public class GameStateMachine : MonoBehaviour
 
                 if (gameStateMachine.currentLives <= 0)
                 {
-                    
+                    newState = new ScoringState();
                 }
                 
                 gameStateMachine.ChangeState(newState);
@@ -169,6 +195,54 @@ public class GameStateMachine : MonoBehaviour
         public override void ExitState()
         {
             
+        }
+    }
+
+    public class ScoringState : State
+    {
+        public override void EnterState()
+        {
+            gameStateMachine.StartCoroutine(ScoringRoutine());
+        }
+
+        public override void UpdateState()
+        {
+            
+        }
+
+        public override void ExitState()
+        {
+            Singleton.Instance.runManager.GoToShop();
+        }
+
+        IEnumerator ScoringRoutine()
+        {
+            List<Cabbage> cabbages = gameStateMachine.activeCabbages;
+
+            for (int i = 0; i < cabbages.Count; i++)
+            {
+                if (!cabbages[i].gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+                
+                cabbages[i].PlayPopVFX();
+                cabbages[i].PlayScoringSFX();
+                Singleton.Instance.playerStats.AddCoins((int)cabbages[i].points);
+                Color col = Color.white;
+                Singleton.Instance.floaterManager.SpawnFloater(
+                    cabbages[i].scoreFloater,
+                    Helpers.FormatWithSuffix(cabbages[i].points),
+                    cabbages[i].transform.position,
+                    col,
+                    cabbages[i].transform.localScale.x);
+                cabbages[i].gameObject.SetActive(false);
+                yield return new WaitForSeconds(0.1f);
+                
+            }
+
+            yield return new WaitForSeconds(1f);
+            ExitState();
         }
     }
 }
