@@ -457,12 +457,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5583b45d25597bb4c9608af5a7038426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingSceneName: CabbageShoot
+  startingSceneName: Map
   gameSceneName: CabbageShoot
   shopSceneName: Shop
   parentObjectName: SceneParent
   spawnOffsetX: 20
   transitionTime: 0.5
+  currentEncounter: 0
 --- !u!1 &262556488
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +499,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -16.1}
-  m_SizeDelta: {x: 645.9, y: 11.5}
+  m_SizeDelta: {x: 645.9, y: 139.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &262556490
 MonoBehaviour:
@@ -1837,9 +1838,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 18.675, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.27999878, y: 0}
+  m_SizeDelta: {x: 37.91, y: 100}
+  m_Pivot: {x: 0, y: 1}
 --- !u!1 &1484429433
 GameObject:
   m_ObjectHideFlags: 0

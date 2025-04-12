@@ -11,7 +11,7 @@ public class Item : MonoBehaviour, IHoverable
     [SerializeReference] public List<Trigger> triggers;
     public Rarity rarity = Rarity.Common;
     public float normalizedPrice = 1f;
-    public static float globalItemPriceMult = 100f;
+    public static float globalItemPriceMult = 10f;
     [HideInInspector] public ItemSlot currentItemSlot;
     [HideInInspector] public ItemWrapper itemWrapper;
     [HideInInspector] public bool purchasable = false;

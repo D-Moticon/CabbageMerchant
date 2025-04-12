@@ -1153,7 +1153,7 @@ MonoBehaviour:
   rootExponent: 0.65
   isMerging: 0
   startingPoints: 0
-  pointsPerSize: 1
+  pointsPerSize: 1.2
   pointMultPerColor: 0.5
   points: 0
   scoringInfos:

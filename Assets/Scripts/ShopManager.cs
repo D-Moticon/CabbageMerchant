@@ -134,6 +134,6 @@ public class ShopManager : MonoBehaviour
 
     public void LeaveShop()
     {
-        Singleton.Instance.runManager.GoToGame();
+        Singleton.Instance.runManager.GoToMap();
     }
 }

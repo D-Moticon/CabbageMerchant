@@ -34,6 +34,9 @@ public class GameStateMachine : MonoBehaviour
     public int maxLives = 3;
 
     public int currentLives = 3;
+
+    public double roundGoal = 0;
+    [HideInInspector] public double currentRoundScore;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
@@ -44,6 +47,11 @@ public class GameStateMachine : MonoBehaviour
 
     public delegate void BallFiredDelegate(int ballsRemaining);
     public static BallFiredDelegate BallsRemainingEvent;
+
+    public delegate void DoubleDelegate(double value);
+
+    public static DoubleDelegate RoundGoalUpdatedEvent;
+    public static DoubleDelegate RoundScoreUpdatedEvent;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,6 +67,8 @@ public class GameStateMachine : MonoBehaviour
         {
             currentState.UpdateState();
         }
+        
+        UpdateRoundScore();
     }
 
     void ChangeState(State newState)
@@ -140,11 +150,41 @@ public class GameStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
 
+            gameStateMachine.ResetRoundScore();
+            gameStateMachine.SetRoundGoal();
             State newState = new AimingState();
             gameStateMachine.ChangeState(newState);
         }
     }
 
+    public void SetRoundGoal()
+    {
+        int mapLayer = MapSingleton.Instance.mapManager.currentLayerIndex;
+        double firstRoundGoal = MapSingleton.Instance.mapManager.currentMapBlueprint.firstRoundGoal;
+        float goalBase = MapSingleton.Instance.mapManager.currentMapBlueprint.goalBase;
+        float goalPower = MapSingleton.Instance.mapManager.currentMapBlueprint.goalPower;
+
+        roundGoal = firstRoundGoal + goalBase * Mathf.Pow(mapLayer, goalPower);
+        RoundGoalUpdatedEvent?.Invoke(roundGoal);
+    }
+
+
+    public void ResetRoundScore()
+    {
+        currentRoundScore = 0;
+        RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
+    }
+    
+    public void UpdateRoundScore()
+    {
+        currentRoundScore = 0;
+        for (int i = 0; i < activeCabbages.Count; i++)
+        {
+            currentRoundScore += activeCabbages[i].points;
+        }
+        RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
+    }
+    
     public class AimingState : State
     {
         public override void EnterState()
@@ -212,7 +252,7 @@ public class GameStateMachine : MonoBehaviour
 
         public override void ExitState()
         {
-            Singleton.Instance.runManager.GoToShop();
+            Singleton.Instance.runManager.GoToMap();
         }
 
         IEnumerator ScoringRoutine()
@@ -228,7 +268,7 @@ public class GameStateMachine : MonoBehaviour
                 
                 cabbages[i].PlayPopVFX();
                 cabbages[i].PlayScoringSFX();
-                Singleton.Instance.playerStats.AddCoins((int)cabbages[i].points);
+                
                 Color col = Color.white;
                 Singleton.Instance.floaterManager.SpawnFloater(
                     cabbages[i].scoreFloater,
@@ -237,9 +277,12 @@ public class GameStateMachine : MonoBehaviour
                     col,
                     cabbages[i].transform.localScale.x);
                 cabbages[i].gameObject.SetActive(false);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.05f);
                 
             }
+
+            double coinsToGive = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*3;
+            Singleton.Instance.playerStats.AddCoins(coinsToGive);
 
             yield return new WaitForSeconds(1f);
             ExitState();

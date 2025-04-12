@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b729244fb9c6eb4f88bba1572f4b1d0, type: 3}
+  m_Name: DefaultMap
+  m_EditorClassIdentifier: 
+  firstRoundGoal: 10
+  goalBase: 1.3
+  goalPower: 2.7
+  mapLayers:
+  - possiblePoints:
+    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+  - possiblePoints:
+    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+  - possiblePoints:
+    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
