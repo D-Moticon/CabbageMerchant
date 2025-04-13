@@ -10,7 +10,9 @@ public class Map : MonoBehaviour
     // we go upward (layers.Count * positive spacing).
     public float xOffset = 0f;
     public float xStep   = 2f; // distance between icons horizontally
-    public float verticalSpacing = 2f; 
+    public float verticalSpacing = 2f;
+    public float randomXOffset = 1.5f;
+    public float randomYOffset = 0.65f;
     
     // The generated layers in this map
     public List<MapLayer> layers = new List<MapLayer>();
@@ -44,7 +46,9 @@ public class Map : MonoBehaviour
             icon.sceneName = pointData.sceneName;
 
             // Place them left to right, but each layer is placed further up
-            icon.transform.localPosition = new Vector3(xOffset + i * xStep, yPos, 0f);
+            float randX = Random.Range(-randomXOffset * 0.5f, randomXOffset * 0.5f);
+            float randY = Random.Range(-randomYOffset * 0.5f, randomYOffset * 0.5f);
+            icon.transform.localPosition = new Vector3(xOffset + i * xStep, yPos, 0f) + new Vector3(randX, randY, 0f);
 
             newLayer.mapIcons.Add(icon);
         }

@@ -7,6 +7,7 @@ public class SpawnPooledObjectItemEffect : ItemEffect
     public Vector2 xRange = new Vector2(-5f, 5f);
     public Vector2 yRange = new Vector2(-5f, 5f);
     public int quantity = 1;
+    public float scale = 1f;
     
     public override void TriggerItemEffect()
     {
@@ -15,7 +16,8 @@ public class SpawnPooledObjectItemEffect : ItemEffect
             float xRand = Random.Range(xRange.x, xRange.y);
             float yRand = Random.Range(yRange.x, yRange.y);
             Vector2 pos = new Vector2(xRand, yRand);
-            pooledObject.Spawn(pos);
+            GameObject go = pooledObject.Spawn(pos);
+            go.transform.localScale = new Vector3(scale, scale, 1f);
         }
     }
 }

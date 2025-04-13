@@ -28,14 +28,13 @@ public class RunManager : MonoBehaviour
     private int totalEncounters;
     [HideInInspector] public int currentmapLayer;
 
+    public int startingBalls = 3;
+    [HideInInspector]public int currentBalls = 3;
+    [HideInInspector] public int extraStartingCabbages = 0;
+    
     void Start()
     {
-        // Load the starting scene if none is loaded yet
-        if (string.IsNullOrEmpty(currentSceneName) && !string.IsNullOrEmpty(startingSceneName))
-        {
-            // Slide to the starting scene
-            StartCoroutine(SlideToScene(startingSceneName));
-        }
+        StartNewRun();
     }
 
     public void GoToGame()
@@ -306,5 +305,30 @@ public class RunManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    
+    //Runs
+    public void StartNewRun()
+    {
+        currentBalls = startingBalls;
+        extraStartingCabbages = 0;
+        
+        // Load the starting scene if none is loaded yet
+        if (string.IsNullOrEmpty(currentSceneName) && !string.IsNullOrEmpty(startingSceneName))
+        {
+            // Slide to the starting scene
+            StartCoroutine(SlideToScene(startingSceneName));
+        }
+    }
+    
+    public void AddExtraBall()
+    {
+        currentBalls++;
+    }
+
+    public void AddExtraStartingCabbage()
+    {
+        extraStartingCabbages++;
     }
 }

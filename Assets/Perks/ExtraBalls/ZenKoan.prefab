@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1570364814481662994
+--- !u!1 &7025778849401948770
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3301712975886868804}
-  - component: {fileID: 2016923381008787832}
+  - component: {fileID: 3192390582926162895}
+  - component: {fileID: 5970950755171899760}
   m_Layer: 0
-  m_Name: RagdollItem
+  m_Name: ZenKoan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3301712975886868804
+--- !u!4 &3192390582926162895
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570364814481662994}
+  m_GameObject: {fileID: 7025778849401948770}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,41 +32,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2016923381008787832
+--- !u!114 &5970950755171899760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570364814481662994}
+  m_GameObject: {fileID: 7025778849401948770}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Ragdoll
-  itemDescription: Summons a ragdoll that boops the ball upward
-  icon: {fileID: 21300000, guid: 277c08213480ec04590beed104d15fe0, type: 3}
+  itemName: Zen Koan
+  itemDescription: Gain 1 Extra Ball
+  icon: {fileID: 21300000, guid: 476141dd10bf1e84e84c285810df4e2b, type: 3}
+  itemType: 1
   effects:
-  - rid: 328109921641955570
+  - rid: 328109942880338122
   triggers:
-  - rid: 328109921641955571
-  rarity: 0
-  normalizedPrice: 0.5
+  - rid: 328109942880338123
+  rarity: 1
+  normalizedPrice: 5
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
   purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 328109921641955570
-      type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
-      data:
-        pooledObject: {fileID: 11400000, guid: 12df07918005f8b498512c255add32e6, type: 2}
-        xRange: {x: -5, y: 5}
-        yRange: {x: -4, y: -4}
-        quantity: 1
-    - rid: 328109921641955571
-      type: {class: Item/BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
+    - rid: 328109942880338122
+      type: {class: AddExtraBallItemEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 328109942880338123
+      type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}

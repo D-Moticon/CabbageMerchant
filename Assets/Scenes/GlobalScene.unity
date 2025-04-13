@@ -457,13 +457,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5583b45d25597bb4c9608af5a7038426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingSceneName: Map
+  startingSceneName: Library
   gameSceneName: CabbageShoot
   shopSceneName: Shop
+  mapSceneName: Map
   parentObjectName: SceneParent
-  spawnOffsetX: 20
+  spawnOffsetY: 20
   transitionTime: 0.5
-  currentEncounter: 0
+  currentmapLayer: 0
+  startingBalls: 3
+  currentBalls: 3
+  extraStartingCabbages: 0
 --- !u!1 &262556488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,6 +1126,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 934172702801035667, guid: 95889208dbde4c04ba65637444088899, type: 3}
   m_PrefabInstance: {fileID: 3004981806691990750}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &860745741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 860745742}
+  m_Layer: 0
+  m_Name: PerkParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &860745742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860745741}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.68, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 993945558}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895161199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1261,8 @@ Transform:
   m_LocalPosition: {x: 6.93, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 860745742}
   m_Father: {fileID: 1379987634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &993945559
@@ -1249,6 +1285,8 @@ MonoBehaviour:
   spacing: {x: 1.6, y: 1.5}
   slotSize: {x: 1.5, y: 1.25}
   startingItems: []
+  perkParent: {fileID: 860745742}
+  perkAreaXSize: 2
 --- !u!1 &1012356363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1780,6 +1818,7 @@ MonoBehaviour:
   playerStats: {fileID: 1552119848}
   screenShaker: {fileID: 41536388}
   runManager: {fileID: 233162597}
+  toolTip: {fileID: 811772842}
 --- !u!4 &1379987634
 Transform:
   m_ObjectHideFlags: 0
@@ -2053,7 +2092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6228a80f1046d4a9a63610bd53ea04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingCoins: 0
+  startingCoins: 500
   coins: 0
 --- !u!1 &1690718183
 GameObject:

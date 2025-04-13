@@ -30,12 +30,8 @@ public class GameStateMachine : MonoBehaviour
     public Launcher launcher;
     
     //Game Rules
-    [Header("Game Rules")]
-    public int maxLives = 3;
-
-    public int currentLives = 3;
-
-    public double roundGoal = 0;
+    [HideInInspector]public int currentBalls = 3;
+    [HideInInspector]public double roundGoal = 0;
     [HideInInspector] public double currentRoundScore;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
@@ -118,9 +114,9 @@ public class GameStateMachine : MonoBehaviour
     {
         public override void EnterState()
         {
-            gameStateMachine.currentLives = gameStateMachine.maxLives;
+            gameStateMachine.currentBalls = Singleton.Instance.runManager.currentBalls;
             gameStateMachine.StartCoroutine(PopulateBoard());
-            BallsRemainingEvent?.Invoke(gameStateMachine.currentLives);
+            BallsRemainingEvent?.Invoke(gameStateMachine.currentBalls);
         }
 
         public override void UpdateState()
@@ -137,7 +133,7 @@ public class GameStateMachine : MonoBehaviour
         {
             yield return new WaitForSeconds(.75f);
             
-            int numPegs = gameStateMachine.numberPegs;
+            int numPegs = gameStateMachine.numberPegs + Singleton.Instance.runManager.extraStartingCabbages;
             Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
             
             gameStateMachine.activeCabbages.Clear();
@@ -197,10 +193,10 @@ public class GameStateMachine : MonoBehaviour
             if (playerInputManager.fireDown)
             {
                 gameStateMachine.launcher.LaunchBall();
-                gameStateMachine.currentLives--;
+                gameStateMachine.currentBalls--;
                 State newState = new BouncingState();
                 gameStateMachine.ChangeState(newState);
-                BallsRemainingEvent?.Invoke(gameStateMachine.currentLives);
+                BallsRemainingEvent?.Invoke(gameStateMachine.currentBalls);
             }
         }
 
@@ -223,7 +219,7 @@ public class GameStateMachine : MonoBehaviour
             {
                 State newState = new AimingState();
 
-                if (gameStateMachine.currentLives <= 0)
+                if (gameStateMachine.currentBalls <= 0)
                 {
                     newState = new ScoringState();
                 }

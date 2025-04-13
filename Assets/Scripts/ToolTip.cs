@@ -27,6 +27,11 @@ public class ToolTip : MonoBehaviour
     private IHoverable currentHover;
     private Coroutine fadeRoutine;
 
+    // If we're using a custom IHoverable override (e.g., for merging), store it here
+    private IHoverable overrideHoverable = null;
+
+    private bool IsUsingOverride => overrideHoverable != null;
+
     private void Start()
     {
         // Start fully invisible
@@ -37,8 +42,17 @@ public class ToolTip : MonoBehaviour
 
     private void Update()
     {
+        // If we have an overrideHoverable, we skip normal detection
+        if (IsUsingOverride)
+        {
+            Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
+            PositionTooltip(mousePos);
+            return;
+        }
+
         Vector2 mouseWorldPos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
         PositionTooltip(mouseWorldPos);
+
         // Detect if we are hovering something that implements IHoverable
         Collider2D collider = Physics2D.OverlapPoint(mouseWorldPos);
         if (collider)
@@ -71,31 +85,59 @@ public class ToolTip : MonoBehaviour
     {
         if (hoverable == null) return;
 
-        titleText.text       = hoverable.GetTitleText();
-        descriptionText.text = hoverable.GetDescriptionText();
-        rarityText.text      = hoverable.GetRarityText();
-        itemImage.sprite     = hoverable.GetImage();
-        triggerText.text = hoverable.GetTriggerText();
-
+        overrideHoverable = null;  // Clear any override
+        SetTooltipFields(hoverable);
         FadeCanvasGroup(1f);
     }
 
     /// <summary>
-    /// Fades the tooltip out to invisible.
+    /// Called to hide the tooltip (fades out).
+    /// If we were overriding, that override is canceled.
     /// </summary>
-    private void HideTooltip()
+    public void HideTooltip()
     {
+        overrideHoverable = null;  
         FadeCanvasGroup(0f);
     }
 
     /// <summary>
-    /// Positions the tooltip in the world, in front of the camera.
+    /// Replaces the normal hover logic with an override IHoverable (e.g. merging scenario).
+    /// This sets overrideHoverable so normal detection is bypassed.
+    /// Use HideTooltip() to revert to normal.
     /// </summary>
-    /// <param name=\"mouseScreenPos\">Mouse position in screen coordinates</param>
+    public void ShowOverrideTooltip(IHoverable customHoverable)
+    {
+        if (customHoverable == null)
+        {
+            HideTooltip();
+            return;
+        }
+
+        overrideHoverable = customHoverable;
+        SetTooltipFields(overrideHoverable);
+        FadeCanvasGroup(1f);
+
+        // Position near mouse
+        Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
+        PositionTooltip(mousePos);
+    }
+
+    private void SetTooltipFields(IHoverable hoverable)
+    {
+        titleText.text       = hoverable.GetTitleText();
+        descriptionText.text = hoverable.GetDescriptionText();
+        rarityText.text      = hoverable.GetRarityText();
+        itemImage.sprite     = hoverable.GetImage();
+        triggerText.text     = hoverable.GetTriggerText();
+    }
+
+    /// <summary>
+    /// Positions the tooltip near the mouse in 2D world space.
+    /// </summary>
     private void PositionTooltip(Vector2 mouseWorldPos)
     {
-        
-        transform.position = mouseWorldPos+worldOffset;
+        // Example approach for a World Space canvas
+        transform.position = mouseWorldPos + worldOffset;
     }
 
     /// <summary>

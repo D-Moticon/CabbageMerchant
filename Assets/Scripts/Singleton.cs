@@ -14,6 +14,7 @@ public class Singleton : MonoBehaviour
     public PlayerStats playerStats;
     public ScreenShaker screenShaker;
     public RunManager runManager;
+    public ToolTip toolTip;
     
     private void OnEnable()
     {

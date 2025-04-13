@@ -2141,7 +2141,13 @@ MonoBehaviour:
     initialQuantity: 90
   - objectData: {fileID: 11400000, guid: 12df07918005f8b498512c255add32e6, type: 2}
     initialQuantity: 10
+  - objectData: {fileID: 11400000, guid: d037352bd8dee304cbc4853029ebeabe, type: 2}
+    initialQuantity: 10
   - objectData: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}
+    initialQuantity: 15
+  - objectData: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+    initialQuantity: 90
+  - objectData: {fileID: 11400000, guid: 1c6289358514390449ec8642d2888d3d, type: 2}
     initialQuantity: 15
 --- !u!4 &2139992006
 Transform:

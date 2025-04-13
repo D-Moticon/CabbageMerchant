@@ -5,7 +5,16 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
 
-    public delegate void BallCabbageDelegate(Ball b, Cabbage c, Vector2 point, Vector2 normal);
+    public class BallHitCabbageParams
+    {
+        public Ball ball;
+        public Cabbage cabbage;
+        public Vector2 point;
+        public Vector2 normal;
+        public float hangTimeBeforeHit;
+    }
+    
+    public delegate void BallCabbageDelegate(BallHitCabbageParams bcParams);
     public static BallCabbageDelegate BallHitCabbageEvent;
     private static float timeoutDuration = 0.5f;
     private static float timeoutVel = 0.1f;
@@ -13,6 +22,7 @@ public class Ball : MonoBehaviour
     public SFXInfo wallBonkSFX;
     public float bonkCooldown = 0.05f;
     private float bonkCooldownCounter;
+    private float currentHangtime = 0f;
     
     private void OnEnable()
     {
@@ -54,6 +64,8 @@ public class Ball : MonoBehaviour
         {
             bonkCooldownCounter -= Time.deltaTime;
         }
+
+        currentHangtime += Time.deltaTime;
     }
 
     void KillBall()
@@ -67,8 +79,17 @@ public class Ball : MonoBehaviour
         if (c != null && bonkCooldownCounter <= 0f)
         {
             c.Bonk(1f, other.contacts[0].point);
-            BallHitCabbageEvent?.Invoke(this, c, other.GetContact(0).point, other.GetContact(0).normal);
+
+            BallHitCabbageParams bcParams = new BallHitCabbageParams();
+            bcParams.ball = this;
+            bcParams.cabbage = c;
+            bcParams.point = other.GetContact(0).point;
+            bcParams.normal = other.GetContact(0).normal;
+            bcParams.hangTimeBeforeHit = currentHangtime;
+            
+            BallHitCabbageEvent?.Invoke(bcParams);
             bonkCooldownCounter = bonkCooldown;
+            currentHangtime = 0f;
         }
 
         else

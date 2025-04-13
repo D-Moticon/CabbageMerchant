@@ -57,6 +57,15 @@ public class ItemSlot : MonoBehaviour
         priceTextParent.SetActive(false);
     }
 
+    public void ShowPriceText()
+    {
+        if (priceText == null)
+        {
+            return;
+        }
+        priceTextParent.SetActive(true);
+    }
+
     public void PlayerCoinsUpdatedListener(double newCoins)
     {
         SetPriceText();
