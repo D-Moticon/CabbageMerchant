@@ -28,9 +28,14 @@ public class RunManager : MonoBehaviour
     private int totalEncounters;
     [HideInInspector] public int currentmapLayer;
 
-    public int startingBalls = 3;
-    [HideInInspector]public int currentBalls = 3;
-    [HideInInspector] public int extraStartingCabbages = 0;
+    public class RunStartParams
+    {
+        
+    }
+
+    public delegate void RunStartDelegate(RunStartParams rsp);
+
+    public static event RunStartDelegate RunStartEvent;
     
     void Start()
     {
@@ -311,8 +316,8 @@ public class RunManager : MonoBehaviour
     //Runs
     public void StartNewRun()
     {
-        currentBalls = startingBalls;
-        extraStartingCabbages = 0;
+        RunStartParams rsp = new RunStartParams();
+        RunStartEvent?.Invoke(rsp);
         
         // Load the starting scene if none is loaded yet
         if (string.IsNullOrEmpty(currentSceneName) && !string.IsNullOrEmpty(startingSceneName))
@@ -322,13 +327,5 @@ public class RunManager : MonoBehaviour
         }
     }
     
-    public void AddExtraBall()
-    {
-        currentBalls++;
-    }
-
-    public void AddExtraStartingCabbage()
-    {
-        extraStartingCabbages++;
-    }
+    
 }

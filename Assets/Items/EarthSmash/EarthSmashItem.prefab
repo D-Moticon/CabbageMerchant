@@ -41,13 +41,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2103271418755976016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da62bb123e399a042b7f361b42ce1877, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Earth Smash
-  itemDescription: Summons multiple rocks that bonk cabbages for 2
+  itemDescription: 
   icon: {fileID: 21300000, guid: 4e9827712fb615c4a8ace11ff47272ff, type: 3}
-  effects: []
+  itemType: 0
+  effects:
+  - rid: 328109986689056855
+  holofoilEffects: []
   triggers:
   - rid: 328109942880338091
   rarity: 1
@@ -64,15 +67,8 @@ MonoBehaviour:
         Data4: 966856108
       Path: event:/RockBreak
     vol: 0.3
-  objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
-  quantity: 5
-  speedRange: {x: 5, y: 12}
-  spreadAngle: 35
-  scaleRange: {x: 1, y: 1}
-  spreadType: 1
-  surfaceOffset: 0.45
-  spawnVFX: {fileID: 11400000, guid: 1c6289358514390449ec8642d2888d3d, type: 2}
-  rotateVFXtoNormal: 1
+  upgradedItem: {fileID: 0}
+  isHolofoil: 0
   references:
     version: 2
     RefIds:
@@ -81,3 +77,17 @@ MonoBehaviour:
       data:
         owningItem: {fileID: 0}
         minHangtime: 1
+    - rid: 328109986689056855
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        objectName: rock
+        objectDescription: bonk cabbages for 2
+        quantity: 5
+        speedRange: {x: 5, y: 12}
+        spreadAngle: 35
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.45
+        spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        rotateVFXtoNormal: 1

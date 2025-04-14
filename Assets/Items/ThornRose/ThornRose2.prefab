@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4556563315824067653}
-  - component: {fileID: 1879969852805227144}
+  - component: {fileID: -3664855932417648488}
   m_Layer: 0
   m_Name: ThornRose2
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1879969852805227144
+--- !u!114 &-3664855932417648488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,17 +41,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3202977261592694033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da62bb123e399a042b7f361b42ce1877, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Thorneblood II
-  itemDescription: Summons 2 thorns that bonk cabbages for 0.5
+  itemDescription: 
   icon: {fileID: 21300000, guid: d2bff1bc5685f9340bc5a511243af01d, type: 3}
-  effects: []
+  itemType: 0
+  effects:
+  - rid: 328109986689056856
+  holofoilEffects:
+  - rid: 328109986689056891
   triggers:
   - rid: 328109942880338085
   rarity: 0
   normalizedPrice: 2.4
+  sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
   purchasable: 0
@@ -64,16 +69,8 @@ MonoBehaviour:
         Data4: 0
       Path: 
     vol: 0.5
-  upgradedItem: {fileID: 1879969852805227144, guid: a33499141081b804ab2f23d2c102d062, type: 3}
-  objectToSpawn: {fileID: 11400000, guid: b58ae19dc9adde446b25405cdefc3369, type: 2}
-  quantity: 2
-  speedRange: {x: 5, y: 12}
-  spreadAngle: 45
-  scaleRange: {x: 1, y: 1}
-  spreadType: 1
-  surfaceOffset: 0.35
-  spawnVFX: {fileID: 0}
-  rotateVFXtoNormal: 0
+  upgradedItem: {fileID: -6807575714180391902, guid: a33499141081b804ab2f23d2c102d062, type: 3}
+  isHolofoil: 0
   references:
     version: 2
     RefIds:
@@ -83,3 +80,31 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         everyXHit: 1
         onlyByBall: 0
+    - rid: 328109986689056856
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 11400000, guid: b58ae19dc9adde446b25405cdefc3369, type: 2}
+        objectName: thorn
+        objectDescription: bonks cabbages for 0.5
+        quantity: 2
+        speedRange: {x: 5, y: 10}
+        spreadAngle: 45
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.35
+        spawnVFX: {fileID: 0}
+        rotateVFXtoNormal: 0
+    - rid: 328109986689056891
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 11400000, guid: 8cc73615a67a13545b66715132f2bf93, type: 2}
+        objectName: <rainb>rainbow thorn</rainb>
+        objectDescription: bonks cabbages for 0.5 and bounces once
+        quantity: 2
+        speedRange: {x: 5, y: 10}
+        spreadAngle: 45
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.35
+        spawnVFX: {fileID: 0}
+        rotateVFXtoNormal: 0

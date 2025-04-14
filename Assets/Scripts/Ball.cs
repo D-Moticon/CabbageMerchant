@@ -4,7 +4,8 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
-
+    public float bonkValue = 1f;
+    
     public class BallHitCabbageParams
     {
         public Ball ball;
@@ -78,7 +79,7 @@ public class Ball : MonoBehaviour
         Cabbage c = other.gameObject.GetComponent<Cabbage>();
         if (c != null && bonkCooldownCounter <= 0f)
         {
-            c.Bonk(1f, other.contacts[0].point);
+            c.Bonk(bonkValue, other.contacts[0].point);
 
             BallHitCabbageParams bcParams = new BallHitCabbageParams();
             bcParams.ball = this;

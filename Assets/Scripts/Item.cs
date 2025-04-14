@@ -15,15 +15,18 @@ public class Item : MonoBehaviour, IHoverable
     };
     public ItemType itemType;
     [SerializeReference] public List<ItemEffect> effects;
+    [SerializeReference] public List<ItemEffect> holofoilEffects;
     [SerializeReference] public List<Trigger> triggers;
     public Rarity rarity = Rarity.Common;
     public float normalizedPrice = 1f;
     public static float globalItemPriceMult = 10f;
+    [HideInInspector] public float sellValueMultiplier = 1.0f;
     [HideInInspector] public ItemSlot currentItemSlot;
     [HideInInspector] public ItemWrapper itemWrapper;
     [HideInInspector] public bool purchasable = false;
     public SFXInfo triggerSFX;
     public Item upgradedItem;
+    [HideInInspector] public bool isHolofoil = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void OnEnable()
@@ -60,21 +63,89 @@ public class Item : MonoBehaviour, IHoverable
             itemWrapper = GetComponentInParent<ItemWrapper>();
         }
         itemWrapper.triggerFeel.PlayFeedbacks();
-        foreach (ItemEffect itemEffect in effects)
+
+        if (isHolofoil)
         {
-            itemEffect.TriggerItemEffect();
+            foreach (ItemEffect itemEffect in holofoilEffects)
+            {
+                itemEffect.TriggerItemEffect(tc);
+            }
         }
+
+        else
+        {
+            foreach (ItemEffect itemEffect in effects)
+            {
+                itemEffect.TriggerItemEffect(tc);
+            } 
+        }
+        
+        
         triggerSFX.Play();
     }
     
-    public virtual string GetTitleText()
+    public virtual string GetTitleText(HoverableModifier hoverableModifier = null)
     {
-        return itemName;
+        if (isHolofoil || (hoverableModifier!=null && hoverableModifier.isHolofoil))
+        {
+            if (holofoilEffects != null && holofoilEffects.Count > 0)
+            {
+                return($"{itemName} <size=4><rainb>Holofoil</rainb>");
+            }
+
+            else
+            {
+                return itemName;
+            }
+        }
+
+        else
+        {
+            return itemName;
+        }
+        
     }
 
-    public virtual string GetDescriptionText()
+    public virtual string GetDescriptionText(HoverableModifier hoverableModifier = null)
     {
-        return itemDescription;
+        if (!string.IsNullOrEmpty(itemDescription))
+        {
+            return itemDescription;
+        }
+
+        else
+        {
+            List<ItemEffect> effectsToUse;
+            if (isHolofoil || (hoverableModifier!=null && hoverableModifier.isHolofoil))
+            {
+                if (holofoilEffects != null && holofoilEffects.Count > 0)
+                {
+                    effectsToUse = holofoilEffects;
+                }
+
+                else
+                {
+                    effectsToUse = effects;
+                }
+            }
+
+            else
+            {
+                effectsToUse = effects;
+            }
+            
+            string s = "";
+            for (int i = 0; i < effectsToUse.Count; i++)
+            {
+                if (i > 0)
+                {
+                    s += "\n";
+                }
+                s += effectsToUse[i].GetDescription();
+            }
+
+            return s;
+        }
     }
 
     public string GetRarityText()
@@ -105,5 +176,28 @@ public class Item : MonoBehaviour, IHoverable
         return icon;
     }
 
-    
+    public string GetValueText()
+    {
+        return (GetSellValue().ToString());
+    }
+
+    public void SetHolofoil()
+    {
+        if (holofoilEffects != null && holofoilEffects.Count > 0)
+        {
+            isHolofoil = true;
+            itemWrapper.spriteRenderer.material = itemWrapper.holofoilMaterial;
+        }
+    }
+
+    public void SellItem()
+    {
+        Singleton.Instance.playerStats.AddCoins(GetSellValue());
+    }
+
+    public double GetSellValue()
+    {
+        
+        return (Math.Floor(normalizedPrice * globalItemPriceMult * 0.5*sellValueMultiplier));
+    }
 }

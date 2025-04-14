@@ -8,41 +8,42 @@ public class ItemManager : MonoBehaviour
     public ItemWrapper itemWrapperPrefab;
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
 
-    [Header("Grid Dimensions")] 
+    [Header("Grid Dimensions")]
     public int rows = 4;
     public int columns = 2;
 
-    [Header("Layout Settings")] 
+    [Header("Layout Settings")]
     public Vector2 spacing = new Vector2(1f, 1f);
     public Vector2 slotSize = new Vector2(1f, 1f);
 
-    [Header("Starting Items")] 
+    [Header("Starting Items")]
     public List<Item> startingItems = new List<Item>();
 
     public delegate void ItemPurchasedDelegate(Item item);
     public static event ItemPurchasedDelegate ItemPurchasedEvent;
 
-    // ===============================
-    // Perk-Specific
-    // ===============================
-    [Header("Perk Settings")]
-    public Transform perkParent;      // The transform under which purchased perks go
-    public float perkAreaXSize = 5f;  // The horizontal space to distribute perks
+    [Header("Sell Settings")]
+    public Collider2D sellCollider;
+    public ParticleSystem sellVFX;
+    public SFXInfo sellSFX;
+    public FloaterReference sellFloater;
 
-    // ===============================
-    // Drag-and-drop state
-    // ===============================
+    [Header("Merge Settings")]
+    public ParticleSystem mergeVFX;
+    public SFXInfo mergeSFX;
+    
+    [Header("Perk Settings")]
+    public Transform perkParent;
+    public float perkAreaXSize = 5f;
+
+    // Drag-and-drop
     private Item draggingItem = null;
     private Vector3 draggingStartPos;
     private ItemSlot draggingStartSlot;
-    
-    private Item currentHoverItem = null;
 
     private void Start()
     {
         GenerateItemSlots();
-
-        // Place starting items
         for (int i = 0; i < startingItems.Count && i < itemSlots.Count; i++)
         {
             Item item = GenerateItemWithWrapper(startingItems[i]);
@@ -57,7 +58,7 @@ public class ItemManager : MonoBehaviour
     }
 
     //==================================
-    // DRAG + DROP LOGIC
+    // DRAG + DROP
     //==================================
     private void HandleItemDragging()
     {
@@ -69,26 +70,26 @@ public class ItemManager : MonoBehaviour
         }
         else if (Singleton.Instance.playerInputManager.fireHeld && draggingItem != null)
         {
+            // Move item with mouse
             draggingItem.itemWrapper.transform.position = mouseWorldPos;
         }
         else if (Singleton.Instance.playerInputManager.fireUp && draggingItem != null)
         {
             AttemptToPlaceItem(mouseWorldPos);
 
-            // Re-enable collider
+            // re-enable collider
             Collider2D dragColl = draggingItem.itemWrapper.GetComponent<Collider2D>();
             if (dragColl) dragColl.enabled = true;
 
-            // Hide override tooltip
+            // hide override tooltip
             Singleton.Instance.toolTip.HideTooltip();
-
             draggingItem = null;
         }
     }
 
     private void StartDragIfPossible(Vector2 mouseWorldPos)
     {
-        if (draggingItem != null) return; // already dragging
+        if (draggingItem != null) return;
 
         Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
         if (!col) return;
@@ -96,15 +97,14 @@ public class ItemManager : MonoBehaviour
         Item clickedItem = col.GetComponentInChildren<Item>();
         if (clickedItem == null) return;
 
-        // If this is a PERK, handle single-click purchase instead
+        // If perk, single-click buy
         if (clickedItem.itemType == Item.ItemType.Perk)
         {
             HandlePerkClickPurchase(clickedItem);
-            return; // skip drag logic
+            return;
         }
 
         // Otherwise normal item logic:
-        // Check if item is purchasable & affordable
         if (clickedItem.purchasable)
         {
             double cost = clickedItem.GetItemBasePrice();
@@ -116,75 +116,67 @@ public class ItemManager : MonoBehaviour
         }
 
         // Start dragging
-        draggingItem       = clickedItem;
-        draggingStartPos   = draggingItem.itemWrapper.transform.position;
-        draggingStartSlot  = draggingItem.currentItemSlot;
+        draggingItem = clickedItem;
+        draggingStartPos = draggingItem.itemWrapper.transform.position;
+        draggingStartSlot = draggingItem.currentItemSlot;
 
-        // Remove from current slot if any
         if (draggingStartSlot != null)
         {
             draggingStartSlot.currentItem = null;
             draggingStartSlot.HidePriceText();
-            draggingItem.currentItemSlot  = null;
+            draggingItem.currentItemSlot = null;
         }
 
-        // Disable collider while dragging
+        // disable collider
         Collider2D dragColl = draggingItem.itemWrapper.GetComponent<Collider2D>();
         if (dragColl) dragColl.enabled = false;
     }
 
-    private void HandlePerkClickPurchase(Item perkItem)
-    {
-        // If perk is from the shop & affordable
-        if (perkItem.purchasable)
-        {
-            double cost = perkItem.GetItemBasePrice();
-            if (Singleton.Instance.playerStats.coins < cost)
-            {
-                Debug.Log("Cannot afford perk.");
-                return;
-            }
-
-            // Deduct coins
-            Singleton.Instance.playerStats.AddCoins(-cost);
-            perkItem.purchasable = false;
-            ItemPurchasedEvent?.Invoke(perkItem);
-        }
-
-        // Now place perk under perkParent
-        perkItem.itemWrapper.transform.SetParent(perkParent);
-        perkItem.itemWrapper.transform.localPosition = Vector3.zero; // we'll fix final position in DistributePerks
-
-        // Optionally disable the slot's item if it was in a shop slot
-        if (perkItem.currentItemSlot != null)
-        {
-            perkItem.currentItemSlot.currentItem = null;
-            perkItem.currentItemSlot.HidePriceText();
-            perkItem.currentItemSlot = null;
-        }
-
-        ItemPurchasedEvent?.Invoke(perkItem);
-        
-        // Re-distribute perk positions
-        DistributePerks();
-    }
-
     private void AttemptToPlaceItem(Vector2 mouseWorldPos)
     {
+        // First check if we are dropping on the sellCollider
+        if (sellCollider && sellCollider.OverlapPoint(mouseWorldPos))
+        {
+            // We are dropping onto the Sell zone
+            // Only sell if item is owned (not from the shop)
+            if (!draggingItem.purchasable)
+            {
+                // Actually call SellItem
+                draggingItem.SellItem();
+                sellVFX.transform.position = draggingItem.transform.position;
+                sellVFX.Play();
+                sellSFX.Play();
+                sellFloater.Spawn(draggingItem.GetSellValue().ToString(), draggingItem.transform.position, Color.white);
+                
+                // Destroy it visually
+                Destroy(draggingItem.itemWrapper.gameObject);
+            }
+            else
+            {
+                // If not owned, revert
+                RevertDraggedItem();
+            }
+            return;
+        }
+
+        // Otherwise check if we are dropping on an inventory slot
         Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
         ItemSlot slot = col ? col.GetComponentInParent<ItemSlot>() : null;
 
         if (slot == null || !IsInventorySlot(slot))
         {
+            // not a valid slot => revert
             RevertDraggedItem();
             return;
         }
 
+        // Now we know it's an inventory slot
         if (slot.currentItem == null)
         {
             // place item
             if (draggingItem.purchasable)
             {
+                // This is a newly purchased item
                 double cost = draggingItem.GetItemBasePrice();
                 Singleton.Instance.playerStats.AddCoins(-cost);
                 draggingItem.purchasable = false;
@@ -197,7 +189,9 @@ public class ItemManager : MonoBehaviour
             // try merge
             if (CheckForDuplicateMerge(draggingItem, slot.currentItem, slot))
             {
-                // success
+                mergeVFX.transform.position = slot.transform.position;
+                mergeVFX.Play();
+                mergeSFX.Play();
             }
             else
             {
@@ -215,21 +209,27 @@ public class ItemManager : MonoBehaviour
         {
             Debug.Log("Merging items into upgraded item!");
 
+            bool isHolofoil = inSlot.isHolofoil || dragged.isHolofoil;
+
             // Destroy old items
             Destroy(inSlot.itemWrapper.gameObject);
             Destroy(dragged.itemWrapper.gameObject);
 
-            // spawn upgraded
+            // create upgraded
             Item upgraded = GenerateItemWithWrapper(dragged.upgradedItem);
+            if (isHolofoil) upgraded.SetHolofoil();
             AddItemToSlot(upgraded, slot);
 
-            // if dragged was from the shop, cost
+            // If dragged was from shop => pay cost once
+            // We'll also consider the new item as purchased
             if (dragged.purchasable)
             {
                 double cost = dragged.GetItemBasePrice();
                 Singleton.Instance.playerStats.AddCoins(-cost);
                 dragged.purchasable = false;
-                ItemPurchasedEvent?.Invoke(dragged);
+
+                // Fire the purchased event exactly once, referencing the new upgraded item
+                ItemPurchasedEvent?.Invoke(upgraded);
             }
 
             return true;
@@ -240,7 +240,7 @@ public class ItemManager : MonoBehaviour
     private void RevertDraggedItem()
     {
         if (draggingItem == null) return;
-        // if from inventory
+
         if (draggingStartSlot != null)
         {
             AddItemToSlot(draggingItem, draggingStartSlot);
@@ -258,16 +258,47 @@ public class ItemManager : MonoBehaviour
     }
 
     //===================================
+    // PERK LOGIC
+    //===================================
+    private void HandlePerkClickPurchase(Item perkItem)
+    {
+        if (perkItem.purchasable)
+        {
+            double cost = perkItem.GetItemBasePrice();
+            if (Singleton.Instance.playerStats.coins < cost)
+            {
+                Debug.Log("Cannot afford perk.");
+                return;
+            }
+
+            Singleton.Instance.playerStats.AddCoins(-cost);
+            perkItem.purchasable = false;
+            ItemPurchasedEvent?.Invoke(perkItem);
+        }
+
+        perkItem.itemWrapper.transform.SetParent(perkParent);
+        perkItem.itemWrapper.transform.localPosition = Vector3.zero; 
+        if (perkItem.currentItemSlot != null)
+        {
+            perkItem.currentItemSlot.currentItem = null;
+            perkItem.currentItemSlot.HidePriceText();
+            perkItem.currentItemSlot = null;
+        }
+
+        ItemPurchasedEvent?.Invoke(perkItem);
+        DistributePerks();
+    }
+
+    //===================================
     // MERGE TOOLTIP
     //===================================
     private void HandleItemHoverAndMerging()
     {
         if (draggingItem == null) return;
-
         if (draggingItem.upgradedItem == null) return;
 
         Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
-        Collider2D col   = Physics2D.OverlapPoint(mousePos);
+        Collider2D col = Physics2D.OverlapPoint(mousePos);
         if (col)
         {
             Item hoveredItem = col.GetComponentInChildren<Item>();
@@ -281,26 +312,27 @@ public class ItemManager : MonoBehaviour
 
                 if (hoveredItem.itemName == draggingItem.itemName)
                 {
-                    // show override tooltip
-                    Singleton.Instance.toolTip.ShowOverrideTooltip(draggingItem.upgradedItem);
+                    // show override
+                    HoverableModifier hm = new HoverableModifier();
+                    hm.isHolofoil = draggingItem.isHolofoil;
+                    Singleton.Instance.toolTip.ShowOverrideTooltip(draggingItem.upgradedItem, hm);
                     return;
                 }
             }
         }
-
         Singleton.Instance.toolTip.HideTooltip();
     }
 
     //===================================
+    // SELLING: HANDLED ABOVE
+    //===================================
+
+    //===================================
     // PERK LAYOUT
     //===================================
-    /// <summary>
-    /// Evenly distribute perks (children of perkParent) within perkAreaXSize
-    /// center them horizontally at localPosition.y=0
-    /// </summary>
     private void DistributePerks()
     {
-        // get all direct children that have an Item
+        // gather perk children
         List<Transform> perkChildren = new List<Transform>();
         foreach (Transform child in perkParent)
         {
@@ -310,16 +342,12 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        // If no perks, nothing to do
         if (perkChildren.Count == 0) return;
-
-        // We want them equally spaced from -half to +half on X
         float halfWidth = perkAreaXSize * 0.5f;
         float step = perkAreaXSize / (perkChildren.Count + 1);
 
         for (int i = 0; i < perkChildren.Count; i++)
         {
-            // x offset
             float x = -halfWidth + step * (i + 1);
             perkChildren[i].localPosition = new Vector3(x, 0f, 0f);
         }
@@ -328,7 +356,6 @@ public class ItemManager : MonoBehaviour
     //===================================
     // INVENTORY UTILS
     //===================================
-
     private bool IsInventorySlot(ItemSlot slot)
     {
         return itemSlots.Contains(slot);
@@ -337,13 +364,22 @@ public class ItemManager : MonoBehaviour
     public Item GenerateItemWithWrapper(Item itemPrefab, Vector2 pos = default, Transform parent = null)
     {
         ItemWrapper iw = Instantiate(itemWrapperPrefab, pos, Quaternion.identity);
-        Item item      = Instantiate(itemPrefab, iw.transform);
+        Item item = Instantiate(itemPrefab, iw.transform);
         item.transform.localPosition = Vector2.zero;
         iw.transform.SetParent(parent);
 
         iw.spriteRenderer.sprite = item.icon;
         iw.item = item;
         item.itemWrapper = iw;
+
+        if (item.holofoilEffects != null && item.holofoilEffects.Count > 0)
+        {
+            float holoRand = UnityEngine.Random.Range(0f, 1f);
+            if (holoRand <= Singleton.Instance.playerStats.holofoilChance)
+            {
+                item.SetHolofoil();
+            }
+        }
 
         return item;
     }
@@ -361,7 +397,6 @@ public class ItemManager : MonoBehaviour
         itemSlots.Clear();
 
         Vector2 gridSize = new Vector2(columns * spacing.x, rows * spacing.y);
-
         Vector2 startPos = (Vector2)transform.position + new Vector2(
             -gridSize.x * 0.5f + spacing.x * 0.5f,
             gridSize.y * 0.5f - spacing.y * 0.5f
@@ -374,25 +409,6 @@ public class ItemManager : MonoBehaviour
                 Vector2 pos = startPos + new Vector2(col * spacing.x, -row * spacing.y);
                 ItemSlot newSlot = Instantiate(itemSlotPrefab, pos, Quaternion.identity, transform);
                 itemSlots.Add(newSlot);
-            }
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Vector2 gridSize = new Vector2(columns * spacing.x, rows * spacing.y);
-        Vector2 startPos = (Vector2)transform.position + new Vector2(
-            -gridSize.x * 0.5f + spacing.x * 0.5f,
-            gridSize.y * 0.5f - spacing.y * 0.5f
-        );
-
-        for (int row = 0; row < rows; row++)
-        {
-            for (int col = 0; col < columns; col++)
-            {
-                Vector2 pos = startPos + new Vector2(col * spacing.x, -row * spacing.y);
-                Gizmos.DrawWireCube(pos, slotSize);
             }
         }
     }

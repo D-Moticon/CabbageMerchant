@@ -16,7 +16,7 @@ public class BonkCabbageItemEffect : ItemEffect
     public CabbageSelection cabbageSelection;
     public PooledObjectData spawnItemAtCabbage;
     
-    public override void TriggerItemEffect()
+    public override void TriggerItemEffect(TriggerContext tc)
     {
         List<Cabbage> cabbages = GameSingleton.Instance.gameStateMachine.activeCabbages;
         
@@ -76,6 +76,21 @@ public class BonkCabbageItemEffect : ItemEffect
             {
                 spawnItemAtCabbage.Spawn(c.transform.position);
             }
+        }
+    }
+
+    public override string GetDescription()
+    {
+        switch (cabbageSelection)
+        {
+            case CabbageSelection.random:
+                return ($"Bonk 1 random cabbage for {bonkValue}");
+            case CabbageSelection.lowest:
+                return ($"Bonk 1 lowest cabbage for {bonkValue}");
+            case CabbageSelection.highest:
+                return ($"Bonk 1 highest cabbage for {bonkValue}");
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

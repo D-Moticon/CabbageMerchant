@@ -1689,8 +1689,7 @@ MonoBehaviour:
   cabbagePooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
   boardMetrics: {fileID: 42168035}
   launcher: {fileID: 297416520}
-  maxLives: 3
-  currentLives: 3
+  currentBalls: 3
   roundGoal: 0
   currentRoundScore: 0
   activeBalls: []
@@ -2139,9 +2138,15 @@ MonoBehaviour:
     initialQuantity: 50
   - objectData: {fileID: 11400000, guid: b58ae19dc9adde446b25405cdefc3369, type: 2}
     initialQuantity: 90
+  - objectData: {fileID: 11400000, guid: 8cc73615a67a13545b66715132f2bf93, type: 2}
+    initialQuantity: 90
   - objectData: {fileID: 11400000, guid: 12df07918005f8b498512c255add32e6, type: 2}
     initialQuantity: 10
   - objectData: {fileID: 11400000, guid: d037352bd8dee304cbc4853029ebeabe, type: 2}
+    initialQuantity: 10
+  - objectData: {fileID: 11400000, guid: fa0422f077049fe43be764134c9c49bc, type: 2}
+    initialQuantity: 10
+  - objectData: {fileID: 11400000, guid: 5d6375cce23916842b0e9811075cd01d, type: 2}
     initialQuantity: 10
   - objectData: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}
     initialQuantity: 15
@@ -2149,6 +2154,8 @@ MonoBehaviour:
     initialQuantity: 90
   - objectData: {fileID: 11400000, guid: 1c6289358514390449ec8642d2888d3d, type: 2}
     initialQuantity: 15
+  - objectData: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
+    initialQuantity: 50
 --- !u!4 &2139992006
 Transform:
   m_ObjectHideFlags: 0

@@ -45,15 +45,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Ladybug II
-  itemDescription: Bonk a random cabbage
+  itemDescription: 
   icon: {fileID: 21300000, guid: 6074def88820edf4981cdf17ef8e0fba, type: 3}
   itemType: 0
   effects:
   - rid: 328109921641955598
+  holofoilEffects:
+  - rid: 328109986689057124
   triggers:
   - rid: 328109942880338077
   rarity: 0
-  normalizedPrice: 0.3
+  normalizedPrice: 0.6
+  sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
   purchasable: 0
@@ -67,6 +70,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 716754708759249075, guid: f4261a3add4cde041b6bdb31d6034018, type: 3}
+  isHolofoil: 0
   references:
     version: 2
     RefIds:
@@ -82,3 +86,9 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         everyXHit: 4
         onlyByBall: 0
+    - rid: 328109986689057124
+      type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        bonkValue: 2
+        cabbageSelection: 0
+        spawnItemAtCabbage: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}

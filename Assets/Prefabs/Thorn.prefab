@@ -322,7 +322,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bonkValue: 0.5
-  deactivateOnBonk: 1
+  killOnBonk: 1
+  bonksBeforeKill: 0
 --- !u!50 &3052483765442395347
 Rigidbody2D:
   serializedVersion: 5

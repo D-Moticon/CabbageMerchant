@@ -2,16 +2,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using Febucci.UI;
 
 public class ToolTip : MonoBehaviour
 {
     [Header("Tooltip UI References")]
     public CanvasGroup tooltipCanvasGroup;
-    public TMP_Text titleText;
-    public TMP_Text descriptionText;
+    public TextAnimator_TMP titleTextAnimator;
+    public TextAnimator_TMP descriptionTextAnimator;
     public TMP_Text rarityText;
     public TMP_Text triggerText;
+    public TMP_Text valueText;
     public Image itemImage;
+    public Material normalMat;
+    public Material holofoilMat;
 
     [Header("World Space Settings")]
     [Tooltip("How far in front of the Camera should this tooltip appear?")]
@@ -31,7 +35,10 @@ public class ToolTip : MonoBehaviour
     private IHoverable overrideHoverable = null;
 
     private bool IsUsingOverride => overrideHoverable != null;
-
+    
+    public delegate void HoverableDelegate(IHoverable hoverable);
+    public static event HoverableDelegate HoverableHoveredEvent;
+    
     private void Start()
     {
         // Start fully invisible
@@ -64,7 +71,21 @@ public class ToolTip : MonoBehaviour
                 if (hoverable != currentHover)
                 {
                     currentHover = hoverable;
-                    ShowTooltip(hoverable);
+                    
+                    HoverableModifier hm = new HoverableModifier();
+                    
+                    Item item = hoverable as Item;
+                    if (item != null)
+                    {
+                        if (item.isHolofoil)
+                        {
+                            hm.isHolofoil = true;
+                        }
+                    }
+                    
+                    ShowTooltip(hoverable, hm);
+                    
+                    HoverableHoveredEvent?.Invoke(hoverable);
                 }
                 return;
             }
@@ -81,12 +102,12 @@ public class ToolTip : MonoBehaviour
     /// <summary>
     /// Sets the tooltip fields from the hovered item's data, then fades it in.
     /// </summary>
-    private void ShowTooltip(IHoverable hoverable)
+    private void ShowTooltip(IHoverable hoverable, HoverableModifier hm = null)
     {
         if (hoverable == null) return;
 
         overrideHoverable = null;  // Clear any override
-        SetTooltipFields(hoverable);
+        SetTooltipFields(hoverable, hm);
         FadeCanvasGroup(1f);
     }
 
@@ -105,7 +126,7 @@ public class ToolTip : MonoBehaviour
     /// This sets overrideHoverable so normal detection is bypassed.
     /// Use HideTooltip() to revert to normal.
     /// </summary>
-    public void ShowOverrideTooltip(IHoverable customHoverable)
+    public void ShowOverrideTooltip(IHoverable customHoverable, HoverableModifier hm = null)
     {
         if (customHoverable == null)
         {
@@ -114,7 +135,7 @@ public class ToolTip : MonoBehaviour
         }
 
         overrideHoverable = customHoverable;
-        SetTooltipFields(overrideHoverable);
+        SetTooltipFields(overrideHoverable, hm);
         FadeCanvasGroup(1f);
 
         // Position near mouse
@@ -122,13 +143,32 @@ public class ToolTip : MonoBehaviour
         PositionTooltip(mousePos);
     }
 
-    private void SetTooltipFields(IHoverable hoverable)
+    private void SetTooltipFields(IHoverable hoverable, HoverableModifier hm = null)
     {
-        titleText.text       = hoverable.GetTitleText();
-        descriptionText.text = hoverable.GetDescriptionText();
+        titleTextAnimator.SetText(hoverable.GetTitleText(hm));
+        descriptionTextAnimator.SetText(hoverable.GetDescriptionText(hm));
         rarityText.text      = hoverable.GetRarityText();
         itemImage.sprite     = hoverable.GetImage();
         triggerText.text     = hoverable.GetTriggerText();
+        valueText.text = hoverable.GetValueText();
+
+        if (hm != null)
+        {
+            if (hm.isHolofoil)
+            {
+                itemImage.material = holofoilMat;
+            }
+
+            else
+            {
+                itemImage.material = normalMat;
+            }
+        }
+
+        else
+        {
+            itemImage.material = normalMat;
+        }
     }
 
     /// <summary>

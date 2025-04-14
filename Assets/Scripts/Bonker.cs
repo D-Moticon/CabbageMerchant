@@ -1,11 +1,19 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Bonker : MonoBehaviour
 {
     public float bonkValue = 1f;
-    public bool deactivateOnBonk;
-    
+    public bool killOnBonk;
+    public int bonksBeforeKill = 0;
+    private int bonkCounter = 0;
+
+    private void OnEnable()
+    {
+        bonkCounter = 0;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         Cabbage c = other.gameObject.GetComponent<Cabbage>();
@@ -13,9 +21,14 @@ public class Bonker : MonoBehaviour
         {
             c.Bonk(bonkValue, other.GetContact(0).point);
 
-            if (deactivateOnBonk)
+            if (killOnBonk)
             {
-                gameObject.SetActive(false);
+                if (bonkCounter >= bonksBeforeKill)
+                {
+                    gameObject.SetActive(false);
+                }
+
+                bonkCounter++;
             }
             
         }

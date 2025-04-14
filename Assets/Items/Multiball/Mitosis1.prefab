@@ -41,13 +41,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 200164734672739454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8970c35d54e1173409e58d98ce45a23a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Mitosis
-  itemDescription: Ball splits into 2
+  itemDescription: 
   icon: {fileID: 21300000, guid: 191f0ff6d5185874bb68210f77b009f2, type: 3}
-  effects: []
+  itemType: 0
+  effects:
+  - rid: 328109986689056860
+  holofoilEffects:
+  - rid: 328109986689056871
   triggers:
   - rid: 328109942880338078
   rarity: 0
@@ -64,11 +68,8 @@ MonoBehaviour:
         Data4: 0
       Path: 
     vol: 0.5
-  upgradedItem: {fileID: 1475160629080221019, guid: 2eaa4f83b6241a64fad7688bd6214dac, type: 3}
-  ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
-  numberCopies: 1
-  ballLaunchSpeed: 7
-  ballLaunchAngleRange: {x: 45, y: 135}
+  upgradedItem: {fileID: -4604959134935355132, guid: 2eaa4f83b6241a64fad7688bd6214dac, type: 3}
+  isHolofoil: 0
   references:
     version: 2
     RefIds:
@@ -76,3 +77,21 @@ MonoBehaviour:
       type: {class: FirstCabbageHitTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+    - rid: 328109986689056860
+      type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
+        ballName: ball
+        ballDescription: 
+        numberCopies: 1
+        ballLaunchSpeed: 7
+        ballLaunchAngleRange: {x: 45, y: 135}
+    - rid: 328109986689056871
+      type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        ballPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
+        ballName: <rainb>rainbow ball</rainb>
+        ballDescription: bonks for 2
+        numberCopies: 1
+        ballLaunchSpeed: 7
+        ballLaunchAngleRange: {x: 45, y: 135}

@@ -114,7 +114,7 @@ public class GameStateMachine : MonoBehaviour
     {
         public override void EnterState()
         {
-            gameStateMachine.currentBalls = Singleton.Instance.runManager.currentBalls;
+            gameStateMachine.currentBalls = Singleton.Instance.playerStats.currentBalls;
             gameStateMachine.StartCoroutine(PopulateBoard());
             BallsRemainingEvent?.Invoke(gameStateMachine.currentBalls);
         }
@@ -133,7 +133,7 @@ public class GameStateMachine : MonoBehaviour
         {
             yield return new WaitForSeconds(.75f);
             
-            int numPegs = gameStateMachine.numberPegs + Singleton.Instance.runManager.extraStartingCabbages;
+            int numPegs = gameStateMachine.numberPegs + Singleton.Instance.playerStats.extraStartingCabbages;
             Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
             
             gameStateMachine.activeCabbages.Clear();
