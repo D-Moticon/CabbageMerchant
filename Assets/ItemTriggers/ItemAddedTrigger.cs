@@ -27,7 +27,6 @@ public class ItemAddedTrigger : Trigger
         }
         if (purchasedItem == owningItem)
         {
-            Debug.Log("MEOW");
             alreadyAdded = true;
             owningItem.TryTriggerItem();
         }

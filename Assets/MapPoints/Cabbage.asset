@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Cabbage
   m_EditorClassIdentifier: 
   sceneName: CabbageShoot
+  displayName: Cabbage Farm
+  description: Farm cabbages to earn money
   mapIcon: {fileID: 159068718711766808, guid: 893bd6ca7f5f55141902d12533c5b5ec, type: 3}

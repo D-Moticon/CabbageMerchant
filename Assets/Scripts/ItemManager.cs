@@ -107,7 +107,7 @@ public class ItemManager : MonoBehaviour
         // Otherwise normal item logic:
         if (clickedItem.purchasable)
         {
-            double cost = clickedItem.GetItemBasePrice();
+            double cost = clickedItem.GetItemPrice();
             if (Singleton.Instance.playerStats.coins < cost)
             {
                 Debug.Log("Cannot afford this item, cannot drag.");
@@ -177,7 +177,7 @@ public class ItemManager : MonoBehaviour
             if (draggingItem.purchasable)
             {
                 // This is a newly purchased item
-                double cost = draggingItem.GetItemBasePrice();
+                double cost = draggingItem.GetItemPrice();
                 Singleton.Instance.playerStats.AddCoins(-cost);
                 draggingItem.purchasable = false;
                 ItemPurchasedEvent?.Invoke(draggingItem);
@@ -224,7 +224,7 @@ public class ItemManager : MonoBehaviour
             // We'll also consider the new item as purchased
             if (dragged.purchasable)
             {
-                double cost = dragged.GetItemBasePrice();
+                double cost = dragged.GetItemPrice();
                 Singleton.Instance.playerStats.AddCoins(-cost);
                 dragged.purchasable = false;
 
@@ -264,7 +264,7 @@ public class ItemManager : MonoBehaviour
     {
         if (perkItem.purchasable)
         {
-            double cost = perkItem.GetItemBasePrice();
+            double cost = perkItem.GetItemPrice();
             if (Singleton.Instance.playerStats.coins < cost)
             {
                 Debug.Log("Cannot afford perk.");

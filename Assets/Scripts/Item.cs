@@ -46,9 +46,9 @@ public class Item : MonoBehaviour, IHoverable
         }
     }
 
-    public float GetItemBasePrice()
+    public float GetItemPrice()
     {
-        return (normalizedPrice * globalItemPriceMult);
+        return (normalizedPrice * globalItemPriceMult * Singleton.Instance.playerStats.shopDiscountMult);
     }
     
     public virtual void TryTriggerItem(TriggerContext tc = null)
@@ -160,6 +160,14 @@ public class Item : MonoBehaviour, IHoverable
             return "";
         }
         
+        else if (triggers.Count == 1)
+        {
+            if (triggers[0] is ItemAddedTrigger)
+            {
+                return "";
+            }
+        }
+        
         string s = "Trigger: ";
         
         for (int i = 0; i < triggers.Count; i++)
@@ -199,5 +207,10 @@ public class Item : MonoBehaviour, IHoverable
     {
         
         return (Math.Floor(normalizedPrice * globalItemPriceMult * 0.5*sellValueMultiplier));
+    }
+
+    public void DestroyItem(bool withFX = false)
+    {
+        itemWrapper.DestroyItem(withFX);
     }
 }

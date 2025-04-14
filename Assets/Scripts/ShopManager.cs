@@ -1,12 +1,20 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class ShopManager : MonoBehaviour
 {
     public ItemSlot itemSlotPrefab;
     public List<Transform> itemSlotTransforms; // Positions for each slot
     public int baseNumberItems = 4;
+    public bool onlyBuyOne = false;
+    
+    [Tooltip("Prevents duplicate items from spawning in the shop if set to true.")]
+    public bool noDupes = true;
+
     public ItemCollection itemCollection;
+    private List<Item> spawnedItems = new List<Item>();
 
     [System.Serializable]
     public class RarityWeight
@@ -24,6 +32,16 @@ public class ShopManager : MonoBehaviour
     {
         CreateItemSlots();
         PopulateItems();
+    }
+
+    private void OnEnable()
+    {
+        ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
+    }
+
+    private void OnDisable()
+    {
+        ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
     }
 
     /// <summary>
@@ -45,42 +63,85 @@ public class ShopManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Populates each slot with a random item from the collection, 
-    /// respecting rarity weights.
+    /// Populates each slot with a random item from the collection, respecting rarity weights.
+    /// If noDupes is true, duplicate items (by name) will not be spawned.
     /// </summary>
     void PopulateItems()
+{
+    // Limit the number of items to however many transforms we have
+    int numItems = Mathf.Min(baseNumberItems, itemSlotTransforms.Count);
+    spawnedItems.Clear();
+    
+    for (int i = 0; i < numItems; i++)
     {
-        // Limit the number of items to however many transforms we have
-        int numItems = Mathf.Min(baseNumberItems, itemSlotTransforms.Count);
+        ItemSlot slot = createdSlots[i];
+        
+        // 1) Randomly pick a Rarity using the weighted distribution
+        Rarity chosenRarity = GetWeightedRandomRarity();
 
-        for (int i = 0; i < numItems; i++)
+        // 2) Gather all items of that chosen rarity from itemCollection.
+        // If none exist, try lower rarities until we find some or exhaust the enum.
+        List<Item> validItems = itemCollection.GetItemsByRarity(chosenRarity);
+        Rarity rarityToCheck = chosenRarity;
+        while (validItems.Count == 0)
         {
-            ItemSlot slot = createdSlots[i];
-            
-            // 1) Randomly pick a Rarity using the weighted distribution
-            Rarity chosenRarity = GetWeightedRandomRarity();
-
-            // 2) Gather all items of that chosen rarity from itemCollection
-            List<Item> validItems = itemCollection.GetItemsByRarity(chosenRarity);
-            if (validItems.Count == 0)
+            int nextLower = (int)rarityToCheck - 1;
+            if (nextLower < 0)
             {
-                Debug.LogWarning($"No items of rarity {chosenRarity} found in collection.");
-                continue;
+                print("breaking");
+                break;
+            }
+            rarityToCheck = (Rarity)nextLower;
+            validItems = itemCollection.GetItemsByRarity(rarityToCheck);
+        }
+
+        if (validItems.Count == 0)
+        {
+            Debug.LogWarning($"No items of rarity {chosenRarity} or any lower rarity found in collection.");
+            continue;
+        }
+        
+        // 3) If noDupes is enabled, filter out any item with an itemName that already appears in spawnedItems.
+        if (noDupes)
+        {
+            validItems = validItems.FindAll(candidate =>
+                spawnedItems.TrueForAll(spawned => spawned.itemName != candidate.itemName)
+            );
+
+            while (validItems.Count == 0)
+            {
+                int nextLower = (int)rarityToCheck - 1;
+                if (nextLower < 0)
+                {
+                    print("breaking");
+                    break;
+                }
+                rarityToCheck = (Rarity)nextLower;
+                validItems = itemCollection.GetItemsByRarity(rarityToCheck);
             }
 
-            // 3) Pick a random item from that subset
-            Item itemPrefab = validItems[Random.Range(0, validItems.Count)];
-
-            // 4) Generate and place item into the slot using ItemManager
-            Item itemInstance = Singleton.Instance.itemManager.GenerateItemWithWrapper(itemPrefab, Vector2.zero, this.transform);
-            itemInstance.purchasable = true;
-            Singleton.Instance.itemManager.AddItemToSlot(itemInstance, slot);
-            slot.SetPriceText();
+            if (validItems.Count == 0)
+            {
+                Debug.LogWarning($"No items of rarity {chosenRarity} or any lower rarity found in collection.");
+                continue;
+            }
         }
+
+        // 4) Pick a random item from the (filtered) subset
+        Item itemPrefab = validItems[Random.Range(0, validItems.Count)];
+
+        // 5) Generate and place the item into the slot.
+        Item itemInstance = Singleton.Instance.itemManager.GenerateItemWithWrapper(itemPrefab, Vector2.zero, this.transform);
+        itemInstance.purchasable = true;
+        Singleton.Instance.itemManager.AddItemToSlot(itemInstance, slot);
+        slot.SetPriceText();
+        spawnedItems.Add(itemInstance);
     }
+}
+
 
     /// <summary>
-    /// Removes existing items from slots, then repopulates them with new items.
+    /// Removes existing items from slots and repopulates them with new items.
     /// </summary>
     void ReRoll()
     {
@@ -89,7 +150,7 @@ public class ShopManager : MonoBehaviour
         {
             if (slot.currentItem)
             {
-                // A simple approach might be to destroy the item wrapper
+                // Destroy the item wrapper (and thus the item)
                 if (slot.currentItem.itemWrapper)
                 {
                     Destroy(slot.currentItem.itemWrapper.gameObject);
@@ -98,7 +159,7 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        // 2) Populate the newly cleared slots
+        // 2) Repopulate the cleared slots
         PopulateItems();
     }
 
@@ -108,32 +169,60 @@ public class ShopManager : MonoBehaviour
     /// <returns>A Rarity chosen based on the total weight.</returns>
     private Rarity GetWeightedRandomRarity()
     {
-        // Sum the total weight
         float totalWeight = 0f;
+        float rarityMultiplier = Singleton.Instance.playerStats.shopRarityMult;
+        // Create a parallel list for the modified weights.
+        List<float> modifiedWeights = new List<float>();
+
         foreach (var rw in rarityWeights)
         {
-            totalWeight += rw.weight;
+            float modWeight = rw.weight;
+            // If the rarity is not Common, multiply its weight by the rarity multiplier.
+            // (Adjust this logic if you want to affect only certain rarities.)
+            if (rw.rarity != Rarity.Common)
+            {
+                modWeight *= rarityMultiplier;
+            }
+
+            modifiedWeights.Add(modWeight);
+            totalWeight += modWeight;
         }
 
         // Pick a random value within [0..totalWeight]
         float randomVal = Random.value * totalWeight;
 
-        // Determine which rarity bucket we fall into
-        foreach (var rw in rarityWeights)
+        // Determine which rarity bucket we fall into.
+        for (int i = 0; i < rarityWeights.Count; i++)
         {
-            if (randomVal < rw.weight)
+            if (randomVal < modifiedWeights[i])
             {
-                return rw.rarity;
+                return rarityWeights[i].rarity;
             }
-            randomVal -= rw.weight;
+            randomVal -= modifiedWeights[i];
         }
 
         // Fallback (should never happen if weights are well-defined)
         return rarityWeights[rarityWeights.Count - 1].rarity;
     }
 
+
     public void LeaveShop()
     {
         Singleton.Instance.runManager.GoToMap();
+    }
+
+    void ItemPurchasedListener(Item itemPurchased)
+    {
+        if (onlyBuyOne)
+        {
+            for (int i = 0; i < spawnedItems.Count; i++)
+            {
+                if (spawnedItems[i] != itemPurchased)
+                {
+                    spawnedItems[i].currentItemSlot.HidePriceText();
+                    spawnedItems[i].DestroyItem(true);
+                }
+            }
+        }
     }
 }

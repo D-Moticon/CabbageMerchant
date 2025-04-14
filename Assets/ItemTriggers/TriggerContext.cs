@@ -6,4 +6,5 @@ public class TriggerContext
     public Cabbage cabbage;
     public Vector2 point;
     public Vector2 normal;
+    public Vector2 relativeVelocity;
 }

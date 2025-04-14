@@ -164,11 +164,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMapBlueprint: {fileID: 11400000, guid: 446757a25c0535c4cb1d95ad9f529928, type: 2}
+  currentMapBlueprint: {fileID: 0}
   map: {fileID: 0}
-  layerVerticalSpacing: 3
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  disabledColor: {r: 1, g: 1, b: 1, a: 0.3}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.9019608}
   scrollDuration: 0.5
+  yOffset: -1.5
   currentLayerIndex: 0
 --- !u!1 &1100633564
 GameObject:

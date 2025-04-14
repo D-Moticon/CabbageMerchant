@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Febucci.UI;
+using MoreMountains.Feedbacks;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,16 +13,20 @@ public class UIManager : MonoBehaviour
     private double targetCoins;
     public Transform ballsParent;
     public Image ballRemainingPrefab;
+    [SerializeField]private TMP_Text notificationText;
+    public TypewriterByCharacter notificationTextTypewriter;
+    public MMF_Player notificationFeel;
 
     private void OnEnable()
     {
-        GameStateMachine.BallsRemainingEvent += UpdateBallsIndicator;
+        notificationText.alpha = 0f;
+        GameStateMachine.BallsRemainingUpdatedEvent += UpdateBallsIndicator;
         PlayerStats.CoinsUpdated += CoinsUpdatedListener;
     }
 
     private void OnDisable()
     {
-        GameStateMachine.BallsRemainingEvent -= UpdateBallsIndicator;
+        GameStateMachine.BallsRemainingUpdatedEvent -= UpdateBallsIndicator;
         PlayerStats.CoinsUpdated -= CoinsUpdatedListener;
     }
 
@@ -69,5 +75,11 @@ public class UIManager : MonoBehaviour
         }
 
         coinsText.text = Helpers.FormatWithSuffix(currentCoins);
+    }
+
+    public void ShowNotification(string text)
+    {
+        notificationTextTypewriter.ShowText(text);
+        notificationFeel.PlayFeedbacks();
     }
 }

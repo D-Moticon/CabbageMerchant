@@ -34,7 +34,7 @@ public class ItemWrapper : MonoBehaviour
             triggerFeel.PlayFeedbacks();
             purchaseVFX.Play();
             purchaseSFX.Play();
-            purchaseFloater.Spawn(item.GetItemBasePrice().ToString(), this.transform.position, purchaseFloaterColor);
+            purchaseFloater.Spawn(item.GetItemPrice().ToString(), this.transform.position, purchaseFloaterColor);
         }
     }
 
@@ -46,5 +46,9 @@ public class ItemWrapper : MonoBehaviour
             hoveredSFX.Play();
         }
     }
-    
+
+    public void DestroyItem(bool withFX = false)
+    {
+        Destroy(this.gameObject);
+    }
 }

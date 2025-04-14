@@ -39,9 +39,10 @@ public class Launcher : MonoBehaviour
         
     }
 
-    public void LaunchBall()
+    public Ball LaunchBall()
     {
         Ball ball = objectPoolManager.Spawn(ballPooledObject, this.transform.position, Quaternion.identity).GetComponent<Ball>();
         ball.SetVelocity(currentLaunchVelocity);
+        return ball;
     }
 }

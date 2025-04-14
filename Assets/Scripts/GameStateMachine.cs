@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class GameStateMachine : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class GameStateMachine : MonoBehaviour
 
     public State currentState;
     public int numberPegs;
-    [FormerlySerializedAs("pegPooledObject")] public PooledObjectData cabbagePooledObject;
+    public PooledObjectData cabbagePooledObject;
     public BoardMetrics boardMetrics;
     public Launcher launcher;
     
@@ -41,8 +42,11 @@ public class GameStateMachine : MonoBehaviour
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
 
-    public delegate void BallFiredDelegate(int ballsRemaining);
-    public static BallFiredDelegate BallsRemainingEvent;
+    public delegate void IntDelegate(int ballsRemaining);
+    public static IntDelegate BallsRemainingUpdatedEvent;
+
+    public delegate void BallDelegate(Ball b);
+    public static event BallDelegate BallFiredEvent;
 
     public delegate void DoubleDelegate(double value);
 
@@ -116,7 +120,7 @@ public class GameStateMachine : MonoBehaviour
         {
             gameStateMachine.currentBalls = Singleton.Instance.playerStats.currentBalls;
             gameStateMachine.StartCoroutine(PopulateBoard());
-            BallsRemainingEvent?.Invoke(gameStateMachine.currentBalls);
+            BallsRemainingUpdatedEvent?.Invoke(gameStateMachine.currentBalls);
         }
 
         public override void UpdateState()
@@ -142,6 +146,13 @@ public class GameStateMachine : MonoBehaviour
             {
                 Cabbage c = gameStateMachine.cabbagePooledObject.Spawn(positions[i], Quaternion.identity).GetComponent<Cabbage>();
                 c.bonkFeel.PlayFeedbacks();
+
+                float goldRand = Random.Range(0f, 1f);
+                if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
+                {
+                    c.SetGolden();
+                }
+                
                 gameStateMachine.activeCabbages.Add(c);
                 yield return new WaitForSeconds(0.05f);
             }
@@ -186,17 +197,23 @@ public class GameStateMachine : MonoBehaviour
         public override void EnterState()
         {
             GameStateMachine.EnteringAimStateAction?.Invoke();
+
+            if (gameStateMachine.currentBalls == 1)
+            {
+                Singleton.Instance.uiManager.ShowNotification("Last Ball!");
+            }
         }
 
         public override void UpdateState()
         {
             if (playerInputManager.fireDown)
             {
-                gameStateMachine.launcher.LaunchBall();
+                Ball b = gameStateMachine.launcher.LaunchBall();
                 gameStateMachine.currentBalls--;
                 State newState = new BouncingState();
                 gameStateMachine.ChangeState(newState);
-                BallsRemainingEvent?.Invoke(gameStateMachine.currentBalls);
+                BallsRemainingUpdatedEvent?.Invoke(gameStateMachine.currentBalls);
+                BallFiredEvent?.Invoke(b);
             }
         }
 
@@ -253,6 +270,8 @@ public class GameStateMachine : MonoBehaviour
 
         IEnumerator ScoringRoutine()
         {
+            yield return new WaitForSeconds(1f);
+            
             List<Cabbage> cabbages = gameStateMachine.activeCabbages;
 
             for (int i = 0; i < cabbages.Count; i++)

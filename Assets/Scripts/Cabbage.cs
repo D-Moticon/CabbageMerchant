@@ -17,6 +17,7 @@ public class Cabbage : MonoBehaviour
 
     [Header("References")]
     public Rigidbody2D rb;
+    public SpriteRenderer sr;
     public PooledObjectData bonkVFX;
     public PooledObjectData popVFX;
     public MMF_Player bonkFeel;
@@ -28,6 +29,7 @@ public class Cabbage : MonoBehaviour
     public MMF_Player pointsTextFeel;
     public FloaterReference popFloater;
     public FloaterReference scoreFloater;
+    public Material baseMaterial;
 
     [Header("Levels & Hue")]
     [HideInInspector] public float sizeLevel;
@@ -59,7 +61,7 @@ public class Cabbage : MonoBehaviour
     public float rootExponent = 0.7f;
 
     [HideInInspector] public bool isMerging = false;
-    private SpriteRenderer sr;
+    
 
     [Header("Scoring")]
     public float startingPoints = 0f;
@@ -78,6 +80,14 @@ public class Cabbage : MonoBehaviour
 
     public List<ScoringInfo> scoringInfos;
 
+    [Header("Golden")]
+    public Material goldenMaterial;
+
+    public SFXInfo goldenHitSFX;
+    public PooledObjectData goldenHitVFX;
+    public FloaterReference goldenHitFloater;
+    private bool isGolden = false;
+    
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Static;
@@ -123,6 +133,16 @@ public class Cabbage : MonoBehaviour
         float intensity = 1f / sca;
         bonkFeel.PlayFeedbacks(transform.position, intensity);
         pointsTextFeel.PlayFeedbacks(transform.position, intensity);
+
+        if (isGolden)
+        {
+            float goldValue = Singleton.Instance.playerStats.goldenCabbageValue;
+            Singleton.Instance.playerStats.AddCoins(goldValue);
+            Singleton.Instance.floaterManager.SpawnFloater(goldenHitFloater, goldValue.ToString(), this.transform.position);
+            goldenHitSFX.Play();
+            goldenHitVFX.Spawn(this.transform.position);
+            SetUnGolden();
+        }
         
         UpdatePoints();
     }
@@ -253,5 +273,17 @@ public class Cabbage : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SetGolden()
+    {
+        isGolden = true;
+        sr.material = goldenMaterial;
+    }
+
+    public void SetUnGolden()
+    {
+        isGolden = false;
+        sr.material = baseMaterial;
     }
 }

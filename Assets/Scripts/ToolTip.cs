@@ -176,8 +176,39 @@ public class ToolTip : MonoBehaviour
     /// </summary>
     private void PositionTooltip(Vector2 mouseWorldPos)
     {
-        // Example approach for a World Space canvas
-        transform.position = mouseWorldPos + worldOffset;
+        // Compute the desired world position based on your worldOffset.
+        Vector3 desiredWorldPos = (Vector3)mouseWorldPos + (Vector3)worldOffset;
+    
+        // Get the RectTransform of this tooltip.
+        RectTransform rectTrans = GetComponentInChildren<RectTransform>();
+        if (rectTrans == null)
+        {
+            // If no RectTransform is found, just assign the desired position
+            transform.position = desiredWorldPos;
+            return;
+        }
+    
+        // Convert the desired world position to screen space.
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(desiredWorldPos);
+    
+        // Calculate half size of the tooltip in screen space.
+        // Note: rectTrans.rect is in local space; its size can be scaled by rectTrans.lossyScale.
+        Vector2 halfSize = new Vector2(
+            rectTrans.rect.width * rectTrans.lossyScale.x * 0.5f*110f,
+            rectTrans.rect.height * rectTrans.lossyScale.y * 0.5f *110f
+        );
+
+        // Clamp the screen position so that the tooltip's bounds don't go off-screen.
+        screenPos.x = Mathf.Clamp(screenPos.x, halfSize.x, Screen.width - halfSize.x);
+        screenPos.y = Mathf.Clamp(screenPos.y, halfSize.y, Screen.height - halfSize.y);
+    
+        // Convert the clamped screen position back to world space.
+        Vector3 correctedWorldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        
+        // Preserve the original z coordinate (distance)
+        correctedWorldPos.z = desiredWorldPos.z;
+    
+        transform.position = correctedWorldPos;
     }
 
     /// <summary>

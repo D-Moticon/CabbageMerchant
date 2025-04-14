@@ -50,10 +50,13 @@ MonoBehaviour:
   itemType: 1
   effects:
   - rid: 328109942880338135
+  holofoilEffects:
+  - rid: 328109986689057176
   triggers:
   - rid: 328109942880338123
   rarity: 0
-  normalizedPrice: 2.5
+  normalizedPrice: 0
+  sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
   purchasable: 0
@@ -67,6 +70,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  isHolofoil: 0
   references:
     version: 2
     RefIds:
@@ -76,4 +80,9 @@ MonoBehaviour:
         owningItem: {fileID: 0}
     - rid: 328109942880338135
       type: {class: AddExtraStartingCabbageEffect, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        cabbagesToAdd: 1
+    - rid: 328109986689057176
+      type: {class: AddExtraStartingCabbageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        cabbagesToAdd: 2

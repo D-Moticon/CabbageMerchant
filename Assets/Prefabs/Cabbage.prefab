@@ -1112,6 +1112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 137031519443532654}
+  sr: {fileID: 2663874644077794495}
   bonkVFX: {fileID: 11400000, guid: 3382dbf66acc0574cbc96037591e44d2, type: 2}
   popVFX: {fileID: 11400000, guid: 7e1362375de1f7f4aaff36432e7647a5, type: 2}
   bonkFeel: {fileID: 6570739175656533417}
@@ -1139,6 +1140,7 @@ MonoBehaviour:
   pointsTextFeel: {fileID: 4888413357987411752}
   popFloater: {fileID: 11400000, guid: 676c92c679e2cdb4f9eb8c5e93566ff0, type: 2}
   scoreFloater: {fileID: 11400000, guid: 184b250b48c41a24391b8f5f623bd8b1, type: 2}
+  baseMaterial: {fileID: 2100000, guid: 6c81cc06d7891574480594870dfa3114, type: 2}
   sizeLevel: 0
   colorLevel: 0
   maxSizeLevel: 1000
@@ -1201,3 +1203,15 @@ MonoBehaviour:
         Path: event:/Score4
       vol: 0.5
     screenShakeIntensity: 2
+  goldenMaterial: {fileID: 2100000, guid: b25063e126c8c0f4983d7bde957ba8d1, type: 2}
+  goldenHitSFX:
+    sfx:
+      Guid:
+        Data1: -1150991800
+        Data2: 1292723475
+        Data3: 390400699
+        Data4: -502872529
+      Path: event:/CoinKaching
+    vol: 0.5
+  goldenHitVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
+  goldenHitFloater: {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}

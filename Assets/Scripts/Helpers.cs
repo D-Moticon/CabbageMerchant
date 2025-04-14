@@ -117,4 +117,10 @@ public static class Helpers
 
         return formatted + suffix;
     }
+    
+    public static string ToPercentageString(float value)
+    {
+        int percentage = Mathf.RoundToInt(value * 100f);
+        return percentage.ToString() + "%";
+    }
 }

@@ -1,8 +1,26 @@
+using System;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Random = UnityEngine.Random;
 
 public class SpawnRBItemEffect : ItemEffect
 {
     public PooledObjectData objectToSpawn;
+
+    public enum SpawnLocation
+    {
+        ball,
+        worldArea
+    }
+
+    public SpawnLocation spawnLocation;
+    
+    [ShowIf("@spawnLocation == SpawnLocation.worldArea")]
+    public Vector2 spawnCenter;
+    
+    [ShowIf("@spawnLocation == SpawnLocation.worldArea")]
+    public Vector2 spawnAreaSize = new Vector2(1f, 1f);
+    
     public string objectName;
     public string objectDescription;
     public int quantity = 1;
@@ -21,18 +39,51 @@ public class SpawnRBItemEffect : ItemEffect
     public PooledObjectData spawnVFX;
     public bool rotateVFXtoNormal = false;
     
+    // NEW: Define the enum for velocity direction
+    public enum VelocityDirection
+    {
+        Normal,         // Use TriggerContext.normal (default)
+        WorldDirection  // Use a custom direction input
+    }
+
+    [EnumToggleButtons]
+    public VelocityDirection velocityDirection = VelocityDirection.Normal;
+
+    [ShowIf("@velocityDirection == VelocityDirection.WorldDirection")]
+    public Vector2 worldVelocityDirection;
+
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        if (tc == null)
-        {
-            return;
-        }
+        // Use the trigger context values:
+        Vector2 pos = Vector2.zero;
+        Vector2 normal = Vector2.up;
 
-        Vector2 normal = tc.normal;
-        Vector2 pos = tc.point;
+        switch (velocityDirection)
+        {
+            case VelocityDirection.Normal:
+                normal = tc.normal;
+                break;
+            case VelocityDirection.WorldDirection:
+                normal = worldVelocityDirection.normalized;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
         for (int i = 0; i < quantity; i++)
         {
+            switch (spawnLocation)
+            {
+                case SpawnLocation.ball:
+                    pos = tc.point;
+                    break;
+                case SpawnLocation.worldArea:
+                    pos = spawnCenter - spawnAreaSize * 0.5f + new Vector2(Random.Range(0f, spawnAreaSize.x), Random.Range(0f, spawnAreaSize.y));
+                    break;
+                default:
+                    break;
+            }
+            
             float scaRand = Random.Range(scaleRange.x, scaleRange.y);
             
             Rigidbody2D rb = objectToSpawn.Spawn(pos + normal * surfaceOffset).GetComponent<Rigidbody2D>();
@@ -46,12 +97,10 @@ public class SpawnRBItemEffect : ItemEffect
             {
                 case SpreadType.even:
                     float startAngle = Helpers.Vector2ToAngle(normal) - (spreadAngle * 0.5f);
-                    
                     if (quantity == 1)
                     {
                         ang = Helpers.Vector2ToAngle(normal);
                     }
-                    
                     else
                     {
                         float angleStep = spreadAngle / (quantity - 1);
@@ -84,21 +133,10 @@ public class SpawnRBItemEffect : ItemEffect
         }
     }
     
-
     public override string GetDescription()
     {
-        string plural = "";
-        if (quantity > 1)
-        {
-            plural = "s";
-        }
-        
-        string desc = "";
-        if (!string.IsNullOrEmpty(objectDescription))
-        {
-            desc = $"that {objectDescription}";
-        }
-
-        return ($"Spawn {quantity} {objectName}{plural} {desc}");
+        string plural = quantity > 1 ? "s" : "";
+        string desc = string.IsNullOrEmpty(objectDescription) ? "" : $"that {objectDescription}";
+        return $"Spawn {quantity} {objectName}{plural} {desc}";
     }
 }

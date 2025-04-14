@@ -37,12 +37,12 @@ public class ItemSlot : MonoBehaviour
 
             string colorPrefix = "";
             
-            if (Singleton.Instance.playerStats.coins < currentItem.GetItemBasePrice())
+            if (Singleton.Instance.playerStats.coins < currentItem.GetItemPrice())
             {
                 colorPrefix = "<color=red>";
             }
             
-            priceText.text = colorPrefix + Helpers.FormatWithSuffix(currentItem.GetItemBasePrice());
+            priceText.text = colorPrefix + Helpers.FormatWithSuffix(currentItem.GetItemPrice());
         }
         
         

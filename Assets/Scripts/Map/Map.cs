@@ -13,6 +13,9 @@ public class Map : MonoBehaviour
     public float verticalSpacing = 2f;
     public float randomXOffset = 1.5f;
     public float randomYOffset = 0.65f;
+
+    public SpriteRenderer mapBG;
+    public float mapBG_YMargin = 5f;
     
     // The generated layers in this map
     public List<MapLayer> layers = new List<MapLayer>();
@@ -23,6 +26,38 @@ public class Map : MonoBehaviour
         public List<MapIcon> mapIcons;
     }
 
+    public void InitializeMap(MapBlueprint mapBlueprint)
+    {
+        // Number of layers from the blueprint.
+        int numLayers = mapBlueprint.mapLayers.Count;
+        if (numLayers < 1)
+            numLayers = 1; // Ensure we have at least one layer.
+    
+        // Icon area: first layer at y=0 and last layer at y = (numLayers - 1)*verticalSpacing.
+        float iconAreaHeight = (numLayers - 1) * verticalSpacing;
+    
+        // The desired background height is the icon area plus a margin on top and bottom.
+        float bgHeight = iconAreaHeight + (2 * mapBG_YMargin);
+    
+        // Adjust the map background sprite size (assuming Draw Mode is Tiled)
+        Vector2 bgSize = mapBG.size;
+        bgSize.y = bgHeight;
+        mapBG.size = bgSize;
+    
+        // Reposition the background so that its bottom edge is at y = -mapBG_YMargin.
+        // With a pivot at center, the bottom edge is at (position.y - bgHeight/2).
+        // We want:
+        //      position.y - (bgHeight/2) == -mapBG_YMargin
+        // Solving, position.y = iconAreaHeight/2  (since bgHeight = iconAreaHeight + 2*mapBG_YMargin).
+        Vector3 bgPos = mapBG.transform.localPosition;
+        bgPos.y = iconAreaHeight / 2f;
+        mapBG.transform.localPosition = bgPos;
+    
+        Debug.Log($"Map Initialized: Layers = {numLayers}, IconAreaHeight = {iconAreaHeight}, BG Height = {bgHeight}");
+    }
+
+
+    
     /// <summary>
     /// Creates a new layer containing MapIcons for each provided MapPoint,
     /// places them with a simple horizontal layout, and connects them to the previous layer.
@@ -43,7 +78,7 @@ public class Map : MonoBehaviour
             // Instantiate a MapIcon
             MapIcon icon = Instantiate(mapIconPrefab, transform);
             icon.spriteRenderer.sprite = pointData.mapIcon;
-            icon.sceneName = pointData.sceneName;
+            icon.mapPoint = pointData;
 
             // Place them left to right, but each layer is placed further up
             float randX = Random.Range(-randomXOffset * 0.5f, randomXOffset * 0.5f);

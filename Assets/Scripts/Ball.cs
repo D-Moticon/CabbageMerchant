@@ -17,6 +17,11 @@ public class Ball : MonoBehaviour
     
     public delegate void BallCabbageDelegate(BallHitCabbageParams bcParams);
     public static BallCabbageDelegate BallHitCabbageEvent;
+
+    public delegate void CollisionDelegate(Ball b, Collision2D col);
+    public static event CollisionDelegate BallCollidedEvent;
+    
+    
     private static float timeoutDuration = 0.5f;
     private static float timeoutVel = 0.1f;
     private float timeoutCounter = 0f;
@@ -76,6 +81,8 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        BallCollidedEvent?.Invoke(this, other);
+        
         Cabbage c = other.gameObject.GetComponent<Cabbage>();
         if (c != null && bonkCooldownCounter <= 0f)
         {

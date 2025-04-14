@@ -12,10 +12,11 @@ public class MapManager : MonoBehaviour
 
     [Header("Appearance")]
     public Color normalColor  = Color.white;
-    public Color disabledColor = new Color(1f, 1f, 1f, 0.3f);
+    public Color disabledColor = new Color(.3f, .3f, .3f, .9f);
 
     [Header("Scrolling Settings")]
-    public float scrollDuration = 0.5f; // how long to animate the scroll
+    public float scrollDuration = 1.0f; // how long to animate the scroll
+    public float yOffset = -3f;
 
     public int currentLayerIndex = 0;
     private bool isScrolling = false;
@@ -24,6 +25,7 @@ public class MapManager : MonoBehaviour
     {
         map = MapSingleton.Instance.mapGenerator.GenerateMap(defaultMapBlueprint);
         currentMapBlueprint = defaultMapBlueprint;
+        map.InitializeMap(currentMapBlueprint);
         
         // Start at layer 0 (bottom)
         currentLayerIndex = 0;
@@ -64,10 +66,10 @@ public class MapManager : MonoBehaviour
         if (layerIndex == currentLayerIndex)
         {
             // Valid selection
-            if (!string.IsNullOrEmpty(icon.sceneName))
+            if (!string.IsNullOrEmpty(icon.mapPoint.sceneName))
             {
                 // Call your runManager to load the scene
-                Singleton.Instance.runManager.GoToScene(icon.sceneName);
+                Singleton.Instance.runManager.GoToScene(icon.mapPoint.sceneName);
             }
         }
         else
@@ -105,7 +107,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private void CenterOnLayer(int layerIndex, bool instant = false)
     {
-        float targetY = -layerIndex * map.verticalSpacing;
+        float targetY = -layerIndex * map.verticalSpacing + yOffset;
 
         if (instant)
         {
@@ -127,7 +129,7 @@ public class MapManager : MonoBehaviour
         isScrolling = true;
 
         Vector3 startPos = map.transform.localPosition;
-        Vector3 endPos   = new Vector3(startPos.x, -layerIndex * map.verticalSpacing, 0f);
+        Vector3 endPos   = new Vector3(startPos.x, -layerIndex * map.verticalSpacing+yOffset, 0f);
 
         float elapsed = 0f;
         while (elapsed < scrollDuration)

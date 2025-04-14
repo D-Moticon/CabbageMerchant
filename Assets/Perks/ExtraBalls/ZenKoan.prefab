@@ -50,10 +50,12 @@ MonoBehaviour:
   itemType: 1
   effects:
   - rid: 328109942880338122
+  holofoilEffects: []
   triggers:
   - rid: 328109942880338123
-  rarity: 1
-  normalizedPrice: 5
+  rarity: 2
+  normalizedPrice: 0
+  sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
   purchasable: 0
@@ -67,6 +69,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  isHolofoil: 0
   references:
     version: 2
     RefIds:
