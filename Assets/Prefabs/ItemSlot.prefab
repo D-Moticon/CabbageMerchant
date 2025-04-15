@@ -75,13 +75,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: be05a4feb0aff874a9d4ce81f4986e29, type: 3}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: c8a62c035894f9a4fbcd891995a429b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 8.597894, y: 8.256132}
+  m_Size: {x: 8, y: 7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -135,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotNumber: 0
   currentItem: {fileID: 0}
+  priceTextParent: {fileID: 0}
+  priceText: {fileID: 0}
 --- !u!61 &4735914021354447490
 BoxCollider2D:
   m_ObjectHideFlags: 0

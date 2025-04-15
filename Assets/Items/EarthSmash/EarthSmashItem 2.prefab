@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2103271418755976016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8478637648245307581}
+  - component: {fileID: 7878032925082585029}
+  m_Layer: 0
+  m_Name: EarthSmashItem 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8478637648245307581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103271418755976016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.530048, y: -2.7483861, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7878032925082585029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103271418755976016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Earth Smash III
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 04f877cde4dd8744686a02ff6c4452d2, type: 3}
+  itemType: 0
+  effects:
+  - rid: 328109986689056855
+  holofoilEffects:
+  - rid: 328110010024067180
+  triggers:
+  - rid: 328109942880338091
+  rarity: 1
+  normalizedPrice: 1.5
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: -1211794237
+        Data2: 1241862876
+        Data3: -1821560144
+        Data4: 966856108
+      Path: event:/RockBreak
+    vol: 0.3
+  upgradedItem: {fileID: 0}
+  isHolofoil: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328109942880338091
+      type: {class: CabbageHitAfterHangtimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        minHangtime: 1
+    - rid: 328109986689056855
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: rock
+        objectDescription: bonk cabbages for 2
+        quantity: 15
+        speedRange: {x: 5, y: 12}
+        spreadAngle: 35
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.45
+        spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        rotateVFXtoNormal: 1
+        velocityDirection: 0
+        worldVelocityDirection: {x: 0, y: 0}
+    - rid: 328110010024067180
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: rock
+        objectDescription: bonk cabbages for 2
+        quantity: 20
+        speedRange: {x: 5, y: 12}
+        spreadAngle: 35
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.45
+        spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        rotateVFXtoNormal: 1
+        velocityDirection: 0
+        worldVelocityDirection: {x: 0, y: 0}

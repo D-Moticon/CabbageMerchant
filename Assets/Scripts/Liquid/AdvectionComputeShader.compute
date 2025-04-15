@@ -1,0 +1,121 @@
+#pragma kernel GenerateAdvectionMap
+
+// Input buffers from main fluid simulation
+StructuredBuffer<float2> _Positions;
+StructuredBuffer<float2> _Velocities;
+StructuredBuffer<float> _Densities;
+
+// Grid data (read-only)
+StructuredBuffer<uint> _CellCount;     // How many particles in each cell
+StructuredBuffer<uint> _CellStart;     // Start index for each cell
+StructuredBuffer<uint> _SortedIndices; // Sorted particle indices
+
+// Output texture
+RWTexture2D<float4> _AdvectionMap;
+
+// Parameters
+float2 _DomainMin;
+float2 _DomainMax;
+float _KernelRadius;
+float _CellSize;
+int _NumCellsX;
+int _NumCellsY;
+float _VelocityScale = 1.0;
+float _DensityScale = 1.0;
+uint _TextureWidth;
+uint _TextureHeight;
+
+// SPH kernel for density contribution
+float Wpoly6_3D(float r, float h)
+{
+    if (r >= h) return 0.0;
+    float a = (h * h - r * r);
+    float alpha = 315.0 / (64.0 * 3.14159265359 * pow(h, 9));
+    return alpha * a * a * a;
+}
+
+// Helper: Get cell coordinates from world position
+void worldPos_To_Cell(float2 worldPos, out int cellX, out int cellY)
+{
+    float2 rel = worldPos - _DomainMin;
+    cellX = (int)floor(rel.x / _CellSize);
+    cellY = (int)floor(rel.y / _CellSize);
+
+    // Clamp to grid bounds
+    cellX = clamp(cellX, 0, _NumCellsX - 1);
+    cellY = clamp(cellY, 0, _NumCellsY - 1);
+}
+
+[numthreads(8, 8, 1)]
+void GenerateAdvectionMap(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= _TextureWidth || id.y >= _TextureHeight) return;
+
+    // Convert texture coordinate to world space
+    float2 texCoord = float2(id.xy) / float2(_TextureWidth, _TextureHeight);
+    float2 worldPos = lerp(_DomainMin, _DomainMax, texCoord);
+
+    float2 totalVelocity = 0;
+    float totalDensity = 0;
+    float totalWeight = 0;
+
+    // Get cell coordinates for this world position
+    int centerCellX, centerCellY;
+    worldPos_To_Cell(worldPos, centerCellX, centerCellY);
+
+    // Check 3x3 neighborhood of cells
+    for (int ny = centerCellY - 1; ny <= centerCellY + 1; ny++)
+    {
+        for (int nx = centerCellX - 1; nx <= centerCellX + 1; nx++)
+        {
+            // Skip out-of-bounds cells
+            if (nx < 0 || nx >= _NumCellsX || ny < 0 || ny >= _NumCellsY)
+                continue;
+
+            uint cellIndex = ny * _NumCellsX + nx;
+
+            // Get particle range for this cell
+            uint endIndex = _CellStart[cellIndex];
+            uint count = _CellCount[cellIndex];
+            uint startIndex = endIndex - count;
+
+            // Loop through particles in this cell
+            for (uint i = startIndex; i < endIndex; i++)
+            {
+                uint particleIndex = _SortedIndices[i];
+                float2 particlePos = _Positions[particleIndex];
+
+                float2 diff = worldPos - particlePos;
+                float r = length(diff);
+
+                if (r < _KernelRadius)
+                {
+                    float w = Wpoly6_3D(r, _KernelRadius);
+                    totalVelocity += _Velocities[particleIndex] * w;
+                    totalDensity += _Densities[particleIndex] * w;
+                    totalWeight += w;
+                }
+            }
+        }
+    }
+
+    // Normalize if we found any nearby particles
+    if (totalWeight > 0)
+    {
+        //totalVelocity /= totalWeight;
+        //totalDensity /= totalWeight;
+    }
+
+    // Pack data into texture
+    // RG: Normalized velocity
+    // B: Normalized density
+    // A: Valid data flag
+
+    float2 normVelocity = totalVelocity * _VelocityScale;
+    // Clamp velocity to [-1,1] range and remap to [0,1] for storage
+    normVelocity = clamp(normVelocity, -1, 1) * 0.5 + 0.5;
+
+    float normDensity = saturate(totalDensity * _DensityScale);
+
+    _AdvectionMap[id.xy] = float4(normVelocity, normDensity, totalWeight > 0 ? 1 : 0);
+}

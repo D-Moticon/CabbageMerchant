@@ -1,0 +1,588 @@
+﻿/////////////////////////////////////
+// FluidSim.compute
+/////////////////////////////////////
+
+SamplerState linearClamp
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Clamp;
+    AddressV = Clamp;
+};
+
+// List all kernels in this file.
+#pragma kernel AddForce
+#pragma kernel AdvectVelocity
+#pragma kernel AdvectDensity
+#pragma kernel ComputeDivergence
+#pragma kernel JacobiPressure
+#pragma kernel SubtractGradient
+#pragma kernel CopyBufferFloat    // for copying a float buffer (density or pressure)
+#pragma kernel CopyBufferFloat2   // for copying a float2 buffer (velocity)
+#pragma kernel CopyBufferFloat4
+#pragma kernel CopyDensityToTexture
+#pragma kernel ApplyEnvironment
+#pragma kernel DecayDensity
+#pragma kernel CopyColorToTexture
+#pragma kernel AdvectColor
+#pragma kernel DecayColor
+#pragma kernel AdvectTemperature
+#pragma kernel CopyTemperature
+#pragma kernel DecayTemperature
+#pragma kernel ApplyBuoyancy
+#pragma kernel ClampProperties
+#pragma kernel ApplyTurbulence
+
+//-----------------------------------------------------
+// Global parameters (set from C#)
+int _GridWidth;
+int _GridHeight;
+float _TimeStep;    // e.g. 0.125 (dynamically set from the manager)
+float _CellSize;    // size of each cell in simulation space
+float _Viscosity;   // (not used in this basic demo; could be used in a diffusion step)
+int _JacobiIterations;  // e.g. 40
+
+// External force parameters:
+int2 _ForcePosition;    // center (in grid coordinates) of the force injection
+int _ForceRadius;       // radius (in cells) of the force region
+float2 _ForceVector;    // force to add (velocity increment)
+float _DensityInjection;  // additional density to add
+float _DensityDecay; // A value like 0.99 will decay density over time.
+float4 _ForceColor; // The color to inject (RGBA)
+float _ColorDecay; // A value like 0.99 will decay the color over time.
+float _ExternalVelocityMult;
+float _TemperatureDecay;
+float _TemperatureInjection;
+float _BuoyancyCoefficient;   // Alpha: how strongly temperature differences produce upward force.
+float _WeightCoefficient;     // Beta: how strongly density differences produce downward force.
+float _AmbientTemperature;    // Ambient (or reference) temperature.
+float _AmbientDensity;        // Ambient (or reference) density.
+float _MinDensity;       // e.g., 0.0
+float _MaxDensity;       // e.g., 1.0 or some upper limit based on your sim
+float _MinTemperature;   // e.g., 0.0
+float _MaxTemperature;   // e.g., 1.0 (or a value you choose)
+float _MaxVelocity;
+float _TurbulenceAmplitude; // How strong the turbulence force is.
+float _TurbulenceScale;     // How “zoomed in” the turbulence noise is.
+float _TurbulenceTime;      // A time value (you can update it from the manager each frame).
+float _MaxColorBrightness;
+
+//-----------------------------------------------------
+// Buffers:
+// Velocity fields (each cell: float2)
+RWStructuredBuffer<float2> _Velocity;
+RWStructuredBuffer<float2> _VelocityTemp;  // used during advection
+
+// Density fields (each cell: float)
+RWStructuredBuffer<float> _Density;
+RWStructuredBuffer<float> _DensityTemp;    // used during advection
+
+// Temperature fields (each cell: float)
+RWStructuredBuffer<float> _Temperature;
+RWStructuredBuffer<float> _TemperatureTemp;
+
+// Pressure and divergence fields (each cell: float)
+RWStructuredBuffer<float> _Pressure;
+RWStructuredBuffer<float> _PressureTemp;  // used for Jacobi iterations
+RWStructuredBuffer<float> _Divergence;
+
+// Color fields (each cell: float4)
+RWStructuredBuffer<float4> _Color;
+RWStructuredBuffer<float4> _ColorTemp;
+
+float hash12(float2 p)
+{
+    float3 p3 = frac(float3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return frac((p3.x + p3.y) * p3.z);
+}
+
+// Smooth interpolation function.
+float fade(float t)
+{
+    return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
+}
+
+// Apply fade function component-wise.
+float2 fade2(float2 t)
+{
+    return float2(fade(t.x), fade(t.y));
+}
+
+// Generate a pseudo-random gradient vector based on the integer lattice point.
+float2 random2(float2 p)
+{
+    // Use dot products with large constants and then take the fractional part
+    float2 dotVal = float2(dot(p, float2(127.1, 311.7)),
+        dot(p, float2(269.5, 183.3)));
+    return frac(sin(dotVal) * 43758.5453);
+}
+
+// Compute 2D Perlin noise at coordinate p.
+float perlinNoise2D(float2 p)
+{
+    float2 i = floor(p);
+    float2 f = frac(p);
+    float2 u = fade2(f);
+
+    // Get gradient vectors for the four cell corners.
+    float2 g00 = random2(i) * 2.0 - 1.0;
+    float2 g10 = random2(i + float2(1, 0)) * 2.0 - 1.0;
+    float2 g01 = random2(i + float2(0, 1)) * 2.0 - 1.0;
+    float2 g11 = random2(i + float2(1, 1)) * 2.0 - 1.0;
+
+    // Compute the dot product between the gradient and the distance vector.
+    float n00 = dot(g00, f - float2(0.0, 0.0));
+    float n10 = dot(g10, f - float2(1.0, 0.0));
+    float n01 = dot(g01, f - float2(0.0, 1.0));
+    float n11 = dot(g11, f - float2(1.0, 1.0));
+
+    // Interpolate along x and then y.
+    float nx0 = lerp(n00, n10, u.x);
+    float nx1 = lerp(n01, n11, u.x);
+    return lerp(nx0, nx1, u.y);
+}
+
+//-----------------------------------------------------
+// Kernel: AddForce
+// Adds external force (to velocity) and extra density, color, and temperature in a circular area.
+[numthreads(8, 8, 1)]
+void AddForce(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    int2 pos = int2(x, y);
+    int2 diff = pos - _ForcePosition;
+    if (dot(diff, diff) <= _ForceRadius * _ForceRadius)
+    {
+        _Velocity[index] += _ForceVector;
+        _Density[index] += _DensityInjection;
+        _Color[index] = _ForceColor;  // Inject color.
+        _Temperature[index] = _TemperatureInjection;
+    }
+}
+
+//-----------------------------------------------------
+// Kernel: AdvectVelocity
+// Backtraces velocity to update the velocity field.
+[numthreads(8, 8, 1)]
+void AdvectVelocity(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    float2 pos = float2(x, y);
+    float2 vel = _Velocity[index];
+    // Backtrace using the time step.
+    float2 prevPos = pos - (_TimeStep * vel / _CellSize);
+    prevPos.x = clamp(prevPos.x, 0, _GridWidth - 1);
+    prevPos.y = clamp(prevPos.y, 0, _GridHeight - 1);
+
+    // Bilinear interpolation:
+    int x0 = (int)floor(prevPos.x);
+    int y0 = (int)floor(prevPos.y);
+    int x1 = min(x0 + 1, _GridWidth - 1);
+    int y1 = min(y0 + 1, _GridHeight - 1);
+    float2 v00 = _Velocity[y0 * _GridWidth + x0];
+    float2 v10 = _Velocity[y0 * _GridWidth + x1];
+    float2 v01 = _Velocity[y1 * _GridWidth + x0];
+    float2 v11 = _Velocity[y1 * _GridWidth + x1];
+    float tx = prevPos.x - x0;
+    float ty = prevPos.y - y0;
+    float2 interp = lerp(lerp(v00, v10, tx), lerp(v01, v11, tx), ty);
+
+    _VelocityTemp[index] = interp;
+}
+
+//-----------------------------------------------------
+// Kernel: AdvectDensity
+// Backtraces density using the velocity field.
+[numthreads(8, 8, 1)]
+void AdvectDensity(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    float2 pos = float2(x, y);
+    float2 vel = _Velocity[index];
+    float2 prevPos = pos - (_TimeStep * vel / _CellSize);
+    prevPos.x = clamp(prevPos.x, 0, _GridWidth - 1);
+    prevPos.y = clamp(prevPos.y, 0, _GridHeight - 1);
+
+    int x0 = (int)floor(prevPos.x);
+    int y0 = (int)floor(prevPos.y);
+    int x1 = min(x0 + 1, _GridWidth - 1);
+    int y1 = min(y0 + 1, _GridHeight - 1);
+    float d00 = _Density[y0 * _GridWidth + x0];
+    float d10 = _Density[y0 * _GridWidth + x1];
+    float d01 = _Density[y1 * _GridWidth + x0];
+    float d11 = _Density[y1 * _GridWidth + x1];
+    float tx = prevPos.x - x0;
+    float ty = prevPos.y - y0;
+    float interp = lerp(lerp(d00, d10, tx), lerp(d01, d11, tx), ty);
+
+    _DensityTemp[index] = interp;
+}
+
+//-----------------------------------------------------
+// Kernel: AdvectColor
+// Backtraces color using the velocity field.
+[numthreads(8, 8, 1)]
+void AdvectColor(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    float2 pos = float2(x, y);
+    float2 vel = _Velocity[index];
+    float2 prevPos = pos - (_TimeStep * vel / _CellSize);
+    prevPos.x = clamp(prevPos.x, 0, _GridWidth - 1);
+    prevPos.y = clamp(prevPos.y, 0, _GridHeight - 1);
+
+    int x0 = (int)floor(prevPos.x);
+    int y0 = (int)floor(prevPos.y);
+    int x1 = min(x0 + 1, _GridWidth - 1);
+    int y1 = min(y0 + 1, _GridHeight - 1);
+
+    int idx00 = y0 * _GridWidth + x0;
+    int idx10 = y0 * _GridWidth + x1;
+    int idx01 = y1 * _GridWidth + x0;
+    int idx11 = y1 * _GridWidth + x1;
+
+    float4 c00 = _Color[idx00];
+    float4 c10 = _Color[idx10];
+    float4 c01 = _Color[idx01];
+    float4 c11 = _Color[idx11];
+
+    float tx = prevPos.x - x0;
+    float ty = prevPos.y - y0;
+    float4 interp0 = lerp(c00, c10, tx);
+    float4 interp1 = lerp(c01, c11, tx);
+    float4 interpColor = lerp(interp0, interp1, ty);
+
+    _ColorTemp[index] = interpColor;
+}
+
+//-----------------------------------------------------
+// Kernel: ComputeDivergence
+// Computes the divergence of the velocity field.
+[numthreads(8, 8, 1)]
+void ComputeDivergence(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    /*float2 left = (x > 0) ? _Velocity[index - 1] : float2(0, 0);
+    float2 right = (x < _GridWidth - 1) ? _Velocity[index + 1] : float2(0, 0);
+    float2 bottom = (y > 0) ? _Velocity[index - _GridWidth] : float2(0, 0);
+    float2 top = (y < _GridHeight - 1) ? _Velocity[index + _GridWidth] : float2(0, 0);*/
+
+    float2 left = (x > 0) ? _Velocity[index - 1] : -_Velocity[index];
+    float2 right = (x < _GridWidth - 1) ? _Velocity[index + 1] : -_Velocity[index];
+    float2 bottom = (y > 0) ? _Velocity[index - _GridWidth] : -_Velocity[index];
+    float2 top = (y < _GridHeight - 1) ? _Velocity[index + _GridWidth] : -_Velocity[index];
+
+    float divergence = (right.x - left.x + top.y - bottom.y) / (2.0 * _CellSize);
+    _Divergence[index] = divergence;
+}
+
+//-----------------------------------------------------
+// Kernel: JacobiPressure
+// One Jacobi iteration to solve for pressure.
+[numthreads(8, 8, 1)]
+void JacobiPressure(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    /*float pL = (x > 0) ? _PressureTemp[index - 1] : 0;
+    float pR = (x < _GridWidth - 1) ? _PressureTemp[index + 1] : 0;
+    float pB = (y > 0) ? _PressureTemp[index - _GridWidth] : 0;
+    float pT = (y < _GridHeight - 1) ? _PressureTemp[index + _GridWidth] : 0;*/
+
+    float pL = (x > 0) ? _PressureTemp[index - 1] : _PressureTemp[index];
+    float pR = (x < _GridWidth - 1) ? _PressureTemp[index + 1] : _PressureTemp[index];
+    float pB = (y > 0) ? _PressureTemp[index - _GridWidth] : _PressureTemp[index];
+    float pT = (y < _GridHeight - 1) ? _PressureTemp[index + _GridWidth] : _PressureTemp[index];
+    
+    float divergence = _Divergence[index];
+
+    float newP = (pL + pR + pB + pT - divergence * _CellSize * _CellSize) / 4.0;
+    _Pressure[index] = newP;
+}
+
+//-----------------------------------------------------
+// Kernel: SubtractGradient
+// Makes the velocity field divergence-free by subtracting the pressure gradient.
+[numthreads(8, 8, 1)]
+void SubtractGradient(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    /*float pL = (x > 0) ? _Pressure[index - 1] : 0;
+    float pR = (x < _GridWidth - 1) ? _Pressure[index + 1] : 0;
+    float pB = (y > 0) ? _Pressure[index - _GridWidth] : 0;
+    float pT = (y < _GridHeight - 1) ? _Pressure[index + _GridWidth] : 0;*/
+
+    float pL = (x > 0) ? _Pressure[index - 1] : _Pressure[index];
+    float pR = (x < _GridWidth - 1) ? _Pressure[index + 1] : _Pressure[index];
+    float pB = (y > 0) ? _Pressure[index - _GridWidth] : _Pressure[index];
+    float pT = (y < _GridHeight - 1) ? _Pressure[index + _GridWidth] : _Pressure[index];
+    
+    float2 gradient;
+    gradient.x = (pR - pL) / (2.0 * _CellSize);
+    gradient.y = (pT - pB) / (2.0 * _CellSize);
+
+    _Velocity[index] -= gradient;
+}
+
+//-----------------------------------------------------
+// Kernel: CopyBufferFloat
+// Copies one float buffer to another.
+[numthreads(8, 8, 1)]
+void CopyBufferFloat(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Density[index] = _DensityTemp[index];
+}
+
+//-----------------------------------------------------
+// Kernel: CopyBufferFloat2
+// Copies one float2 buffer to another.
+[numthreads(8, 8, 1)]
+void CopyBufferFloat2(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Velocity[index] = _VelocityTemp[index];
+}
+
+RWTexture2D<float4> _OutputTexture;  // This texture is created on the CPU.
+[numthreads(8, 8, 1)]
+void CopyDensityToTexture(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight)
+        return;
+    int index = y * _GridWidth + x;
+    float d = _Density[index];
+    float4 color = float4(d, d, d, 1.0);
+    _OutputTexture[int2(x, y)] = color;
+}
+
+
+Texture2D<float4> _SolidTexture;             // Solid objects mask (e.g. obstacles)
+Texture2D<float4> _ObjectVelocityTexture;      // Object velocity information
+
+[numthreads(8, 8, 1)]
+void ApplyEnvironment(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    float2 uv = (float2(x, y) + 0.5) / float2(_GridWidth, _GridHeight);
+    float4 solidColor = _SolidTexture.SampleLevel(linearClamp, uv, 0);
+    float obstacle = solidColor.r;
+
+    float4 objVelColor = _ObjectVelocityTexture.SampleLevel(linearClamp, uv, 0);
+    float2 measuredVel = (objVelColor.rg - 0.5) * 2.0;
+    float2 extVelocity = measuredVel * _ExternalVelocityMult;
+
+    if (length(extVelocity) < 0.01)
+        extVelocity = float2(0, 0);
+
+    if (obstacle < 0.1)
+    {
+        _Velocity[index] = float2(0, 0);
+        _Velocity[index] = -_Velocity[index];
+    }
+    else
+    {
+        _Velocity[index] += extVelocity;
+    }
+}
+
+[numthreads(8, 8, 1)]
+void DecayDensity(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Density[index] *= pow(_DensityDecay, _TimeStep);
+}
+
+[numthreads(8, 8, 1)]
+void CopyColorToTexture(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    float4 cellColor = _Color[index];
+    float density = _Density[index];
+    float4 finalColor = saturate(cellColor * density);
+    if(length(finalColor) > _MaxColorBrightness)
+    {
+        float4 dir = normalize(finalColor);
+        finalColor = dir*_MaxColorBrightness;
+    }
+    _OutputTexture[int2(x, y)] = finalColor;
+}
+
+[numthreads(8, 8, 1)]
+void CopyBufferFloat4(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Color[index] = _ColorTemp[index];
+}
+
+[numthreads(8, 8, 1)]
+void DecayColor(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Color[index] *= pow(_ColorDecay, _TimeStep);
+}
+
+[numthreads(8, 8, 1)]
+void AdvectTemperature(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    float2 pos = float2(x, y);
+    float2 vel = _Velocity[index];
+    float2 prevPos = pos - (_TimeStep * vel / _CellSize);
+    prevPos.x = clamp(prevPos.x, 0, _GridWidth - 1);
+    prevPos.y = clamp(prevPos.y, 0, _GridHeight - 1);
+
+    int x0 = (int)floor(prevPos.x);
+    int y0 = (int)floor(prevPos.y);
+    int x1 = min(x0 + 1, _GridWidth - 1);
+    int y1 = min(y0 + 1, _GridHeight - 1);
+
+    int idx00 = y0 * _GridWidth + x0;
+    int idx10 = y0 * _GridWidth + x1;
+    int idx01 = y1 * _GridWidth + x0;
+    int idx11 = y1 * _GridWidth + x1;
+
+    float t00 = _Temperature[idx00];
+    float t10 = _Temperature[idx10];
+    float t01 = _Temperature[idx01];
+    float t11 = _Temperature[idx11];
+
+    float tx = prevPos.x - x0;
+    float ty = prevPos.y - y0;
+    float interp0 = lerp(t00, t10, tx);
+    float interp1 = lerp(t01, t11, tx);
+    float interpTemperature = lerp(interp0, interp1, ty);
+
+    _TemperatureTemp[index] = interpTemperature;
+}
+
+[numthreads(8, 8, 1)]
+void CopyTemperature(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Temperature[index] = _TemperatureTemp[index];
+}
+
+[numthreads(8, 8, 1)]
+void DecayTemperature(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Temperature[index] *= pow(_TemperatureDecay,_TimeStep);
+}
+
+[numthreads(8, 8, 1)]
+void ApplyBuoyancy(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    float T = _Temperature[index];
+    float d = _Density[index];
+    float densityDiff = d - _AmbientDensity;
+    densityDiff = clamp(densityDiff, -0.5, 0.5);
+    float buoyancyForce = _BuoyancyCoefficient * (T - _AmbientTemperature) - _WeightCoefficient * densityDiff;
+    //buoyancyForce = clamp(buoyancyForce, -100.0, 100.0);
+    // Multiply the force by _TimeStep to scale the velocity change appropriately.
+    _Velocity[index].y += buoyancyForce * _TimeStep;
+}
+
+[numthreads(8, 8, 1)]
+void ClampProperties(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+    _Density[index] = clamp(_Density[index], _MinDensity, _MaxDensity);
+    _Temperature[index] = clamp(_Temperature[index], _MinTemperature, _MaxTemperature);
+    if (length(_Velocity[index])>_MaxVelocity)
+    {
+        float2 dir = normalize(_Velocity[index]);
+        _Velocity[index] = dir*_MaxVelocity;
+    }
+}
+
+[numthreads(8, 8, 1)]
+void ApplyTurbulence(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    if (x >= _GridWidth || y >= _GridHeight) return;
+    int index = y * _GridWidth + x;
+
+    // Compute UV coordinates at the center of the cell.
+    float2 uv = (float2(x, y) + 0.5) / float2(_GridWidth, _GridHeight);
+
+    // Compute two noise values for X and Y components.
+    // (You can offset the input differently to get different noise patterns for X and Y.)
+    float noiseX = perlinNoise2D(uv * _TurbulenceScale + float2(_TurbulenceTime, _TurbulenceTime));
+    float noiseY = perlinNoise2D(uv * _TurbulenceScale + float2(-_TurbulenceTime, _TurbulenceTime));
+
+    // The perlin noise returns values roughly in [-1,1] (depending on your gradients).
+    // Multiply by the turbulence amplitude to control strength.
+    float2 turbulence = float2(noiseX, noiseY) * _TurbulenceAmplitude;
+
+    // Add the turbulence to the velocity.
+    _Velocity[index] += turbulence * _TimeStep;
+}

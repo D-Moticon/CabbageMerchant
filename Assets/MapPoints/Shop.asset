@@ -15,4 +15,4 @@ MonoBehaviour:
   sceneName: Shop
   displayName: Shop
   description: For all your cabbage farming needs!
-  mapIcon: {fileID: 21300000, guid: 348af281573339b46853cd036d393e44, type: 3}
+  mapIcon: {fileID: 21300000, guid: 93ee6be300b55ef4b9d9b268f5d56761, type: 3}

@@ -166,6 +166,11 @@ public class GameStateMachine : MonoBehaviour
 
     public void SetRoundGoal()
     {
+        if (MapSingleton.Instance == null)
+        {
+            //return;
+        }
+        
         int mapLayer = MapSingleton.Instance.mapManager.currentLayerIndex;
         double firstRoundGoal = MapSingleton.Instance.mapManager.currentMapBlueprint.firstRoundGoal;
         float goalBase = MapSingleton.Instance.mapManager.currentMapBlueprint.goalBase;

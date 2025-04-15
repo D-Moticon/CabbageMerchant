@@ -15195,8 +15195,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d52d11ce762a52e418990e271f381f5b, type: 3}
+  m_SortingOrder: 8
+  m_Sprite: {fileID: 21300000, guid: 9a08b2b5699be4b469c37cabe0a26fcb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20201,6 +20201,7 @@ MonoBehaviour:
       Path: event:/CoinKaching
     vol: 0.5
   purchaseFloater: {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}
+  purchaseFloaterColor: {r: 1, g: 1, b: 1, a: 1}
   hoveredFeel: {fileID: 6211827927709061048}
   hoveredSFX:
     sfx:

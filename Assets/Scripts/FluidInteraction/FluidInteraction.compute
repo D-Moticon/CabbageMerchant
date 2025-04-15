@@ -1,0 +1,136 @@
+// FluidInteraction.compute
+
+// Define the structure that will be appended to the results buffer.
+struct InteractionResult
+{
+    float2 pos;    // Pixel coordinate (x,y)
+    int2 types;    // (center pixel fluid type, majority neighbor fluid type)
+};
+
+#pragma kernel CSMain
+#pragma target 5.0
+
+// The simulation texture (rendered from your fluid simulation)
+Texture2D<float4> _FluidTexture;
+
+// Append buffer for interaction results.
+AppendStructuredBuffer<InteractionResult> _Results;
+
+// Uniform parameters.
+int _Width;
+int _Height;
+float _ColorThreshold;   // e.g. 0.1
+
+// Fluid color properties (set these from C#)
+// For example, _Type1Color might be blue (water), _Type2Color red (lava), _Type3Color green (goo)
+// You can define as many as you need; here we use 3 nonzero types.
+float4 _Type1Color;
+float4 _Type2Color;
+float4 _Type3Color;
+float4 _Type4Color;
+
+// Helper function: Given a pixel's color, return its fluid type as an int.
+// Returns 1 if the pixel is approximately equal to _Type1Color,
+// 2 if approximately equal to _Type2Color,
+// 3 if approximately equal to _Type3Color,
+// and 0 if none match.
+int GetFluidType(float4 col)
+{
+    /*_Type1Color = (0,0,1,1);
+    _Type2Color = (1,0,0,1);
+    _Type3Color = (0,1,0,1);
+    _Type4Color = (.5,0.2,0.0,1);*/
+    
+    // Compute the sum of absolute differences for each fluid type.
+    float diff1 = abs(col.r - _Type1Color.r) + abs(col.g - _Type1Color.g) + abs(col.b - _Type1Color.b);
+    float diff2 = abs(col.r - _Type2Color.r) + abs(col.g - _Type2Color.g) + abs(col.b - _Type2Color.b);
+    float diff3 = abs(col.r - _Type3Color.r) + abs(col.g - _Type3Color.g) + abs(col.b - _Type3Color.b);
+    float diff4 = abs(col.r - _Type4Color.r) + abs(col.g - _Type4Color.g) + abs(col.b - _Type4Color.b);
+    
+    // Check if any of these differences are below the threshold.
+    // (The order of these if-statements determines priority in case more than one match.)
+    if (diff1 < _ColorThreshold)
+        return 1;
+    else if (diff2 < _ColorThreshold)
+        return 2;
+    else if (diff3 < _ColorThreshold)
+        return 3;
+    else if (diff4 < _ColorThreshold)
+        return 4;
+    else
+        return 0;
+}
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint x = id.x;
+    uint y = id.y;
+    if (x >= _Width || y >= _Height)
+        return;
+
+    // Sample the current pixel.
+    float4 pixelColor = _FluidTexture.Load(int3(x, y, 0));
+    
+    // Determine the fluid type of the center pixel.
+    int pixelType = GetFluidType(pixelColor);
+    
+    // If the pixel is not fluid (type 0), do nothing.
+    if (pixelType == 0)
+        return;
+
+    // We'll count fluid types among the 8 neighboring pixels (only those that are nonzero and differ from pixelType).
+    int countType1 = 0;
+    int countType2 = 0;
+    int countType3 = 0;
+    int countType4 = 0;
+    
+    // Loop over the 3x3 neighborhood.
+    for (int dy = -1; dy <= 1; dy++)
+    {
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            // Skip the center pixel.
+            if (dx == 0 && dy == 0)
+                continue;
+            
+            int nx = int(x) + dx;
+            int ny = int(y) + dy;
+            if (nx < 0 || nx >= _Width || ny < 0 || ny >= _Height)
+                continue;
+            
+            float4 neighborColor = _FluidTexture.Load(int3(nx, ny, 0));
+            int neighborType = GetFluidType(neighborColor);
+            
+            // Only count neighbors that are fluid and different from the center pixel.
+            if (neighborType != 0 && neighborType != pixelType)
+            {
+                if (neighborType == 1)
+                    countType1++;
+                else if (neighborType == 2)
+                    countType2++;
+                else if (neighborType == 3)
+                    countType3++;
+                else if (neighborType == 4)
+                    countType4++;
+            }
+        }
+    }
+    
+    // Determine the majority neighbor type.
+    int majorityNeighborType = 0;
+    int maxCount = 0;
+    if (countType1 > maxCount) { majorityNeighborType = 1; maxCount = countType1; }
+    if (countType2 > maxCount) { majorityNeighborType = 2; maxCount = countType2; }
+    if (countType3 > maxCount) { majorityNeighborType = 3; maxCount = countType3; }
+    if (countType4 > maxCount) { majorityNeighborType = 4; maxCount = countType4; }
+    
+    // If we found a majority neighbor type (i.e. nonzero), then append an interaction result.
+    if (majorityNeighborType != 0)
+    {
+        InteractionResult result;
+        result.pos = float2(x, y);
+        result.types = int2(pixelType, majorityNeighborType);
+        _Results.Append(result);
+    }
+}

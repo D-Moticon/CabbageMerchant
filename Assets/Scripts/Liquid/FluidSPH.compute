@@ -1,0 +1,475 @@
+﻿#pragma kernel ClearCells
+#pragma kernel ComputeCellIndices
+#pragma kernel NaivePrefixSum
+#pragma kernel WriteSorted
+#pragma kernel ComputeDensityPressure
+#pragma kernel ComputeForcesIntegrate
+#pragma target 4.5
+#pragma kernel SpawnFromTexture
+
+//----------------------------------------
+// Buffers & Global Params
+//----------------------------------------
+// Particle data
+RWStructuredBuffer<float2> _Positions;
+RWStructuredBuffer<float2> _Velocities;
+RWStructuredBuffer<float>  _Densities;
+RWStructuredBuffer<float>  _Pressures;
+
+// Grid data
+RWStructuredBuffer<uint>   _CellCount;     // _CellCount[cellID]
+RWStructuredBuffer<uint>   _CellStart;     // prefix sum => start index for each cell in _SortedIndices
+RWStructuredBuffer<uint2>  _ParticleCellAndType;  // x: cell index, y: particle type (nonzero if alive)
+RWStructuredBuffer<uint>   _SortedIndices;
+
+// Collision / domain
+Texture2D<float4> _CollisionMap;
+SamplerState sampler_CollisionMap;
+float _CollisionMapWidth;
+float _CollisionMapHeight;
+Texture2D<float4> _ForceMap;
+SamplerState sampler_ForceMap;
+
+//Spawning
+Texture2D<float4> _SpawnTexture;
+SamplerState sampler_SpawnTexture;
+int2 _SpawnTextureSize;
+float2 _SpawnWorldPos;
+float _SpawnThreshold;
+float _SpawnScale;
+
+// Define a structure for spawn results.
+struct SpawnParticleData
+{
+    float2 pos;   // world position for the new particle
+    float2 vel;   // initial velocity (e.g., could be set to zero)
+    uint type;    // particle type (e.g. 1 = water, 2 = lava, etc.)
+};
+AppendStructuredBuffer<SpawnParticleData> _SpawnResults;
+
+//----------------------------------------
+// Simulation Constants
+//----------------------------------------
+float _DeltaTime;
+int   _ParticleCount;
+
+float2 _DomainMin;
+float2 _DomainMax;
+float  _ParticleRadius;
+float  _Restitution;
+float2 _Gravity;
+
+// SPH
+float  _H;               // kernel radius
+float  _RestDensity;     // base rest density (will be scaled by multiplier)
+float  _ParticleMass;
+float  _Stiffness;
+float  _ExternalForceMult;
+float _DragCoefficient = 0.1f; // For example, 0.1 for 10% drag per second.
+
+// Additional Clamps
+float  _MaxDensity;
+float  _MaxPressure;
+float  _MinLengthForDensity;
+float  _MaxViscosityForce;
+
+//----------------------------------------
+// Grid Params
+//----------------------------------------
+int   _NumCells;
+int   _NumCellsX;
+int   _NumCellsY;
+float _CellSize;
+
+//----------------------------------------
+// Fluid Type Parameters (using multipliers)
+//----------------------------------------
+//Fluid Types are as follows
+//0: empty
+//1: water
+//2: lava
+//3: goo
+//4: stationary grime
+static float _ViscosityValues[6] = {1.0f, 50.0f, 3000.0f, 1500.0f, 1500.0f, 100.0f};
+static float _DensityMultipliers[6] = { 1.0f, 1.0f, 2.0f, 1.5f, 1.0f, 1.0f};
+static int _DoesFluidTypeMove[6] = {0, 1, 1, 1, 0, 1};
+// For example, type 0 (dead) might be unused, and for types 1-3, you can have multipliers like 1.0, 1.2, etc.
+
+
+
+//----------------------------------------
+// SPH Kernels (3D forms used for 2D demo)
+//----------------------------------------
+float Wpoly6_3D(float r, float h)
+{
+    if (r >= h) return 0.0;
+    float a = (h * h - r * r);
+    float alpha = 315.0 / (64.0 * 3.14159265359 * pow(h, 9));
+    return alpha * a * a * a;
+}
+
+float dWspiky_3D(float r, float h)
+{
+    if (r >= h) return 0.0;
+    float alpha = -45.0 / (3.14159265359 * pow(h, 6));
+    float hr = (h - r);
+    return alpha * hr * hr;
+}
+
+float lapWvisc_3D(float r, float h)
+{
+    if (r >= h) return 0.0;
+    float alpha = 45.0 / (3.14159265359 * pow(h, 6));
+    return alpha * (h - r);
+}
+
+//----------------------------------------
+// 1) ClearCells Kernel
+//----------------------------------------
+[numthreads(256, 1, 1)]
+void ClearCells(uint id : SV_DispatchThreadID)
+{
+    if (id >= _NumCells) return;
+    _CellCount[id] = 0;
+}
+
+//----------------------------------------
+// 2) ComputeCellIndices Kernel
+//----------------------------------------
+[numthreads(256, 1, 1)]
+void ComputeCellIndices(uint id : SV_DispatchThreadID)
+{
+    if (id >= _ParticleCount) return;
+    if (_ParticleCellAndType[id].y == 0) return;
+
+    float2 pos = _Positions[id];
+    float2 rel = pos - _DomainMin;
+    int cellX = (int)floor(rel.x / _CellSize);
+    int cellY = (int)floor(rel.y / _CellSize);
+
+    cellX = clamp(cellX, 0, _NumCellsX - 1);
+    cellY = clamp(cellY, 0, _NumCellsY - 1);
+    uint cellID = cellY * _NumCellsX + cellX;
+
+    uint oldCount;
+    InterlockedAdd(_CellCount[cellID], 1, oldCount);
+    _ParticleCellAndType[id].x = cellID;
+}
+
+//----------------------------------------
+// 3) NaivePrefixSum Kernel
+//----------------------------------------
+[numthreads(1, 1, 1)]
+void NaivePrefixSum(uint id : SV_DispatchThreadID)
+{
+    if (id != 0) return;
+    uint runningSum = 0;
+    for (uint i = 0; i < _NumCells; i++)
+    {
+        uint count = _CellCount[i];
+        _CellStart[i] = runningSum;
+        runningSum += count;
+    }
+}
+
+//----------------------------------------
+// 4) WriteSorted Kernel
+//----------------------------------------
+[numthreads(256, 1, 1)]
+void WriteSorted(uint id : SV_DispatchThreadID)
+{
+    if (id >= _ParticleCount) return;
+    uint cellID = _ParticleCellAndType[id].x;
+    uint address;
+    InterlockedAdd(_CellStart[cellID], 1, address);
+    _SortedIndices[address] = id;
+}
+
+//----------------------------------------
+// Helper: Reconstruct cellX/cellY from cellID
+//----------------------------------------
+void cellID_To_XY(uint cellID, out int cx, out int cy)
+{
+    cy = (int)(cellID / _NumCellsX);
+    cx = (int)(cellID % _NumCellsX);
+}
+
+//----------------------------------------
+// 5) ComputeDensityPressure Kernel
+//----------------------------------------
+[numthreads(256, 1, 1)]
+void ComputeDensityPressure(uint id : SV_DispatchThreadID)
+{
+    if (id >= _ParticleCount) return;
+    
+    int fluidType = _ParticleCellAndType[id].y;
+    if (fluidType == 0) return;
+    
+    float2 posI = _Positions[id];
+    float density = 0.0;
+
+    uint myCell = _ParticleCellAndType[id].x;
+    int cx, cy;
+    cellID_To_XY(myCell, cx, cy);
+
+    // Loop over 3x3 neighborhood.
+    for (int ny = cy - 1; ny <= cy + 1; ny++)
+    {
+        for (int nx = cx - 1; nx <= cx + 1; nx++)
+        {
+            if (nx < 0 || nx >= _NumCellsX || ny < 0 || ny >= _NumCellsY) continue;
+            uint neighborCellID = (uint)(ny * _NumCellsX + nx);
+            uint end = _CellStart[neighborCellID];
+            uint count = _CellCount[neighborCellID];
+            uint start = end - count;
+            for (uint k = start; k < end; k++)
+            {
+                uint j = _SortedIndices[k];
+                if (j == id) continue;
+                if (_ParticleCellAndType[j].y == 0) continue;
+                float2 diff = posI - _Positions[j];
+                float r = length(diff);
+                r = clamp(r, _MinLengthForDensity, 99999.0);
+                if (r < _H)
+                {
+                    // Multiply the neighbor's mass by its density multiplier.
+                    int type_j = int(_ParticleCellAndType[j].y);
+                    float densityMult_j = _DensityMultipliers[type_j];
+                    density += (_ParticleMass * densityMult_j) * Wpoly6_3D(r, _H);
+                }
+            }
+        }
+    }
+
+    // Get this particle's density multiplier.
+    int type_i = int(_ParticleCellAndType[id].y);
+    float densityMult_i = _DensityMultipliers[type_i];
+
+    // Use the per-type multiplier to adjust the rest density.
+    density = clamp(density + (_RestDensity * densityMult_i * 0.01f),
+                    _RestDensity * densityMult_i * 0.01f,
+                    _MaxDensity);
+
+    _Densities[id] = density;
+    float pres = _Stiffness * (density - (_RestDensity * densityMult_i));
+    pres = clamp(pres, 0.0f, _MaxPressure);
+    _Pressures[id] = pres;
+}
+
+//----------------------------------------
+// 6) ComputeForcesIntegrate Kernel
+//----------------------------------------
+[numthreads(256, 1, 1)]
+void ComputeForcesIntegrate(uint id : SV_DispatchThreadID)
+{
+    if (id >= _ParticleCount) return;
+
+    int fluidType = _ParticleCellAndType[id].y;
+    if (fluidType == 0) return;
+    if(!_DoesFluidTypeMove[fluidType])
+    {
+        _Velocities[id] = float2(0.00000, -0.000001);
+        _Densities[id] = _DensityMultipliers[fluidType]*_RestDensity;
+        _Positions[id] = float2(_Positions[id].x, _Positions[id].y-0.0000f);
+         return;
+    }
+
+    float2 posI = _Positions[id];
+    float2 velI = _Velocities[id];
+    float densI = _Densities[id];
+    float pressI = _Pressures[id];
+
+    float2 pressureForce = 0;
+    float2 viscosityForce = 0;
+    float2 externalForce = 0;
+
+    uint myCell = _ParticleCellAndType[id].x;
+    int cx, cy;
+    cellID_To_XY(myCell, cx, cy);
+
+    for (int ny = cy - 1; ny <= cy + 1; ny++)
+    {
+        for (int nx = cx - 1; nx <= cx + 1; nx++)
+        {
+            if (nx < 0 || nx >= _NumCellsX || ny < 0 || ny >= _NumCellsY) continue;
+            uint neighborCellID = (uint)(ny * _NumCellsX + nx);
+            uint end = _CellStart[neighborCellID];
+            uint count = _CellCount[neighborCellID];
+            uint start = end - count;
+            for (uint k = start; k < end; k++)
+            {
+                uint j = _SortedIndices[k];
+                if (j == id) continue;
+                if (_ParticleCellAndType[j].y == 0) continue;
+                float2 posJ = _Positions[j];
+                float r = distance(posI, posJ);
+                if (r < _H && r > 0.0f)
+                {
+                    float densJ = _Densities[j];
+                    float pressJ = _Pressures[j];
+                    float2 velJ = _Velocities[j];
+
+                    // Pressure force remains the same except that we use effective mass.
+                    int type_i = int(_ParticleCellAndType[id].y);
+                    int type_j = int(_ParticleCellAndType[j].y);
+                    float effMass_i = _ParticleMass * _DensityMultipliers[type_i];
+                    float effMass_j = _ParticleMass * _DensityMultipliers[type_j];
+                    float effectiveMass = 0.5 * (effMass_i + effMass_j);
+
+                    float dW = dWspiky_3D(r, _H);
+                    float2 dir = (posI - posJ) / r;
+                    float scalar = effectiveMass * (pressI + pressJ) / (2.0f * densJ);
+                    pressureForce -= scalar * dW * dir;
+
+                    // Viscosity force:
+                    float effectiveViscosity = 0.5 * (_ViscosityValues[type_i] + _ViscosityValues[type_j]);
+                    float lap = lapWvisc_3D(r, _H);
+                    viscosityForce += effectiveViscosity * effectiveMass * (velJ - velI) * (lap / densJ);
+
+                    if (length(viscosityForce) > _MaxViscosityForce)
+                    {
+                        float2 viscDir = normalize(viscosityForce);
+                        viscosityForce = viscDir * _MaxViscosityForce;
+                    }
+                }
+            }
+        }
+    }
+
+
+    //External Force Map
+    float2 fuv = (posI - _DomainMin) / (_DomainMax - _DomainMin);
+    if (fuv.x >= 0 && fuv.x <= 1 && fuv.y >= 0 && fuv.y <= 1)
+    {
+        float4 forceSample = _ForceMap.SampleLevel(sampler_ForceMap, fuv, 0);
+        float2 exforce = (forceSample.rg - 0.5f) * 2.0f;
+        float exforceMag = length(exforce);
+        if (exforceMag > 0.2f)
+        {
+            velI = exforce * _ExternalForceMult;
+        }
+    }
+
+    float2 accel = (pressureForce + viscosityForce + externalForce) / densI;
+    accel += _Gravity;
+    
+    velI += accel * _DeltaTime;
+    
+    // --- Apply drag ---
+    // Multiply the velocity by a factor that reduces it over time.
+    // Ensure that (1.0 - _DragCoefficient * _DeltaTime) stays non-negative.
+    float dragFactor = saturate(1.0 - _DragCoefficient * _DeltaTime);
+    velI *= dragFactor;
+    
+    float2 newPos = posI + velI * _DeltaTime;
+
+    // Domain collision.
+    if (newPos.x < _DomainMin.x + _ParticleRadius)
+    {
+        newPos.x = _DomainMin.x + _ParticleRadius;
+        velI.x = -velI.x * _Restitution;
+    }
+    else if (newPos.x > _DomainMax.x - _ParticleRadius)
+    {
+        newPos.x = _DomainMax.x - _ParticleRadius;
+        velI.x = -velI.x * _Restitution;
+    }
+    if (newPos.y < _DomainMin.y + _ParticleRadius)
+    {
+        newPos.y = _DomainMin.y + _ParticleRadius;
+        velI.y = -velI.y * _Restitution;
+    }
+    else if (newPos.y > _DomainMax.y - _ParticleRadius)
+    {
+        newPos.y = _DomainMax.y - _ParticleRadius;
+        velI.y = -velI.y * _Restitution;
+    }
+
+
+    //Environment Collision
+    float2 uv = (newPos - _DomainMin) / (_DomainMax - _DomainMin);
+
+    if (uv.x >= 0 && uv.x <= 1 && uv.y >= 0 && uv.y <= 1)
+    {
+        // Sample the collision map. (Inverting if needed.)
+        float4 colSample = _CollisionMap.SampleLevel(sampler_CollisionMap, uv, 0);
+        colSample = 1.0 - colSample; 
+
+        if (colSample.r > 0.9f)
+        {
+            // Compute the collision point in world space using the UV coordinate.
+            float2 collisionPoint = _DomainMin + uv * (_DomainMax - _DomainMin);
+            
+            // Estimate the surface normal using central differences.
+            // (Assumes _CollisionMapWidth and _CollisionMapHeight are defined with your texture size.)
+            float2 texelSize = 2.0 / float2(_CollisionMapWidth, _CollisionMapHeight);
+            //texelSize = 0.0f;
+        
+            // Sample slightly offset in each direction (apply same inversion if needed).
+            float leftSample   = 1.0 - _CollisionMap.SampleLevel(sampler_CollisionMap, uv - float2(texelSize.x, 0), 0).r;
+            float rightSample  = 1.0 - _CollisionMap.SampleLevel(sampler_CollisionMap, uv + float2(texelSize.x, 0), 0).r;
+            float bottomSample = 1.0 - _CollisionMap.SampleLevel(sampler_CollisionMap, uv - float2(0, texelSize.y), 0).r;
+            float topSample    = 1.0 - _CollisionMap.SampleLevel(sampler_CollisionMap, uv + float2(0, texelSize.y), 0).r;
+        
+            // Compute the gradient (which approximates the surface normal).
+            float2 gradient = float2(rightSample - leftSample, topSample - bottomSample);
+            float gradLength = length(gradient);
+            float2 normal = normalize(gradient);
+
+            if(gradLength < 1e-4)
+            {
+                // Fallback normal if gradient is nearly zero.
+                normal = normalize(velI) * -1.0f;
+                velI = velI * -1.0f * _Restitution;
+                float penetrationOffset = 0.05;
+                newPos = posI +normal * penetrationOffset;
+            }
+            else
+            {
+                normal = -gradient / gradLength;
+                float penetrationOffset = 0.05;  // Adjust based on your simulation scale
+                newPos = posI + normal * penetrationOffset;
+                velI = reflect(velI, normal) * _Restitution;
+            }
+
+            
+        }
+    }
+
+    _Positions[id] = newPos;
+    _Velocities[id] = velI;
+}
+
+[numthreads(8,8,1)]
+void SpawnFromTexture(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    // Ensure we stay within texture bounds.
+    if (x >= _SpawnTextureSize.x || y >= _SpawnTextureSize.y)
+        return;
+
+    // Sample the spawn texture at (x,y).
+    // (You could also use SampleLevel if you prefer bilinear filtering.)
+    float4 sample = _SpawnTexture.Load(int3(x, y, 0));
+    
+    // If the sample meets a condition (e.g., red channel above threshold) then spawn a particle.
+    if (sample.r > _SpawnThreshold)
+    {
+        SpawnParticleData sp;
+        // Compute the UV coordinate (0..1) from pixel coordinate.
+        float2 uv = float2(x, y) / float2(_SpawnTextureSize);
+        // Offset from the center (range -0.5 to 0.5)
+        float2 offsetUV = uv - 0.5;
+        // Convert to world-space offset.
+        float2 worldOffset = offsetUV * _SpawnScale;
+        // Compute the final world position.
+        sp.pos = _SpawnWorldPos + worldOffset;
+        // Set an initial velocity (here we set it to zero, but you could derive something from the texture, noise, etc.)
+        sp.vel = float2(0.0, 0.0);
+        // Set the particle type based on, for example, the sample alpha (or hardcode it).
+        sp.type = 1; // for example, water.
+        
+        _SpawnResults.Append(sp);
+    }
+}

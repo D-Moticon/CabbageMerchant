@@ -15,4 +15,4 @@ MonoBehaviour:
   sceneName: Library
   displayName: Library
   description: Read a book to get a free perk
-  mapIcon: {fileID: 21300000, guid: 476141dd10bf1e84e84c285810df4e2b, type: 3}
+  mapIcon: {fileID: 21300000, guid: 631b6bc4be5a5974a8d7f7008bcc2123, type: 3}

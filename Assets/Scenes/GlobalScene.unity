@@ -457,7 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5583b45d25597bb4c9608af5a7038426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingSceneName: Map
+  startingSceneName: Library
   gameSceneName: CabbageShoot
   shopSceneName: Shop
   mapSceneName: Map
@@ -21410,7 +21410,7 @@ Transform:
   m_GameObject: {fileID: 860745741}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.68, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26429,7 +26429,7 @@ Transform:
   m_GameObject: {fileID: 993945557}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.93, y: 0, z: 0}
+  m_LocalPosition: {x: 6.7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26456,7 +26456,7 @@ MonoBehaviour:
   itemSlots: []
   rows: 4
   columns: 2
-  spacing: {x: 1.6, y: 1.5}
+  spacing: {x: 2.05, y: 1.7}
   slotSize: {x: 1.5, y: 1.25}
   startingItems: []
   sellCollider: {fileID: 5947625663896968995}
@@ -32447,7 +32447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6228a80f1046d4a9a63610bd53ea04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingCoins: 0
+  startingCoins: 500
   startingBalls: 3
   currentBalls: 3
   extraStartingCabbages: 0
@@ -53578,12 +53578,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: be05a4feb0aff874a9d4ce81f4986e29, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c8a62c035894f9a4fbcd891995a429b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 8.597894, y: 8.256132}
+  m_Size: {x: 8.597894, y: 6.18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -58616,7 +58616,7 @@ Transform:
   m_GameObject: {fileID: 5707916842070806920}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.72, z: 0}
+  m_LocalPosition: {x: 0, y: -4.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

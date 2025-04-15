@@ -8,6 +8,9 @@ public class GameSingleton : MonoBehaviour
     public GameStateMachine gameStateMachine;
     public BoardMetrics boardMetrics;
     public Transform gameSceneParent;
+    public GasFluidManager gasSim;
+    public LiquidManager liquidSim;
+    public FluidRTReferences fluidRTReferences;
     
     private void OnEnable()
     {

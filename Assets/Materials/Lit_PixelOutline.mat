@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ENABLEPIXELOUTLINE_ON
+  - _ENABLESHADOW_ON
   - _SHADERFADING_NONE
   - _SHADERSPACE_UV
   - _TEXTURELAYER1SHEETTOGGLE_ON
@@ -231,7 +232,7 @@ Material:
     - _EnableRecolorRGBYCP: 0
     - _EnableSaturation: 0
     - _EnableScreenTiling: 0
-    - _EnableShadow: 0
+    - _EnableShadow: 1
     - _EnableSharpen: 0
     - _EnableShiftHue: 0
     - _EnableShifting: 0
@@ -590,8 +591,8 @@ Material:
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _ScreenTilingOffset: {r: 0, g: 0, b: 0, a: 0}
     - _ScreenTilingScale: {r: 1, g: 1, b: 0, a: 0}
-    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
-    - _ShadowOffset: {r: 0.05, g: -0.05, b: 0, a: 0}
+    - _ShadowColor: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 0}
+    - _ShadowOffset: {r: -0.34, g: -0.23, b: 0, a: 0}
     - _ShiftingColorA: {r: 1.498039, g: 0, b: 0, a: 0}
     - _ShiftingColorB: {r: 1.498039, g: 0.7490196, b: 0, a: 0}
     - _ShineColor: {r: 11.98431, g: 11.98431, b: 11.98431, a: 0}

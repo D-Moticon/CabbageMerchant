@@ -50,11 +50,13 @@ MonoBehaviour:
   itemType: 0
   effects:
   - rid: 328109986689056855
-  holofoilEffects: []
+  holofoilEffects:
+  - rid: 328110010024067178
   triggers:
   - rid: 328109942880338091
   rarity: 1
   normalizedPrice: 1.5
+  sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
   purchasable: 0
@@ -67,7 +69,7 @@ MonoBehaviour:
         Data4: 966856108
       Path: event:/RockBreak
     vol: 0.3
-  upgradedItem: {fileID: 0}
+  upgradedItem: {fileID: 7878032925082585029, guid: 55b9c404a0d63bf43ae8247086e9b4b8, type: 3}
   isHolofoil: 0
   references:
     version: 2
@@ -81,6 +83,9 @@ MonoBehaviour:
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
         objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
         objectName: rock
         objectDescription: bonk cabbages for 2
         quantity: 5
@@ -91,3 +96,24 @@ MonoBehaviour:
         surfaceOffset: 0.45
         spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         rotateVFXtoNormal: 1
+        velocityDirection: 0
+        worldVelocityDirection: {x: 0, y: 0}
+    - rid: 328110010024067178
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: rock
+        objectDescription: bonk cabbages for 2
+        quantity: 8
+        speedRange: {x: 5, y: 12}
+        spreadAngle: 35
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.45
+        spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        rotateVFXtoNormal: 1
+        velocityDirection: 0
+        worldVelocityDirection: {x: 0, y: 0}

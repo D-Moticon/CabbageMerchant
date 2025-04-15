@@ -715,7 +715,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d52d11ce762a52e418990e271f381f5b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9a08b2b5699be4b469c37cabe0a26fcb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 285850742064468464}
   - component: {fileID: 137031519443532654}
   - component: {fileID: 6981530877501189098}
+  - component: {fileID: 4296465345979103945}
   m_Layer: 7
   m_Name: Cabbage
   m_TagString: Collidable
@@ -1215,3 +1216,18 @@ MonoBehaviour:
     vol: 0.5
   goldenHitVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
   goldenHitFloater: {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}
+--- !u!114 &4296465345979103945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136215933286731207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8930ec77a77fa74cb9cc46f62480d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderDetail: 1
+  pointRadius: 0.34
+  massMultiplier: 1

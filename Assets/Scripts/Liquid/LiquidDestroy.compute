@@ -1,0 +1,74 @@
+﻿#pragma kernel DestroyParticlesInCell
+
+
+//--- Simulation Grid Buffers (shared with the SPH sim) ---//
+StructuredBuffer<uint> _CellCount;      // How many particles are in each cell
+StructuredBuffer<uint> _CellStart;      // Running sum (offset) for each cell (see WriteSorted)
+StructuredBuffer<uint> _SortedIndices;  // Sorted list of particle indices by cell
+
+//--- Particle Data Buffers ---//
+RWStructuredBuffer<float2> _Positions;  // Particle positions
+RWStructuredBuffer<uint2> _ParticleCellAndType;  // Particle types (e.g., 1=water, 0=dead)
+
+//--- Domain & Grid Parameters ---//
+float2 _DomainMin;  // Lower-left of simulation domain (world space)
+float  _CellSize;   // Size of each cell (as used in the SPH sim)
+int    _NumCellsX;  // Number of cells horizontally
+int    _NumCellsY;  // Number of cells vertically
+
+//--- Collision / Destruction Parameters ---//
+float2 _DestroyPos;  // World-space collision position (e.g., where water touches lava)
+float   _DestroyRadius;  // Radius within which particles will be destroyed
+int _DestroyType1 = 0;
+int _DestroyType2 = 0;
+
+[numthreads(1, 1, 1)]
+void DestroyParticlesInCell(uint3 id : SV_DispatchThreadID)
+{
+    // Determine the grid cell that contains the collision point.
+    int cellX = (int)floor((_DestroyPos.x - _DomainMin.x) / _CellSize);
+    int cellY = (int)floor((_DestroyPos.y - _DomainMin.y) / _CellSize);
+    cellX = clamp(cellX, 0, _NumCellsX - 1);
+    cellY = clamp(cellY, 0, _NumCellsY - 1);
+
+    int cellID = cellY * _NumCellsX + cellX;
+    uint count = _CellCount[cellID];
+    uint cellStart = _CellStart[cellID];
+    uint startIndex = cellStart - count;
+    
+    // Compute how many cells to check in each direction.
+    int searchRange = (int)ceil(_DestroyRadius / _CellSize);
+
+    // Loop through each particle in the current cell.
+    for (uint i = startIndex; i < cellStart; i++)
+    {
+        uint particleIndex = _SortedIndices[i];
+        int particleType = int(_ParticleCellAndType[particleIndex].y);
+        
+        if (particleType == 0)
+        {
+            continue;
+        }
+
+        // Check if we should destroy this particle type
+        bool shouldDestroy = false;
+
+        if(particleType == _DestroyType1 || particleType == _DestroyType2)
+        {
+            shouldDestroy = true;
+        }
+
+        if (shouldDestroy)
+        {
+            float2 pos = _Positions[particleIndex];
+            float d = distance(pos, _DestroyPos);
+            if (d <= _DestroyRadius)
+            {
+                // Mark the particle as destroyed
+                _ParticleCellAndType[particleIndex].y = 0;
+                _ParticleCellAndType[particleIndex].x = 9999999 + particleIndex*10.0f;
+                _Positions[particleIndex] = float2(9999.0f + particleIndex*10.0f, 9999.0f + particleIndex*10.0f);
+            }
+        }
+    }
+}

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Thorneblood III
   itemDescription: 
-  icon: {fileID: 21300000, guid: d833bcbc12472014ead034994e619c10, type: 3}
+  icon: {fileID: 21300000, guid: 048b9a7d76809bb4aa841ed3f65c9153, type: 3}
   itemType: 0
   effects:
   - rid: 328109986689056856

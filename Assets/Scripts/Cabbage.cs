@@ -87,6 +87,17 @@ public class Cabbage : MonoBehaviour
     public PooledObjectData goldenHitVFX;
     public FloaterReference goldenHitFloater;
     private bool isGolden = false;
+
+    public class CabbageMergedParams
+    {
+        public Cabbage newCabbage;
+        public Vector2 pos;
+        public float scale;
+    }
+
+    public delegate void CabbageMergedDelegate(CabbageMergedParams cpp);
+
+    public static event CabbageMergedDelegate CabbageMergedEvent;
     
     void Start()
     {
@@ -208,8 +219,12 @@ public class Cabbage : MonoBehaviour
         
         gameObject.SetActive(false);
         otherCabbage.gameObject.SetActive(false);
-        
-        
+
+        CabbageMergedParams cmp = new CabbageMergedParams();
+        cmp.pos = pos;
+        cmp.newCabbage = c;
+        cmp.scale = sca;
+        CabbageMergedEvent?.Invoke(cmp);
     }
 
     public void UpdateColorLevel()

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4857814658084995253}
   - component: {fileID: 4579331570672340707}
   - component: {fileID: 772339724308061480}
+  - component: {fileID: 506490923396703899}
+  - component: {fileID: 7435079397661168389}
   m_Layer: 6
   m_Name: Ball
   m_TagString: Untagged
@@ -85,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 772339724308061480}
+  bonkValue: 1
   wallBonkSFX:
     sfx:
       Guid:
@@ -122,6 +125,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &506490923396703899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597044578796613092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8930ec77a77fa74cb9cc46f62480d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderDetail: 1
+  pointRadius: 0.2
+  massMultiplier: 100
+--- !u!114 &7435079397661168389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597044578796613092}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ec73ef9efdb344889e30683e2e96a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emissionRadius: 3
+  emissionDensity: 0.5
+  emissionTemperature: 0
+  emissionColor: {r: 1, g: 1, b: 1, a: 1}
+  velocityInherit: 1
 --- !u!1 &8425842380827937266
 GameObject:
   m_ObjectHideFlags: 0

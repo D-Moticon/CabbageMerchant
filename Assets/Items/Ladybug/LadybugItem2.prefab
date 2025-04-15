@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Ladybug II
   itemDescription: 
-  icon: {fileID: 21300000, guid: 6074def88820edf4981cdf17ef8e0fba, type: 3}
+  icon: {fileID: 21300000, guid: 890f7785c9aed1445acc93575bae1fb9, type: 3}
   itemType: 0
   effects:
   - rid: 328109921641955598

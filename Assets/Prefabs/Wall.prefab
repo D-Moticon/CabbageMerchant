@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 134280228089193633}
   - component: {fileID: 6323424811068550956}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.33, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 664332024847316383}
@@ -76,12 +76,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 77777d99193a2784bad22d659ead6115, type: 3}
+  m_Sprite: {fileID: 21300000, guid: de1c7cc806268e442853e1f27ddf4623, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 3.8399997, y: 30.719997}
+  m_DrawMode: 2
+  m_Size: {x: 10.53, y: 34.14}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 664332024847316383}
   - component: {fileID: 876777863930516968}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall
   m_TagString: Collidable
   m_Icon: {fileID: 0}
