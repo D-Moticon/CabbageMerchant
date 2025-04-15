@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DefaultMap
   m_EditorClassIdentifier: 
   firstRoundGoal: 10
-  goalBase: 1.75
-  goalPower: 1.75
+  goalBase: 1.8
+  goalPower: 1.8
   mapLayers:
   - possiblePoints:
     - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
