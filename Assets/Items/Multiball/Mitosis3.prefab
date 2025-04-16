@@ -54,6 +54,7 @@ MonoBehaviour:
   - rid: 328109986689056876
   triggers:
   - rid: 328109942880338078
+  triggerChance: 1
   rarity: 1
   normalizedPrice: 6
   sellValueMultiplier: 1
@@ -81,6 +82,7 @@ MonoBehaviour:
     - rid: 328109986689056860
       type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
         ballName: ball
         ballDescription: 
@@ -90,6 +92,7 @@ MonoBehaviour:
     - rid: 328109986689056876
       type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         ballPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
         ballName: <rainb>rainbow ball</rainb>
         ballDescription: bonks for 2

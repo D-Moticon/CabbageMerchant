@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BonkCabbageItemEffect : ItemEffect
 {
     public float bonkValue = 1f;
+    public int quantity = 1;
 
     public enum CabbageSelection
     {
@@ -15,61 +17,35 @@ public class BonkCabbageItemEffect : ItemEffect
 
     public CabbageSelection cabbageSelection;
     public PooledObjectData spawnItemAtCabbage;
-    
+
     public override void TriggerItemEffect(TriggerContext tc)
     {
         List<Cabbage> cabbages = GameSingleton.Instance.gameStateMachine.activeCabbages;
-        
+
         if (cabbages == null || cabbages.Count == 0)
         {
             return; // no cabbages to bonk
         }
 
-        Cabbage c = null;
+        List<Cabbage> selectedCabbages = new List<Cabbage>();
 
         switch (cabbageSelection)
         {
             case CabbageSelection.random:
-            {
-                int index = UnityEngine.Random.Range(0, cabbages.Count);
-                c = cabbages[index];
+                selectedCabbages = cabbages.OrderBy(x => UnityEngine.Random.value).Take(quantity).ToList();
                 break;
-            }
+
             case CabbageSelection.lowest:
-            {
-                // Sort or iterate to find the minimum sizeLevel
-                Cabbage lowest = cabbages[0];
-                for (int i = 1; i < cabbages.Count; i++)
-                {
-                    if (cabbages[i].sizeLevel < lowest.sizeLevel)
-                    {
-                        lowest = cabbages[i];
-                    }
-                }
-                c = lowest;
+                selectedCabbages = cabbages.OrderBy(c => c.sizeLevel).Take(quantity).ToList();
                 break;
-            }
+
             case CabbageSelection.highest:
-            {
-                // Sort or iterate to find the maximum sizeLevel
-                Cabbage highest = cabbages[0];
-                for (int i = 1; i < cabbages.Count; i++)
-                {
-                    if (cabbages[i].sizeLevel > highest.sizeLevel)
-                    {
-                        highest = cabbages[i];
-                    }
-                }
-                c = highest;
+                selectedCabbages = cabbages.OrderByDescending(c => c.sizeLevel).Take(quantity).ToList();
                 break;
-            }
         }
 
-        if (c != null)
+        foreach (var c in selectedCabbages)
         {
-            // Bonk method that takes bonkValue plus collision position
-            // If your Bonk signature is Bonk(Vector2 collisionPos),
-            // adapt as needed.
             c.Bonk(bonkValue, c.transform.position);
 
             if (spawnItemAtCabbage != null)
@@ -81,16 +57,14 @@ public class BonkCabbageItemEffect : ItemEffect
 
     public override string GetDescription()
     {
-        switch (cabbageSelection)
+        string selectionDescription = cabbageSelection switch
         {
-            case CabbageSelection.random:
-                return ($"Bonk 1 random cabbage for {bonkValue}");
-            case CabbageSelection.lowest:
-                return ($"Bonk 1 lowest cabbage for {bonkValue}");
-            case CabbageSelection.highest:
-                return ($"Bonk 1 highest cabbage for {bonkValue}");
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+            CabbageSelection.random => "random",
+            CabbageSelection.lowest => "lowest",
+            CabbageSelection.highest => "highest",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        return ($"Bonk {quantity} {selectionDescription} cabbage(s) for {bonkValue}");
     }
 }

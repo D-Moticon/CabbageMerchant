@@ -282,7 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5633444556019142608}
   m_Layer: 5
-  m_Name: PriceTextParent
+  m_Name: PriceTag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -392,12 +392,16 @@ MonoBehaviour:
   crosshairMoveInput: {fileID: 8865521887995784637, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   mousePosInput: {fileID: -4320989274038088009, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   fireInput: {fileID: -372102770094967283, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  weaponFireInput: {fileID: 4632284586783306398, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   crosshairMove: {x: 0, y: 0}
   mousePos: {x: 0, y: 0}
   mousePosWorldSpace: {x: 0, y: 0}
   fireDown: 0
   fireHeld: 0
   fireUp: 0
+  weaponFireDown: 0
+  weaponFireHeld: 0
+  weaponFireUp: 0
 --- !u!4 &44892117
 Transform:
   m_ObjectHideFlags: 0
@@ -413,6 +417,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1379987634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &220703901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 220703902}
+  - component: {fileID: 220703903}
+  m_Layer: 0
+  m_Name: ObjectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &220703902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220703901}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1379987634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &220703903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220703901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4284d72593c04eb4799b51dcd344369a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjectsList:
+  - objectData: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+    initialQuantity: 10
 --- !u!1 &233162595
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +513,8 @@ MonoBehaviour:
   shopSceneName: Shop
   mapSceneName: Map
   parentObjectName: SceneParent
-  spawnOffsetY: 20
+  spawnOffset: 20
+  transitionDirection: 1
   transitionTime: 0.5
   currentmapLayer: 0
 --- !u!1 &262556488
@@ -16049,7 +16101,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 20.4, y: 0.45}
+  m_AnchoredPosition: {x: 20.73, y: 0.45}
   m_SizeDelta: {x: 71.99, y: 15.299999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &637946694
@@ -26458,7 +26510,12 @@ MonoBehaviour:
   columns: 2
   spacing: {x: 2.05, y: 1.7}
   slotSize: {x: 1.5, y: 1.25}
-  startingItems: []
+  forceHolofoilStarting: 0
+  startingItems:
+  - {fileID: 1879969852805227144, guid: 8965a94defbf48a42a8438304904e901, type: 3}
+  - {fileID: 4464935079155661255, guid: 0c5f8ddf84043da4ebec159524a98bc2, type: 3}
+  - {fileID: 716754708759249075, guid: 4640ed49f9de3e24683d7d1e464464e5, type: 3}
+  startingPerks: []
   sellCollider: {fileID: 5947625663896968995}
   sellVFX: {fileID: 709769253}
   sellSFX:
@@ -27230,6 +27287,7 @@ MonoBehaviour:
   screenShaker: {fileID: 41536388}
   runManager: {fileID: 233162597}
   toolTip: {fileID: 811772842}
+  objectPoolManager: {fileID: 220703903}
 --- !u!4 &1379987634
 Transform:
   m_ObjectHideFlags: 0
@@ -27252,6 +27310,7 @@ Transform:
   - {fileID: 1552119847}
   - {fileID: 41536386}
   - {fileID: 233162596}
+  - {fileID: 220703902}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1409400560
@@ -32460,6 +32519,11 @@ MonoBehaviour:
   goldenCabbageValue: 1
   shopDiscountMult: 1
   shopRarityMult: 1
+  startingShopReRolls: 1
+  shopReRolls: 1
+  startingReRollCost: 5
+  reRollCost: 3
+  allHolofoilRollChance: 0
 --- !u!1 &1583684889
 GameObject:
   m_ObjectHideFlags: 0

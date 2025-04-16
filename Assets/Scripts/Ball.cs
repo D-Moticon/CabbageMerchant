@@ -4,6 +4,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public Collider2D col;
     public float bonkValue = 1f;
     
     public class BallHitCabbageParams
@@ -47,7 +48,7 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if (rb.position.y < -6)
+        if (!GameSingleton.Instance.boardMetrics.IsObjectInPlayBounds(this.gameObject))
         {
             KillBall();
         }
@@ -86,7 +87,7 @@ public class Ball : MonoBehaviour
         Cabbage c = other.gameObject.GetComponent<Cabbage>();
         if (c != null && bonkCooldownCounter <= 0f)
         {
-            c.Bonk(bonkValue, other.contacts[0].point);
+            c.Bonk(bonkValue, other.contacts[0].point, other.contacts[0].normal, this, true);
 
             BallHitCabbageParams bcParams = new BallHitCabbageParams();
             bcParams.ball = this;

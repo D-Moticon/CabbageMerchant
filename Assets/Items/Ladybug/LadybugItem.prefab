@@ -54,6 +54,10 @@ MonoBehaviour:
   - rid: 328109986689057123
   triggers:
   - rid: 328109942880338077
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
   normalizedPrice: 0.3
   sellValueMultiplier: 1
@@ -77,18 +81,22 @@ MonoBehaviour:
     - rid: 328109921641955598
       type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         bonkValue: 1
+        quantity: 1
         cabbageSelection: 0
         spawnItemAtCabbage: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}
     - rid: 328109942880338077
       type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
-        everyXHit: 5
-        onlyByBall: 0
+        everyXHit: 3
+        onlyByBall: 1
     - rid: 328109986689057123
       type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         bonkValue: 2
+        quantity: 1
         cabbageSelection: 0
         spawnItemAtCabbage: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}

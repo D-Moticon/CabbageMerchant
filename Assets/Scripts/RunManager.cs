@@ -14,9 +14,18 @@ public class RunManager : MonoBehaviour
     [Header("Parent Object Name")]
     public string parentObjectName = "SceneParent";
 
+    // New enum to choose transition direction
+    public enum TransitionDirection { Top, Right }
+
     [Header("Transition Settings")]
-    [Tooltip("How far in world units to slide the new scene downward from the old scene's position.")]
-    public float spawnOffsetY = 20f;
+    [Tooltip("Distance in world units to slide the new scene into view. " +
+             "For a 'Top' transition, the scene slides vertically from above. " +
+             "For a 'Right' transition, the scene slides horizontally from the right.")]
+    public float spawnOffset = 20f;
+    
+    [Tooltip("Select the direction from which the new scene will slide in.")]
+    public TransitionDirection transitionDirection = TransitionDirection.Top;
+    
     public float transitionTime  = 0.7f;
 
     private string currentSceneName;
@@ -65,8 +74,8 @@ public class RunManager : MonoBehaviour
 
     /// <summary>
     /// Loads a normal scene (Game, Shop, etc.) additively,
-    /// slides the old scene downward (unless it's the map, in which case we just hide it),
-    /// then unloads the old scene if it's not the map.
+    /// slides the old scene out and slides the new scene into place,
+    /// then unloads the old scene (unless it is the map).
     /// </summary>
     private IEnumerator SlideToScene(string newSceneName)
     {
@@ -74,15 +83,15 @@ public class RunManager : MonoBehaviour
         if (newSceneName == currentSceneName)
             yield break;
 
-        // Special check: if the old scene is the map, we won't unload it - just hide
+        // Special check: if the old scene is the map, we won't unload it - just hide it.
         bool oldSceneIsMap = (currentSceneName == mapSceneName);
 
-        // 1) Load the new scene additively
+        // 1) Load the new scene additively.
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)
             yield return null;
 
-        // 2) Find the new scene + parent
+        // 2) Find the new scene and its parent.
         Scene newScene = SceneManager.GetSceneByName(newSceneName);
         if (!newScene.IsValid())
         {
@@ -100,88 +109,104 @@ public class RunManager : MonoBehaviour
             yield break;
         }
 
-        // 3) Set up positions for vertical sliding
+        // 3) Set up positions for sliding transition.
         Vector3 oldParentStartPos = Vector3.zero;
         Vector3 oldParentEndPos   = Vector3.zero;
 
         if (currentSceneParent != null)
         {
-            // Move old scene downward by spawnOffsetY
             oldParentStartPos = currentSceneParent.transform.position;
-            oldParentEndPos   = oldParentStartPos - new Vector3(0, spawnOffsetY, 0);
+            if(transitionDirection == TransitionDirection.Top)
+            {
+                // Slide old scene downward (vertical slide).
+                oldParentEndPos = oldParentStartPos - new Vector3(0, spawnOffset, 0);
+            }
+            else if(transitionDirection == TransitionDirection.Right)
+            {
+                // Slide old scene leftward (horizontal slide).
+                oldParentEndPos = oldParentStartPos - new Vector3(spawnOffset, 0, 0);
+            }
         }
 
-        // The new scene spawns above by spawnOffsetY
+        // Determine the original position for the new scene.
         Vector3 newParentOriginalPos = (currentSceneParent != null)
             ? currentSceneParent.transform.position
             : newSceneParent.transform.position;
 
-        Vector3 newParentStartPos = new Vector3(
-            newParentOriginalPos.x,
-            newParentOriginalPos.y + spawnOffsetY,
-            newParentOriginalPos.z
-        );
+        Vector3 newParentStartPos;
+        if (transitionDirection == TransitionDirection.Top)
+        {
+            newParentStartPos = new Vector3(
+                newParentOriginalPos.x,
+                newParentOriginalPos.y + spawnOffset,
+                newParentOriginalPos.z
+            );
+        }
+        else // TransitionDirection.Right
+        {
+            newParentStartPos = new Vector3(
+                newParentOriginalPos.x + spawnOffset,
+                newParentOriginalPos.y,
+                newParentOriginalPos.z
+            );
+        }
 
         Vector3 newParentEndPos = newParentOriginalPos;
 
-        // Move the new scene's parent up to start
+        // Move the new scene's parent to the starting position.
         newSceneParent.transform.position = newParentStartPos;
 
-        // 4) Animate
+        // 4) Animate the sliding transition.
         float elapsed = 0f;
         while (elapsed < transitionTime)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / transitionTime);
 
-            // Slide old scene downward
+            // Slide old scene.
             if (currentSceneParent != null)
             {
-                currentSceneParent.transform.position = Vector3.Lerp(
-                    oldParentStartPos, oldParentEndPos, t
-                );
+                currentSceneParent.transform.position = Vector3.Lerp(oldParentStartPos, oldParentEndPos, t);
             }
 
-            // Slide new scene downward
-            newSceneParent.transform.position = Vector3.Lerp(
-                newParentStartPos, newParentEndPos, t
-            );
+            // Slide new scene.
+            newSceneParent.transform.position = Vector3.Lerp(newParentStartPos, newParentEndPos, t);
 
             yield return null;
         }
 
-        // 5) Final positions
+        // 5) Ensure final positions are set.
         if (currentSceneParent != null)
             currentSceneParent.transform.position = oldParentEndPos;
         newSceneParent.transform.position = newParentEndPos;
 
-        // 6) Hide or unload the old scene
+        // 6) Hide or unload the old scene.
         yield return HideOrUnloadOldScene(oldSceneIsMap);
 
-        // 7) Update references
+        // 7) Update references.
         currentSceneName   = newSceneName;
         currentSceneParent = newSceneParent;
     }
 
     /// <summary>
-    /// Goes to the map scene. If not loaded yet, we load it once. Otherwise we just re-activate it.
-    /// Then we do the same vertical slide from the current to the map scene,
-    /// never unloading the map so it retains state.
+    /// Goes to the map scene. If not already loaded, it loads the scene once;
+    /// otherwise, it just re-activates it. Then performs a slide transition 
+    /// (using the selected direction) without unloading the map scene.
     /// </summary>
     private IEnumerator SlideToMapScene()
     {
-        // If map is already the current scene, do nothing
+        // If map is already the current scene, do nothing.
         if (currentSceneName == mapSceneName)
             yield break;
 
-        // If the map scene isn't loaded yet, load it now
+        // If the map scene isn’t loaded yet, load it now.
         if (!mapScene.IsValid())
         {
             AsyncOperation loadOp = SceneManager.LoadSceneAsync(mapSceneName, LoadSceneMode.Additive);
             while (!loadOp.isDone)
                 yield return null;
 
-            // Cache references
+            // Cache references.
             mapScene = SceneManager.GetSceneByName(mapSceneName);
             if (!mapScene.IsValid())
             {
@@ -195,7 +220,7 @@ public class RunManager : MonoBehaviour
             }
             else
             {
-                // Hide initially
+                // Initially hide the map's parent.
                 mapSceneParent.SetActive(false);
             }
         }
@@ -212,33 +237,51 @@ public class RunManager : MonoBehaviour
             yield break;
         }
 
-        // Show the map scene parent
+        // Show the map scene.
         newSceneParent.SetActive(true);
 
-        // Slide old scene downward
+        // Set up positions for the transition.
         Vector3 oldParentStartPos = Vector3.zero;
         Vector3 oldParentEndPos   = Vector3.zero;
 
         if (currentSceneParent != null)
         {
             oldParentStartPos = currentSceneParent.transform.position;
-            oldParentEndPos   = oldParentStartPos - new Vector3(0, spawnOffsetY, 0);
+            if (transitionDirection == TransitionDirection.Top)
+            {
+                oldParentEndPos = oldParentStartPos - new Vector3(0, spawnOffset, 0);
+            }
+            else // TransitionDirection.Right
+            {
+                oldParentEndPos = oldParentStartPos - new Vector3(spawnOffset, 0, 0);
+            }
         }
 
-        // Position the map scene up by spawnOffsetY
         Vector3 newParentOriginalPos = (currentSceneParent != null)
             ? currentSceneParent.transform.position
             : newSceneParent.transform.position;
 
-        Vector3 newParentStartPos = new Vector3(
-            newParentOriginalPos.x,
-            newParentOriginalPos.y + spawnOffsetY,
-            newParentOriginalPos.z
-        );
-
+        Vector3 newParentStartPos;
+        if (transitionDirection == TransitionDirection.Top)
+        {
+            newParentStartPos = new Vector3(
+                newParentOriginalPos.x,
+                newParentOriginalPos.y + spawnOffset,
+                newParentOriginalPos.z
+            );
+        }
+        else // TransitionDirection.Right
+        {
+            newParentStartPos = new Vector3(
+                newParentOriginalPos.x + spawnOffset,
+                newParentOriginalPos.y,
+                newParentOriginalPos.z
+            );
+        }
         Vector3 newParentEndPos = newParentOriginalPos;
         newSceneParent.transform.position = newParentStartPos;
 
+        // Animate the transition.
         float elapsed = 0f;
         while (elapsed < transitionTime)
         {
@@ -247,37 +290,32 @@ public class RunManager : MonoBehaviour
 
             if (currentSceneParent != null)
             {
-                currentSceneParent.transform.position = Vector3.Lerp(
-                    oldParentStartPos, oldParentEndPos, t
-                );
+                currentSceneParent.transform.position = Vector3.Lerp(oldParentStartPos, oldParentEndPos, t);
             }
 
-            newSceneParent.transform.position = Vector3.Lerp(
-                newParentStartPos, newParentEndPos, t
-            );
-
+            newSceneParent.transform.position = Vector3.Lerp(newParentStartPos, newParentEndPos, t);
             yield return null;
         }
 
-        // Final
+        // Ensure final positions.
         if (currentSceneParent != null)
             currentSceneParent.transform.position = oldParentEndPos;
         newSceneParent.transform.position = newParentEndPos;
 
-        // Hide/unload old scene (we never unload if it was the map)
+        // Hide or unload the old scene (we never unload if it was the map).
         bool oldSceneWasMap = (currentSceneName == mapSceneName);
         yield return HideOrUnloadOldScene(oldSceneWasMap);
 
-        // Now the map is current
+        // Update current scene references.
         currentSceneName   = mapSceneName;
         currentSceneParent = newSceneParent;
 
-        // Finally, call your code
+        // Finally, perform any additional map actions.
         MapSingleton.Instance.mapManager.MoveToNextLayer();
     }
 
     /// <summary>
-    /// If the old scene is the map, we just hide it. Otherwise, we unload normally.
+    /// If the old scene is the map, we just hide it; otherwise, we unload it.
     /// </summary>
     private IEnumerator HideOrUnloadOldScene(bool oldSceneIsMap)
     {
@@ -286,12 +324,12 @@ public class RunManager : MonoBehaviour
 
         if (oldSceneIsMap && mapSceneParent != null)
         {
-            // Hide map parent instead of unloading
+            // Hide the map scene's parent instead of unloading.
             mapSceneParent.SetActive(false);
         }
         else
         {
-            // Normal unload
+            // Unload the old scene normally.
             yield return SceneManager.UnloadSceneAsync(currentSceneName);
         }
 
@@ -299,6 +337,9 @@ public class RunManager : MonoBehaviour
         currentSceneParent = null;
     }
 
+    /// <summary>
+    /// Searches the scene for a GameObject with the specified parent name.
+    /// </summary>
     private GameObject FindSceneParent(Scene scene)
     {
         if (!scene.IsValid()) return null;
@@ -311,21 +352,18 @@ public class RunManager : MonoBehaviour
         }
         return null;
     }
-
     
-    //Runs
+    // Run-start method.
     public void StartNewRun()
     {
         RunStartParams rsp = new RunStartParams();
         RunStartEvent?.Invoke(rsp);
         
-        // Load the starting scene if none is loaded yet
+        // Load the starting scene if none is loaded yet.
         if (string.IsNullOrEmpty(currentSceneName) && !string.IsNullOrEmpty(startingSceneName))
         {
-            // Slide to the starting scene
+            // Slide to the starting scene.
             StartCoroutine(SlideToScene(startingSceneName));
         }
     }
-    
-    
 }

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Random = System.Random;
+using Sirenix.OdinInspector;
 
 public class Item : MonoBehaviour, IHoverable
 {
@@ -11,12 +13,18 @@ public class Item : MonoBehaviour, IHoverable
     public enum ItemType
     {
         Item,
-        Perk
+        Perk,
+        Weapon
     };
     public ItemType itemType;
     [SerializeReference] public List<ItemEffect> effects;
     [SerializeReference] public List<ItemEffect> holofoilEffects;
     [SerializeReference] public List<Trigger> triggers;
+    public float triggerChance = 1f;
+    public bool hasCooldown = false;
+    [ShowIf("@hasCooldown == true")]
+    public float cooldownDuration = 1f;
+    [HideInInspector]public float cooldownCounter = 0f;
     public Rarity rarity = Rarity.Common;
     public float normalizedPrice = 1f;
     public static float globalItemPriceMult = 10f;
@@ -38,6 +46,11 @@ public class Item : MonoBehaviour, IHoverable
     private void Update()
     {
         currentFrameTriggerCount = 0;
+
+        if (hasCooldown && cooldownCounter > 0)
+        {
+            cooldownCounter -= Time.deltaTime;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,6 +61,8 @@ public class Item : MonoBehaviour, IHoverable
             t.owningItem = this;
             t.InitializeTrigger(this);
         }
+
+        GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
     }
 
     protected virtual void OnDisable()
@@ -56,6 +71,8 @@ public class Item : MonoBehaviour, IHoverable
         {
             t.RemoveTrigger(this);
         }
+        
+        GameStateMachine.EnteringAimStateAction -= EnteringAimStateListener;
     }
 
     public float GetItemPrice()
@@ -68,6 +85,20 @@ public class Item : MonoBehaviour, IHoverable
         if (currentFrameTriggerCount > triggerPerFrameLimit)
         {
             return;
+        }
+
+        if (hasCooldown && cooldownCounter > 0f)
+        {
+            return;
+        }
+        
+        if (triggerChance < 0.999f)
+        {
+            float trigRand = UnityEngine.Random.Range(0f, 1f);
+            if (trigRand > triggerChance)
+            {
+                return;
+            }
         }
         
         TriggerItem(tc);
@@ -85,7 +116,7 @@ public class Item : MonoBehaviour, IHoverable
         {
             foreach (ItemEffect itemEffect in holofoilEffects)
             {
-                itemEffect.TriggerItemEffect(tc);
+                itemEffect.TryTriggerItemEffect(tc);
             }
         }
 
@@ -93,10 +124,11 @@ public class Item : MonoBehaviour, IHoverable
         {
             foreach (ItemEffect itemEffect in effects)
             {
-                itemEffect.TriggerItemEffect(tc);
+                itemEffect.TryTriggerItemEffect(tc);
             } 
         }
-        
+
+        cooldownCounter = cooldownDuration;
         triggerSFX.Play();
         ItemTriggeredEvent?.Invoke(this);
         currentFrameTriggerCount++;
@@ -153,13 +185,19 @@ public class Item : MonoBehaviour, IHoverable
             }
             
             string s = "";
+
+            if (triggerChance < 0.999f)
+            {
+                s += $"{Helpers.ToPercentageString(triggerChance)} chance to ";
+            }
+            
             for (int i = 0; i < effectsToUse.Count; i++)
             {
                 if (i > 0)
                 {
                     s += "\n";
                 }
-                s += effectsToUse[i].GetDescription();
+                s += effectsToUse[i].GetDescriptionWithChance();
             }
 
             return s;
@@ -192,6 +230,11 @@ public class Item : MonoBehaviour, IHoverable
         {
             s += triggers[i].GetTriggerDescription();
             s += "\n";
+        }
+
+        if (hasCooldown)
+        {
+            s += $"({Helpers.RoundToDecimal(cooldownDuration, 1)}s cooldown)";
         }
 
         return s;
@@ -230,5 +273,10 @@ public class Item : MonoBehaviour, IHoverable
     public void DestroyItem(bool withFX = false)
     {
         itemWrapper.DestroyItem(withFX);
+    }
+
+    public void EnteringAimStateListener()
+    {
+        cooldownCounter = -1f;
     }
 }

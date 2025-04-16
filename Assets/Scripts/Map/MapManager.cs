@@ -7,70 +7,51 @@ public class MapManager : MonoBehaviour
     public MapBlueprint defaultMapBlueprint;
 
     [HideInInspector] public MapBlueprint currentMapBlueprint;
-    [HideInInspector]public Map map;                      // The generated map we want to manage
-    // Must match your Map script if you’re spacing each layer by 3.0f in Y
+    [HideInInspector] public Map map;
+
+    public MapCharacter mapCharacterPrefab;
+    private MapCharacter mapCharacter;
 
     [Header("Appearance")]
-    public Color normalColor  = Color.white;
+    public Color normalColor = Color.white;
     public Color disabledColor = new Color(.3f, .3f, .3f, .9f);
 
     [Header("Scrolling Settings")]
-    public float scrollDuration = 1.0f; // how long to animate the scroll
+    public float scrollDuration = 1.0f;
     public float yOffset = -3f;
 
     public int currentLayerIndex = 0;
-    private bool isScrolling = false;
 
     private void Start()
     {
         map = MapSingleton.Instance.mapGenerator.GenerateMap(defaultMapBlueprint);
         currentMapBlueprint = defaultMapBlueprint;
         map.InitializeMap(currentMapBlueprint);
-        
-        // Start at layer 0 (bottom)
+
         currentLayerIndex = 0;
-        // Ensure icons reflect correct interactivity
         UpdateLayerStates();
-        // Optionally center the map on layer 0
-        CenterOnLayer(0, instant:true);
-        
+        CenterOnLayer(0, instant: true);
+
+        if (map.layers.Count > 0 && map.layers[0].mapIcons.Count > 0)
+        {
+            mapCharacter = Instantiate(mapCharacterPrefab, map.layers[0].mapIcons[0].transform.position, Quaternion.identity, map.transform);
+        }
     }
 
-    /// <summary>
-    /// Called when the player is ready to move to the next layer of the map.
-    /// This increments currentLayerIndex (unless we’re at the last),
-    /// then smoothly scrolls the map and updates icon states.
-    /// </summary>
     public void MoveToNextLayer()
     {
-        if (isScrolling) return; // ignore if we’re mid-scroll
-        if (currentLayerIndex >= map.layers.Count - 1)
-        {
-            Debug.Log("Already at the top layer; can't move further.");
-            return;
-        }
+        if (currentLayerIndex >= map.layers.Count - 1) return;
 
         currentLayerIndex++;
         UpdateLayerStates();
-        StartCoroutine(ScrollToLayer(currentLayerIndex));
     }
 
-    /// <summary>
-    /// Called by MapIcons (or you can wire it differently) when an icon is clicked.
-    /// If it's in the current layer, go to that scene.
-    /// </summary>
     public void OnMapIconClicked(MapIcon icon)
     {
-        // Find which layer this icon is in
         int layerIndex = FindIconLayer(icon);
         if (layerIndex == currentLayerIndex)
         {
-            // Valid selection
-            if (!string.IsNullOrEmpty(icon.mapPoint.sceneName))
-            {
-                // Call your runManager to load the scene
-                Singleton.Instance.runManager.GoToScene(icon.mapPoint.sceneName);
-            }
+            StartCoroutine(MoveCharacterAndGoToScene(icon));
         }
         else
         {
@@ -78,9 +59,35 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Disables icons (collider + color) in all layers except the current one.
-    /// </summary>
+    private IEnumerator MoveCharacterAndGoToScene(MapIcon targetIcon)
+    {
+        Vector3 startCharPos = mapCharacter.transform.localPosition;
+        Vector3 endCharPos = targetIcon.transform.localPosition;
+
+        Vector3 startMapPos = map.transform.localPosition;
+        Vector3 endMapPos = new Vector3(startMapPos.x, -FindIconLayer(targetIcon) * map.verticalSpacing + yOffset, 0f);
+
+        float elapsed = 0f;
+        while (elapsed < scrollDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / scrollDuration);
+
+            mapCharacter.transform.localPosition = Vector3.Lerp(startCharPos, endCharPos, t);
+            map.transform.localPosition = Vector3.Lerp(startMapPos, endMapPos, t);
+
+            yield return null;
+        }
+
+        mapCharacter.transform.localPosition = endCharPos;
+        map.transform.localPosition = endMapPos;
+
+        if (!string.IsNullOrEmpty(targetIcon.mapPoint.sceneName))
+        {
+            Singleton.Instance.runManager.GoToScene(targetIcon.mapPoint.sceneName);
+        }
+    }
+
     private void UpdateLayerStates()
     {
         for (int i = 0; i < map.layers.Count; i++)
@@ -90,10 +97,7 @@ public class MapManager : MonoBehaviour
 
             foreach (var icon in layer.mapIcons)
             {
-                // Gray out or restore color
                 icon.spriteRenderer.color = isCurrent ? normalColor : disabledColor;
-
-                // Enable/disable collisions
                 if (icon.bc2d != null)
                 {
                     icon.bc2d.enabled = isCurrent;
@@ -102,52 +106,15 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Immediately snaps the map so that layerIndex is centered, ignoring animation.
-    /// </summary>
     private void CenterOnLayer(int layerIndex, bool instant = false)
     {
         float targetY = -layerIndex * map.verticalSpacing + yOffset;
-
         if (instant)
         {
             map.transform.localPosition = new Vector3(map.transform.localPosition.x, targetY, 0f);
         }
-        else
-        {
-            // If you want to do a quick tween you can call StartCoroutine(...) here
-        }
     }
 
-    /// <summary>
-    /// Smoothly scrolls the map to center the given layer.
-    /// If each layer is placed at y = (layerIndex * layerVerticalSpacing),
-    /// then we want the map transform to move to y = -(layerIndex * layerVerticalSpacing).
-    /// </summary>
-    private IEnumerator ScrollToLayer(int layerIndex)
-    {
-        isScrolling = true;
-
-        Vector3 startPos = map.transform.localPosition;
-        Vector3 endPos   = new Vector3(startPos.x, -layerIndex * map.verticalSpacing+yOffset, 0f);
-
-        float elapsed = 0f;
-        while (elapsed < scrollDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / scrollDuration);
-
-            map.transform.localPosition = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
-        }
-        map.transform.localPosition = endPos;
-
-        isScrolling = false;
-    }
-
-    /// <summary>
-    /// Finds which layer an icon belongs to, or returns -1 if not found.
-    /// </summary>
     private int FindIconLayer(MapIcon icon)
     {
         for (int i = 0; i < map.layers.Count; i++)

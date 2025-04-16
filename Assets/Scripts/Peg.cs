@@ -2,13 +2,7 @@ using UnityEngine;
 
 public class Peg : MonoBehaviour
 {
-    public enum GrowthMode
-    {
-        Linear,
-        Logarithmic,
-        Root,
-        None
-    }
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

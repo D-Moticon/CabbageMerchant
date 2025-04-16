@@ -54,8 +54,9 @@ MonoBehaviour:
   - rid: 328109986689057268
   triggers:
   - rid: 328109986689057278
+  triggerChance: 1
   rarity: 0
-  normalizedPrice: 1
+  normalizedPrice: 0.5
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
@@ -77,11 +78,13 @@ MonoBehaviour:
     - rid: 328109986689057265
       type: {class: BouncyBallItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         bouncinessMult: 1.15
         bouncinessAdverb: mega
     - rid: 328109986689057268
       type: {class: BouncyBallItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         bouncinessMult: 1.25
         bouncinessAdverb: giga
     - rid: 328109986689057278

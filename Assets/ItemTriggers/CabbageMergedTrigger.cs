@@ -19,7 +19,8 @@ public class CabbageMergedTrigger : Trigger
 
     public override string GetTriggerDescription()
     {
-        throw new System.NotImplementedException();
+        string plural = quantity > 0 ? "" : "s";
+        return ($"{quantity} cabbage{plural} merged");
     }
 
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)

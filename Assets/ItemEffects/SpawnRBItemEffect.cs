@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Random = UnityEngine.Random;
+using System.Collections;
 
 public class SpawnRBItemEffect : ItemEffect
 {
@@ -24,6 +25,7 @@ public class SpawnRBItemEffect : ItemEffect
     public string objectName;
     public string objectDescription;
     public int quantity = 1;
+    static float colliderDisableDuration = 0.1f;
     public Vector2 speedRange = new Vector2(5f, 10f);
     public float spreadAngle = 45f;
     public Vector2 scaleRange = new Vector2(1f, 1f);
@@ -119,6 +121,14 @@ public class SpawnRBItemEffect : ItemEffect
             float randSpeed = Random.Range(speedRange.x, speedRange.y);
             Vector2 vel = randSpeed * dir;
             rb.linearVelocity = vel;
+            
+            // ——— DISABLE COLLIDER BRIEFLY ———
+            Collider2D col = rb.GetComponent<Collider2D>();
+            if (col != null)
+            {
+                col.enabled = false;
+                GameSingleton.Instance.StartCoroutine(ReenableCollider(col, colliderDisableDuration));
+            }
         }
 
         if (spawnVFX != null)
@@ -138,5 +148,11 @@ public class SpawnRBItemEffect : ItemEffect
         string plural = quantity > 1 ? "s" : "";
         string desc = string.IsNullOrEmpty(objectDescription) ? "" : $"that {objectDescription}";
         return $"Spawn {quantity} {objectName}{plural} {desc}";
+    }
+    
+    private IEnumerator ReenableCollider(Collider2D col, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (col != null) col.enabled = true;
     }
 }

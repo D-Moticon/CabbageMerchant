@@ -16,9 +16,11 @@ public class ItemManager : MonoBehaviour
     public Vector2 spacing = new Vector2(1f, 1f);
     public Vector2 slotSize = new Vector2(1f, 1f);
 
-    [Header("Starting Items")]
+    [Header("Starting Items")] public bool forceHolofoilStarting = false;
     public List<Item> startingItems = new List<Item>();
 
+    public List<Item> startingPerks = new List<Item>();
+    
     public delegate void ItemPurchasedDelegate(Item item);
     public static event ItemPurchasedDelegate ItemPurchasedEvent;
 
@@ -48,6 +50,23 @@ public class ItemManager : MonoBehaviour
         {
             Item item = GenerateItemWithWrapper(startingItems[i]);
             AddItemToSlot(item, itemSlots[i]);
+            if (forceHolofoilStarting)
+            {
+                item.SetHolofoil();
+            }
+            ItemPurchasedEvent?.Invoke(item);
+        }
+
+        for (int i = 0; i < startingPerks.Count; i++)
+        {
+            Item perkItem = GenerateItemWithWrapper(startingPerks[i]);
+            perkItem.itemWrapper.transform.SetParent(perkParent);
+            perkItem.itemWrapper.transform.localPosition = Vector3.zero;
+            if (forceHolofoilStarting)
+            {
+                perkItem.SetHolofoil();
+            }
+            ItemPurchasedEvent?.Invoke(perkItem);
         }
     }
 
@@ -67,6 +86,7 @@ public class ItemManager : MonoBehaviour
         if (Singleton.Instance.playerInputManager.fireDown)
         {
             StartDragIfPossible(mouseWorldPos);
+            ClickClickableIfPossible(mouseWorldPos);
         }
         else if (Singleton.Instance.playerInputManager.fireHeld && draggingItem != null)
         {
@@ -87,6 +107,19 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    void ClickClickableIfPossible(Vector2 mouseWorldPos)
+    {
+        if (draggingItem != null) return;
+        Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
+        if (!col) return;
+        ClickableObject clickableObject = col.GetComponentInChildren<ClickableObject>();
+        if (clickableObject == null)
+        {
+            return;
+        }
+        clickableObject.TryClick();
+    }
+    
     private void StartDragIfPossible(Vector2 mouseWorldPos)
     {
         if (draggingItem != null) return;
@@ -371,6 +404,7 @@ public class ItemManager : MonoBehaviour
         iw.spriteRenderer.sprite = item.icon;
         iw.item = item;
         item.itemWrapper = iw;
+        iw.InitializeItemWrapper(item);
 
         if (item.holofoilEffects != null && item.holofoilEffects.Count > 0)
         {

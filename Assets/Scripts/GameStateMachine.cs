@@ -36,6 +36,9 @@ public class GameStateMachine : MonoBehaviour
     [HideInInspector]public int currentBalls = 3;
     [HideInInspector]public double roundGoal = 0;
     [HideInInspector] public double currentRoundScore;
+    [HideInInspector] public double currentRoundScoreOverMult = 0;
+    [HideInInspector] public double roundScoreOverMultRounded = 0;
+    public static int coinsPerRoundGoal = 3;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
@@ -62,6 +65,7 @@ public class GameStateMachine : MonoBehaviour
 
     public static DoubleDelegate RoundGoalUpdatedEvent;
     public static DoubleDelegate RoundScoreUpdatedEvent;
+    public static DoubleDelegate RoundGoalOverHitEvent;
 
     private void OnEnable()
     {
@@ -204,17 +208,7 @@ public class GameStateMachine : MonoBehaviour
             List<CabbageSlot> slotsToPopulate = Helpers.GetUniqueRandomEntries(gameStateMachine.cabbageSlots, numPegs);
             for (int i = 0; i < slotsToPopulate.Count; i++)
             {
-                Cabbage c = gameStateMachine.cabbagePooledObject.Spawn(slotsToPopulate[i].position, Quaternion.identity).GetComponent<Cabbage>();
-                slotsToPopulate[i].c = c;
-                c.bonkFeel.PlayFeedbacks();
-
-                float goldRand = Random.Range(0f, 1f);
-                if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
-                {
-                    c.SetGolden();
-                }
-                
-                gameStateMachine.activeCabbages.Add(c);
+                gameStateMachine.SpawnCabbageInSlot(slotsToPopulate[i]);
                 yield return new WaitForSeconds(0.05f);
             }
             
@@ -225,6 +219,22 @@ public class GameStateMachine : MonoBehaviour
             State newState = new AimingState();
             gameStateMachine.ChangeState(newState);
         }
+    }
+
+    public Cabbage SpawnCabbageInSlot(CabbageSlot cs)
+    {
+        Cabbage c = cabbagePooledObject.Spawn(cs.position, Quaternion.identity).GetComponent<Cabbage>();
+        cs.c = c;
+        c.bonkFeel.PlayFeedbacks();
+
+        float goldRand = Random.Range(0f, 1f);
+        if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
+        {
+            c.SetVariant(CabbageVariantType.golden);
+        }
+                
+        activeCabbages.Add(c);
+        return c;
     }
 
     public void SetRoundGoal()
@@ -247,6 +257,8 @@ public class GameStateMachine : MonoBehaviour
     public void ResetRoundScore()
     {
         currentRoundScore = 0;
+        currentRoundScoreOverMult = 0;
+        roundScoreOverMultRounded = 0;
         RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
     }
     
@@ -257,7 +269,29 @@ public class GameStateMachine : MonoBehaviour
         {
             currentRoundScore += activeCabbages[i].points;
         }
+        
+        currentRoundScoreOverMult = currentRoundScore / roundGoal;
+        if (double.IsNaN(currentRoundScoreOverMult))
+        {
+            currentRoundScoreOverMult = 0;
+        }
+
+        double newOverRounded = Math.Floor(currentRoundScoreOverMult);
+        
+        if (newOverRounded > roundScoreOverMultRounded)
+        {
+            roundScoreOverMultRounded = Math.Floor(currentRoundScoreOverMult);
+            RoundGoalHit();
+        }
+        
+        roundScoreOverMultRounded = Math.Floor(currentRoundScoreOverMult);
         RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
+    }
+
+    void RoundGoalHit()
+    {
+        Singleton.Instance.playerStats.AddCoins(coinsPerRoundGoal);
+        RoundGoalOverHitEvent?.Invoke(roundScoreOverMultRounded);
     }
 
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
@@ -375,8 +409,8 @@ public class GameStateMachine : MonoBehaviour
                 
             }
 
-            double coinsToGive = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*3;
-            Singleton.Instance.playerStats.AddCoins(coinsToGive);
+            double coinsToGive = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*coinsPerRoundGoal;
+            //Singleton.Instance.playerStats.AddCoins(coinsToGive);
 
             yield return new WaitForSeconds(1f);
             ExitState();

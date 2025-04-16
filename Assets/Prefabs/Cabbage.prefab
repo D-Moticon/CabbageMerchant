@@ -1156,7 +1156,8 @@ MonoBehaviour:
   rootExponent: 0.65
   isMerging: 0
   startingPoints: 0
-  pointsPerSize: 1.2
+  basePointsPerSize: 1
+  currentPointsPerSize: 1
   pointMultPerColor: 0.5
   points: 0
   scoringInfos:
@@ -1204,18 +1205,12 @@ MonoBehaviour:
         Path: event:/Score4
       vol: 0.5
     screenShakeIntensity: 2
-  goldenMaterial: {fileID: 2100000, guid: b25063e126c8c0f4983d7bde957ba8d1, type: 2}
-  goldenHitSFX:
-    sfx:
-      Guid:
-        Data1: -1150991800
-        Data2: 1292723475
-        Data3: 390400699
-        Data4: -502872529
-      Path: event:/CoinKaching
-    vol: 0.5
-  goldenHitVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
-  goldenHitFloater: {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}
+  variantInfos:
+  - variantType: 1
+    cabbageVariantPrefab: {fileID: 4773969002426643059, guid: d0957df6d35631b4787ff23cfbc396b2, type: 3}
+  - variantType: 2
+    cabbageVariantPrefab: {fileID: 6639290188826528234, guid: a00b34af2cdfefb4baaa1f2ebae7b203, type: 3}
+  currentVariant: {fileID: 0}
 --- !u!114 &4296465345979103945
 MonoBehaviour:
   m_ObjectHideFlags: 0

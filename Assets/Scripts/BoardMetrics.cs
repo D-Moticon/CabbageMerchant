@@ -6,6 +6,8 @@ public class BoardMetrics : MonoBehaviour
     [Header("Grid Settings")]
     public Vector2 gridBounds = new Vector2(10f, 10f);
     public Vector2 gridSpacing = new Vector2(1f, 1f);
+    public Vector2 playBounds = new Vector2(10f, 10f);
+    public Vector2 playBoundsOffset = new Vector2(0f, 0f);
 
     [HideInInspector]public List<Vector2> gridPoints;
 
@@ -69,5 +71,24 @@ public class BoardMetrics : MonoBehaviour
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(transform.position, gridBounds);
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position+(Vector3)playBoundsOffset,playBounds);
+    }
+
+    public bool IsObjectInPlayBounds(GameObject go)
+    {
+        // Get object position
+        Vector2 pos = go.transform.position;
+    
+        // Compute min/max of the play area
+        Vector2 center = (Vector2)transform.position+playBoundsOffset;
+        Vector2 half = playBounds / 2f;
+        Vector2 min = center - half;
+        Vector2 max = center + half;
+
+        // Check if inside on both axes
+        return pos.x >= min.x && pos.x <= max.x
+                              && pos.y >= min.y && pos.y <= max.y;
     }
 }

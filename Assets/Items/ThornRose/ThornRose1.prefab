@@ -54,6 +54,10 @@ MonoBehaviour:
   - rid: 328109986689056890
   triggers:
   - rid: 328109942880338085
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
   normalizedPrice: 1.2
   sellValueMultiplier: 1
@@ -79,10 +83,11 @@ MonoBehaviour:
       data:
         owningItem: {fileID: 0}
         everyXHit: 1
-        onlyByBall: 0
+        onlyByBall: 1
     - rid: 328109986689056856
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         objectToSpawn: {fileID: 11400000, guid: b58ae19dc9adde446b25405cdefc3369, type: 2}
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}
@@ -90,7 +95,7 @@ MonoBehaviour:
         objectName: thorn
         objectDescription: bonks cabbages for 0.5
         quantity: 1
-        speedRange: {x: 5, y: 10}
+        speedRange: {x: 8, y: 15}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
         spreadType: 1
@@ -102,6 +107,7 @@ MonoBehaviour:
     - rid: 328109986689056890
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         objectToSpawn: {fileID: 11400000, guid: 8cc73615a67a13545b66715132f2bf93, type: 2}
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}
@@ -109,7 +115,7 @@ MonoBehaviour:
         objectName: <rainb>rainbow thorn</rainb>
         objectDescription: bonks cabbages for 0.5 and bounces once
         quantity: 1
-        speedRange: {x: 5, y: 10}
+        speedRange: {x: 8, y: 15}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
         spreadType: 1

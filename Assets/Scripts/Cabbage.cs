@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using Sirenix.OdinInspector;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class Cabbage : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class Cabbage : MonoBehaviour
     {
         Linear,
         Logarithmic,
-        Root
+        Root,
+        None
     }
 
     [Header("References")]
@@ -66,7 +68,8 @@ public class Cabbage : MonoBehaviour
     [Header("Scoring")]
     public float startingPoints = 0f;
 
-    public double pointsPerSize = 1;
+    public double basePointsPerSize = 1;
+    [HideInInspector]public double currentPointsPerSize = 1;
     public float pointMultPerColor = 1.5f;
     [HideInInspector]public double points;
 
@@ -80,13 +83,28 @@ public class Cabbage : MonoBehaviour
 
     public List<ScoringInfo> scoringInfos;
 
-    [Header("Golden")]
-    public Material goldenMaterial;
+    public class CabbageBonkParams
+    {
+        public Cabbage c;
+        public Ball ball;
+        public Vector2 pos;
+        public Vector2 normal;
+        public bool treatAsBall = false;
+    }
 
-    public SFXInfo goldenHitSFX;
-    public PooledObjectData goldenHitVFX;
-    public FloaterReference goldenHitFloater;
-    private bool isGolden = false;
+    public delegate void CabbageBonkedDelegate(CabbageBonkParams cbp);
+    public static event CabbageBonkedDelegate CabbageBonkedEvent;
+
+    [System.Serializable]
+    public class VariantInfo
+    {
+        public CabbageVariantType variantType;
+        public CabbageVariant cabbageVariantPrefab;
+    }
+
+    public List<VariantInfo> variantInfos;
+    public CabbageVariant currentVariant;
+    public CabbageVariantType currentVariantType;
 
     public class CabbageMergedParams
     {
@@ -132,7 +150,7 @@ public class Cabbage : MonoBehaviour
         }
     }
 
-    public void Bonk(float bonkValue, Vector2 collisionPos, Vector2 normal = default)
+    public void Bonk(float bonkValue, Vector2 collisionPos, Vector2 normal = default, Ball ball = null, bool treatAsBall = false)
     {
         sizeLevel = Mathf.Min(sizeLevel + bonkValue, maxSizeLevel);
         UpdateSizeLevel();
@@ -146,18 +164,21 @@ public class Cabbage : MonoBehaviour
         float intensity = 1f / sca;
         bonkFeel.PlayFeedbacks(transform.position, intensity);
         pointsTextFeel.PlayFeedbacks(transform.position, intensity);
-
-        if (isGolden)
-        {
-            float goldValue = Singleton.Instance.playerStats.goldenCabbageValue;
-            Singleton.Instance.playerStats.AddCoins(goldValue);
-            Singleton.Instance.floaterManager.SpawnFloater(goldenHitFloater, goldValue.ToString(), this.transform.position);
-            goldenHitSFX.Play();
-            goldenHitVFX.Spawn(this.transform.position);
-            SetUnGolden();
-        }
         
         UpdatePoints();
+
+        CabbageBonkParams cbp = new CabbageBonkParams();
+        cbp.c = this;
+        cbp.pos = collisionPos;
+        cbp.normal = normal;
+        cbp.ball = ball;
+        cbp.treatAsBall = treatAsBall;
+        CabbageBonkedEvent?.Invoke(cbp);
+
+        if (currentVariant != null)
+        {
+            currentVariant.CabbageBonked(cbp);
+        }
     }
 
     public void Pop(Vector2 collisionPos)
@@ -178,7 +199,7 @@ public class Cabbage : MonoBehaviour
 
     void UpdatePoints()
     {
-        points = sizeLevel * pointsPerSize * (1 + pointMultPerColor * colorLevel);
+        points = sizeLevel * currentPointsPerSize * (1 + pointMultPerColor * colorLevel);
         pointsText.text = Helpers.FormatWithSuffix(points);
     }
     
@@ -218,7 +239,19 @@ public class Cabbage : MonoBehaviour
 
         GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(this);
         GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(otherCabbage);
+
+        if (this.currentVariantType != CabbageVariantType.none)
+        {
+            c.SetVariant(this.currentVariantType);
+        }
         
+        else if (otherCabbage.currentVariantType != CabbageVariantType.none)
+        {
+            c.SetVariant(otherCabbage.currentVariantType);
+        }
+        
+        SetNoVariant();
+        otherCabbage.SetNoVariant();
         gameObject.SetActive(false);
         otherCabbage.gameObject.SetActive(false);
 
@@ -266,6 +299,10 @@ public class Cabbage : MonoBehaviour
                 sca = startingScale + scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
                 break;
 
+            case GrowthMode.None:
+                sca = transform.localScale.x;
+                break;
+            
             default:
                 sca = startingScale;
                 break;
@@ -294,15 +331,53 @@ public class Cabbage : MonoBehaviour
         }
     }
 
-    public void SetGolden()
+    public void SetVariant(CabbageVariantType cvt)
     {
-        isGolden = true;
-        sr.material = goldenMaterial;
+        CabbageVariant variantPrefab = null;
+
+        for (int i = 0; i < variantInfos.Count; i++)
+        {
+            if (variantInfos[i].variantType == cvt)
+            {
+                variantPrefab = variantInfos[i].cabbageVariantPrefab;
+            }
+        }
+        
+        if (variantPrefab == null)
+        {
+            print($"No prefab found for {cvt})");
+            return;
+        }
+        
+        if (currentVariant != null)
+        {
+            currentVariant.RemoveVariant();
+            currentVariant = null;
+        }
+
+        CabbageVariant variant = Instantiate(variantPrefab, transform);
+        variant.transform.localPosition = Vector3.zero;
+        currentVariant = variant;
+        currentVariantType = cvt;
+        
+        variant.Initialize(this);
     }
 
-    public void SetUnGolden()
+    public void SetNoVariant()
     {
-        isGolden = false;
+        if (currentVariant != null)
+        {
+            currentVariant.RemoveVariant();
+            currentVariant = null;
+        }
+
+        currentVariantType = CabbageVariantType.none;
         sr.material = baseMaterial;
+        currentPointsPerSize = basePointsPerSize;
+    }
+
+    public void AddPointsPerSize(double pointAdd)
+    {
+        currentPointsPerSize += pointAdd;
     }
 }

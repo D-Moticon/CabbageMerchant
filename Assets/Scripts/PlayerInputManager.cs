@@ -9,6 +9,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField]private InputActionReference crosshairMoveInput;
     [SerializeField] private InputActionReference mousePosInput;
     [SerializeField] private InputActionReference fireInput;
+    [SerializeField] private InputActionReference weaponFireInput;
 
     public Vector2 crosshairMove;
     public Vector2 mousePos;
@@ -16,6 +17,12 @@ public class PlayerInputManager : MonoBehaviour
     public bool fireDown;
     public bool fireHeld;
     public bool fireUp;
+    public bool weaponFireDown;
+    public bool weaponFireHeld;
+    public bool weaponFireUp;
+
+    public static System.Action weaponFireDownAction;
+    public static System.Action weaponFireUpAction;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,5 +42,19 @@ public class PlayerInputManager : MonoBehaviour
         fireDown = fireInput.action.WasPressedThisFrame();
         fireHeld = fireInput.action.IsPressed();
         fireUp = fireInput.action.WasReleasedThisFrame();
+
+        weaponFireDown = weaponFireInput.action.WasPressedThisFrame();
+        weaponFireHeld = weaponFireInput.action.IsPressed();
+        weaponFireUp = weaponFireInput.action.WasReleasedThisFrame();
+
+        if (weaponFireDown)
+        {
+            weaponFireDownAction?.Invoke();
+        }
+
+        if (weaponFireUp)
+        {
+            weaponFireUpAction?.Invoke();
+        }
     }
 }

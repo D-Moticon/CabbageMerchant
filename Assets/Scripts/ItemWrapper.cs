@@ -1,6 +1,7 @@
 using System;
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemWrapper : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ItemWrapper : MonoBehaviour
     public Color purchaseFloaterColor = Color.white;
     public MMF_Player hoveredFeel;
     public SFXInfo hoveredSFX;
+    public Slider cooldownSlider;
     
     private void OnEnable()
     {
@@ -27,6 +29,37 @@ public class ItemWrapper : MonoBehaviour
         ToolTip.HoverableHoveredEvent -= HoverableHoveredListener;
     }
 
+    private void Update()
+    {
+        if (item.hasCooldown)
+        {
+            if (item.cooldownCounter > 0)
+            {
+                cooldownSlider.gameObject.SetActive(true);
+                cooldownSlider.value = item.cooldownCounter / item.cooldownDuration;
+            }
+
+            else
+            {
+                cooldownSlider.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void InitializeItemWrapper(Item theItem)
+    {
+        item = theItem;
+        if (item.hasCooldown)
+        {
+            cooldownSlider.gameObject.SetActive(true);
+        }
+
+        else
+        {
+            cooldownSlider.gameObject.SetActive(false);
+        }
+    }
+    
     void ItemPurchasedListener(Item purchasedItem)
     {
         if (purchasedItem == item)

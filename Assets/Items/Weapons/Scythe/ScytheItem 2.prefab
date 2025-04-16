@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6625352214979824952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2184116488834023754}
+  - component: {fileID: 4464935079155661255}
+  m_Layer: 0
+  m_Name: ScytheItem 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2184116488834023754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625352214979824952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4464935079155661255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625352214979824952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Scythe III
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 5391aa5a59f9d864bb5ebb0e450e4fe4, type: 3}
+  itemType: 2
+  effects:
+  - rid: 328110031350006016
+  holofoilEffects:
+  - rid: 328110031350006253
+  triggers:
+  - rid: 328110031350006017
+  triggerChance: 1
+  hasCooldown: 1
+  cooldownDuration: 7
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 917333078
+        Data2: 1073797144
+        Data3: 2003771520
+        Data4: -638800522
+      Path: event:/ScytheSwoosh
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  isHolofoil: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110031350006016
+      type: {class: Weapon_Scythe_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        scythe: {fileID: 11400000, guid: 90c0726d28c0a8a44ba2cbcb349777c6, type: 2}
+        lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
+        boostSpeed: 65
+        duration: 1.5
+        scytheRotationOffset: 90
+        scytheDescription: Chain Scythe
+        extraDescriptionInfo: 
+    - rid: 328110031350006017
+      type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+    - rid: 328110031350006253
+      type: {class: Weapon_Scythe_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        scythe: {fileID: 11400000, guid: 19e8089355712894088126415b61e411, type: 2}
+        lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
+        boostSpeed: 65
+        duration: 1.5
+        scytheRotationOffset: 90
+        scytheDescription: Holofoil Chain Scythe
+        extraDescriptionInfo: Cabbages hit by this have a 2% chance to become <rainb>rainbow</rainb>

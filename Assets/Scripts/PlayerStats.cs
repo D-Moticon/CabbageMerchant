@@ -18,6 +18,11 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float goldenCabbageValue = 1f;
     [HideInInspector] public float shopDiscountMult = 1f;
     [HideInInspector] public float shopRarityMult = 1f;
+    public int startingShopReRolls = 1;
+    [HideInInspector] public int shopReRolls = 1;
+    public double startingReRollCost = 5;
+    [HideInInspector]public double reRollCost = 5;
+    [HideInInspector] public float allHolofoilRollChance = 0f;
     
     public delegate void DoubleEvent(double value);
 
@@ -45,6 +50,10 @@ public class PlayerStats : MonoBehaviour
         goldenCabbageValue = startingGoldenCabbageValue;
         shopDiscountMult = 1f;
         shopRarityMult = 1f;
+        shopReRolls = startingShopReRolls;
+        reRollCost = startingReRollCost;
+        allHolofoilRollChance = 0f;
+        print("STATS");
     }
     
     public void AddCoins(double coinsToAdd)
@@ -85,5 +94,24 @@ public class PlayerStats : MonoBehaviour
     public void AddShopRarityMult(float rarMultAdd)
     {
         shopRarityMult += rarMultAdd;
+    }
+
+    public void ReduceReRollCost(double costReduction)
+    {
+        reRollCost -= costReduction;
+        if (reRollCost < 1)
+        {
+            reRollCost = 1;
+        }
+    }
+
+    public void IncreaseReRolls(int number)
+    {
+        shopReRolls += number;
+    }
+
+    public void AddAllHolofoilRollChance(float chanceAdd)
+    {
+        allHolofoilRollChance += chanceAdd;
     }
 }

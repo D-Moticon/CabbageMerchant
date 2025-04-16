@@ -8,13 +8,13 @@ public class CabbageHitTrigger : Trigger
         
     public override void InitializeTrigger(Item item)
     {
-        Ball.BallHitCabbageEvent += CabbageHitListener;
+        Cabbage.CabbageBonkedEvent += CabbageHitListener;
         GameStateMachine.EnteringAimStateAction += AimStateEnteredListener;
     }
 
     public override void RemoveTrigger(Item item)
     {
-        Ball.BallHitCabbageEvent -= CabbageHitListener;
+        Cabbage.CabbageBonkedEvent -= CabbageHitListener;
         GameStateMachine.EnteringAimStateAction -= AimStateEnteredListener;
     }
 
@@ -36,9 +36,9 @@ public class CabbageHitTrigger : Trigger
         return ($"Every {everyXHit} cabbage{plural} bonked{onlyByBallString}");
     }
 
-    void CabbageHitListener(Ball.BallHitCabbageParams bcParams)
+    void CabbageHitListener(Cabbage.CabbageBonkParams cbp)
     {
-        if (onlyByBall && bcParams.ball == null)
+        if (onlyByBall && !cbp.treatAsBall)
         {
             return;
         }
@@ -47,10 +47,10 @@ public class CabbageHitTrigger : Trigger
         if (hitCounter >= everyXHit)
         {
             TriggerContext tc = new TriggerContext();
-            tc.ball = bcParams.ball;
-            tc.cabbage = bcParams.cabbage;
-            tc.point = bcParams.point;
-            tc.normal = bcParams.normal;
+            tc.ball = cbp.ball;
+            tc.cabbage = cbp.c;
+            tc.point = cbp.pos;
+            tc.normal = cbp.normal;
             owningItem.TryTriggerItem(tc);
             hitCounter = 0;
         }

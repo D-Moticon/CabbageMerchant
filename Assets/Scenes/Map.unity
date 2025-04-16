@@ -166,9 +166,10 @@ MonoBehaviour:
   defaultMapBlueprint: {fileID: 11400000, guid: 446757a25c0535c4cb1d95ad9f529928, type: 2}
   currentMapBlueprint: {fileID: 0}
   map: {fileID: 0}
+  mapCharacterPrefab: {fileID: 7033008294106402310, guid: 77487a92485bb7c42a907dd04857bb92, type: 3}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.9490196}
-  scrollDuration: 0.5
+  scrollDuration: 1
   yOffset: -1.5
   currentLayerIndex: 0
 --- !u!1 &1100633564

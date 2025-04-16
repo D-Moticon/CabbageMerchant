@@ -376,7 +376,7 @@ MonoBehaviour:
         Data3: 1485605311
         Data4: 451797762
       Path: event:/UITick01
-    vol: 0.5
+    vol: 0.3
   hoverFeel: {fileID: 2624948376030247513}
 --- !u!61 &7646074633065750943
 BoxCollider2D:
