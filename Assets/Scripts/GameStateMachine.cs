@@ -3,8 +3,10 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using MoreMountains.Tools;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using System.Linq;
 
 public class GameStateMachine : MonoBehaviour
 {
@@ -38,6 +40,14 @@ public class GameStateMachine : MonoBehaviour
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
 
+    public class CabbageSlot
+    {
+        public Vector2 position;
+        public Cabbage c;
+    }
+
+    [HideInInspector] public List<CabbageSlot> cabbageSlots = new List<CabbageSlot>();
+    
     public static Action BoardFinishedPopulatingAction;
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
@@ -52,7 +62,17 @@ public class GameStateMachine : MonoBehaviour
 
     public static DoubleDelegate RoundGoalUpdatedEvent;
     public static DoubleDelegate RoundScoreUpdatedEvent;
-    
+
+    private void OnEnable()
+    {
+        Cabbage.CabbageMergedEvent += CabbageMergedListener;
+    }
+
+    private void OnDisable()
+    {
+        Cabbage.CabbageMergedEvent -= CabbageMergedListener;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -113,6 +133,37 @@ public class GameStateMachine : MonoBehaviour
             activeCabbages.Remove(c);
         }
     }
+
+    public CabbageSlot GetEmptyCabbageSlot(bool ensureNotOverlappingCabbage = true, float checkRadius = 0.5f)
+    {
+        List<CabbageSlot> validSlots = 
+            (from cs in cabbageSlots
+                where cs.c == null
+                select cs).ToList();
+
+        if (ensureNotOverlappingCabbage)
+        {
+            validSlots = validSlots.Where(slot =>
+            {
+                Collider2D[] overlaps = Physics2D.OverlapCircleAll(slot.position, checkRadius);
+                foreach (var col in overlaps)
+                {
+                    if (col.GetComponent<Cabbage>() != null)
+                    {
+                        return false; // This slot overlaps a cabbage
+                    }
+                }
+                return true;
+            }).ToList();
+        }
+
+        if (validSlots.Count == 0)
+        {
+            return null;
+        }
+
+        return validSlots[Random.Range(0, validSlots.Count)];
+    }
     
     public class PopulateBoardState : State
     {
@@ -138,13 +189,23 @@ public class GameStateMachine : MonoBehaviour
             yield return new WaitForSeconds(.75f);
             
             int numPegs = gameStateMachine.numberPegs + Singleton.Instance.playerStats.extraStartingCabbages;
-            Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
             
+            gameStateMachine.cabbageSlots.Clear();
             gameStateMachine.activeCabbages.Clear();
             
-            for (int i = 0; i < numPegs; i++)
+            List<Vector2> gridPoints = GameSingleton.Instance.boardMetrics.GetAllGridPoints();
+            for (int i = 0; i < gridPoints.Count; i++)
             {
-                Cabbage c = gameStateMachine.cabbagePooledObject.Spawn(positions[i], Quaternion.identity).GetComponent<Cabbage>();
+                CabbageSlot cs = new CabbageSlot();
+                cs.position = gridPoints[i];
+                gameStateMachine.cabbageSlots.Add(cs);
+            }
+
+            List<CabbageSlot> slotsToPopulate = Helpers.GetUniqueRandomEntries(gameStateMachine.cabbageSlots, numPegs);
+            for (int i = 0; i < slotsToPopulate.Count; i++)
+            {
+                Cabbage c = gameStateMachine.cabbagePooledObject.Spawn(slotsToPopulate[i].position, Quaternion.identity).GetComponent<Cabbage>();
+                slotsToPopulate[i].c = c;
                 c.bonkFeel.PlayFeedbacks();
 
                 float goldRand = Random.Range(0f, 1f);
@@ -156,7 +217,9 @@ public class GameStateMachine : MonoBehaviour
                 gameStateMachine.activeCabbages.Add(c);
                 yield return new WaitForSeconds(0.05f);
             }
-
+            
+            Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
+ 
             gameStateMachine.ResetRoundScore();
             gameStateMachine.SetRoundGoal();
             State newState = new AimingState();
@@ -195,6 +258,17 @@ public class GameStateMachine : MonoBehaviour
             currentRoundScore += activeCabbages[i].points;
         }
         RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
+    }
+
+    void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
+    {
+        for(int i = 0; i < cabbageSlots.Count; i++)
+        {
+            if (cabbageSlots[i].c == cmp.oldCabbageA || cabbageSlots[i].c == cmp.oldCabbageB)
+            {
+                cabbageSlots[i].c = null;
+            }
+        }
     }
     
     public class AimingState : State

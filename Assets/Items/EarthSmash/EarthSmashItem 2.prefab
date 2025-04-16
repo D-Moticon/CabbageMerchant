@@ -54,7 +54,7 @@ MonoBehaviour:
   - rid: 328110010024067180
   triggers:
   - rid: 328109942880338091
-  rarity: 1
+  rarity: 0
   normalizedPrice: 1.5
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}

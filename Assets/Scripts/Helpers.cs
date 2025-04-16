@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class Helpers
 {
@@ -133,4 +135,28 @@ public static class Helpers
             return aOut1;
         return aOut1 + (aOut2 - aOut1) * t;
     }
+
+    public static List<T> GetUniqueRandomEntries<T>(List<T> inputList, int count)
+    {
+        if (inputList == null)
+        {
+            Debug.LogWarning("Input list is null.");
+            return new List<T>();
+        }
+
+        if (count <= 0 || inputList.Count == 0)
+        {
+            return new List<T>();
+        }
+
+        if (count >= inputList.Count)
+        {
+            // Shuffle and return all elements
+            return inputList.OrderBy(x => Random.value).ToList();
+        }
+
+        // Shuffle and take only the desired amount
+        return inputList.OrderBy(x => Random.value).Take(count).ToList();
+    }
+
 }

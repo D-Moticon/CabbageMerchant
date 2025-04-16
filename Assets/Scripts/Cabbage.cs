@@ -91,6 +91,8 @@ public class Cabbage : MonoBehaviour
     public class CabbageMergedParams
     {
         public Cabbage newCabbage;
+        public Cabbage oldCabbageA;
+        public Cabbage oldCabbageB;
         public Vector2 pos;
         public float scale;
     }
@@ -224,6 +226,8 @@ public class Cabbage : MonoBehaviour
         cmp.pos = pos;
         cmp.newCabbage = c;
         cmp.scale = sca;
+        cmp.oldCabbageA = this;
+        cmp.oldCabbageB = otherCabbage;
         CabbageMergedEvent?.Invoke(cmp);
     }
 

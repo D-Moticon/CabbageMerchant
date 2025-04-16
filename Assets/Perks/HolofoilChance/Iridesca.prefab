@@ -81,8 +81,8 @@ MonoBehaviour:
     - rid: 328109986689057254
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        holofoilChanceAdd: 0.02
+        holofoilChanceAdd: 0.03
     - rid: 328109986689057255
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        holofoilChanceAdd: 0.04
+        holofoilChanceAdd: 0.06

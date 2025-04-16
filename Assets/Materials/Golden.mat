@@ -539,8 +539,8 @@ Material:
     - _InnerOutlineNoiseScale: {r: 4, g: 4, b: 0, a: 0}
     - _InnerOutlineNoiseSpeed: {r: 0, g: 0.1, b: 0, a: 0}
     - _InnerOutlineTextureSpeed: {r: 0.5, g: 0, b: 0, a: 0}
-    - _MetalColor: {r: 1.4980392, g: 0.9098039, b: 0.078431375, a: 1}
-    - _MetalHighlightColor: {r: 0.8603976, g: 0.54506856, b: 0.09459868, a: 1}
+    - _MetalColor: {r: 2.1185474, g: 1.286657, b: 0.110918716, a: 1}
+    - _MetalHighlightColor: {r: 0.9883373, g: 0.6261194, b: 0.10866535, a: 1}
     - _MetalNoiseDistortion: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _MetalNoiseDistortionScale: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _MetalNoiseDistortionSpeed: {r: -0.05, g: -0.05, b: 0, a: 0}

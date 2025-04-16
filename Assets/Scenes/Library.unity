@@ -326,13 +326,9 @@ MonoBehaviour:
   - rarity: 0
     weight: 1
   - rarity: 1
-    weight: 0.25
+    weight: 0.1
   - rarity: 2
-    weight: 0.0625
-  - rarity: 3
-    weight: 0.015625
-  - rarity: 4
-    weight: 0.003
+    weight: 0.01
 --- !u!4 &763103696
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class BoardMetrics : MonoBehaviour
     public Vector2 gridBounds = new Vector2(10f, 10f);
     public Vector2 gridSpacing = new Vector2(1f, 1f);
 
-    private List<Vector2> gridPoints;
+    [HideInInspector]public List<Vector2> gridPoints;
 
     private void GenerateGridPoints()
     {
@@ -26,6 +26,13 @@ public class BoardMetrics : MonoBehaviour
                 gridPoints.Add(point);
             }
         }
+    }
+
+    public List<Vector2> GetAllGridPoints()
+    {
+        if (gridPoints == null || gridPoints.Count == 0)
+            GenerateGridPoints();
+        return gridPoints;
     }
 
     public Vector2[] GetRandomGridPoints(int amount)

@@ -77,11 +77,11 @@ MonoBehaviour:
     - rid: 328109986689057171
       type: {class: GoldenCabbageChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        goldenChanceAdd: 0.03
+        goldenChanceAdd: 0.05
     - rid: 328109986689057172
       type: {class: GoldenCabbageChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        goldenChanceAdd: 0.06
+        goldenChanceAdd: 0.1
     - rid: 328109986689057173
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:

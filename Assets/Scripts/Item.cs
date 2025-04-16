@@ -27,7 +27,19 @@ public class Item : MonoBehaviour, IHoverable
     public SFXInfo triggerSFX;
     public Item upgradedItem;
     [HideInInspector] public bool isHolofoil = false;
-    
+
+    public delegate void ItemDelegate(Item item);
+
+    public static event ItemDelegate ItemTriggeredEvent;
+
+    private static int triggerPerFrameLimit = 5;
+    private int currentFrameTriggerCount = 0;
+
+    private void Update()
+    {
+        currentFrameTriggerCount = 0;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void OnEnable()
     {
@@ -53,6 +65,11 @@ public class Item : MonoBehaviour, IHoverable
     
     public virtual void TryTriggerItem(TriggerContext tc = null)
     {
+        if (currentFrameTriggerCount > triggerPerFrameLimit)
+        {
+            return;
+        }
+        
         TriggerItem(tc);
     }
 
@@ -80,8 +97,9 @@ public class Item : MonoBehaviour, IHoverable
             } 
         }
         
-        
         triggerSFX.Play();
+        ItemTriggeredEvent?.Invoke(this);
+        currentFrameTriggerCount++;
     }
     
     public virtual string GetTitleText(HoverableModifier hoverableModifier = null)

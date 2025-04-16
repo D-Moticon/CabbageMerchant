@@ -42,7 +42,7 @@ public class Map : MonoBehaviour
         // Adjust the map background sprite size (assuming Draw Mode is Tiled)
         Vector2 bgSize = mapBG.size;
         bgSize.y = bgHeight;
-        mapBG.size = bgSize;
+        mapBG.size = bgSize/mapBG.transform.localScale;
     
         // Reposition the background so that its bottom edge is at y = -mapBG_YMargin.
         // With a pivot at center, the bottom edge is at (position.y - bgHeight/2).
@@ -71,6 +71,8 @@ public class Map : MonoBehaviour
         // The first layer (layer 0) is at y=0,
         // next layer (layer 1) is at y=3, etc.
 
+        float xOff = (mapPoints.Count-1) * xStep * 0.5f;
+        
         for (int i = 0; i < mapPoints.Count; i++)
         {
             MapPoint pointData = mapPoints[i];
@@ -83,7 +85,7 @@ public class Map : MonoBehaviour
             // Place them left to right, but each layer is placed further up
             float randX = Random.Range(-randomXOffset * 0.5f, randomXOffset * 0.5f);
             float randY = Random.Range(-randomYOffset * 0.5f, randomYOffset * 0.5f);
-            icon.transform.localPosition = new Vector3(xOffset + i * xStep, yPos, 0f) + new Vector3(randX, randY, 0f);
+            icon.transform.localPosition = new Vector3(xOffset + i * xStep-xOff, yPos, 0f) + new Vector3(randX, randY, 0f);
 
             newLayer.mapIcons.Add(icon);
         }
