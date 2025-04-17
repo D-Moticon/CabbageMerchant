@@ -55,7 +55,10 @@ MonoBehaviour:
   triggers:
   - rid: 328110031350005870
   triggerChance: 0.25
-  rarity: 0
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 1
   normalizedPrice: 2
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
@@ -78,6 +81,7 @@ MonoBehaviour:
     - rid: 328110031350005869
       type: {class: SpawnCabbageEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         ensureNoCabbageOverlap: 1
         overlapCheckRadius: 0.5
         specialVariants: 
@@ -90,6 +94,7 @@ MonoBehaviour:
     - rid: 328110031350005881
       type: {class: SpawnCabbageEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         ensureNoCabbageOverlap: 1
         overlapCheckRadius: 0.5
         specialVariants: 02000000

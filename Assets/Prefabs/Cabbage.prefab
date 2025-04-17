@@ -1162,7 +1162,7 @@ MonoBehaviour:
   growthMode: 2
   logBase: 2
   logMultiplier: 1
-  rootExponent: 0.65
+  rootExponent: 0.5
   isMerging: 0
   startingPoints: 0
   basePointsPerSize: 1

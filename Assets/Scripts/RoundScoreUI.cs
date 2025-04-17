@@ -8,6 +8,7 @@ using System.Collections;
 public class RoundScoreUI : MonoBehaviour
 {
     public TMP_Text roundScoreText;
+    public MMF_Player roundScoreFeel;
     public TMP_Text roundGoalText;
     public Slider roundScoreSlider;
     public TMP_Text roundScoreMultText;
@@ -18,6 +19,7 @@ public class RoundScoreUI : MonoBehaviour
     private bool isFlashing = false; //Give the bar a second to flash before it drops to zero
     public float flashDuration = 0.5f;
     private float flashCounter = 0f;
+    private double oldScore = 0;
 
     private void OnEnable()
     {
@@ -58,6 +60,11 @@ public class RoundScoreUI : MonoBehaviour
             return;
         }
 
+        if (newScore > oldScore)
+        {
+            roundScoreFeel.PlayFeedbacks();
+        }
+        
         double sliderVal = roundScoreMult % 1;
         
         //Give a slight delay before jumping back down to zero so user can see the flash
@@ -73,6 +80,8 @@ public class RoundScoreUI : MonoBehaviour
         
         roundScoreSlider.value = (float)sliderVal;
         roundScoreMultText.text = $"{Math.Floor(roundScoreMult).ToString()}<size=5>x";
+
+        oldScore = newScore;
     }
 
     void BoardPopulatedListener()

@@ -58,7 +58,7 @@ MonoBehaviour:
   hasCooldown: 0
   cooldownDuration: 1
   cooldownCounter: 0
-  rarity: 0
+  rarity: 1
   normalizedPrice: 4
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
