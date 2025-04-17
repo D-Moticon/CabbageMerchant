@@ -54,8 +54,12 @@ MonoBehaviour:
   - rid: 328109986689057193
   triggers:
   - rid: 328109986689057194
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 1.2
+  normalizedPrice: 4.8
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
@@ -77,6 +81,7 @@ MonoBehaviour:
     - rid: 328109986689056856
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         objectToSpawn: {fileID: 11400000, guid: c9ebe486a71bf304fa073574a11e86a9, type: 2}
         spawnLocation: 1
         spawnCenter: {x: 0, y: 5}
@@ -96,6 +101,7 @@ MonoBehaviour:
     - rid: 328109986689057193
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
         objectToSpawn: {fileID: 11400000, guid: c9ebe486a71bf304fa073574a11e86a9, type: 2}
         spawnLocation: 1
         spawnCenter: {x: 0, y: 5}

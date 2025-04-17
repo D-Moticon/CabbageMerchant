@@ -393,6 +393,7 @@ MonoBehaviour:
   mousePosInput: {fileID: -4320989274038088009, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   fireInput: {fileID: -372102770094967283, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   weaponFireInput: {fileID: 4632284586783306398, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  dialogueSkipInput: {fileID: -1956657098736212562, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   crosshairMove: {x: 0, y: 0}
   mousePos: {x: 0, y: 0}
   mousePosWorldSpace: {x: 0, y: 0}
@@ -402,6 +403,7 @@ MonoBehaviour:
   weaponFireDown: 0
   weaponFireHeld: 0
   weaponFireUp: 0
+  dialogueSkipDown: 0
 --- !u!4 &44892117
 Transform:
   m_ObjectHideFlags: 0
@@ -417,6 +419,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1379987634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &115451546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 115451547}
+  - component: {fileID: 115451548}
+  m_Layer: 0
+  m_Name: TaskManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &115451547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115451546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1379987634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &115451548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115451546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7ca35a7e5315947ab17f13606d8b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &220703901
 GameObject:
   m_ObjectHideFlags: 0
@@ -26511,10 +26557,7 @@ MonoBehaviour:
   spacing: {x: 2.05, y: 1.7}
   slotSize: {x: 1.5, y: 1.25}
   forceHolofoilStarting: 0
-  startingItems:
-  - {fileID: 1879969852805227144, guid: 8965a94defbf48a42a8438304904e901, type: 3}
-  - {fileID: 4464935079155661255, guid: 0c5f8ddf84043da4ebec159524a98bc2, type: 3}
-  - {fileID: 716754708759249075, guid: 4640ed49f9de3e24683d7d1e464464e5, type: 3}
+  startingItems: []
   startingPerks: []
   sellCollider: {fileID: 5947625663896968995}
   sellVFX: {fileID: 709769253}
@@ -26528,6 +26571,7 @@ MonoBehaviour:
       Path: event:/CoinKaching
     vol: 0.5
   sellFloater: {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}
+  infoFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
   mergeVFX: {fileID: 5689785404330400564}
   mergeSFX:
     sfx:
@@ -27311,6 +27355,7 @@ Transform:
   - {fileID: 41536386}
   - {fileID: 233162596}
   - {fileID: 220703902}
+  - {fileID: 115451547}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1409400560
@@ -43660,6 +43705,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 676c92c679e2cdb4f9eb8c5e93566ff0, type: 2}
   - {fileID: 11400000, guid: 184b250b48c41a24391b8f5f623bd8b1, type: 2}
   - {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}
+  - {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
   initialPoolSize: 20
 --- !u!4 &2138810727
 Transform:
@@ -58813,6 +58859,26 @@ MonoBehaviour:
   currentItem: {fileID: 0}
   priceTextParent: {fileID: 0}
   priceText: {fileID: 0}
+  isEventSlot: 0
+  bumpFeel: {fileID: 0}
+  spawnSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  itemAddedSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
 --- !u!1 &5689785404330400561
 GameObject:
   m_ObjectHideFlags: 0

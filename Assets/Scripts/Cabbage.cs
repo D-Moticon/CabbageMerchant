@@ -27,6 +27,7 @@ public class Cabbage : MonoBehaviour
     public Color floaterColor = Color.white;
     public SFXInfo bonkSFX;
     public SFXInfo popSFX;
+    public SFXInfo spawnSFX;
     public TMP_Text pointsText;
     public MMF_Player pointsTextFeel;
     public FloaterReference popFloater;
@@ -118,7 +119,12 @@ public class Cabbage : MonoBehaviour
     public delegate void CabbageMergedDelegate(CabbageMergedParams cpp);
 
     public static event CabbageMergedDelegate CabbageMergedEvent;
-    
+
+    private void OnEnable()
+    {
+        spawnSFX.Play();
+    }
+
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Static;

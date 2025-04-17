@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6625352214979824952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2184116488834023754}
+  - component: {fileID: 4464935079155661255}
+  m_Layer: 0
+  m_Name: SpadeItem 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2184116488834023754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625352214979824952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4464935079155661255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625352214979824952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Spade II
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 4e4ed6da7dc338d4895bc55d215ed6cf, type: 3}
+  itemType: 2
+  effects:
+  - rid: 328110044618948712
+  holofoilEffects:
+  - rid: 328110044618948730
+  triggers:
+  - rid: 328110031350006017
+  triggerChance: 1
+  hasCooldown: 1
+  cooldownDuration: 8
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 2
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 917333078
+        Data2: 1073797144
+        Data3: 2003771520
+        Data4: -638800522
+      Path: event:/ScytheSwoosh
+    vol: 0.5
+  upgradedItem: {fileID: 4464935079155661255, guid: ffe6a9cc86cf5754baacf484d6146a6a, type: 3}
+  isHolofoil: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110031350006017
+      type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+    - rid: 328110044618948712
+      type: {class: Weapon_Spade_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        boostSpeed: 25
+        extraDescriptionInfo: 
+        ballHitEffect:
+          rid: 328110044618948721
+        ballHitVFX: {fileID: 11400000, guid: 1c6289358514390449ec8642d2888d3d, type: 2}
+        ballHitSFX:
+          sfx:
+            Guid:
+              Data1: -1211794237
+              Data2: 1241862876
+              Data3: -1821560144
+              Data4: 966856108
+            Path: event:/RockBreak
+          vol: 0.5
+        coinChance: 0.15
+        coinVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
+        coinSFX:
+          sfx:
+            Guid:
+              Data1: -1150991800
+              Data2: 1292723475
+              Data3: 390400699
+              Data4: -502872529
+            Path: event:/CoinKaching
+          vol: 0.5
+        spadeSprite: {fileID: 11400000, guid: cd3266c43c70b8f428e506471a6d6c95, type: 2}
+    - rid: 328110044618948721
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: rock
+        objectDescription: bonk cabbages for 2
+        quantity: 10
+        speedRange: {x: 8, y: 20}
+        spreadAngle: 45
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.45
+        spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        rotateVFXtoNormal: 1
+        velocityDirection: 1
+        worldVelocityDirection: {x: 0, y: 1}
+    - rid: 328110044618948730
+      type: {class: Weapon_Spade_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        boostSpeed: 25
+        extraDescriptionInfo: 10% Chance to create rainbow cabbage
+        ballHitEffect:
+          rid: 328110044618948731
+        ballHitVFX: {fileID: 11400000, guid: 1c6289358514390449ec8642d2888d3d, type: 2}
+        ballHitSFX:
+          sfx:
+            Guid:
+              Data1: -1211794237
+              Data2: 1241862876
+              Data3: -1821560144
+              Data4: 966856108
+            Path: event:/RockBreak
+          vol: 0.5
+        coinChance: 0.15
+        coinVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
+        coinSFX:
+          sfx:
+            Guid:
+              Data1: -1150991800
+              Data2: 1292723475
+              Data3: 390400699
+              Data4: -502872529
+            Path: event:/CoinKaching
+          vol: 0.5
+        spadeSprite: {fileID: 11400000, guid: 9a3c24d9381e7df4b995fd2039f7f2be, type: 2}
+    - rid: 328110044618948731
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: rock
+        objectDescription: bonk cabbages for 2
+        quantity: 10
+        speedRange: {x: 8, y: 20}
+        spreadAngle: 45
+        scaleRange: {x: 1, y: 1}
+        spreadType: 1
+        surfaceOffset: 0.45
+        spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
+        rotateVFXtoNormal: 1
+        velocityDirection: 1
+        worldVelocityDirection: {x: 0, y: 1}

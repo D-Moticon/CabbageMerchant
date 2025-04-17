@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Serialization;
+using MoreMountains.Feedbacks;
 
 public class Launcher : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Launcher : MonoBehaviour
     public Crosshair crosshair;
     public float launchSpeed;
     [HideInInspector] public Vector2 currentLaunchVelocity;
+    public MMF_Player launchFeel;
+    public SFXInfo launchSFX;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,6 +46,8 @@ public class Launcher : MonoBehaviour
     {
         Ball ball = objectPoolManager.Spawn(ballPooledObject, this.transform.position, Quaternion.identity).GetComponent<Ball>();
         ball.SetVelocity(currentLaunchVelocity);
+        launchFeel.PlayFeedbacks();
+        launchSFX.Play();
         return ball;
     }
 }

@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: TwinItemDupeDialogue
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110044618948781
+  - rid: 328110044618948782
+  - rid: 328110044618948783
+  - rid: 328110044618948802
+  - rid: 328110044618948807
+  - rid: 328110044618948808
+  - rid: 328110044618948836
+  - rid: 328110044618948860
+  - rid: 328110044618948811
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110044618948781
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+        dialogueLine: Yo, is that...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948782
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 219579929b75329419231e4e18b4b3c7, type: 2}
+        dialogueLine: ...A cabbage merchant?
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948783
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+        dialogueLine: No freaking way!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948802
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 219579929b75329419231e4e18b4b3c7, type: 2}
+        dialogueLine: Like, no way!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948807
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+        dialogueLine: My brother's been dying to see what kinda gear you guys carry
+          around!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948808
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 219579929b75329419231e4e18b4b3c7, type: 2}
+        dialogueLine: Dying, man!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948811
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+        dialogueLine: Peace!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948836
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 219579929b75329419231e4e18b4b3c7, type: 2}
+        dialogueLine: Show the twins an item?
+        hideCharacterName: 1
+        waitForSkipInput: 0
+        extraWaitTime: 0.5
+        centerText: 1
+        playSFX: 0
+    - rid: 328110044618948860
+      type: {class: ChoiceDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        choices:
+        - rid: 328110044618948861
+        - rid: 328110044618948867
+    - rid: 328110044618948861
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: Hell yeah!
+        dialogueTasks:
+        - rid: 328110044618948872
+        dialogueButton: {fileID: 0}
+    - rid: 328110044618948867
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: No Way!
+        dialogueTasks:
+        - rid: 328110044618948873
+        - rid: 328110044618948874
+        dialogueButton: {fileID: 0}
+    - rid: 328110044618948872
+      type: {class: DuplicateItemDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        validItemPlacedLine:
+          dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+          dialogueLine: It's cool!!
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+        duplicateVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+        itemDuplicatedLine:
+          dialogueCharacter: {fileID: 11400000, guid: 219579929b75329419231e4e18b4b3c7, type: 2}
+          dialogueLine: But two is cooler!!
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+        duplicateSFX:
+          sfx:
+            Guid:
+              Data1: -388259375
+              Data2: 1081402945
+              Data3: -420787289
+              Data4: 939684103
+            Path: event:/Score1
+          vol: 0.5
+        noItemsDialogueLine:
+          dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+          dialogueLine: Wait, you don't even have any gear? That's even cooler!
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+    - rid: 328110044618948873
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+        dialogueLine: Haha, I wouldn't either, that would be crazy!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110044618948874
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 219579929b75329419231e4e18b4b3c7, type: 2}
+        dialogueLine: Way crazy!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1

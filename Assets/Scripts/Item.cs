@@ -62,6 +62,11 @@ public class Item : MonoBehaviour, IHoverable
             t.InitializeTrigger(this);
         }
 
+        foreach (ItemEffect itemEffect in effects)
+        {
+            itemEffect.InitializeItemEffect();
+        }
+
         GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
     }
 
@@ -70,6 +75,11 @@ public class Item : MonoBehaviour, IHoverable
         foreach (Trigger t in triggers)
         {
             t.RemoveTrigger(this);
+        }
+        
+        foreach (ItemEffect itemEffect in effects)
+        {
+            itemEffect.DestroyItemEffect();
         }
         
         GameStateMachine.EnteringAimStateAction -= EnteringAimStateListener;
@@ -130,8 +140,14 @@ public class Item : MonoBehaviour, IHoverable
 
         cooldownCounter = cooldownDuration;
         triggerSFX.Play();
+        if (itemType == ItemType.Weapon)
+        {
+            GameSingleton.Instance.gameStateMachine.launcher.launchFeel.PlayFeedbacks();
+        }
         ItemTriggeredEvent?.Invoke(this);
         currentFrameTriggerCount++;
+        
+        
     }
     
     public virtual string GetTitleText(HoverableModifier hoverableModifier = null)

@@ -23,30 +23,38 @@ public class MapGenerator : MonoBehaviour
 
         // 2) Instantiate a new Map as a child of this MapGenerator
         Map newMap = Instantiate(mapPrefab, transform);
-        newMap.transform.localPosition = Vector3.zero; // optional: position it relative to parent
+        newMap.transform.localPosition = Vector3.zero;
 
-        // 3) For each layer in the MapBlueprint, pick 1-3 random points from possiblePoints
+        // 3) For each layer in the blueprint, either force all points or pick 1–3 at random
         foreach (var blueprintLayer in mapBlueprint.mapLayers)
         {
             List<MapPoint> chosenPoints = new List<MapPoint>();
-            List<MapPoint> copyOfPossible = new List<MapPoint>(blueprintLayer.possiblePoints);
 
-            int numToPick = Random.Range(1, 4); // pick 1-3
-            numToPick = Mathf.Min(numToPick, copyOfPossible.Count);
-
-            for (int i = 0; i < numToPick; i++)
+            if (blueprintLayer.forceAll)
             {
-                int randIndex = Random.Range(0, copyOfPossible.Count);
-                chosenPoints.Add(copyOfPossible[randIndex]);
-                copyOfPossible.RemoveAt(randIndex);
+                // take every possible point on this layer
+                chosenPoints.AddRange(blueprintLayer.possiblePoints);
+            }
+            else
+            {
+                // pick 1–3 random points
+                var copyOfPossible = new List<MapPoint>(blueprintLayer.possiblePoints);
+                int numToPick = Random.Range(1, 4);
+                numToPick = Mathf.Min(numToPick, copyOfPossible.Count);
+
+                for (int i = 0; i < numToPick; i++)
+                {
+                    int randIndex = Random.Range(0, copyOfPossible.Count);
+                    chosenPoints.Add(copyOfPossible[randIndex]);
+                    copyOfPossible.RemoveAt(randIndex);
+                }
             }
 
-            // Add the chosen points to the map
             newMap.AddMapLayer(chosenPoints);
         }
 
         currentMap = newMap;
-        
         return newMap;
     }
+
 }

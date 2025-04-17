@@ -121,6 +121,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DialogueSkip",
+                    "type": "Button",
+                    "id": "09237713-e2c9-4b6c-afb9-6a257903a0fd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -583,6 +592,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "FireWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68ef2af3-5ab2-423e-8b7c-51ea61bcdaa3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DialogueSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b711a70e-463f-46c7-b595-67eb6d4f07ce",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DialogueSkip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

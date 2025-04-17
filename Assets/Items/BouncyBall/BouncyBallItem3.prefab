@@ -55,8 +55,11 @@ MonoBehaviour:
   triggers:
   - rid: 328109986689057278
   triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 0.5
+  normalizedPrice: 2
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}

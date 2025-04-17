@@ -5,6 +5,16 @@ public abstract class ItemEffect
 {
     public float chance = 1f;
 
+    public virtual void InitializeItemEffect()
+    {
+        
+    }
+
+    public virtual void DestroyItemEffect()
+    {
+        
+    }
+    
     public void TryTriggerItemEffect(TriggerContext tc)
     {
         if (chance < 0.999f)

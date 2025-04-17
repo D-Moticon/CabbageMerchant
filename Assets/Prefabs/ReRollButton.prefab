@@ -15372,7 +15372,7 @@ MonoBehaviour:
         Data4: 0
       Path: 
     vol: 0.5
-  failClickFloater: {fileID: 11400000, guid: 49d85a3c8d918f64d934ab3e5e665275, type: 2}
+  failClickFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
   clickFeel: {fileID: 4928869792280585558}
   shopManager: {fileID: 0}
   rollsRemainingText: {fileID: 1601308418738947330}

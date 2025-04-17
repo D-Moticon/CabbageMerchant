@@ -10,6 +10,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] private InputActionReference mousePosInput;
     [SerializeField] private InputActionReference fireInput;
     [SerializeField] private InputActionReference weaponFireInput;
+    [SerializeField] private InputActionReference dialogueSkipInput;
 
     public Vector2 crosshairMove;
     public Vector2 mousePos;
@@ -20,6 +21,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool weaponFireDown;
     public bool weaponFireHeld;
     public bool weaponFireUp;
+    public bool dialogueSkipDown;
 
     public static System.Action weaponFireDownAction;
     public static System.Action weaponFireUpAction;
@@ -56,5 +58,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             weaponFireUpAction?.Invoke();
         }
+
+        dialogueSkipDown = dialogueSkipInput.action.WasPressedThisFrame();
     }
 }

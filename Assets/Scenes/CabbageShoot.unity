@@ -807,6 +807,237 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263925402}
   m_CullTransparentMesh: 1
+--- !u!1 &291082257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291082258}
+  - component: {fileID: 291082259}
+  m_Layer: 0
+  m_Name: ShootFeel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &291082258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291082257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 297416521}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &291082259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291082257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks: []
+  InitializationMode: 2
+  AutoInitialization: 1
+  SafeMode: 3
+  Direction: 0
+  AutoChangeDirectionOnEnd: 0
+  AutoPlayOnStart: 0
+  AutoPlayOnEnable: 0
+  ForceTimescaleMode: 0
+  ForcedTimescaleMode: 1
+  DurationMultiplier: 1
+  TimescaleMultiplier: 1
+  RandomizeDuration: 0
+  RandomDurationMultiplier: {x: 0.5, y: 1.5}
+  DisplayFullDurationDetails: 0
+  PlayerTimescaleMode: 1
+  OnlyPlayIfWithinRange: 0
+  RangeCenter: {fileID: 0}
+  RangeDistance: 5
+  UseRangeFalloff: 0
+  RangeFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RemapRangeFalloff: {x: 0, y: 1}
+  IgnoreRangeEvents: 0
+  CooldownDuration: 0
+  InitialDelay: 0
+  CanPlay: 1
+  CanPlayWhileAlreadyPlaying: 1
+  ChanceToPlay: 100
+  FeedbacksIntensity: 1
+  Events:
+    TriggerMMFeedbacksEvents: 0
+    TriggerUnityEvents: 1
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPause:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStop:
+      m_PersistentCalls:
+        m_Calls: []
+    OnResume:
+      m_PersistentCalls:
+        m_Calls: []
+    OnChangeDirection:
+      m_PersistentCalls:
+        m_Calls: []
+    OnComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRestoreInitialValues:
+      m_PersistentCalls:
+        m_Calls: []
+    OnSkipToTheEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInitializationComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnEnable:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDisable:
+      m_PersistentCalls:
+        m_Calls: []
+  DebugActive: 0
+  InScriptDrivenPause: 0
+  FeedbacksList:
+  - rid: 328110044618948741
+  KeepPlayModeChanges: 0
+  PerformanceMode: 0
+  RestoreInitialValuesOnDisable: 0
+  StopFeedbacksOnDisable: 0
+  PlayCount: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110044618948741
+      type: {class: MMF_ScaleSpring, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
+      data:
+        Active: 1
+        UniqueID: 867420779
+        Label: Scale Spring
+        OriginalLabel: Scale Spring
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          PlayCount: 0
+          LimitPlayCount: 0
+          MaxPlayCount: 3
+          SetPlayCountToZeroOnReset: 0
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        AutomaticShakerSetupButton:
+          ButtonText: 
+        Owner: {fileID: 291082259}
+        DebugActive: 0
+        AnimateScaleTarget: {fileID: 349599067}
+        DeclaredDuration: 0
+        DampingX: 0.4
+        FrequencyX: 6
+        DampingY: 0.4
+        FrequencyY: 6
+        DampingZ: 0.4
+        FrequencyZ: 6
+        Mode: 2
+        MoveToScaleMin: {x: 1, y: 1, z: 1}
+        MoveToScaleMax: {x: 2, y: 2, z: 2}
+        BumpScaleMin: {x: 10, y: 10, z: 10}
+        BumpScaleMax: {x: 20, y: 20, z: 20}
 --- !u!1 &297416519
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +1071,16 @@ MonoBehaviour:
   crosshair: {fileID: 384437438}
   launchSpeed: 10
   currentLaunchVelocity: {x: 0, y: 0}
+  launchFeel: {fileID: 291082259}
+  launchSFX:
+    sfx:
+      Guid:
+        Data1: 1084030201
+        Data2: 1113432609
+        Data3: -734493010
+        Data4: 1188753114
+      Path: event:/BallShoot
+    vol: 0.5
 --- !u!4 &297416521
 Transform:
   m_ObjectHideFlags: 0
@@ -856,6 +1097,7 @@ Transform:
   - {fileID: 349599067}
   - {fileID: 2136672034}
   - {fileID: 248499969}
+  - {fileID: 291082258}
   m_Father: {fileID: 754889385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &349599066
@@ -885,7 +1127,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 297416521}
@@ -934,7 +1176,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c0c96194f26c3ad48894a8f410129020, type: 3}
+  m_Sprite: {fileID: 1043884124, guid: 85d0895b7288b3c48a1141b2446f4c9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1041,7 +1283,7 @@ MonoBehaviour:
   poolSize: 20
   spawnRate: 0.5
   globalSpeed: 1
-  spawnOffsetX: 2
+  spawnOffsetX: 2.5
   spawnYMin: 1.18
   spawnYMax: 6.03
   minScale: 0.2
@@ -2387,11 +2629,11 @@ MonoBehaviour:
   roundGoalHitSFX:
     sfx:
       Guid:
-        Data1: -1150991800
-        Data2: 1292723475
-        Data3: 390400699
-        Data4: -502872529
-      Path: event:/CoinKaching
+        Data1: -1775950256
+        Data2: 1195942950
+        Data3: 92108727
+        Data4: 621263907
+      Path: event:/GoalHit
     vol: 0.5
   roundGoalHitVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
   roundGoalHitVFXLocation: {fileID: 190061572}
@@ -2664,6 +2906,7 @@ MonoBehaviour:
   FeedbacksList:
   - rid: 328110031350005949
   - rid: 328110031350005954
+  - rid: 328110044618948732
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   RestoreInitialValuesOnDisable: 0
@@ -2873,6 +3116,93 @@ MonoBehaviour:
         EnableOnPlay: 1
         DisableOnSequenceEnd: 0
         DisableOnStop: 0
+    - rid: 328110044618948732
+      type: {class: MMF_ScaleSpring, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
+      data:
+        Active: 1
+        UniqueID: -538120535
+        Label: Scale Spring
+        OriginalLabel: Scale Spring
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          PlayCount: 0
+          LimitPlayCount: 0
+          MaxPlayCount: 3
+          SetPlayCountToZeroOnReset: 0
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        AutomaticShakerSetupButton:
+          ButtonText: 
+        Owner: {fileID: 1434204951}
+        DebugActive: 0
+        AnimateScaleTarget: {fileID: 1052798}
+        DeclaredDuration: 0
+        DampingX: 0.4
+        FrequencyX: 6
+        DampingY: 0.4
+        FrequencyY: 6
+        DampingZ: 0.4
+        FrequencyZ: 6
+        Mode: 2
+        MoveToScaleMin: {x: 1, y: 1, z: 1}
+        MoveToScaleMax: {x: 2, y: 2, z: 2}
+        BumpScaleMin: {x: 20, y: 20, z: 20}
+        BumpScaleMax: {x: 30, y: 30, z: 30}
 --- !u!1 &1451827483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4247,6 +4577,10 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
     initialQuantity: 15
   - objectData: {fileID: 11400000, guid: 19e8089355712894088126415b61e411, type: 2}
+    initialQuantity: 15
+  - objectData: {fileID: 11400000, guid: cd3266c43c70b8f428e506471a6d6c95, type: 2}
+    initialQuantity: 15
+  - objectData: {fileID: 11400000, guid: 9a3c24d9381e7df4b995fd2039f7f2be, type: 2}
     initialQuantity: 15
 --- !u!4 &2139992006
 Transform:

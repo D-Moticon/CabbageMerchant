@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using System.Linq;
 
 public class ItemManager : MonoBehaviour
 {
@@ -24,11 +26,16 @@ public class ItemManager : MonoBehaviour
     public delegate void ItemPurchasedDelegate(Item item);
     public static event ItemPurchasedDelegate ItemPurchasedEvent;
 
+    public delegate void ItemSlotDelegate(Item item, ItemSlot slot);
+
+    public static event ItemSlotDelegate ItemAddedToSlotEvent;
+
     [Header("Sell Settings")]
     public Collider2D sellCollider;
     public ParticleSystem sellVFX;
     public SFXInfo sellSFX;
     public FloaterReference sellFloater;
+    public FloaterReference infoFloater;
 
     [Header("Merge Settings")]
     public ParticleSystem mergeVFX;
@@ -196,7 +203,20 @@ public class ItemManager : MonoBehaviour
         Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
         ItemSlot slot = col ? col.GetComponentInParent<ItemSlot>() : null;
 
-        if (slot == null || !IsInventorySlot(slot))
+        //Check if it's an event slot
+        if (slot == null)
+        {
+            RevertDraggedItem();
+            return;
+        }
+
+        if (slot.isEventSlot)
+        {
+            AddItemToSlot(draggingItem, slot);
+            return;
+        }
+        
+        if (!IsInventorySlot(slot))
         {
             // not a valid slot => revert
             RevertDraggedItem();
@@ -206,17 +226,38 @@ public class ItemManager : MonoBehaviour
         // Now we know it's an inventory slot
         if (slot.currentItem == null)
         {
-            // place item
+            // ——— prevent having two weapons in inventory ———
+            if (draggingItem.itemType == Item.ItemType.Weapon)
+            {
+                bool alreadyHasWeapon = itemSlots.Any(s =>
+                    s.currentItem != null &&
+                    s.currentItem.itemType == Item.ItemType.Weapon
+                );
+                if (alreadyHasWeapon)
+                {
+                    infoFloater.Spawn(
+                        "You can only equip one weapon!",
+                        slot.transform.position,
+                        Color.red
+                    );
+                    RevertDraggedItem();
+                    return;
+                }
+            }
+
+            // ——— normal purchase (if applicable) + place ———
             if (draggingItem.purchasable)
             {
-                // This is a newly purchased item
                 double cost = draggingItem.GetItemPrice();
                 Singleton.Instance.playerStats.AddCoins(-cost);
                 draggingItem.purchasable = false;
                 ItemPurchasedEvent?.Invoke(draggingItem);
             }
+
             AddItemToSlot(draggingItem, slot);
+            ItemAddedToSlotEvent?.Invoke(draggingItem, slot);
         }
+        
         else
         {
             // try merge
@@ -252,6 +293,7 @@ public class ItemManager : MonoBehaviour
             Item upgraded = GenerateItemWithWrapper(dragged.upgradedItem);
             if (isHolofoil) upgraded.SetHolofoil();
             AddItemToSlot(upgraded, slot);
+            ItemAddedToSlotEvent?.Invoke(upgraded,slot);
 
             // If dragged was from shop => pay cost once
             // We'll also consider the new item as purchased
@@ -424,6 +466,7 @@ public class ItemManager : MonoBehaviour
         item.currentItemSlot = itemSlot;
         item.itemWrapper.transform.position = itemSlot.transform.position;
         item.itemWrapper.transform.SetParent(itemSlot.transform);
+        itemSlot.PlayItemAddedToSlotFX();
     }
 
     private void GenerateItemSlots()
@@ -445,5 +488,89 @@ public class ItemManager : MonoBehaviour
                 itemSlots.Add(newSlot);
             }
         }
+    }
+
+    public void MoveItemsToEmptyInventorySlots(List<Item> items, float moveDuration = 0.5f)
+    {
+        // 1) Only consider items NOT already in an inventory slot
+        var itemsToMove = items
+            .Where(i => i.currentItemSlot == null || !itemSlots.Contains(i.currentItemSlot))
+            .ToList();
+
+        // 2) Find all free inventory slots
+        var emptySlots = itemSlots.Where(s => s.currentItem == null).ToList();
+
+        // 3) Kick off the sequenced mover
+        StartCoroutine(MoveItemsSequentially(itemsToMove, emptySlots, moveDuration));
+    }
+
+    private IEnumerator MoveItemsSequentially(List<Item> items, List<ItemSlot> slots, float duration)
+    {
+        // A) Check if there's already a weapon in your current inventory
+        bool hasWeapon = itemSlots.Any(s =>
+            s.currentItem != null &&
+            s.currentItem.itemType == Item.ItemType.Weapon
+        );
+
+        int slotIndex = 0;
+
+        // B) Walk through each item, filling slots in order
+        foreach (var item in items)
+        {
+            if (slotIndex >= slots.Count)
+                yield break; // no more room
+
+            // If it's a weapon and we already have one, skip it
+            if (item.itemType == Item.ItemType.Weapon)
+            {
+                if (hasWeapon)
+                    continue;
+                // first weapon we move becomes our one allowed weapon
+                hasWeapon = true;
+            }
+
+            // animate into the next free slot
+            yield return StartCoroutine(MoveItemToSlotRoutine(item, slots[slotIndex], duration));
+            slotIndex++;
+        }
+    }
+
+    // your existing MoveItemToSlotRoutine stays unchanged
+    private IEnumerator MoveItemToSlotRoutine(Item item, ItemSlot slot, float duration)
+    {
+        var col = item.itemWrapper.GetComponent<Collider2D>();
+        if (col) col.enabled = false;
+
+        Vector3 startPos = item.itemWrapper.transform.position;
+        Vector3 endPos   = slot.transform.position;
+        float elapsed    = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            item.itemWrapper.transform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+
+        // finalize
+        AddItemToSlot(item, slot);
+        ItemAddedToSlotEvent?.Invoke(item, slot);
+
+        if (col) col.enabled = true;
+    }
+
+    public int GetNumberOfItemsInInventory()
+    {
+        int num = 0;
+        for (int i = 0; i < itemSlots.Count; i++)
+        {
+            if (itemSlots[i].currentItem != null)
+            {
+                num++;
+            }
+        }
+
+        return num;
     }
 }

@@ -20,6 +20,11 @@ public class WeaponFireTrigger : Trigger
 
     void WeaponFireDownListener()
     {
+        if (GameSingleton.Instance == null)
+        {
+            return;
+        }
+        
         if (!(GameSingleton.Instance.gameStateMachine.currentState is GameStateMachine.BouncingState))
         {
             return;

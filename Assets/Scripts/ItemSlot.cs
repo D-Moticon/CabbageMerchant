@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TMPro;
+using MoreMountains.Feedbacks;
 
 public class ItemSlot : MonoBehaviour
 {
@@ -8,10 +9,19 @@ public class ItemSlot : MonoBehaviour
     public Item currentItem;
     public GameObject priceTextParent;
     public TMP_Text priceText;
+    public bool isEventSlot = false;
+    public MMF_Player bumpFeel;
+    public SFXInfo spawnSFX;
+    public SFXInfo itemAddedSFX;
 
     private void OnEnable()
     {
         PlayerStats.CoinsUpdated += PlayerCoinsUpdatedListener;
+        if (bumpFeel != null)
+        {
+            bumpFeel.PlayFeedbacks();
+        }
+        spawnSFX.Play();
     }
 
     private void OnDisable()
@@ -69,5 +79,15 @@ public class ItemSlot : MonoBehaviour
     public void PlayerCoinsUpdatedListener(double newCoins)
     {
         SetPriceText();
+    }
+
+    public void PlayItemAddedToSlotFX()
+    {
+        if (bumpFeel != null)
+        {
+            bumpFeel.PlayFeedbacks(this.transform.position,0.125f);
+        }
+        
+        itemAddedSFX.Play();
     }
 }

@@ -54,6 +54,7 @@ public class GameStateMachine : MonoBehaviour
     public static Action BoardFinishedPopulatingAction;
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
+    public static Action ExitingBounceStateAction;
 
     public delegate void IntDelegate(int ballsRemaining);
     public static IntDelegate BallsRemainingUpdatedEvent;
@@ -190,6 +191,9 @@ public class GameStateMachine : MonoBehaviour
 
         IEnumerator PopulateBoard()
         {
+            gameStateMachine.ResetRoundScore();
+            gameStateMachine.SetRoundGoal();
+            
             yield return new WaitForSeconds(.75f);
             
             int numPegs = gameStateMachine.numberPegs + Singleton.Instance.playerStats.extraStartingCabbages;
@@ -214,8 +218,7 @@ public class GameStateMachine : MonoBehaviour
             
             Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
  
-            gameStateMachine.ResetRoundScore();
-            gameStateMachine.SetRoundGoal();
+            
             State newState = new AimingState();
             gameStateMachine.ChangeState(newState);
         }
@@ -360,7 +363,7 @@ public class GameStateMachine : MonoBehaviour
 
         public override void ExitState()
         {
-            
+            ExitingBounceStateAction?.Invoke();
         }
     }
 

@@ -59,7 +59,7 @@ MonoBehaviour:
   cooldownDuration: 7
   cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 1
+  normalizedPrice: 4
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}

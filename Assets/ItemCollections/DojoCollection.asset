@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46edb8a9969644419bdcaad9103a7b0, type: 3}
+  m_Name: DojoCollection
+  m_EditorClassIdentifier: 
+  items:
+  - item: {fileID: 4464935079155661255, guid: 0c5f8ddf84043da4ebec159524a98bc2, type: 3}
+    enabled: 1
+  - item: {fileID: 4464935079155661255, guid: 65e068e1d42354149bb0f148d349c850, type: 3}
+    enabled: 1

@@ -13,6 +13,7 @@ public class MapBlueprint : ScriptableObject
     public class MapLayer
     {
         public List<MapPoint> possiblePoints;
+        public bool forceAll = false; //all these points will spawn every time
     }
 
     [Header("Layers")]

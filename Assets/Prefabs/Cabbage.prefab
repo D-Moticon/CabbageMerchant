@@ -1137,6 +1137,15 @@ MonoBehaviour:
         Data4: -1194282694
       Path: event:/CabbagePop
     vol: 0.5
+  spawnSFX:
+    sfx:
+      Guid:
+        Data1: 371699372
+        Data2: 1317631931
+        Data3: 1546328499
+        Data4: -1786013020
+      Path: event:/Pop
+    vol: 0.35
   pointsText: {fileID: 4970547459274699889}
   pointsTextFeel: {fileID: 4888413357987411752}
   popFloater: {fileID: 11400000, guid: 676c92c679e2cdb4f9eb8c5e93566ff0, type: 2}
@@ -1211,6 +1220,7 @@ MonoBehaviour:
   - variantType: 2
     cabbageVariantPrefab: {fileID: 6639290188826528234, guid: a00b34af2cdfefb4baaa1f2ebae7b203, type: 3}
   currentVariant: {fileID: 0}
+  currentVariantType: 0
 --- !u!114 &4296465345979103945
 MonoBehaviour:
   m_ObjectHideFlags: 0
