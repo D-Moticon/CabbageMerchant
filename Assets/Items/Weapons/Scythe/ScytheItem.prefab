@@ -75,6 +75,8 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 4464935079155661255, guid: f134aab2516578d4a9bc7670451d2dfb, type: 3}
   isHolofoil: 0
+  firstUseHint: It looks like the scythe spins around my aim position, and I need
+    to hold down the button to get the full duration!
   references:
     version: 2
     RefIds:

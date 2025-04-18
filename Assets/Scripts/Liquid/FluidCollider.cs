@@ -65,6 +65,11 @@ public class FluidCollider : MonoBehaviour
         RenderTexture renderTexture = GameSingleton.Instance.fluidRTReferences.externalVelocityRT;
         float halfHeight = 10f;
         float halfWidth = halfHeight * 16f / 9f;
+
+        if (Camera.main == null)
+        {
+            return;
+        }
         
         for (int i = 0; i < samplePoints.Count; i++)
         {

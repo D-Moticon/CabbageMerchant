@@ -98,9 +98,14 @@ public class Weapon_Scythe_ItemEffect : ItemEffect
                 lr.SetPosition(0, anchorPos);
                 lr.SetPosition(1, scytheInstance.transform.position);
             }
-
+            
             timer += Time.deltaTime;
             yield return null;
+        }
+        
+        if (Singleton.Instance.playerInputManager.weaponFireUp && timer < 0.2f)
+        {
+            Singleton.Instance.gameHintManager.QueueHintUntilBouncingDone("Looks like I need to hold the weapon button to get the full effect!");
         }
 
         // After the effect duration, clean up:

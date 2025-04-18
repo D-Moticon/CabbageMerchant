@@ -175,6 +175,18 @@ PrefabInstance:
       propertyPath: shopManager
       value: 
       objectReference: {fileID: 763103695}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: shopManagers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: 'shopManagers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 763103695}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: 'shopManagers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 525640132}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -191,6 +203,77 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
   m_PrefabInstance: {fileID: 87404710}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &525640131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525640133}
+  - component: {fileID: 525640132}
+  m_Layer: 0
+  m_Name: ShopManager (Upgrades)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &525640132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525640131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a93d323593b223f499436af495c4b0e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlotPrefab: {fileID: 5549780481484750882, guid: 2f043b620a3a8df4a88bd675e5d5f168, type: 3}
+  itemSlotTransforms:
+  - {fileID: 1400982171}
+  baseNumberItems: 2
+  onlyBuyOne: 0
+  noDupes: 1
+  itemCollection: {fileID: 11400000, guid: 64836e011e74e074089037a67f069ae5, type: 2}
+  spawnedItems: []
+  rarityWeights:
+  - rarity: 0
+    weight: 1
+  - rarity: 1
+    weight: 0.1
+  - rarity: 2
+    weight: 0.01
+  rerollsRemaining: 0
+  rerollSFX:
+    sfx:
+      Guid:
+        Data1: 209480351
+        Data2: 1260769138
+        Data3: -1962625893
+        Data4: 1010117198
+      Path: event:/Reroll
+    vol: 0.5
+  rerollVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+--- !u!4 &525640133
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525640131}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1400982171}
+  m_Father: {fileID: 804611306}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &569339946
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +474,7 @@ MonoBehaviour:
   - {fileID: 802828333}
   - {fileID: 1351772519}
   baseNumberItems: 2
-  onlyBuyOne: 1
+  onlyBuyOne: 0
   noDupes: 1
   itemCollection: {fileID: 11400000, guid: baa07dbabb7d1e14c9495fbd4ed26ff2, type: 2}
   spawnedItems: []
@@ -491,6 +574,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 763103696}
+  - {fileID: 525640133}
   - {fileID: 1970833038}
   - {fileID: 692235457}
   - {fileID: 569339948}
@@ -513,7 +597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1192124961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -640,6 +724,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 763103696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1400982170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1400982171}
+  m_Layer: 0
+  m_Name: ItemSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1400982171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400982170}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 525640133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1494348516
 GameObject:

@@ -35,6 +35,16 @@ public class SFXInfo
 
         Singleton.Instance.audioManager.PlayOneShot(sfx, volume, pos);
     }
+    
+    public FMOD.Studio.EventInstance Play(float duration, Vector3 pos = default)
+    {
+        if (sfx.IsNull)
+        {
+            return default(FMOD.Studio.EventInstance);
+        }
+
+        return Singleton.Instance.audioManager.PlayOneShot(sfx, vol, pos, duration);
+    }
 
 }
 

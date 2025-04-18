@@ -4221,7 +4221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5015d5f3cf2bcc41be1f10ae6c21404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberPegs: 20
+  numberPegs: 17
   cabbagePooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
   boardMetrics: {fileID: 42168035}
   launcher: {fileID: 297416520}
@@ -4818,6 +4818,8 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: cd3266c43c70b8f428e506471a6d6c95, type: 2}
     initialQuantity: 15
   - objectData: {fileID: 11400000, guid: 9a3c24d9381e7df4b995fd2039f7f2be, type: 2}
+    initialQuantity: 15
+  - objectData: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
     initialQuantity: 15
 --- !u!4 &2139992006
 Transform:

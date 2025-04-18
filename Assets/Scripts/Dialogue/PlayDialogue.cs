@@ -1,30 +1,57 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class PlayDialogue : MonoBehaviour
 {
     public DialogueBox dialogueBox;
-    public List<Dialogue> dialoguesToChooseFrom;
+
+    [System.Serializable]
+    public class DialogueInfo
+    {
+        public Dialogue dialogue;
+        public bool isEnabled = true;
+    }
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Tooltip("Only enabled DialogueInfos will be considered for playback.")]
+    public List<DialogueInfo> dialoguesToChooseFrom;
+    
     void Start()
     {
         dialogueBox.HideDialogueBox();
-        DialogueContext dc = new DialogueContext();
-        dc.dialogueBox = dialogueBox;
+        DialogueContext dc = new DialogueContext { dialogueBox = dialogueBox };
+        // kick off our coroutine via your Task system
         Task t = new Task(PlayDialogueTask(dc));
     }
 
-    IEnumerator PlayDialogueTask(DialogueContext dc)
+    private IEnumerator PlayDialogueTask(DialogueContext dc)
     {
-        int rand = Random.Range(0, dialoguesToChooseFrom.Count);
-        Dialogue d = dialoguesToChooseFrom[rand];
-        Task t = new Task(d.PlayDialogue(dc));
-        while (t.Running)
+        // filter only enabled dialogues
+        var enabledList = dialoguesToChooseFrom
+            .Where(info => info.isEnabled)
+            .ToList();
+
+        if (enabledList.Count == 0)
         {
-            yield return null;
+            // no enabled dialogues, proceed to map
+            Singleton.Instance.runManager.GoToMap();
+            yield break;
         }
+
+        // pick a random enabled dialogue
+        int rand = Random.Range(0, enabledList.Count);
+        var chosenInfo = enabledList[rand];
+
+        // optionally disable it so it won't play again
+        // chosenInfo.isEnabled = false;
+
+        // play it
+        Task dialogueTask = new Task(chosenInfo.dialogue.PlayDialogue(dc));
+        while (dialogueTask.Running)
+            yield return null;
+
+        // after dialogue, go to map
         Singleton.Instance.runManager.GoToMap();
     }
 }

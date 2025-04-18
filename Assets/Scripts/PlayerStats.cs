@@ -23,10 +23,16 @@ public class PlayerStats : MonoBehaviour
     public double startingReRollCost = 5;
     [HideInInspector]public double reRollCost = 5;
     [HideInInspector] public float allHolofoilRollChance = 0f;
+    [HideInInspector] public float weaponCooldownSpeedMult = 1f;
+    public int startingLives = 1;
+    [HideInInspector] public int lives = 1;
     
     public delegate void DoubleEvent(double value);
-
     public static DoubleEvent CoinsUpdated;
+
+    public delegate void IntEvent(int value);
+    public static event IntEvent LivesUpdated;
+    public static Action LifeLostEvent;
 
     private void OnEnable()
     {
@@ -53,7 +59,9 @@ public class PlayerStats : MonoBehaviour
         shopReRolls = startingShopReRolls;
         reRollCost = startingReRollCost;
         allHolofoilRollChance = 0f;
-        print("STATS");
+        weaponCooldownSpeedMult = 1f;
+        lives = startingLives;
+        LivesUpdated?.Invoke(lives);
     }
     
     public void AddCoins(double coinsToAdd)
@@ -113,5 +121,23 @@ public class PlayerStats : MonoBehaviour
     public void AddAllHolofoilRollChance(float chanceAdd)
     {
         allHolofoilRollChance += chanceAdd;
+    }
+
+    public void AddWeaponCooldownSpeedMult(float multAdd)
+    {
+        weaponCooldownSpeedMult += multAdd;
+    }
+
+    public void AddLife(int livesToAdd)
+    {
+        lives += livesToAdd;
+        LivesUpdated?.Invoke(lives);
+    }
+
+    public void RemoveLife()
+    {
+        lives--;
+        LivesUpdated?.Invoke(lives);
+        LifeLostEvent?.Invoke();
     }
 }

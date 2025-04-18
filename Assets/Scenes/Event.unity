@@ -498,7 +498,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1333458237
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: -90
   m_Sprite: {fileID: 21300000, guid: fd1a81396c284fb4d97e4f1f99decefd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -843,7 +843,7 @@ MonoBehaviour:
   onMessage:
     m_PersistentCalls:
       m_Calls: []
-  waitForNormalChars: 0.03
+  waitForNormalChars: 0.025
   waitLong: 0.1
   waitMiddle: 0.05
   avoidMultiplePunctuationWait: 0
@@ -1025,7 +1025,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1333458237
   m_SortingLayer: -1
-  m_SortingOrder: -10
+  m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: 88fb0fdd71005c7429d8d9feaab6ed70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1083,7 +1083,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueBox: {fileID: 1744295057}
   dialoguesToChooseFrom:
-  - {fileID: 11400000, guid: 791295bf97a6ddd49b48a003c937ce1d, type: 2}
+  - dialogue: {fileID: 11400000, guid: 791295bf97a6ddd49b48a003c937ce1d, type: 2}
+    isEnabled: 1
+  - dialogue: {fileID: 11400000, guid: 5ae5662d964f1e24da70b778f50912be, type: 2}
+    isEnabled: 1
 --- !u!4 &1277117104
 Transform:
   m_ObjectHideFlags: 0
@@ -1407,8 +1410,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 4
+  m_SortingLayerID: 1958674045
+  m_SortingOrder: -6
   m_TargetDisplay: 0
 --- !u!224 &1744295056
 RectTransform:
@@ -1447,7 +1450,7 @@ MonoBehaviour:
   dialogueTextAnimator: {fileID: 1212301310}
   dialogueTypewriter: {fileID: 1212301311}
   characterImage: {fileID: 1369213581}
-  fallbackVerticalHeightPx: 1536
+  targetImageHeight: 120
   characterTalkPlayer: {fileID: 438827744}
   choiceButtons:
   - {fileID: 5685358214355539944}

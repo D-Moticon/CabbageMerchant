@@ -30,6 +30,11 @@ public class MapIcon : MonoBehaviour, IHoverable
         return mapPoint.description;
     }
 
+    public string GetTypeText(HoverableModifier hoverableModifier = null)
+    {
+        return "";
+    }
+
     public string GetRarityText()
     {
         return "";

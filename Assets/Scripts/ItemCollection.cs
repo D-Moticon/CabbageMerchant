@@ -28,4 +28,14 @@ public class ItemCollection : ScriptableObject
         }
         return matchingItems;
     }
+    
+    public List<Item> GetAllItems()
+    {
+        List<Item> matchingItems = new List<Item>();
+        foreach (var item in items)
+        {
+            matchingItems.Add(item.item);
+        }
+        return matchingItems;
+    }
 }

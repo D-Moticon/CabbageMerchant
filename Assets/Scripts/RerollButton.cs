@@ -4,13 +4,13 @@ using TMPro;
 
 public class RerollButton : ClickableObject
 {
-    public ShopManager shopManager;
+    public ShopManager[] shopManagers;
     public TMP_Text rollsRemainingText;
     public TMP_Text rollCostText;
     
     public override void TryClick()
     {
-        if (shopManager.rerollsRemaining <= 0)
+        if (shopManagers[0].rerollsRemaining <= 0)
         {
             FailClick("No rerolls remaining!");
             return;
@@ -27,12 +27,15 @@ public class RerollButton : ClickableObject
     public override void Click()
     {
         base.Click();
-        shopManager.ReRoll();
+        foreach (var shopManager in shopManagers)
+        {
+            shopManager.ReRoll();
+        }
     }
 
     private void Update()
     {
-        rollsRemainingText.text = $"{shopManager.rerollsRemaining.ToString()} remaining";
+        rollsRemainingText.text = $"{shopManagers[0].rerollsRemaining.ToString()} remaining";
         rollCostText.text = $"{Singleton.Instance.playerStats.reRollCost}";
     }
 }

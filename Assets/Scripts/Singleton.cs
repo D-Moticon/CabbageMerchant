@@ -16,6 +16,7 @@ public class Singleton : MonoBehaviour
     public RunManager runManager;
     public ToolTip toolTip;
     public ObjectPoolManager objectPoolManager;
+    public GameHintManager gameHintManager;
     
     private void OnEnable()
     {

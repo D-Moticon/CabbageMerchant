@@ -12,22 +12,33 @@ public class UIManager : MonoBehaviour
     private double currentCoins;
     private double targetCoins;
     public Transform ballsParent;
+    public Transform livesParent;
     public Image ballRemainingPrefab;
+    public Image lifeRemainingPrefab;
     [SerializeField]private TMP_Text notificationText;
     public TypewriterByCharacter notificationTextTypewriter;
     public MMF_Player notificationFeel;
+    public Animator lifeLostAnimator;
 
     private void OnEnable()
     {
         notificationText.alpha = 0f;
+        lifeLostAnimator.gameObject.SetActive(false);
+        
         GameStateMachine.BallsRemainingUpdatedEvent += UpdateBallsIndicator;
         PlayerStats.CoinsUpdated += CoinsUpdatedListener;
+        PlayerStats.LivesUpdated += UpdateLivesIndicator;
+        PlayerStats.LifeLostEvent += LifeLostListener;
+        RunManager.RunStartEvent += RunStartListener;
     }
 
     private void OnDisable()
     {
         GameStateMachine.BallsRemainingUpdatedEvent -= UpdateBallsIndicator;
         PlayerStats.CoinsUpdated -= CoinsUpdatedListener;
+        PlayerStats.LivesUpdated -= UpdateLivesIndicator;
+        PlayerStats.LifeLostEvent -= LifeLostListener;
+        RunManager.RunStartEvent -= RunStartListener;
     }
 
 
@@ -45,10 +56,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void UpdateLivesIndicator(int livesRemaining)
+    {
+        Image[] existingImages = livesParent.GetComponentsInChildren<Image>();
+        foreach (Image img in existingImages)
+        {
+            Destroy(img.gameObject);
+        }
+
+        for (int i = 0; i < livesRemaining; i++)
+        {
+            Image img = Instantiate(lifeRemainingPrefab, livesParent);
+        }
+    }
+
     void CoinsUpdatedListener(double newCoins)
     {
         targetCoins = newCoins;
     }
+    
 
     private void Update()
     {
@@ -81,5 +107,16 @@ public class UIManager : MonoBehaviour
     {
         notificationTextTypewriter.ShowText(text);
         notificationFeel.PlayFeedbacks();
+    }
+
+    void LifeLostListener()
+    {
+        lifeLostAnimator.gameObject.SetActive(true);
+        lifeLostAnimator.Play("LifeLostAnim");
+    }
+
+    void RunStartListener(RunManager.RunStartParams rsp)
+    {
+        ShowNotification("A new journey begins!");
     }
 }

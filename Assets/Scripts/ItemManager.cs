@@ -50,6 +50,19 @@ public class ItemManager : MonoBehaviour
     private Vector3 draggingStartPos;
     private ItemSlot draggingStartSlot;
 
+    public SFXInfo itemDestroySFX;
+    public PooledObjectData itemDestroyVFX;
+
+    private void OnEnable()
+    {
+        RunManager.RunStartEvent += RunStartListener;
+    }
+
+    private void OnDisable()
+    {
+        RunManager.RunStartEvent -= RunStartListener;
+    }
+
     private void Start()
     {
         GenerateItemSlots();
@@ -503,6 +516,20 @@ public class ItemManager : MonoBehaviour
         // 3) Kick off the sequenced mover
         StartCoroutine(MoveItemsSequentially(itemsToMove, emptySlots, moveDuration));
     }
+    
+    public void MoveItemToEmptyInventorySlot(Item item, float moveDuration = 0.5f)
+    {
+        if (item.currentItemSlot != null && itemSlots.Contains(item.currentItemSlot))
+        {
+            return;
+        }
+
+        // 2) Find all free inventory slots
+        var emptySlots = itemSlots.Where(s => s.currentItem == null).ToList();
+
+        // 3) Kick off the sequenced mover
+        StartCoroutine(MoveItemToSlotRoutine(item, emptySlots[0], moveDuration));
+    }
 
     private IEnumerator MoveItemsSequentially(List<Item> items, List<ItemSlot> slots, float duration)
     {
@@ -572,5 +599,112 @@ public class ItemManager : MonoBehaviour
         }
 
         return num;
+    }
+    
+    /// <summary>
+    /// Returns all Items currently sitting in the inventory slots (ignores empty slots).
+    /// </summary>
+    public List<Item> GetItemsInInventory()
+    {
+        return itemSlots
+            .Where(slot => slot.currentItem != null)
+            .Select(slot => slot.currentItem)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Returns all Items in inventory slots AND all perk Items (children of perkParent).
+    /// </summary>
+    public List<Item> GetItemsAndPerks()
+    {
+        // Inventory items
+        var items = GetItemsInInventory();
+
+        // Perk items: any Item under perkParent that's not in an inventory slot
+        items.AddRange(
+            perkParent
+                .GetComponentsInChildren<Item>()
+                .Where(perk => perk.currentItemSlot == null)
+        );
+
+        return items;
+    }
+
+    /// <summary>
+    /// Completely removes an Item from the game: unhooks it from any slot or perk,
+    /// destroys its wrapper (and thus the Item component), and clears references.
+    /// </summary>
+    public void DestroyItem(Item item)
+    {
+        if (item == null)
+            return;
+
+        // 1) Remove from its inventory slot (if any)
+        if (item.currentItemSlot != null)
+        {
+            item.currentItemSlot.currentItem = null;
+            item.currentItemSlot.HidePriceText();
+            item.currentItemSlot = null;
+        }
+
+        // 2) Detach from perkParent if it is a perk
+        if (item.itemWrapper != null && item.itemWrapper.transform.parent == perkParent)
+        {
+            item.itemWrapper.transform.SetParent(null);
+        }
+
+
+        if (itemDestroyVFX != null)
+        {
+            itemDestroyVFX.Spawn(item.transform.position);
+        }
+
+        itemDestroySFX.Play();
+        
+        // 3) Destroy the visual wrapper (this also destroys the Item component)
+        if (item.itemWrapper != null)
+        {
+            Destroy(item.itemWrapper.gameObject);
+        }
+    }
+    
+    void RunStartListener(RunManager.RunStartParams rsp)
+    {
+        // 1) Destroy and clear all inventory items
+        var inventoryItems = GetItemsInInventory().ToList();
+        foreach (var item in inventoryItems)
+        {
+            DestroyItem(item);
+        }
+
+        // 2) Destroy and clear all perk items
+        //    (GetItemsAndPerks includes inventory; so exclude those already removed)
+        var perkItems = GetItemsAndPerks()
+            .Except(inventoryItems)
+            .ToList();
+        foreach (var perk in perkItems)
+        {
+            DestroyItem(perk);
+        }
+
+        // At this point, all slots are empty and perkParent has no active items.
+    }
+
+    public int GetWeaponCount()
+    {
+        int count = 0;
+        for (int i = 0; i < itemSlots.Count; i++)
+        {
+            if (itemSlots[i].currentItem == null)
+            {
+                continue;
+            }
+            if (itemSlots[i].currentItem.itemType == Item.ItemType.Weapon)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

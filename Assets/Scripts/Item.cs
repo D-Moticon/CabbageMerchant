@@ -39,9 +39,12 @@ public class Item : MonoBehaviour, IHoverable
     public delegate void ItemDelegate(Item item);
 
     public static event ItemDelegate ItemTriggeredEvent;
+    public static event ItemDelegate WeaponTriggeredEvent;
 
     private static int triggerPerFrameLimit = 5;
     private int currentFrameTriggerCount = 0;
+    [TextArea] public string firstUseHint;
+    private bool hasBeenUsedOnce = false;
 
     private void Update()
     {
@@ -49,7 +52,16 @@ public class Item : MonoBehaviour, IHoverable
 
         if (hasCooldown && cooldownCounter > 0)
         {
-            cooldownCounter -= Time.deltaTime;
+            if (itemType == ItemType.Weapon)
+            {
+                cooldownCounter -= (Time.deltaTime * Singleton.Instance.playerStats.weaponCooldownSpeedMult);
+            }
+
+            else
+            {
+                cooldownCounter -= Time.deltaTime;
+            }
+            
         }
     }
 
@@ -139,12 +151,28 @@ public class Item : MonoBehaviour, IHoverable
         }
 
         cooldownCounter = cooldownDuration;
+        
         triggerSFX.Play();
         if (itemType == ItemType.Weapon)
         {
             GameSingleton.Instance.gameStateMachine.launcher.launchFeel.PlayFeedbacks();
         }
         ItemTriggeredEvent?.Invoke(this);
+
+        if (itemType == ItemType.Weapon)
+        {
+            WeaponTriggeredEvent?.Invoke(this);
+        }
+
+        if (!hasBeenUsedOnce)
+        {
+            if (!string.IsNullOrEmpty(firstUseHint))
+            {
+                Singleton.Instance.gameHintManager.QueueHintUntilBouncingDone(firstUseHint);
+            }
+            hasBeenUsedOnce = true;
+        }
+        
         currentFrameTriggerCount++;
         
         
@@ -152,24 +180,7 @@ public class Item : MonoBehaviour, IHoverable
     
     public virtual string GetTitleText(HoverableModifier hoverableModifier = null)
     {
-        if (isHolofoil || (hoverableModifier!=null && hoverableModifier.isHolofoil))
-        {
-            if (holofoilEffects != null && holofoilEffects.Count > 0)
-            {
-                return($"{itemName} <size=4><rainb>Holofoil</rainb>");
-            }
-
-            else
-            {
-                return itemName;
-            }
-        }
-
-        else
-        {
-            return itemName;
-        }
-        
+         return itemName;
     }
 
     public virtual string GetDescriptionText(HoverableModifier hoverableModifier = null)
@@ -217,6 +228,44 @@ public class Item : MonoBehaviour, IHoverable
             }
 
             return s;
+        }
+    }
+
+    public string GetTypeText(HoverableModifier hoverableModifier = null)
+    {
+        string col = "";
+        switch (itemType)
+        {
+            case ItemType.Item:
+                col = "white";
+                break;
+            case ItemType.Perk:
+                col = "#b10096";
+                break;
+            case ItemType.Weapon:
+                col = "#ff7800";
+                break;
+            default:
+                break;
+        }
+
+        
+        if (isHolofoil || (hoverableModifier != null && hoverableModifier.isHolofoil))
+        {
+            if (holofoilEffects != null && holofoilEffects.Count > 0)
+            {
+                return($"<rainb>Holofoil</rainb> <color={col}>{itemType.ToString()}</color>");
+            }
+            
+            else
+            {
+                return($"<color={col}>{itemType.ToString()}</color>");
+            }
+        }
+
+        else
+        {
+            return($"<color={col}>{itemType.ToString()}</color>");
         }
     }
 

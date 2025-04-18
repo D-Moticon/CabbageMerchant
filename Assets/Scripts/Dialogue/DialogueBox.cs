@@ -12,11 +12,7 @@ public class DialogueBox : MonoBehaviour
     public TextAnimator_TMP dialogueTextAnimator;
     public TypewriterByCharacter dialogueTypewriter;
     public Image characterImage;
-    [Tooltip("If you ever show a square first, and you know your tall sprites are 1536px high, set this to 1536.")]
-    public float fallbackVerticalHeightPx = 1536f;
-
-    // runtime cache of the last vertical‐sprite height (in UI pixels)
-    private float lastVerticalHeightPx = 0f;
+    public float targetImageHeight = 200f;
     public MMF_Player characterTalkPlayer;
 
     public DialogueButton[] choiceButtons;
@@ -45,38 +41,48 @@ public class DialogueBox : MonoBehaviour
 
     public void SetCharacterImage(Sprite sprite)
     {
-        if (sprite == null) return;
+        if (sprite == null)
+        {
+            characterImage.sprite = null;
+            return;
+        }
 
-        // 1) Basic setup
+        // assign & configure the Image
         characterImage.sprite = sprite;
-        characterImage.type = Image.Type.Simple;       // no 9‑slice / tiled overrides
-        characterImage.preserveAspect = true;          // lock W/H ratio
+        characterImage.type = Image.Type.Simple;
+        characterImage.preserveAspect = true;
 
+        // force the RectTransform height
         var rt = characterImage.rectTransform;
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,   targetImageHeight);
+
+        // width will auto‑adjust because preserveAspect = true
+        // BUT to be 100% safe (in case preserveAspect behaves differently),
+        // we can calculate and set it manually:
         float nativeW = sprite.rect.width;
         float nativeH = sprite.rect.height;
+        float aspect = nativeW / nativeH;
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetImageHeight * aspect);
+    }
 
-        if (nativeH > nativeW)
+    public void SetDialogueText(string text, bool animate = true)
+    {
+        if (animate)
         {
-            // — Tall sprite: show at native size and record its final height
-            characterImage.SetNativeSize();
-            lastVerticalHeightPx = rt.rect.height;
+            dialogueTypewriter.ShowText(text);
         }
+
         else
         {
-            // — Square (or landscape): scale so height == recorded vertical height
-            float targetH = (lastVerticalHeightPx > 0f) 
-                ? lastVerticalHeightPx 
-                : fallbackVerticalHeightPx;
-
-            float scale = targetH / nativeH;
-            float targetW = nativeW * scale;
-
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,   targetH*0.08f);
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetW*0.08f);
+            dialogueTextAnimator.SetText(text);
         }
     }
 
+    public void SetCharacterNameText(string text)
+    {
+        nameTextAnimator.SetText(text);
+    }
+    
     public void HideDialogueBox()
     {
         canvasGroup.alpha = 0f;

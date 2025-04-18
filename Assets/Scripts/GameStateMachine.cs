@@ -55,6 +55,7 @@ public class GameStateMachine : MonoBehaviour
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
     public static Action ExitingBounceStateAction;
+    public static Action ExitingScoringAction;
 
     public delegate void IntDelegate(int ballsRemaining);
     public static IntDelegate BallsRemainingUpdatedEvent;
@@ -272,7 +273,8 @@ public class GameStateMachine : MonoBehaviour
         {
             currentRoundScore += activeCabbages[i].points;
         }
-        
+
+        currentRoundScore = Math.Ceiling(currentRoundScore);
         currentRoundScoreOverMult = currentRoundScore / roundGoal;
         if (double.IsNaN(currentRoundScoreOverMult))
         {
@@ -381,6 +383,7 @@ public class GameStateMachine : MonoBehaviour
 
         public override void ExitState()
         {
+            ExitingScoringAction?.Invoke();
             Singleton.Instance.runManager.GoToMap();
         }
 
@@ -388,34 +391,57 @@ public class GameStateMachine : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             
-            List<Cabbage> cabbages = gameStateMachine.activeCabbages;
-
-            for (int i = 0; i < cabbages.Count; i++)
+            
+            if (gameStateMachine.currentRoundScore < gameStateMachine.roundGoal)
             {
-                if (!cabbages[i].gameObject.activeInHierarchy)
+                Singleton.Instance.uiManager.ShowNotification("<color=red>Round Goal Missed</color>");
+                yield return new WaitForSeconds(1.5f);
+                Singleton.Instance.playerStats.RemoveLife();
+                yield return new WaitForSeconds(1.5f);
+                if (Singleton.Instance.playerStats.lives > 0)
                 {
-                    continue;
+                    Singleton.Instance.runManager.ReloadCurrentScene();
+                    yield break;
                 }
-                
-                cabbages[i].PlayPopVFX();
-                cabbages[i].PlayScoringSFX();
-                
-                Color col = Color.white;
-                Singleton.Instance.floaterManager.SpawnFloater(
-                    cabbages[i].scoreFloater,
-                    Helpers.FormatWithSuffix(cabbages[i].points),
-                    cabbages[i].transform.position,
-                    col,
-                    cabbages[i].transform.localScale.x);
-                cabbages[i].gameObject.SetActive(false);
-                yield return new WaitForSeconds(0.05f);
-                
+                else
+                {
+                    Singleton.Instance.runManager.StartNewRun();
+                    yield break;
+                }
             }
 
-            double coinsToGive = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*coinsPerRoundGoal;
-            //Singleton.Instance.playerStats.AddCoins(coinsToGive);
+            else
+            {
+                List<Cabbage> cabbages = gameStateMachine.activeCabbages;
 
-            yield return new WaitForSeconds(1f);
+                for (int i = 0; i < cabbages.Count; i++)
+                {
+                    if (!cabbages[i].gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
+                
+                    cabbages[i].PlayPopVFX();
+                    cabbages[i].PlayScoringSFX();
+                
+                    Color col = Color.white;
+                    Singleton.Instance.floaterManager.SpawnFloater(
+                        cabbages[i].scoreFloater,
+                        Helpers.FormatWithSuffix(cabbages[i].points),
+                        cabbages[i].transform.position,
+                        col,
+                        cabbages[i].transform.localScale.x);
+                    cabbages[i].gameObject.SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
+                
+                }
+
+                double coinsToGive = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*coinsPerRoundGoal;
+                //Singleton.Instance.playerStats.AddCoins(coinsToGive);
+                
+                yield return new WaitForSeconds(1f);
+            }
+            
             ExitState();
         }
     }

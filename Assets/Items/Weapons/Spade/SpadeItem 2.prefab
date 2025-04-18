@@ -56,7 +56,7 @@ MonoBehaviour:
   - rid: 328110031350006017
   triggerChance: 1
   hasCooldown: 1
-  cooldownDuration: 8
+  cooldownDuration: 10
   cooldownCounter: 0
   rarity: 0
   normalizedPrice: 2

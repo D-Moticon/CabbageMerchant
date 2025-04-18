@@ -9,6 +9,7 @@ public class ToolTip : MonoBehaviour
     [Header("Tooltip UI References")]
     public CanvasGroup tooltipCanvasGroup;
     public TextAnimator_TMP titleTextAnimator;
+    public TMP_Text typeText;
     public TextAnimator_TMP descriptionTextAnimator;
     public TMP_Text rarityText;
     public TMP_Text triggerText;
@@ -147,6 +148,7 @@ public class ToolTip : MonoBehaviour
     {
         titleTextAnimator.SetText(hoverable.GetTitleText(hm));
         descriptionTextAnimator.SetText(hoverable.GetDescriptionText(hm));
+        typeText.text = hoverable.GetTypeText(hm);
         rarityText.text      = hoverable.GetRarityText();
         itemImage.sprite     = hoverable.GetImage();
         triggerText.text     = hoverable.GetTriggerText();

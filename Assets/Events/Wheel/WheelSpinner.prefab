@@ -1,0 +1,568 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5080384806951224879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4201841538840009377}
+  - component: {fileID: 5403198837537594425}
+  m_Layer: 0
+  m_Name: WinningArrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4201841538840009377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080384806951224879}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 3.54, y: 0, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5581104151515017833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!212 &5403198837537594425
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080384806951224879}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -5
+  m_Sprite: {fileID: 21300000, guid: 6cdb2a5671082694da6f049b606039bd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2.56, y: 2.56}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &6056607814881548690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3325831849128531865}
+  - component: {fileID: 2516210701516177291}
+  m_Layer: 0
+  m_Name: Hub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3325831849128531865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6056607814881548690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5581104151515017833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2516210701516177291
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6056607814881548690}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -5
+  m_Sprite: {fileID: 21300000, guid: 97e2265227bcf2e41a9621e8479de7eb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.8, y: 1.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &6859608752034188795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5581104151515017833}
+  - component: {fileID: 3112246484142189688}
+  m_Layer: 0
+  m_Name: WheelSpinner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5581104151515017833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6859608752034188795}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3277711486931455936}
+  - {fileID: 4201841538840009377}
+  - {fileID: 3325831849128531865}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3112246484142189688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6859608752034188795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fddd6dfb03375a4f989202a0843098e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spinDuration: 5
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0057759685
+      outSlope: -0.0057759685
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.3598485
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.008973136
+      outSlope: -0.008973136
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.9267677
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minExtraTurns: 2
+  maxExtraTurns: 5
+  wheelTransform: {fileID: 3277711486931455936}
+  wheelRadius: 0.5
+  segments:
+  - label: Bankrupt
+    color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
+    textPrefix: 
+    taskOnWin:
+      rid: 328110079628279979
+  - label: Money
+    color: {r: 0, g: 0.5660378, b: 0.21053784, a: 1}
+    textPrefix: 
+    taskOnWin:
+      rid: 328110079628279980
+  - label: Destroy An Item
+    color: {r: 1, g: 0, b: 0.027672768, a: 1}
+    textPrefix: 
+    taskOnWin:
+      rid: 328110079628279981
+  - label: Holofoil
+    color: {r: 1, g: 1, b: 1, a: 1}
+    textPrefix: <rainb>
+    taskOnWin:
+      rid: 328110079628279982
+  - label: Extra Life
+    color: {r: 0.956295, g: 0, b: 1, a: 1}
+    textPrefix: 
+    taskOnWin:
+      rid: 328110079628279984
+  - label: Random Rare Item
+    color: {r: 0, g: 0.48655844, b: 1, a: 1}
+    textPrefix: 
+    taskOnWin:
+      rid: 328110079628279985
+  segmentLinePrefab: {fileID: 3422493199594171358, guid: d1162cc668633754790f44dae8616d9c, type: 3}
+  segmentTextPrefab: {fileID: 1150032712923322707, guid: a3234790e590e70419107d9ac89931cd, type: 3}
+  lineColor: {r: 0.4433962, g: 0.3040843, b: 0.27816838, a: 1}
+  lineInnerPointDist: 0.1
+  lineOuterPointDist: 0.02
+  arrowTransform: {fileID: 4201841538840009377}
+  arrowMaxAngle: 7
+  arrowOscillationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 13.760618
+      outSlope: 13.760618
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08695876
+    - serializedVersion: 3
+      time: 0.20327759
+      value: 1
+      inSlope: -0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.31054124
+      outWeight: 0.082414925
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.006121077
+      outSlope: -0.006121077
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.42630464
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  arrowSpeedMultiplier: 20
+  randomItemCollection: {fileID: 11400000, guid: 1d0beb4a926cbde4ba869bfc29f6bb78, type: 2}
+  randomItemLine:
+    dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+    dialogueLine: Incredible! I've never seen something quite like it!
+    hideCharacterName: 0
+    waitForSkipInput: 1
+    extraWaitTime: 0
+    centerText: 0
+    playSFX: 1
+  fadeInDialogueTask:
+    rid: 328110079628280038
+  wheelSpinSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  wheelClickSFX:
+    sfx:
+      Guid:
+        Data1: -1230715225
+        Data2: 1183350689
+        Data3: 136246191
+        Data4: -1098687947
+      Path: event:/WheelClick
+    vol: 0.5
+  winningSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  losingSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  holofoilVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+  holofoilSFX:
+    sfx:
+      Guid:
+        Data1: -388259375
+        Data2: 1081402945
+        Data3: -420787289
+        Data4: 939684103
+      Path: event:/Score1
+    vol: 0.5
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110079628279979
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: Ouch! That's gotta hurt!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279980
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: Will ya look at that!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279981
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: Well, they say good things don't last forever!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279982
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: What a spin!! We've got a big winner here!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279984
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: A huge spin from our contestant!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279985
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: And now to reveal your prize!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628280038
+      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 1
+        duration: 1
+--- !u!1 &6943074570050128287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8729252411118515510}
+  - component: {fileID: 5264749575309931348}
+  m_Layer: 0
+  m_Name: Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8729252411118515510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6943074570050128287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.13333334, y: 0.13333334, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3277711486931455936}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &5264749575309931348
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6943074570050128287}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -10
+  m_Sprite: {fileID: 21300000, guid: 6ff0c39330f19594fa34e7b181f73136, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &8204492471552295879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3277711486931455936}
+  m_Layer: 0
+  m_Name: WheelSprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3277711486931455936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204492471552295879}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8729252411118515510}
+  m_Father: {fileID: 5581104151515017833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

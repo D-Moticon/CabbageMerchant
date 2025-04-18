@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Serialization;
 
 public class RunManager : MonoBehaviour
@@ -186,6 +187,8 @@ public class RunManager : MonoBehaviour
         // 7) Update references.
         currentSceneName   = newSceneName;
         currentSceneParent = newSceneParent;
+        SceneManager.SetActiveScene(newScene);
+        
     }
 
     /// <summary>
@@ -312,6 +315,7 @@ public class RunManager : MonoBehaviour
 
         // Finally, perform any additional map actions.
         MapSingleton.Instance.mapManager.MoveToNextLayer();
+        SceneManager.SetActiveScene(mapScene);
     }
 
     /// <summary>
@@ -356,14 +360,64 @@ public class RunManager : MonoBehaviour
     // Run-start method.
     public void StartNewRun()
     {
+        // Fire any listeners
         RunStartParams rsp = new RunStartParams();
         RunStartEvent?.Invoke(rsp);
-        
-        // Load the starting scene if none is loaded yet.
-        if (string.IsNullOrEmpty(currentSceneName) && !string.IsNullOrEmpty(startingSceneName))
+
+        // 1) Figure out which scene is our GlobalScene (the one that remains loaded)
+        string globalSceneName = SceneManager.GetActiveScene().name;
+
+        // 2) Collect every other scene’s name so we can unload them
+        int sceneCount = SceneManager.sceneCount;
+        var toUnload = new List<string>(sceneCount);
+        for (int i = 0; i < sceneCount; i++)
         {
-            // Slide to the starting scene.
-            StartCoroutine(SlideToScene(startingSceneName));
+            var scene = SceneManager.GetSceneAt(i);
+            if (scene.name != globalSceneName)
+                toUnload.Add(scene.name);
         }
+
+        // 3) Unload them asynchronously
+        foreach (var name in toUnload)
+            SceneManager.UnloadSceneAsync(name);
+
+        // 4) Reset our bookkeeping
+        currentSceneName   = null;
+        currentSceneParent = null;
+
+        // 5) Finally, slide in the starting scene
+        if (!string.IsNullOrEmpty(startingSceneName))
+            StartCoroutine(SlideToScene(startingSceneName));
+    }
+    
+    public void ReloadCurrentScene()
+    {
+        if (string.IsNullOrEmpty(currentSceneName))
+        {
+            Debug.LogWarning("RunManager.ReloadCurrentScene: no scene to reload.");
+            return;
+        }
+        StartCoroutine(ReloadSceneRoutine(currentSceneName));
+    }
+
+    private IEnumerator ReloadSceneRoutine(string sceneName)
+    {
+        // 1) Unload just that scene
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+        while (!unloadOp.isDone)
+            yield return null;
+
+        // 2) Load it back additively
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        while (!loadOp.isDone)
+            yield return null;
+
+        // 3) Update our references so future transitions still work
+        currentSceneName = sceneName;
+        var sc = SceneManager.GetSceneByName(sceneName);
+        currentSceneParent = FindSceneParent(sc);
+        if (currentSceneParent == null)
+            Debug.LogWarning($"RunManager: Couldn't find '{parentObjectName}' in reloaded '{sceneName}'.");
+        SceneManager.SetActiveScene(sc);
     }
 }
