@@ -36,9 +36,9 @@ public class CabbageHitTrigger : Trigger
         return ($"Every {everyXHit} cabbage{plural} bonked{onlyByBallString}");
     }
 
-    void CabbageHitListener(Cabbage.CabbageBonkParams cbp)
+    void CabbageHitListener(BonkParams bp)
     {
-        if (onlyByBall && !cbp.treatAsBall)
+        if (onlyByBall && !bp.treatAsBall)
         {
             return;
         }
@@ -47,10 +47,10 @@ public class CabbageHitTrigger : Trigger
         if (hitCounter >= everyXHit)
         {
             TriggerContext tc = new TriggerContext();
-            tc.ball = cbp.ball;
-            tc.cabbage = cbp.c;
-            tc.point = cbp.pos;
-            tc.normal = cbp.normal;
+            tc.ball = bp.ball;
+            tc.cabbage = bp.bonkedCabbage;
+            tc.point = bp.collisionPos;
+            tc.normal = bp.normal;
             owningItem.TryTriggerItem(tc);
             hitCounter = 0;
         }

@@ -4821,6 +4821,8 @@ MonoBehaviour:
     initialQuantity: 15
   - objectData: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
     initialQuantity: 15
+  - objectData: {fileID: 11400000, guid: d50b34038d6fbad4da14941cc5df69b6, type: 2}
+    initialQuantity: 90
 --- !u!4 &2139992006
 Transform:
   m_ObjectHideFlags: 0

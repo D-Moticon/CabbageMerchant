@@ -31,7 +31,6 @@ public class SpawnCabbageEffect : ItemEffect
 
     public override string GetDescription()
     {
-        string desc = "Spawn cabbage in a random open space";
         string variantString = "";
         if (specialVariants != null && specialVariants.Count > 0)
         {

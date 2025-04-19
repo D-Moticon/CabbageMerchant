@@ -6,7 +6,6 @@ using System.Linq;
 using MoreMountains.Tools;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using System.Linq;
 
 public class GameStateMachine : MonoBehaviour
 {

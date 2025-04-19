@@ -12,6 +12,7 @@ public class GameHintManager : MonoBehaviour
     public int noWeaponUsedRoundsBeforeHint = 2;
     [TextArea]public string noWeaponUsedLatelyHint;
     [TextArea]public string noWeaponUsedEverHint;
+    [TextArea] public string noCabbagesBonkedHint;
 
     [Header("Fade Settings")]
     [Tooltip("Seconds for bubble fade in/out")]
@@ -20,6 +21,7 @@ public class GameHintManager : MonoBehaviour
     
     private int weaponRoundCounter = 0;
     private int weaponUsedCount = 0;
+    private int cabbagesHitThisBounce=0;
 
     private Coroutine hintCoroutine;
     private string queuedHint;
@@ -30,6 +32,7 @@ public class GameHintManager : MonoBehaviour
         GameStateMachine.ExitingBounceStateAction += ExitingBounceStateListener;
         GameStateMachine.BallFiredEvent += BallFiredListener;
         GameStateMachine.ExitingScoringAction += ExitingScoringListener;
+        Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
         bubbleCanvasGroup.alpha = 0f;
     }
 
@@ -39,6 +42,7 @@ public class GameHintManager : MonoBehaviour
         GameStateMachine.ExitingBounceStateAction -= ExitingBounceStateListener;
         GameStateMachine.BallFiredEvent -= BallFiredListener;
         GameStateMachine.ExitingScoringAction -= ExitingScoringListener;
+        Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
     }
 
     private void WeaponTriggeredListener(Item item)
@@ -50,10 +54,19 @@ public class GameHintManager : MonoBehaviour
     private void ExitingBounceStateListener()
     {
         weaponRoundCounter++;
+        CheckCabbagesBonkedHint();
         CheckWeaponHint();
         CheckQueuedHint();
     }
 
+    void CheckCabbagesBonkedHint()
+    {
+        if (cabbagesHitThisBounce == 0)
+        {
+            GiveHint(noCabbagesBonkedHint);
+        }
+    }
+    
     private void CheckWeaponHint()
     {
         if (Singleton.Instance.itemManager.GetWeaponCount() == 0)
@@ -87,6 +100,7 @@ public class GameHintManager : MonoBehaviour
 
     public void GiveHint(string hint)
     {
+        print(hint);
         // Ensure only one hint coroutine runs at a time
         if (hintCoroutine != null)
             StopCoroutine(hintCoroutine);
@@ -158,6 +172,8 @@ public class GameHintManager : MonoBehaviour
         {
             StartCoroutine(FadeOutBubble());
         }
+
+        cabbagesHitThisBounce = 0;
     }
 
     void ExitingScoringListener()
@@ -167,5 +183,10 @@ public class GameHintManager : MonoBehaviour
         {
             StartCoroutine(FadeOutBubble());
         }
+    }
+
+    void CabbageBonkedListener(BonkParams bp)
+    {
+        cabbagesHitThisBounce++;
     }
 }

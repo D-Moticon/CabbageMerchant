@@ -46,6 +46,8 @@ public class RunManager : MonoBehaviour
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
+
+    private List<MapPointExtra> mapPointExtras;
     
     void Start()
     {
@@ -189,6 +191,14 @@ public class RunManager : MonoBehaviour
         currentSceneParent = newSceneParent;
         SceneManager.SetActiveScene(newScene);
         
+        // 8) Map Point extras
+        if (mapPointExtras != null)
+        {
+            for (int i = 0; i < mapPointExtras.Count; i++)
+            {
+                mapPointExtras[i].GenerateMapPointExtra();
+            }
+        }
     }
 
     /// <summary>
@@ -227,8 +237,7 @@ public class RunManager : MonoBehaviour
                 mapSceneParent.SetActive(false);
             }
         }
-
-        bool oldSceneIsMap = false;
+        
         GameObject newSceneParent = mapSceneParent;
 
         if (newSceneParent == null)
@@ -419,5 +428,10 @@ public class RunManager : MonoBehaviour
         if (currentSceneParent == null)
             Debug.LogWarning($"RunManager: Couldn't find '{parentObjectName}' in reloaded '{sceneName}'.");
         SceneManager.SetActiveScene(sc);
+    }
+
+    public void SetMapPointExtras(List<MapPointExtra> mpExtras)
+    {
+        mapPointExtras = new List<MapPointExtra>(mpExtras);
     }
 }

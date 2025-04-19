@@ -7,7 +7,7 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 
-public class Cabbage : MonoBehaviour
+public class Cabbage : MonoBehaviour, IBonkable
 {
     public enum GrowthMode
     {
@@ -19,6 +19,7 @@ public class Cabbage : MonoBehaviour
 
     [Header("References")]
     public Rigidbody2D rb;
+    public Collider2D col;
     public SpriteRenderer sr;
     public PooledObjectData bonkVFX;
     public PooledObjectData popVFX;
@@ -64,7 +65,7 @@ public class Cabbage : MonoBehaviour
     public float rootExponent = 0.7f;
 
     [HideInInspector] public bool isMerging = false;
-    
+    [HideInInspector] public bool isStolen = false;
 
     [Header("Scoring")]
     public float startingPoints = 0f;
@@ -84,16 +85,7 @@ public class Cabbage : MonoBehaviour
 
     public List<ScoringInfo> scoringInfos;
 
-    public class CabbageBonkParams
-    {
-        public Cabbage c;
-        public Ball ball;
-        public Vector2 pos;
-        public Vector2 normal;
-        public bool treatAsBall = false;
-    }
-
-    public delegate void CabbageBonkedDelegate(CabbageBonkParams cbp);
+    public delegate void CabbageBonkedDelegate(BonkParams bp);
     public static event CabbageBonkedDelegate CabbageBonkedEvent;
 
     [System.Serializable]
@@ -156,15 +148,15 @@ public class Cabbage : MonoBehaviour
         }
     }
 
-    public void Bonk(float bonkValue, Vector2 collisionPos, Vector2 normal = default, Ball ball = null, bool treatAsBall = false)
+    public void Bonk(BonkParams bp)
     {
-        sizeLevel = Mathf.Min(sizeLevel + bonkValue, maxSizeLevel);
+        sizeLevel = Mathf.Min(sizeLevel + bp.bonkValue, maxSizeLevel);
         UpdateSizeLevel();
 
         // VFX and feedback
-        bonkSFX.Play(collisionPos, bonkSFX.vol * bonkValue);
-        GameObject vfx = bonkVFX.Spawn(collisionPos, Quaternion.identity);
-        vfx.transform.localScale = new Vector3(bonkValue, bonkValue, 1f);
+        bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkValue);
+        GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
+        vfx.transform.localScale = new Vector3(bp.bonkValue, bp.bonkValue, 1f);
 
         float sca = transform.localScale.x;
         float intensity = 1f / sca;
@@ -172,18 +164,15 @@ public class Cabbage : MonoBehaviour
         pointsTextFeel.PlayFeedbacks(transform.position, intensity);
         
         UpdatePoints();
+        
+        bp.bonkedCabbage = this;
+        bp.bonkable = this;
 
-        CabbageBonkParams cbp = new CabbageBonkParams();
-        cbp.c = this;
-        cbp.pos = collisionPos;
-        cbp.normal = normal;
-        cbp.ball = ball;
-        cbp.treatAsBall = treatAsBall;
-        CabbageBonkedEvent?.Invoke(cbp);
+        CabbageBonkedEvent?.Invoke(bp);
 
         if (currentVariant != null)
         {
-            currentVariant.CabbageBonked(cbp);
+            currentVariant.CabbageBonked(bp);
         }
     }
 
@@ -212,7 +201,11 @@ public class Cabbage : MonoBehaviour
     void Merge(Cabbage otherCabbage)
     {
         if (isMerging || otherCabbage.isMerging) return;
-
+        if (!col.enabled || !otherCabbage.col.enabled)
+        {
+            return;
+        }
+        
         isMerging = true;
         otherCabbage.isMerging = true;
 

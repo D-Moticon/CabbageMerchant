@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class DuplicateItemDialogueTask : DialogueTask
 {
-    private bool itemPlacedInSlot = false;
     public DialogueLine validItemPlacedLine;
     public PooledObjectData duplicateVFX;
     public DialogueLine itemDuplicatedLine;

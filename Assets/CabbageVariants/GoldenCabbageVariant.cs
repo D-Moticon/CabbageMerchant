@@ -4,9 +4,9 @@ public class GoldenCabbageVariant : CabbageVariant
 {
     public FloaterReference goldenHitFloater;
     
-    public override void CabbageBonked(Cabbage.CabbageBonkParams cbp)
+    public override void CabbageBonked(BonkParams bp)
     {
-        base.CabbageBonked(cbp);
+        base.CabbageBonked(bp);
         
         float goldValue = Singleton.Instance.playerStats.goldenCabbageValue;
         Singleton.Instance.playerStats.AddCoins(goldValue);

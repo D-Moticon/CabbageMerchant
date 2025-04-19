@@ -1113,6 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 137031519443532654}
+  col: {fileID: 285850742064468464}
   sr: {fileID: 2663874644077794495}
   bonkVFX: {fileID: 11400000, guid: 3382dbf66acc0574cbc96037591e44d2, type: 2}
   popVFX: {fileID: 11400000, guid: 7e1362375de1f7f4aaff36432e7647a5, type: 2}
@@ -1164,6 +1165,7 @@ MonoBehaviour:
   logMultiplier: 1
   rootExponent: 0.5
   isMerging: 0
+  isStolen: 0
   startingPoints: 0
   basePointsPerSize: 1
   currentPointsPerSize: 1

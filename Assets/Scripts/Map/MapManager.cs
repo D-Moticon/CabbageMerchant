@@ -84,6 +84,7 @@ public class MapManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(targetIcon.mapPoint.sceneName))
         {
+            Singleton.Instance.runManager.SetMapPointExtras(targetIcon.mapPoint.mapPointExtras);
             Singleton.Instance.runManager.GoToScene(targetIcon.mapPoint.sceneName);
         }
     }

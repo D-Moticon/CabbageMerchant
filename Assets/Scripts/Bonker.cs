@@ -17,10 +17,16 @@ public class Bonker : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Cabbage c = other.gameObject.GetComponent<Cabbage>();
-        if (c != null)
+        IBonkable b = other.gameObject.GetComponent<IBonkable>();
+        if (b != null)
         {
-            c.Bonk(bonkValue, other.GetContact(0).point, other.GetContact(0).normal, null, treatAsBall);
+            BonkParams bp = new BonkParams();
+            bp.bonkValue = bonkValue;
+            bp.collisionPos = other.GetContact(0).point;
+            bp.normal = other.GetContact(0).normal;
+            bp.ball = null;
+            bp.treatAsBall = treatAsBall;
+            b.Bonk(bp);
 
             if (killOnBonk)
             {
@@ -37,12 +43,19 @@ public class Bonker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Cabbage c = other.gameObject.GetComponent<Cabbage>();
-        if (c != null)
+        IBonkable b = other.gameObject.GetComponent<IBonkable>();
+        if (b != null)
         {
             Vector2 pos = (this.transform.position + other.transform.position) / 2f;
             Vector2 normal = (this.transform.position - other.transform.position).normalized;
-            c.Bonk(bonkValue, pos, normal, null, treatAsBall);
+            
+            BonkParams bp = new BonkParams();
+            bp.bonkValue = bonkValue;
+            bp.collisionPos = pos;
+            bp.normal = normal;
+            bp.ball = null;
+            bp.treatAsBall = treatAsBall;
+            b.Bonk(bp);
 
             if (killOnBonk)
             {

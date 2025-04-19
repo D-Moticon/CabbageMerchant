@@ -18,7 +18,7 @@ public abstract class CabbageVariant : MonoBehaviour
         }
     }
 
-    public virtual void CabbageBonked(Cabbage.CabbageBonkParams cbp)
+    public virtual void CabbageBonked(BonkParams bp)
     {
         variantBonkSFX.Play(owningCabbage.transform.position);
         if (variantHitVFX != null)

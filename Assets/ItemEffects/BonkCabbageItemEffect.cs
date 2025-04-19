@@ -46,7 +46,10 @@ public class BonkCabbageItemEffect : ItemEffect
 
         foreach (var c in selectedCabbages)
         {
-            c.Bonk(bonkValue, c.transform.position);
+            BonkParams bp = new BonkParams();
+            bp.bonkValue = bonkValue;
+            bp.collisionPos = c.transform.position;
+            c.Bonk(bp);
 
             if (spawnItemAtCabbage != null)
             {

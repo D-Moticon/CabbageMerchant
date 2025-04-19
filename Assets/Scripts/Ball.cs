@@ -83,11 +83,18 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         BallCollidedEvent?.Invoke(this, other);
-        
+
+        IBonkable b = other.gameObject.GetComponent<IBonkable>();
         Cabbage c = other.gameObject.GetComponent<Cabbage>();
-        if (c != null && bonkCooldownCounter <= 0f)
+        if (b != null && bonkCooldownCounter <= 0f)
         {
-            c.Bonk(bonkValue, other.contacts[0].point, other.contacts[0].normal, this, true);
+            BonkParams bp = new BonkParams();
+            bp.bonkValue = bonkValue;
+            bp.collisionPos = other.GetContact(0).point;
+            bp.normal = other.GetContact(0).normal;
+            bp.ball = this;
+            bp.treatAsBall = true;
+            b.Bonk(bp);
 
             BallHitCabbageParams bcParams = new BallHitCabbageParams();
             bcParams.ball = this;

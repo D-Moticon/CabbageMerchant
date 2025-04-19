@@ -415,6 +415,7 @@ MonoBehaviour:
     every time I launch a ball!
   noWeaponUsedEverHint: Oh right, I should try using this weapon! I can activate
     it by holding right click while the ball is bouncing!
+  noCabbagesBonkedHint: Oops...
   bubbleFadeDuration: 0.25
   hintLingerTime: 8
 --- !u!1 &44892115
@@ -27099,8 +27100,7 @@ MonoBehaviour:
   spacing: {x: 1.95, y: 1.7}
   slotSize: {x: 1.5, y: 1.25}
   forceHolofoilStarting: 0
-  startingItems:
-  - {fileID: 7134043247388526285, guid: b278bdb343414ce4cbec60b43e18e8f0, type: 3}
+  startingItems: []
   startingPerks: []
   sellCollider: {fileID: 5947625663896968995}
   sellVFX: {fileID: 709769253}
