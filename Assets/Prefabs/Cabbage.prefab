@@ -1081,9 +1081,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9136215933286731207}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   startingPoints: 0
   basePointsPerSize: 1
   currentPointsPerSize: 1
-  pointMultPerColor: 0.5
+  pointMultPerColor: 2
   points: 0
   scoringInfos:
   - colorThreshold: 0

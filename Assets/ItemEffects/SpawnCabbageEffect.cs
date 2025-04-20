@@ -10,14 +10,14 @@ public class SpawnCabbageEffect : ItemEffect
     
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        GameStateMachine.CabbageSlot cs =
-            GameSingleton.Instance.gameStateMachine.GetEmptyCabbageSlot(ensureNoCabbageOverlap, overlapCheckRadius);
-        if (cs == null)
+        BonkableSlot bs =
+            GameSingleton.Instance.gameStateMachine.GetEmptyBonkableSlot(ensureNoCabbageOverlap, overlapCheckRadius);
+        if (bs == null)
         {
             return;
         }
 
-        Cabbage c = GameSingleton.Instance.gameStateMachine.SpawnCabbageInSlot(cs);
+        Cabbage c = GameSingleton.Instance.gameStateMachine.SpawnCabbageInSlot(bs);
         if (specialVariants != null && specialVariants.Count > 0)
         {
             float rand = Random.Range(0f, 1f);

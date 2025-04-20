@@ -5,7 +5,8 @@ public class CabbageHitTrigger : Trigger
     public int everyXHit = 1;
     private int hitCounter = 0;
     public bool onlyByBall = false;
-        
+    public static Vector2Int randomizeEveryXHitRange = new Vector2Int(1, 10);    
+    
     public override void InitializeTrigger(Item item)
     {
         Cabbage.CabbageBonkedEvent += CabbageHitListener;
@@ -59,5 +60,11 @@ public class CabbageHitTrigger : Trigger
     void AimStateEnteredListener()
     {
         hitCounter = 0;
+    }
+    
+    public override void RandomizeTrigger()
+    {
+        base.RandomizeTrigger();
+        everyXHit = Random.Range(randomizeEveryXHitRange.x, randomizeEveryXHitRange.y);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public class RunManager : MonoBehaviour
 {
+    public MapBlueprint startingMapBlueprint;
     [Header("Scene Names")]
     public string startingSceneName = "MainMenuScene";  
     public string gameSceneName     = "GameScene";
@@ -37,7 +38,8 @@ public class RunManager : MonoBehaviour
 
     private int totalEncounters;
     [HideInInspector] public int currentmapLayer;
-
+    public Biome currentBiome;
+    
     public class RunStartParams
     {
         
@@ -46,22 +48,10 @@ public class RunManager : MonoBehaviour
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
-
-    private List<MapPointExtra> mapPointExtras;
     
     void Start()
     {
         StartNewRun();
-    }
-
-    public void GoToGame()
-    {
-        StartCoroutine(SlideToScene(gameSceneName));
-    }
-
-    public void GoToShop()
-    {
-        StartCoroutine(SlideToScene(shopSceneName));
     }
 
     public void GoToMap()
@@ -70,9 +60,9 @@ public class RunManager : MonoBehaviour
         StartCoroutine(SlideToMapScene());
     }
 
-    public void GoToScene(string sceneName)
+    public void GoToScene(string sceneName, MapPoint mapPoint = null)
     {
-        StartCoroutine(SlideToScene(sceneName));
+        StartCoroutine(SlideToScene(sceneName, mapPoint));
     }
 
     /// <summary>
@@ -80,7 +70,7 @@ public class RunManager : MonoBehaviour
     /// slides the old scene out and slides the new scene into place,
     /// then unloads the old scene (unless it is the map).
     /// </summary>
-    private IEnumerator SlideToScene(string newSceneName)
+    private IEnumerator SlideToScene(string newSceneName, MapPoint mapPoint = null)
     {
         // If we're already in this scene, do nothing
         if (newSceneName == currentSceneName)
@@ -89,6 +79,15 @@ public class RunManager : MonoBehaviour
         // Special check: if the old scene is the map, we won't unload it - just hide it.
         bool oldSceneIsMap = (currentSceneName == mapSceneName);
 
+        //Biome
+        if (mapPoint != null)
+        {
+            if (mapPoint.biome != null)
+            {
+                currentBiome = mapPoint.biome;
+            }
+        }
+        
         // 1) Load the new scene additively.
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)
@@ -191,12 +190,15 @@ public class RunManager : MonoBehaviour
         currentSceneParent = newSceneParent;
         SceneManager.SetActiveScene(newScene);
         
-        // 8) Map Point extras
-        if (mapPointExtras != null)
+        //Map Point Extras
+        if (mapPoint != null)
         {
-            for (int i = 0; i < mapPointExtras.Count; i++)
+            if (mapPoint.mapPointExtras != null)
             {
-                mapPointExtras[i].GenerateMapPointExtra();
+                for (int i = 0; i < mapPoint.mapPointExtras.Count; i++)
+                {
+                    mapPoint.mapPointExtras[i].GenerateMapPointExtra();
+                }
             }
         }
     }
@@ -428,10 +430,5 @@ public class RunManager : MonoBehaviour
         if (currentSceneParent == null)
             Debug.LogWarning($"RunManager: Couldn't find '{parentObjectName}' in reloaded '{sceneName}'.");
         SceneManager.SetActiveScene(sc);
-    }
-
-    public void SetMapPointExtras(List<MapPointExtra> mpExtras)
-    {
-        mapPointExtras = new List<MapPointExtra>(mpExtras);
     }
 }

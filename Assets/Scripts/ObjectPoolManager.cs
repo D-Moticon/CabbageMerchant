@@ -7,74 +7,116 @@ public class ObjectPoolManager : MonoBehaviour
     public class PoolEntry
     {
         public PooledObjectData objectData;
-        public int initialQuantity;
+        public int initialQuantity = 5;
+        [Tooltip("Maximum allowed instances. 0 = unlimited")]
+        public int maxQuantity = 0;
     }
 
+    // internal per‐pool storage
+    private class PoolData
+    {
+        public Queue<GameObject> available = new Queue<GameObject>();
+        public List<GameObject> all       = new List<GameObject>();
+        public List<GameObject> activeOrder = new List<GameObject>();
+        public int maxQty;
+    }
+
+    [Tooltip("Configure each prefab, its initial fill, and max allowed.")]
     public List<PoolEntry> pooledObjectsList;
 
-    private Dictionary<PooledObjectData, Queue<GameObject>> poolDictionary;
+    private Dictionary<PooledObjectData, PoolData> poolDictionary;
 
     void Awake()
     {
-        poolDictionary = new Dictionary<PooledObjectData, Queue<GameObject>>();
+        poolDictionary = new Dictionary<PooledObjectData, PoolData>();
 
         foreach (var entry in pooledObjectsList)
         {
-            var objectQueue = new Queue<GameObject>();
+            var data = new PoolData
+            {
+                maxQty = (entry.maxQuantity > 0)
+                         ? entry.maxQuantity
+                         : int.MaxValue
+            };
 
+            // pre‑populate
             for (int i = 0; i < entry.initialQuantity; i++)
             {
-                GameObject obj = Instantiate(entry.objectData.prefab, transform);
+                var obj = Instantiate(entry.objectData.prefab, transform);
                 obj.SetActive(false);
-                objectQueue.Enqueue(obj);
+                data.available.Enqueue(obj);
+                data.all.Add(obj);
             }
 
-            poolDictionary.Add(entry.objectData, objectQueue);
+            poolDictionary.Add(entry.objectData, data);
         }
     }
 
-    public GameObject Spawn(PooledObjectData objectData)
+    public GameObject Spawn(PooledObjectData objectData) =>
+        Spawn(objectData, Vector3.zero, Quaternion.identity);
+
+    public GameObject Spawn(PooledObjectData objectData,
+                           Vector3 position,
+                           Quaternion rotation)
     {
-        return Spawn(objectData, Vector3.zero, Quaternion.identity);
-    }
-    
-    public GameObject Spawn(PooledObjectData objectData, Vector3 position, Quaternion rotation)
-    {
-        if (!poolDictionary.ContainsKey(objectData))
+        if (!poolDictionary.TryGetValue(objectData, out var data))
         {
-            Debug.LogWarning($"No pool exists for {objectData.name}, instantiating a new object.");
+            Debug.LogWarning($"No pool for {objectData.name}, instantiating.");
             return Instantiate(objectData.prefab, position, rotation);
         }
 
-        Queue<GameObject> objectQueue = poolDictionary[objectData];
-        GameObject spawnedObj;
+        GameObject obj;
 
-        if (objectQueue.Count > 0)
+        if (data.available.Count > 0)
         {
-            spawnedObj = objectQueue.Dequeue();
+            // reuse an inactive one
+            obj = data.available.Dequeue();
+        }
+        else if (data.all.Count < data.maxQty)
+        {
+            // still under max → create new
+            obj = Instantiate(objectData.prefab, transform);
+            data.all.Add(obj);
         }
         else
         {
-            spawnedObj = Instantiate(objectData.prefab, transform);
+            // at max and none free → grab the oldest active
+            if (data.activeOrder.Count > 0)
+            {
+                obj = data.activeOrder[0];
+                data.activeOrder.RemoveAt(0);
+                // (optionally reset any state here)
+            }
+            else
+            {
+                // fallback—should rarely happen
+                obj = data.all[0];
+            }
         }
 
-        spawnedObj.transform.position = position;
-        spawnedObj.transform.rotation = rotation;
-        spawnedObj.SetActive(true);
+        // position & activate
+        obj.transform.SetParent(transform);
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
+        obj.SetActive(true);
 
-        return spawnedObj;
+        // track spawn order for reuse
+        data.activeOrder.Add(obj);
+
+        return obj;
     }
 
     public void ReturnToPool(PooledObjectData objectData, GameObject obj)
     {
-        obj.SetActive(false);
-        obj.transform.SetParent(transform);
-        
-        if (!poolDictionary.ContainsKey(objectData))
+        if (!poolDictionary.TryGetValue(objectData, out var data))
         {
-            poolDictionary[objectData] = new Queue<GameObject>();
+            Destroy(obj);
+            return;
         }
 
-        poolDictionary[objectData].Enqueue(obj);
+        obj.SetActive(false);
+        obj.transform.SetParent(transform);
+        data.available.Enqueue(obj);
+        data.activeOrder.Remove(obj);
     }
 }

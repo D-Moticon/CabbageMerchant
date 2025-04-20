@@ -15,7 +15,19 @@ public class Map : MonoBehaviour
     public float randomYOffset = 0.65f;
 
     public SpriteRenderer mapBG;
+    public SpriteRenderer mapFarBGPrefab; //Instantiate one of these for each biome
+    [Tooltip("Vertical padding before the first biome segment")]
+    public float farBGPaddingStart = 0f;
+    [Tooltip("Vertical padding after the last biome segment")]
+    public float farBGPaddingEnd = 0f;
+    [Tooltip("Extra vertical height added to every biome background")]
+    public float farBGExtraHeight = 0f;    [Tooltip("Vertical offset from the layer Y where each farBG segment begins relative to the map icons")]
+    public float farBGLayerYOffset = 0f;
     public float mapBG_YMargin = 5f;
+    [Header("Sign Settings")]
+    [Tooltip("Prefab for placing biome signs")]
+    public MapSign mapSignPrefab;
+    public float signXOffset = 0f;
     
     // The generated layers in this map
     public List<MapLayer> layers = new List<MapLayer>();
@@ -26,102 +38,149 @@ public class Map : MonoBehaviour
         public List<MapIcon> mapIcons;
     }
 
+    /// <summary>
+    /// Initialize map background and biome segments.
+    /// </summary>
     public void InitializeMap(MapBlueprint mapBlueprint)
     {
         // Number of layers from the blueprint.
         int numLayers = mapBlueprint.mapLayers.Count;
         if (numLayers < 1)
-            numLayers = 1; // Ensure we have at least one layer.
-    
-        // Icon area: first layer at y=0 and last layer at y = (numLayers - 1)*verticalSpacing.
+            numLayers = 1;
+
+        // Icon area height
         float iconAreaHeight = (numLayers - 1) * verticalSpacing;
-    
-        // The desired background height is the icon area plus a margin on top and bottom.
-        float bgHeight = iconAreaHeight + (2 * mapBG_YMargin);
-    
-        // Adjust the map background sprite size (assuming Draw Mode is Tiled)
+
+        // Background height including margins
+        float bgHeight = iconAreaHeight + 2f * mapBG_YMargin;
+
+        // Resize mapBG (tiled)
         Vector2 bgSize = mapBG.size;
         bgSize.y = bgHeight;
-        mapBG.size = bgSize/mapBG.transform.localScale;
-    
-        // Reposition the background so that its bottom edge is at y = -mapBG_YMargin.
-        // With a pivot at center, the bottom edge is at (position.y - bgHeight/2).
-        // We want:
-        //      position.y - (bgHeight/2) == -mapBG_YMargin
-        // Solving, position.y = iconAreaHeight/2  (since bgHeight = iconAreaHeight + 2*mapBG_YMargin).
+        mapBG.size = bgSize / mapBG.transform.localScale;
+
+        // Position mapBG so bottom edge at y = -mapBG_YMargin
         Vector3 bgPos = mapBG.transform.localPosition;
-        bgPos.y = iconAreaHeight / 2f;
+        bgPos.y = iconAreaHeight * 0.5f;
         mapBG.transform.localPosition = bgPos;
-    
-        Debug.Log($"Map Initialized: Layers = {numLayers}, IconAreaHeight = {iconAreaHeight}, BG Height = {bgHeight}");
+
+        // Precompute layer Y positions
+        float[] layerY = new float[numLayers + 1];
+        for (int i = 0; i < numLayers; i++)
+            layerY[i] = i * verticalSpacing;
+        layerY[numLayers] = iconAreaHeight;
+
+        // Gather biome change indices
+        List<int> biomeStarts = new List<int>();
+        List<Biome> biomes = new List<Biome>();
+        for (int i = 0; i < mapBlueprint.mapLayers.Count; i++)
+        {
+            Biome b = mapBlueprint.mapLayers[i].newBiome;
+            if (b != null)
+            {
+                biomeStarts.Add(i);
+                biomes.Add(b);
+            }
+        }
+
+                // Instantiate far BG for each biome segment
+        // determine sprite base sorting order
+        int baseOrder = mapFarBGPrefab.sortingOrder;
+        int segments = biomeStarts.Count;
+        for (int idx = 0; idx < segments; idx++)
+        {
+            int start = biomeStarts[idx];
+            int end = (idx + 1 < segments) ? biomeStarts[idx + 1] : numLayers;
+            float bottom = layerY[start] + farBGLayerYOffset;
+            float top = layerY[end];
+            // apply padding on first/last biome
+            if (idx == 0)
+                bottom -= farBGPaddingStart;
+            if (idx == segments - 1)
+                top += farBGPaddingEnd;
+            // extra height equally top & bottom
+            bottom -= farBGExtraHeight * 0.5f;
+            top    += farBGExtraHeight * 0.5f;
+            float height = top - bottom;
+
+            // Create new far BG
+            var farBG = Instantiate(mapFarBGPrefab, transform);
+            farBG.sprite = biomes[idx].mapFarBG;
+
+            // Use sprite renderer size (tiled) to span width and height
+            farBG.drawMode = SpriteDrawMode.Tiled;
+            farBG.size = new Vector2(mapBG.size.x, height);
+            farBG.transform.localScale = Vector3.one;
+            // adjust sorting order: last segment uses base, earlier stepped down
+            farBG.sortingOrder = baseOrder - (segments - 1 - idx);
+
+            // Position centered vertically in segment
+            Vector3 pos = farBG.transform.localPosition;
+            pos.y = bottom + height * 0.5f;
+            farBG.transform.localPosition = pos;
+
+            // Instantiate sign at this biome start
+            if (mapSignPrefab != null)
+            {
+                var sign = Instantiate(mapSignPrefab, transform);
+
+                // position the sign using our new offset:
+                Vector3 signPos = new Vector3(
+                    signXOffset,         // ← your custom horizontal offset
+                    layerY[start],       // exactly at the start‐layer Y
+                    0f
+                );
+                sign.transform.localPosition = signPos;
+                sign.SetSignTextFromBiome(biomes[idx]);
+            }
+        }
+
+        Debug.Log($"Map Initialized: Layers={numLayers}, IconAreaHeight={iconAreaHeight}, BG Height={bgHeight}");
     }
 
-
-    
     /// <summary>
     /// Creates a new layer containing MapIcons for each provided MapPoint,
-    /// places them with a simple horizontal layout, and connects them to the previous layer.
+    /// places them, and connects to previous.
     /// </summary>
     public void AddMapLayer(List<MapPoint> mapPoints)
     {
-        // Create a new layer
         MapLayer newLayer = new MapLayer { mapIcons = new List<MapIcon>() };
-        
-        float yPos = layers.Count * verticalSpacing; 
-        // The first layer (layer 0) is at y=0,
-        // next layer (layer 1) is at y=3, etc.
+        float yPos = layers.Count * verticalSpacing;
+        float xOff = (mapPoints.Count - 1) * xStep * 0.5f;
 
-        float xOff = (mapPoints.Count-1) * xStep * 0.5f;
-        
         for (int i = 0; i < mapPoints.Count; i++)
         {
-            MapPoint pointData = mapPoints[i];
-
-            // Instantiate a MapIcon
-            MapIcon icon = Instantiate(mapIconPrefab, transform);
-            icon.spriteRenderer.sprite = pointData.mapIcon;
-            icon.mapPoint = pointData;
-
-            // Place them left to right, but each layer is placed further up
+            var data = mapPoints[i];
+            var icon = Instantiate(mapIconPrefab, transform);
+            icon.spriteRenderer.sprite = data.mapIcon;
+            icon.mapPoint = data;
             float randX = Random.Range(-randomXOffset * 0.5f, randomXOffset * 0.5f);
             float randY = Random.Range(-randomYOffset * 0.5f, randomYOffset * 0.5f);
-            icon.transform.localPosition = new Vector3(xOffset + i * xStep-xOff, yPos, 0f) + new Vector3(randX, randY, 0f);
-
+            icon.transform.localPosition = new Vector3(xOffset + i * xStep - xOff, yPos, 0f)
+                                        + new Vector3(randX, randY, 0f);
             newLayer.mapIcons.Add(icon);
         }
 
-        // If there's a previous layer, connect it with lines
         if (layers.Count > 0)
-        {
-            MapLayer previousLayer = layers[layers.Count - 1];
-            ConnectLayers(previousLayer, newLayer);
-        }
+            ConnectLayers(layers[layers.Count - 1], newLayer);
 
-        // Finally, add the new layer to our layers list
         layers.Add(newLayer);
     }
 
-    /// <summary>
-    /// Draws a line between every MapIcon in 'previousLayer' and every MapIcon in 'newLayer'.
-    /// Each line is a new LineRenderer instance.
-    /// </summary>
-    private void ConnectLayers(MapLayer previousLayer, MapLayer newLayer)
+    private void ConnectLayers(MapLayer prev, MapLayer next)
     {
         if (!mapLinePrefab)
         {
-            Debug.LogWarning("No mapLinePrefab assigned in Map. Cannot draw lines!");
+            Debug.LogWarning("No mapLinePrefab assigned. Cannot draw lines.");
             return;
         }
-
-        foreach (var oldIcon in previousLayer.mapIcons)
-        {
-            foreach (var newIcon in newLayer.mapIcons)
+        foreach (var o in prev.mapIcons)
+            foreach (var n in next.mapIcons)
             {
-                LineRenderer lr = Instantiate(mapLinePrefab, transform);
+                var lr = Instantiate(mapLinePrefab, transform);
                 lr.positionCount = 2;
-                lr.SetPosition(0, oldIcon.transform.position);
-                lr.SetPosition(1, newIcon.transform.position);
+                lr.SetPosition(0, o.transform.position);
+                lr.SetPosition(1, n.transform.position);
             }
-        }
     }
 }

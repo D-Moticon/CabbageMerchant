@@ -3,6 +3,7 @@ using UnityEngine;
 public class CabbageHitAfterHangtimeTrigger : Trigger
 {
     public float minHangtime = 1f;
+    private static Vector2 randomizeMinHangtimeRange = new Vector2(0.35f, 1.25f);
     
     public override void InitializeTrigger(Item item)
     {
@@ -16,7 +17,7 @@ public class CabbageHitAfterHangtimeTrigger : Trigger
 
     public override string GetTriggerDescription()
     {
-        string s = $"Ball bonks cabbage after {minHangtime} seconds of air time";
+        string s = $"Ball bonks cabbage after {minHangtime:F2} seconds of air time";
         return s;
     }
 
@@ -32,5 +33,11 @@ public class CabbageHitAfterHangtimeTrigger : Trigger
             
             owningItem.TryTriggerItem(tc);
         }
+    }
+
+    public override void RandomizeTrigger()
+    {
+        base.RandomizeTrigger();
+        minHangtime = Random.Range(randomizeMinHangtimeRange.x, randomizeMinHangtimeRange.y);
     }
 }

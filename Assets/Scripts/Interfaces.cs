@@ -31,3 +31,8 @@ public interface IKillable
 {
     public void Kill();
 }
+
+public interface IBiomeChangeable
+{
+    public void SetBiome(Biome biome);
+}

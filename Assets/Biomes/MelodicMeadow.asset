@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c9ae5648f09964cbf72d0cef60df35, type: 3}
-  m_Name: Dojo
+  m_Script: {fileID: 11500000, guid: 79bc524942634aa4c99880a1929d25e3, type: 3}
+  m_Name: MelodicMeadow
   m_EditorClassIdentifier: 
-  sceneName: Dojo
-  displayName: Dojo
-  description: Buy and upgrade weapons
-  mapIcon: {fileID: 21300000, guid: bc0e811fbb518c14f982157fe9fd92a8, type: 3}
+  biomeName: Melodic Meadow
+  mapFarBG: {fileID: 21300000, guid: 891b5810a8c66ad42aaa2ec91757796c, type: 3}

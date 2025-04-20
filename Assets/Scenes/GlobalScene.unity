@@ -656,8 +656,10 @@ MonoBehaviour:
   pooledObjectsList:
   - objectData: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
     initialQuantity: 10
+    maxQuantity: 20
   - objectData: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
     initialQuantity: 10
+    maxQuantity: 20
 --- !u!1 &233162595
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,6 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5583b45d25597bb4c9608af5a7038426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingMapBlueprint: {fileID: 11400000, guid: 446757a25c0535c4cb1d95ad9f529928, type: 2}
   startingSceneName: Map
   gameSceneName: CabbageShoot
   shopSceneName: Shop
@@ -711,6 +714,7 @@ MonoBehaviour:
   transitionDirection: 1
   transitionTime: 0.5
   currentmapLayer: 0
+  currentBiome: {fileID: 0}
 --- !u!1 &244724128
 GameObject:
   m_ObjectHideFlags: 0
@@ -16627,8 +16631,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Notification
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b30ee55928862f5438f2f384054f4beb, type: 2}
-  m_sharedMaterial: {fileID: 7811377986260863879, guid: b30ee55928862f5438f2f384054f4beb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5ce3077c7d1bfd4cae98d86b77bd890, type: 2}
+  m_sharedMaterial: {fileID: 7811377986260863879, guid: e5ce3077c7d1bfd4cae98d86b77bd890, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -33281,6 +33285,8 @@ MonoBehaviour:
   weaponCooldownSpeedMult: 1
   startingLives: 2
   lives: 1
+  startingMaxCoins: 99
+  maxCoins: 99
 --- !u!1 &1583684889
 GameObject:
   m_ObjectHideFlags: 0
@@ -79389,6 +79395,7 @@ MonoBehaviour:
         Data4: 0
       Path: 
     vol: 0.5
+  allowedTypes: 0
 --- !u!1 &5689785404330400561
 GameObject:
   m_ObjectHideFlags: 0

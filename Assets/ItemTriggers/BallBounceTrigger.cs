@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BallBounceTrigger : Trigger
 {
@@ -14,6 +15,8 @@ public class BallBounceTrigger : Trigger
     }
 
     public BounceType bounceType;
+
+    private static Vector2Int randomizeNumberBouncesRange = new Vector2Int(1, 10);
     
     public override void InitializeTrigger(Item item)
     {
@@ -98,5 +101,10 @@ public class BallBounceTrigger : Trigger
     void BallFiredListener(Ball b)
     {
         bounceCount = 0;
+    }
+
+    public override void RandomizeTrigger()
+    {
+        numberBounces = Random.Range(randomizeNumberBouncesRange.x, randomizeNumberBouncesRange.y);
     }
 }

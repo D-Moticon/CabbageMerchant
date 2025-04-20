@@ -8,6 +8,7 @@ public class MapPoint : ScriptableObject
     public string displayName;
     public string description;
     public Sprite mapIcon;
+    public Biome biome;
     [SerializeReference]
     public List<MapPointExtra> mapPointExtras = new List<MapPointExtra>();
 }

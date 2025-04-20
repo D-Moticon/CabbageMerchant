@@ -14,6 +14,7 @@ public class MapBlueprint : ScriptableObject
     {
         public List<MapPoint> possiblePoints;
         public bool forceAll = false; //all these points will spawn every time
+        public Biome newBiome;
     }
 
     [Header("Layers")]

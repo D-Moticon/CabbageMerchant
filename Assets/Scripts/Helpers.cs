@@ -159,4 +159,10 @@ public static class Helpers
         return inputList.OrderBy(x => Random.value).Take(count).ToList();
     }
 
+    public static T DeepClone<T>(T src) where T : class
+    {
+        var json = JsonUtility.ToJson(src);
+        // this overload uses the concrete runtime type of src
+        return JsonUtility.FromJson(json, src.GetType()) as T;
+    }
 }

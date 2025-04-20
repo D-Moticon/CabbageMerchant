@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e769cc670ab7ffe4b86e810024daa0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMapBlueprint: {fileID: 11400000, guid: 446757a25c0535c4cb1d95ad9f529928, type: 2}
+  defaultMapBlueprint: {fileID: 11400000, guid: 4f649b0d3afa7d2458b3ab63bd698517, type: 2}
   currentMapBlueprint: {fileID: 0}
   map: {fileID: 0}
   mapCharacterPrefab: {fileID: 7033008294106402310, guid: 77487a92485bb7c42a907dd04857bb92, type: 3}

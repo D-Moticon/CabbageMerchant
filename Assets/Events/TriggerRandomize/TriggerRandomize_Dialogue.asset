@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: TriggerRandomize_Dialogue
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110102544646310
+  - rid: 328110102544646311
+  - rid: 328110102544646319
+  - rid: 328110102544646354
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110102544646310
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+        dialogueLine: 'In order, we survive...
+
+          In chaos, we thrive....'
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110102544646311
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+        dialogueLine: The shaman holds out a tentacle.
+        hideCharacterName: 1
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110102544646319
+      type: {class: RandomizeItemTriggerTask, ns: , asm: Assembly-CSharp}
+      data:
+        triggersToChooseFrom:
+        - rid: 328110102544646321
+        - rid: 328110102544646323
+        - rid: 328110102544646325
+        - rid: 328110102544646329
+        - rid: 328110102544646331
+        - rid: 328110102544646333
+        - rid: 328110102544646352
+        validItemPlacedLine:
+          dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+          dialogueLine: By the power of chaos!
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+        itemChangedLine:
+          dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+          dialogueLine: The item's trigger was randomized!
+          hideCharacterName: 1
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+        itemChangedVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        itemChangedSFX:
+          sfx:
+            Guid:
+              Data1: -388259375
+              Data2: 1081402945
+              Data3: -420787289
+              Data4: 939684103
+            Path: event:/Score1
+          vol: 0.5
+    - rid: 328110102544646321
+      type: {class: AnyItemTriggeredTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        quantity: 8
+    - rid: 328110102544646323
+      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        numberBounces: 10
+        bounceType: 0
+    - rid: 328110102544646325
+      type: {class: CabbageMergedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        quantity: 1
+    - rid: 328110102544646329
+      type: {class: CabbageHitAfterHangtimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        minHangtime: 1
+    - rid: 328110102544646331
+      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        numberBounces: 5
+        bounceType: 2
+    - rid: 328110102544646333
+      type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        everyXHit: 10
+        onlyByBall: 0
+    - rid: 328110102544646352
+      type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        duration: 5
+    - rid: 328110102544646354
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+        dialogueLine: Go on, a universe of chaos awaits!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1

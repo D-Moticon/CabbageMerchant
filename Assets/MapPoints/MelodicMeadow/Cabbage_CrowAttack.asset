@@ -17,6 +17,7 @@ MonoBehaviour:
   description: Crows are descending upon the cabbages! Bonk them before they can
     take off with your hard-earned greens!
   mapIcon: {fileID: 21300000, guid: 7eadab7be06bdf64fa07d6bf11164425, type: 3}
+  biome: {fileID: 11400000, guid: e7b2961264174f34abc5a72fb16ae726, type: 2}
   mapPointExtras:
   - rid: 328110079628280251
   references:

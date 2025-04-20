@@ -3,9 +3,6 @@ using System.Collections;
 
 public class MapManager : MonoBehaviour
 {
-    [Header("References")]
-    public MapBlueprint defaultMapBlueprint;
-
     [HideInInspector] public MapBlueprint currentMapBlueprint;
     [HideInInspector] public Map map;
 
@@ -24,8 +21,9 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        map = MapSingleton.Instance.mapGenerator.GenerateMap(defaultMapBlueprint);
-        currentMapBlueprint = defaultMapBlueprint;
+        MapBlueprint mbp = Singleton.Instance.runManager.startingMapBlueprint;
+        map = MapSingleton.Instance.mapGenerator.GenerateMap(mbp);
+        currentMapBlueprint = mbp;
         map.InitializeMap(currentMapBlueprint);
 
         currentLayerIndex = 0;
@@ -84,8 +82,7 @@ public class MapManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(targetIcon.mapPoint.sceneName))
         {
-            Singleton.Instance.runManager.SetMapPointExtras(targetIcon.mapPoint.mapPointExtras);
-            Singleton.Instance.runManager.GoToScene(targetIcon.mapPoint.sceneName);
+            Singleton.Instance.runManager.GoToScene(targetIcon.mapPoint.sceneName, targetIcon.mapPoint);
         }
     }
 

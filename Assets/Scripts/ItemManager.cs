@@ -225,6 +225,37 @@ public class ItemManager : MonoBehaviour
 
         if (slot.isEventSlot)
         {
+            switch (slot.allowedTypes)
+            {
+                case ItemSlot.AllowedTypes.any:
+                    break;
+                case ItemSlot.AllowedTypes.itemOnly:
+                    if (draggingItem.itemType != Item.ItemType.Item)
+                    {
+                        RevertDraggedItem();
+                        infoFloater.Spawn("Only normal items allowed!", slot.transform.position, Color.red, 1f);
+                        return;
+                    }
+                    break;
+                case ItemSlot.AllowedTypes.perkOnly:
+                    if (draggingItem.itemType != Item.ItemType.Perk)
+                    {
+                        RevertDraggedItem();
+                        infoFloater.Spawn("Only perks allowed!", slot.transform.position, Color.red, 1f);
+                        return;
+                    }
+                    break;
+                case ItemSlot.AllowedTypes.weaponOnly:
+                    if (draggingItem.itemType != Item.ItemType.Perk)
+                    {
+                        RevertDraggedItem();
+                        infoFloater.Spawn("Only weapons allowed!", slot.transform.position, Color.red, 1f);
+                        return;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             AddItemToSlot(draggingItem, slot);
             return;
         }

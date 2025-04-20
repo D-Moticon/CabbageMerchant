@@ -154,7 +154,6 @@ public class CrowFlight : MonoBehaviour, IKillable
     /// </summary>
     public void Kill()
     {
-        print("BAKA");
         if (hasCabbage && targetCabbage != null)
         {
             // release cabbage

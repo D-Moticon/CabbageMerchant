@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &200164734672739454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6419220420175730418}
+  - component: {fileID: 1475160629080221019}
+  m_Layer: 0
+  m_Name: Mitosis1_TEST
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6419220420175730418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200164734672739454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.07, y: -0.1837549, z: 0.042274285}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1475160629080221019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200164734672739454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Mitosis
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 191f0ff6d5185874bb68210f77b009f2, type: 3}
+  itemType: 0
+  effects:
+  - rid: 328109986689056860
+  holofoilEffects:
+  - rid: 328109986689056871
+  triggers:
+  - rid: 328110114292629587
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 1
+  normalizedPrice: 2
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: -4604959134935355132, guid: 2eaa4f83b6241a64fad7688bd6214dac, type: 3}
+  isHolofoil: 0
+  firstUseHint: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 328109986689056860
+      type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
+        ballName: ball
+        ballDescription: 
+        numberCopies: 1
+        ballLaunchSpeed: 7
+        ballLaunchAngleRange: {x: 45, y: 135}
+    - rid: 328109986689056871
+      type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        ballPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
+        ballName: <rainb>rainbow ball</rainb>
+        ballDescription: bonks for 2
+        numberCopies: 1
+        ballLaunchSpeed: 7
+        ballLaunchAngleRange: {x: 45, y: 135}
+    - rid: 328110114292629587
+      type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        everyXHit: 3
+        onlyByBall: 0

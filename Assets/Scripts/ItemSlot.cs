@@ -14,6 +14,16 @@ public class ItemSlot : MonoBehaviour
     public SFXInfo spawnSFX;
     public SFXInfo itemAddedSFX;
 
+    public enum AllowedTypes
+    {
+        any,
+        itemOnly,
+        perkOnly,
+        weaponOnly
+    }
+
+    public AllowedTypes allowedTypes;
+
     private void OnEnable()
     {
         PlayerStats.CoinsUpdated += PlayerCoinsUpdatedListener;

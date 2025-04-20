@@ -52,7 +52,7 @@ public class SpawnRBItemEffect : ItemEffect
     public VelocityDirection velocityDirection = VelocityDirection.Normal;
 
     [ShowIf("@velocityDirection == VelocityDirection.WorldDirection")]
-    public Vector2 worldVelocityDirection;
+    public Vector2 worldVelocityDirection = new Vector2(0f,1f);
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
@@ -63,7 +63,10 @@ public class SpawnRBItemEffect : ItemEffect
         switch (velocityDirection)
         {
             case VelocityDirection.Normal:
-                normal = tc.normal;
+                if (tc != null && tc.normal != null)
+                {
+                    normal = tc.normal;
+                }
                 break;
             case VelocityDirection.WorldDirection:
                 normal = worldVelocityDirection.normalized;
@@ -77,7 +80,16 @@ public class SpawnRBItemEffect : ItemEffect
             switch (spawnLocation)
             {
                 case SpawnLocation.ball:
-                    pos = tc.point;
+                    if (tc != null && tc.ball != null)
+                    {
+                        pos = tc.point;
+                    }
+                    else
+                    {
+                        int rand = Random.Range(0, GameSingleton.Instance.gameStateMachine.activeBalls.Count);
+                        pos = GameSingleton.Instance.gameStateMachine.activeBalls[rand].transform.position;
+                    }
+
                     break;
                 case SpawnLocation.worldArea:
                     pos = spawnCenter - spawnAreaSize * 0.5f + new Vector2(Random.Range(0f, spawnAreaSize.x), Random.Range(0f, spawnAreaSize.y));

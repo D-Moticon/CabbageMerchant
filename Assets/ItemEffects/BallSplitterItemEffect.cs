@@ -11,9 +11,14 @@ public class BallSplitterItemEffect : ItemEffect
     
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        if (tc == null)
+        if (tc == null || tc.ball == null)
         {
-            
+            int rand = Random.Range(0, GameSingleton.Instance.gameStateMachine.activeBalls.Count);
+            tc.ball = GameSingleton.Instance.gameStateMachine.activeBalls[rand];
+            tc.point = tc.ball.transform.position;
+            float randAng = Random.Range(0f, 360f);
+            Vector2 randDir = Helpers.AngleDegToVector2(randAng);
+            tc.normal = randDir;
         }
 
         else

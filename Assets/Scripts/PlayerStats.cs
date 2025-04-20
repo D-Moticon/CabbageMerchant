@@ -26,6 +26,8 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float weaponCooldownSpeedMult = 1f;
     public int startingLives = 1;
     [HideInInspector] public int lives = 1;
+    public int startingMaxCoins = 99;
+    [HideInInspector] public int maxCoins = 99;
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -62,11 +64,18 @@ public class PlayerStats : MonoBehaviour
         weaponCooldownSpeedMult = 1f;
         lives = startingLives;
         LivesUpdated?.Invoke(lives);
+        maxCoins = startingMaxCoins;
     }
     
     public void AddCoins(double coinsToAdd)
     {
         coins += coinsToAdd;
+
+        if (coins > maxCoins)
+        {
+            coins = maxCoins;
+        }
+        
         CoinsUpdated?.Invoke(coins);
     }
     
@@ -139,5 +148,10 @@ public class PlayerStats : MonoBehaviour
         lives--;
         LivesUpdated?.Invoke(lives);
         LifeLostEvent?.Invoke();
+    }
+
+    public void AddMaxCoins(int amount)
+    {
+        maxCoins += amount;
     }
 }

@@ -88,6 +88,8 @@ public class Cabbage : MonoBehaviour, IBonkable
     public delegate void CabbageBonkedDelegate(BonkParams bp);
     public static event CabbageBonkedDelegate CabbageBonkedEvent;
 
+    private LayerMask wallLayerMask;
+    
     [System.Serializable]
     public class VariantInfo
     {
@@ -111,7 +113,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     public delegate void CabbageMergedDelegate(CabbageMergedParams cpp);
 
     public static event CabbageMergedDelegate CabbageMergedEvent;
-
+    
     private void OnEnable()
     {
         spawnSFX.Play();
@@ -119,12 +121,13 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     void Start()
     {
-        rb.bodyType = RigidbodyType2D.Static;
+        rb.bodyType = RigidbodyType2D.Kinematic;
         sr = GetComponentInChildren<SpriteRenderer>();
 
         UpdateSizeLevel();
         UpdateColorLevel();
         UpdatePoints();
+        wallLayerMask = LayerMask.NameToLayer("Wall");
     }
 
     void Update()
@@ -178,7 +181,13 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public void Pop(Vector2 collisionPos)
     {
-        rb.bodyType = RigidbodyType2D.Dynamic;
+        Color col = Color.white;
+        PlayPopVFX();
+        popSFX.Play();
+        gameObject.SetActive(false);
+
+        //OLD
+        /*rb.bodyType = RigidbodyType2D.Dynamic;
         popVFX.Spawn(collisionPos, Quaternion.identity);
         bonkFeel.PlayFeedbacks(transform.position, 2f, false);
         Singleton.Instance.screenShaker.ShakeScreen();
@@ -186,11 +195,23 @@ public class Cabbage : MonoBehaviour, IBonkable
 
         rb.angularVelocity = Random.Range(-400f, 400f);
         popSFX.Play(collisionPos);
-        gameObject.layer = LayerMask.NameToLayer("TransparentFX");
+        gameObject.layer = LayerMask.NameToLayer("TransparentFX");*/
+
+
     }
 
-    private void OnCollisionEnter2D(Collision2D other) { }
-    private void OnCollisionStay(Collision other) { }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.layer == wallLayerMask)
+        {
+            Pop(other.GetContact(0).point);
+        }
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        
+    }
 
     void UpdatePoints()
     {
@@ -213,7 +234,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         int newColorLevel = Mathf.Min(Mathf.Max(colorLevel, otherCabbage.colorLevel) + 1, maxColorLevel);
         float newSizeLevel = Mathf.Min(Mathf.Max(sizeLevel, otherCabbage.sizeLevel) + 1, maxSizeLevel);
 
-        Cabbage c = GameSingleton.Instance.gameStateMachine
+        Cabbage c = GameSingleton.Instance.currentBiomeParent
             .cabbagePooledObject.Spawn(pos, Quaternion.identity)
             .GetComponent<Cabbage>();
 

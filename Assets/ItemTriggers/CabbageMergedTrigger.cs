@@ -4,6 +4,8 @@ public class CabbageMergedTrigger : Trigger
 {
     public int quantity = 1;
     private int counter = 0;
+
+    private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 4);
     
     public override void InitializeTrigger(Item item)
     {
@@ -36,5 +38,11 @@ public class CabbageMergedTrigger : Trigger
     void BallFiredListener(Ball b)
     {
         //counter = 0;
+    }
+    
+    public override void RandomizeTrigger()
+    {
+        base.RandomizeTrigger();
+        quantity = Random.Range(randomizeQuantityRange.x, randomizeQuantityRange.y);
     }
 }

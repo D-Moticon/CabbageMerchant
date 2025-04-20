@@ -4,6 +4,7 @@ public class AnyItemTriggeredTrigger : Trigger
 {
     public int quantity = 1;
     private int currentCount = 0;
+    private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 10);
     
     public override void InitializeTrigger(Item item)
     {
@@ -25,7 +26,7 @@ public class AnyItemTriggeredTrigger : Trigger
             plural = "s";
         }
 
-        return ($"{quantity} item{plural} triggered");
+        return ($"{quantity} item{plural} triggered (excluding self)");
     }
 
     void ItemTriggeredListener(Item item)
@@ -46,5 +47,10 @@ public class AnyItemTriggeredTrigger : Trigger
     void BallFiredListener(Ball b)
     {
         currentCount = 0;
+    }
+
+    public override void RandomizeTrigger()
+    {
+        quantity = Random.Range(randomizeQuantityRange.x, randomizeQuantityRange.y);
     }
 }

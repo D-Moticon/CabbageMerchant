@@ -27,7 +27,6 @@ public class GameStateMachine : MonoBehaviour
 
     public State currentState;
     public int numberPegs;
-    public PooledObjectData cabbagePooledObject;
     public BoardMetrics boardMetrics;
     public Launcher launcher;
     
@@ -42,13 +41,13 @@ public class GameStateMachine : MonoBehaviour
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
 
-    public class CabbageSlot
+    /*public class CabbageSlot
     {
         public Vector2 position;
         public Cabbage c;
-    }
-
-    [HideInInspector] public List<CabbageSlot> cabbageSlots = new List<CabbageSlot>();
+    }*/
+    
+    [HideInInspector] public List<BonkableSlot> bonkableSlots = new List<BonkableSlot>();
     
     public static Action BoardFinishedPopulatingAction;
     public static Action EnteringAimStateAction;
@@ -139,18 +138,18 @@ public class GameStateMachine : MonoBehaviour
         }
     }
 
-    public CabbageSlot GetEmptyCabbageSlot(bool ensureNotOverlappingCabbage = true, float checkRadius = 0.5f)
+    public BonkableSlot GetEmptyBonkableSlot(bool ensureNotOverlappingCabbage = true, float checkRadius = 0.5f)
     {
-        List<CabbageSlot> validSlots = 
-            (from cs in cabbageSlots
-                where cs.c == null
-                select cs).ToList();
+        List<BonkableSlot> validSlots = 
+            (from bs in bonkableSlots
+                where bs.bonkable == null
+                select bs).ToList();
 
         if (ensureNotOverlappingCabbage)
         {
             validSlots = validSlots.Where(slot =>
             {
-                Collider2D[] overlaps = Physics2D.OverlapCircleAll(slot.position, checkRadius);
+                Collider2D[] overlaps = Physics2D.OverlapCircleAll(slot.transform.position, checkRadius);
                 foreach (var col in overlaps)
                 {
                     if (col.GetComponent<Cabbage>() != null)
@@ -193,23 +192,25 @@ public class GameStateMachine : MonoBehaviour
         {
             gameStateMachine.ResetRoundScore();
             gameStateMachine.SetRoundGoal();
+
+            int randVar = Random.Range(0, GameSingleton.Instance.currentBiomeParent.boardVariants.Length);
+            GameObject boardVariant = GameSingleton.Instance.currentBiomeParent.boardVariants[randVar];
             
             yield return new WaitForSeconds(.75f);
             
             int numPegs = gameStateMachine.numberPegs + Singleton.Instance.playerStats.extraStartingCabbages;
             
-            gameStateMachine.cabbageSlots.Clear();
+            gameStateMachine.bonkableSlots.Clear();
             gameStateMachine.activeCabbages.Clear();
-            
-            List<Vector2> gridPoints = GameSingleton.Instance.boardMetrics.GetAllGridPoints();
-            for (int i = 0; i < gridPoints.Count; i++)
+
+            BonkableSlotSpawner[] bonkableSlotSpawners = boardVariant.GetComponentsInChildren<BonkableSlotSpawner>();
+            foreach (BonkableSlotSpawner bss in bonkableSlotSpawners)
             {
-                CabbageSlot cs = new CabbageSlot();
-                cs.position = gridPoints[i];
-                gameStateMachine.cabbageSlots.Add(cs);
+                bss.SpawnBonkableSlots();
+                gameStateMachine.bonkableSlots.AddRange(bss.bonkableSlots);
             }
 
-            List<CabbageSlot> slotsToPopulate = Helpers.GetUniqueRandomEntries(gameStateMachine.cabbageSlots, numPegs);
+            List<BonkableSlot> slotsToPopulate = Helpers.GetUniqueRandomEntries(gameStateMachine.bonkableSlots, numPegs);
             for (int i = 0; i < slotsToPopulate.Count; i++)
             {
                 gameStateMachine.SpawnCabbageInSlot(slotsToPopulate[i]);
@@ -224,10 +225,11 @@ public class GameStateMachine : MonoBehaviour
         }
     }
 
-    public Cabbage SpawnCabbageInSlot(CabbageSlot cs)
+    public Cabbage SpawnCabbageInSlot(BonkableSlot bs)
     {
-        Cabbage c = cabbagePooledObject.Spawn(cs.position, Quaternion.identity).GetComponent<Cabbage>();
-        cs.c = c;
+        Cabbage c = GameSingleton.Instance.currentBiomeParent.cabbagePooledObject.Spawn(bs.transform.position, Quaternion.identity).GetComponent<Cabbage>();
+        c.transform.parent = bs.transform;
+        bs.bonkable = c;
         c.bonkFeel.PlayFeedbacks();
 
         float goldRand = Random.Range(0f, 1f);
@@ -244,7 +246,9 @@ public class GameStateMachine : MonoBehaviour
     {
         if (MapSingleton.Instance == null)
         {
-            //return;
+            print("HEY CHANGE THIS BACK JESS");
+            roundGoal = 15;
+            return;
         }
         
         int mapLayer = MapSingleton.Instance.mapManager.currentLayerIndex;
@@ -300,11 +304,11 @@ public class GameStateMachine : MonoBehaviour
 
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {
-        for(int i = 0; i < cabbageSlots.Count; i++)
+        for(int i = 0; i < bonkableSlots.Count; i++)
         {
-            if (cabbageSlots[i].c == cmp.oldCabbageA || cabbageSlots[i].c == cmp.oldCabbageB)
+            if (bonkableSlots[i].bonkable == cmp.oldCabbageA || bonkableSlots[i].bonkable == cmp.oldCabbageB)
             {
-                cabbageSlots[i].c = null;
+                bonkableSlots[i].bonkable = null;
             }
         }
     }
@@ -349,6 +353,12 @@ public class GameStateMachine : MonoBehaviour
 
         public override void UpdateState()
         {
+            if (gameStateMachine.activeCabbages.Count <= 0)
+            {
+                State newState = new ScoringState();
+                gameStateMachine.ChangeState(newState);
+            }
+            
             if (gameStateMachine.activeBalls.Count <= 0)
             {
                 State newState = new AimingState();
