@@ -226,6 +226,27 @@ MonoBehaviour:
   currentItem: {fileID: 0}
   priceTextParent: {fileID: 5163467968873660990}
   priceText: {fileID: 4660572901948121282}
+  isEventSlot: 0
+  bumpFeel: {fileID: 0}
+  spawnSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  itemAddedSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  allowedTypes: 0
 --- !u!61 &7819962026239484316
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -361,7 +382,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4f12ca3989a221445801b25177e0aeac, type: 2}
+  - {fileID: 2100000, guid: 427d190302b632f4cb735c541868f7b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

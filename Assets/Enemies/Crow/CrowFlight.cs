@@ -104,7 +104,7 @@ public class CrowFlight : MonoBehaviour, IKillable
 
     private void ChooseTarget()
     {
-        var all = FindObjectsOfType<Cabbage>()
+        var all = FindObjectsByType<Cabbage>(FindObjectsSortMode.None)
             .Where(c => c.gameObject.activeInHierarchy && c.enabled && !c.isStolen)
             .ToArray();
         if (all.Length == 0)

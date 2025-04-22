@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6424523387611677203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7968596651383477089}
+  - component: {fileID: 5064643839433957501}
+  m_Layer: 0
+  m_Name: Die 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7968596651383477089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424523387611677203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5064643839433957501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424523387611677203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Die
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 49bfe86a228ce4744a733750f2b38319, type: 3}
+  itemType: 0
+  canBeForceTriggered: 1
+  effects:
+  - rid: 328110133225980008
+  holofoilEffects:
+  - rid: 328110133225980009
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 328110133225980011
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 3
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 209480351
+        Data2: 1260769138
+        Data3: -1962625893
+        Data4: 1010117198
+      Path: event:/Reroll
+    vol: 0.3
+  upgradedItem: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110133225980008
+      type: {class: ForceTriggerRandomSlotEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        randomSlotRange: {x: 0, y: 5}
+        numberTimes: 2
+        tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
+    - rid: 328110133225980009
+      type: {class: ForceTriggerRandomSlotEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        randomSlotRange: {x: 0, y: 5}
+        numberTimes: 4
+        tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
+    - rid: 328110133225980011
+      type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        duration: 2

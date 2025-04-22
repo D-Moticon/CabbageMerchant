@@ -11,20 +11,31 @@ public class DialogueChoice
     /*[SerializeReference]
     public List<DialogueCondition> conditions;*/
     [HideInInspector]public DialogueButton dialogueButton;
+    [SerializeReference]
+    public List<DialogueCondition> conditions;
+    public int cost = 0;
+    public DialogueLine conditionsNotMetLine;
 
-    public void TryDialogueChoice(DialogueContext dc)
+    public bool AreConditionsMet(DialogueContext dc)
     {
-        /*for (int i = 0; i < conditions.Count; i++)
+        for (int i = 0; i < conditions.Count; i++)
         {
             if (!conditions[i].IsConditionMet())
             {
-                return;
+                return false;
             }
-        }*/
+        }
+
+        return true;
     }
 
     public IEnumerator RunChoiceBranch(DialogueContext dc)
     {
+        if (cost > 0)
+        {
+            Singleton.Instance.playerStats.AddCoins(-cost);
+        }
+        
         for (int i = 0; i < dialogueTasks.Count; i++)
         {
             Task t = new Task(dialogueTasks[i].RunTask(dc));

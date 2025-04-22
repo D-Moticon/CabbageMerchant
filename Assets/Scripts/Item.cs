@@ -17,8 +17,10 @@ public class Item : MonoBehaviour, IHoverable
         Weapon
     };
     public ItemType itemType;
+    public bool canBeForceTriggered = true;
     [SerializeReference] public List<ItemEffect> effects;
     [SerializeReference] public List<ItemEffect> holofoilEffects;
+    public string holofoilEffectDescription;
     [SerializeReference] public List<Trigger> triggers;
     public float triggerChance = 1f;
     public bool hasCooldown = false;
@@ -45,6 +47,8 @@ public class Item : MonoBehaviour, IHoverable
     private int currentFrameTriggerCount = 0;
     [TextArea] public string firstUseHint;
     private bool hasBeenUsedOnce = false;
+    //If this item is part of an upgrade merge, remove the upgraded item's triggers and replace with this item's triggers using Helpers.DeepClone
+    [HideInInspector] public bool keepTriggerOnUpgrade = false;
 
     private void Update()
     {
@@ -76,6 +80,7 @@ public class Item : MonoBehaviour, IHoverable
 
         foreach (ItemEffect itemEffect in effects)
         {
+            itemEffect.owningItem = this;
             itemEffect.InitializeItemEffect();
         }
 
@@ -100,6 +105,14 @@ public class Item : MonoBehaviour, IHoverable
     public float GetItemPrice()
     {
         return (normalizedPrice * globalItemPriceMult * Singleton.Instance.playerStats.shopDiscountMult);
+    }
+
+    public void ForceTriggerItem(TriggerContext tc = null)
+    {
+        if (canBeForceTriggered)
+        {
+            TryTriggerItem(tc);
+        }
     }
     
     public virtual void TryTriggerItem(TriggerContext tc = null)
@@ -227,6 +240,14 @@ public class Item : MonoBehaviour, IHoverable
                 s += effectsToUse[i].GetDescriptionWithChance();
             }
 
+            if (isHolofoil || (hoverableModifier!=null && hoverableModifier.isHolofoil))
+            {
+                if (!String.IsNullOrEmpty(holofoilEffectDescription))
+                {
+                    s += "\n" + $"<rainb>{holofoilEffectDescription}</rainb>";
+                }
+            }
+            
             return s;
         }
     }
@@ -271,7 +292,17 @@ public class Item : MonoBehaviour, IHoverable
 
     public string GetRarityText()
     {
-        return rarity.ToString();
+        switch (rarity)
+        {
+            case Rarity.Common:
+                return "Common";
+            case Rarity.Rare:
+                return "<color=#dc00ff><wave a=0.3>Rare";
+            case Rarity.Legendary:
+                return "<color=#ff9b00><wave a=0.3>Legendary";
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public string GetTriggerText()

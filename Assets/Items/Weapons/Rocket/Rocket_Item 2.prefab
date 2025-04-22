@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &507797928583255592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8497490188487151096}
+  - component: {fileID: 6968056695742061453}
+  m_Layer: 0
+  m_Name: Rocket_Item 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8497490188487151096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507797928583255592}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6968056695742061453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507797928583255592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Rocket II
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 90fc80d7c4faae440ad7748974bc7792, type: 3}
+  itemType: 2
+  canBeForceTriggered: 1
+  effects:
+  - rid: 328110147362881623
+  holofoilEffects:
+  - rid: 328110152951267410
+  holofoilEffectDescription: Extra explosion pieces
+  triggers:
+  - rid: 328110147362881624
+  triggerChance: 1
+  hasCooldown: 1
+  cooldownDuration: 10
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 6968056695742061453, guid: 4a438f0237afa84408002d17b367d91e, type: 3}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110147362881623
+      type: {class: Weapon_Rocket_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        rocket: {fileID: 11400000, guid: 0220a801d11eae04ea655d5b18f090f4, type: 2}
+        overrideRocketSprite: {fileID: 21300000, guid: 90fc80d7c4faae440ad7748974bc7792, type: 3}
+        boostForce: 13
+        maxYVel: 12
+        minYVel: -5
+        duration: 1
+        explosionPiece: {fileID: 11400000, guid: 38174e639bf38a04389199b07a4c2de0, type: 2}
+        explosionPieceQuantity: 24
+        explosionPieceSpeed: 15
+        explosionVFX: {fileID: 11400000, guid: ad329657aeb29704f9a3c97775ec906f, type: 2}
+        explosionSFX:
+          sfx:
+            Guid:
+              Data1: -881544745
+              Data2: 1168598232
+              Data3: -1790981759
+              Data4: 1739021024
+            Path: event:/FireworkSplode
+          vol: 0.5
+        flightSFX:
+          sfx:
+            Guid:
+              Data1: 392332232
+              Data2: 1076760354
+              Data3: 114808458
+              Data4: -1186921005
+            Path: event:/RocketFlight
+          vol: 0.5
+    - rid: 328110147362881624
+      type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+    - rid: 328110152951267410
+      type: {class: Weapon_Rocket_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        rocket: {fileID: 11400000, guid: 0220a801d11eae04ea655d5b18f090f4, type: 2}
+        overrideRocketSprite: {fileID: 21300000, guid: 90fc80d7c4faae440ad7748974bc7792, type: 3}
+        boostForce: 13
+        maxYVel: 12
+        minYVel: -5
+        duration: 1
+        explosionPiece: {fileID: 11400000, guid: 38174e639bf38a04389199b07a4c2de0, type: 2}
+        explosionPieceQuantity: 36
+        explosionPieceSpeed: 15
+        explosionVFX: {fileID: 11400000, guid: ad329657aeb29704f9a3c97775ec906f, type: 2}
+        explosionSFX:
+          sfx:
+            Guid:
+              Data1: -881544745
+              Data2: 1168598232
+              Data3: -1790981759
+              Data4: 1739021024
+            Path: event:/FireworkSplode
+          vol: 0.5
+        flightSFX:
+          sfx:
+            Guid:
+              Data1: 392332232
+              Data2: 1076760354
+              Data3: 114808458
+              Data4: -1186921005
+            Path: event:/RocketFlight
+          vol: 0.5

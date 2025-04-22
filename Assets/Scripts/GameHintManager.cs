@@ -13,6 +13,10 @@ public class GameHintManager : MonoBehaviour
     [TextArea]public string noWeaponUsedLatelyHint;
     [TextArea]public string noWeaponUsedEverHint;
     [TextArea] public string noCabbagesBonkedHint;
+    [TextArea] public string needToDragItemsHint;
+    [TextArea] public string cantAffordItemHint;
+    public int maxNeedToDragItemsFires = 5;
+    private int needToDragItemsCounter = 0;
 
     [Header("Fade Settings")]
     [Tooltip("Seconds for bubble fade in/out")]
@@ -33,6 +37,7 @@ public class GameHintManager : MonoBehaviour
         GameStateMachine.BallFiredEvent += BallFiredListener;
         GameStateMachine.ExitingScoringAction += ExitingScoringListener;
         Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
+        ItemManager.ItemClickedEvent += ItemClickedListener;
         bubbleCanvasGroup.alpha = 0f;
     }
 
@@ -43,6 +48,7 @@ public class GameHintManager : MonoBehaviour
         GameStateMachine.BallFiredEvent -= BallFiredListener;
         GameStateMachine.ExitingScoringAction -= ExitingScoringListener;
         Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
+        ItemManager.ItemClickedEvent -= ItemClickedListener;
     }
 
     private void WeaponTriggeredListener(Item item)
@@ -188,5 +194,39 @@ public class GameHintManager : MonoBehaviour
     void CabbageBonkedListener(BonkParams bp)
     {
         cabbagesHitThisBounce++;
+    }
+
+    void ItemClickedListener(Item item)
+    {
+        if (Singleton.Instance.playerStats.coins < item.GetItemPrice())
+        {
+            GiveHint(cantAffordItemHint);
+        }
+        
+        else if (needToDragItemsCounter < maxNeedToDragItemsFires)
+        {
+            StartCoroutine(ItemNeedToDragCoroutine());
+        }
+    }
+
+    void FireUpListener()
+    {
+        
+    }
+
+    IEnumerator ItemNeedToDragCoroutine()
+    {
+        float countdown = 0.25f;
+        while (countdown > 0f)
+        {
+            if (Singleton.Instance.playerInputManager.fireUp)
+            {
+                GiveHint(needToDragItemsHint);
+                needToDragItemsCounter++;
+                break;
+            }
+            countdown -= Time.deltaTime;
+            yield return null;
+        }
     }
 }

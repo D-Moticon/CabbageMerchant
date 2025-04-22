@@ -4,7 +4,7 @@ using UnityEngine;
 public class TrajectoryTrace : MonoBehaviour
 {
     [Header("References")]
-    public Transform target;
+    private Transform target;
     public Launcher launcher;
 
     [Header("Trajectory Settings")]
@@ -22,6 +22,7 @@ public class TrajectoryTrace : MonoBehaviour
 
     private void Awake()
     {
+        target = Singleton.Instance.playerInputManager.crosshair.transform;
         lineRenderer = GetComponent<LineRenderer>();
 
         ballRb = launcher.ballPooledObject.prefab.GetComponent<Rigidbody2D>();

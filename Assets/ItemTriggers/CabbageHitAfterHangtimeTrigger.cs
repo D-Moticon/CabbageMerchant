@@ -17,7 +17,7 @@ public class CabbageHitAfterHangtimeTrigger : Trigger
 
     public override string GetTriggerDescription()
     {
-        string s = $"Ball bonks cabbage after {minHangtime:F2} seconds of air time";
+        string s = $"Ball bonks cabbage after {minHangtime:F1} seconds of air time";
         return s;
     }
 

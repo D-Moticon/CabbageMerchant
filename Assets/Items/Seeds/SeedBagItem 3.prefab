@@ -75,6 +75,7 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   isHolofoil: 0
+  firstUseHint: 
   references:
     version: 2
     RefIds:
@@ -82,10 +83,24 @@ MonoBehaviour:
       type: {class: SpawnCabbageEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         ensureNoCabbageOverlap: 1
         overlapCheckRadius: 0.5
         specialVariants: 
         specialVariantChance: 0.5
+        tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
+        tracerSprite: {fileID: 21300000, guid: e025f55bbe96ae047aeff5be79e9733a, type: 3}
+        tracerColor: {r: 0.48235294, g: 0.24770725, b: 0.16862746, a: 1}
+        spawnVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+        spawnSFX:
+          sfx:
+            Guid:
+              Data1: 371699372
+              Data2: 1317631931
+              Data3: 1546328499
+              Data4: -1786013020
+            Path: event:/Pop
+          vol: 0.5
     - rid: 328110031350005870
       type: {class: CabbageMergedTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -95,7 +110,21 @@ MonoBehaviour:
       type: {class: SpawnCabbageEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         ensureNoCabbageOverlap: 1
         overlapCheckRadius: 0.5
         specialVariants: 02000000
         specialVariantChance: 0.5
+        tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
+        tracerSprite: {fileID: 21300000, guid: 979fa4b734933af49a8a894581c31ebd, type: 3}
+        tracerColor: {r: 0.48235294, g: 0.24770725, b: 0.16862746, a: 1}
+        spawnVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+        spawnSFX:
+          sfx:
+            Guid:
+              Data1: 371699372
+              Data2: 1317631931
+              Data3: 1546328499
+              Data4: -1786013020
+            Path: event:/Pop
+          vol: 0.5

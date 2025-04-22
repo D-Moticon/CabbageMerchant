@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: e803d485fbf0a77489526a7944d6e2a5, type: 3}
   itemType: 2
+  canBeForceTriggered: 1
   effects:
   - rid: 328110031350006016
   holofoilEffects:
   - rid: 328110031350006253
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110031350006017
   triggerChance: 1
@@ -77,6 +79,7 @@ MonoBehaviour:
   isHolofoil: 0
   firstUseHint: It looks like the scythe spins around my aim position, and I need
     to hold down the button to get the full duration!
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -84,6 +87,7 @@ MonoBehaviour:
       type: {class: Weapon_Scythe_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         scythe: {fileID: 11400000, guid: 90c0726d28c0a8a44ba2cbcb349777c6, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
         boostSpeed: 30
@@ -99,10 +103,11 @@ MonoBehaviour:
       type: {class: Weapon_Scythe_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         scythe: {fileID: 11400000, guid: 19e8089355712894088126415b61e411, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
         boostSpeed: 30
         duration: 1
         scytheRotationOffset: 90
         scytheDescription: Holofoil Chain Scythe
-        extraDescriptionInfo: Cabbages hit by this have a 2% chance to become <rainb>rainbow</rainb>
+        extraDescriptionInfo: Cabbages hit by this have a 5% chance to become <rainb>rainbow</rainb>

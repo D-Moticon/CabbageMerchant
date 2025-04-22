@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class ItemEffect
 {
     public float chance = 1f;
+    [HideInInspector] public Item owningItem;
 
     public virtual void InitializeItemEffect()
     {

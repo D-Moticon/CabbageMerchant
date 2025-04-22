@@ -39,6 +39,10 @@ public class RunManager : MonoBehaviour
     private int totalEncounters;
     [HideInInspector] public int currentmapLayer;
     public Biome currentBiome;
+
+    public delegate void BiomeDelegate(Biome biome);
+
+    public static event BiomeDelegate BiomeChangedEvent;
     
     public class RunStartParams
     {
@@ -84,7 +88,11 @@ public class RunManager : MonoBehaviour
         {
             if (mapPoint.biome != null)
             {
-                currentBiome = mapPoint.biome;
+                if (mapPoint.biome != currentBiome && mapPoint.biome != null)
+                {
+                    BiomeChangedEvent?.Invoke(mapPoint.biome);
+                    currentBiome = mapPoint.biome;
+                }
             }
         }
         
@@ -376,7 +384,7 @@ public class RunManager : MonoBehaviour
         RunStartEvent?.Invoke(rsp);
 
         // 1) Figure out which scene is our GlobalScene (the one that remains loaded)
-        string globalSceneName = SceneManager.GetActiveScene().name;
+        string globalSceneName = "GlobalScene";
 
         // 2) Collect every other scene’s name so we can unload them
         int sceneCount = SceneManager.sceneCount;

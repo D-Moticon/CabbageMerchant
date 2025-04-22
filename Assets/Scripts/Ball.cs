@@ -1,11 +1,21 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Collider2D col;
+    public SpriteRenderer sr;
+    public TrailRenderer tr;
     public float bonkValue = 1f;
+    public TMP_Text bonkValueText;
+    public string bonkValueMaterialProp;
+    public Vector2Int bonkValueRangeForMat = new Vector2Int(1, 10);
+    public Vector2 bonkValueMatPropRange = new Vector2(0f, 1f);
+    public SFXInfo bonkValueUpSFX;
+    public PooledObjectData bonkValueUpVFX;
+    public FloaterReference bonkValueUpFloater;
     
     public class BallHitCabbageParams
     {
@@ -21,7 +31,11 @@ public class Ball : MonoBehaviour
 
     public delegate void CollisionDelegate(Ball b, Collision2D col);
     public static event CollisionDelegate BallCollidedEvent;
-    
+
+    public delegate void BallDelegate(Ball b);
+
+    public static event BallDelegate BallEnabledEvent;
+    public static event BallDelegate BallDisabledEvent;
     
     private static float timeoutDuration = 0.5f;
     private static float timeoutVel = 0.1f;
@@ -33,12 +47,17 @@ public class Ball : MonoBehaviour
     
     private void OnEnable()
     {
-        GameSingleton.Instance.gameStateMachine.AddActiveBall(this);
+        //GameSingleton.Instance.gameStateMachine.AddActiveBall(this);
+        BallEnabledEvent?.Invoke(this);
+        bonkValue = 1f;
+        bonkValueText.text = Helpers.FormatWithSuffix(bonkValue);
+        bonkValueText.enabled = false;
+        SetBonkValueMatProp();
     }
 
     private void OnDisable()
     {
-        GameSingleton.Instance.gameStateMachine.RemoveActiveBall(this);
+        BallDisabledEvent?.Invoke(this);
     }
 
     public void SetVelocity(Vector2 vel)
@@ -48,7 +67,7 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if (!GameSingleton.Instance.boardMetrics.IsObjectInPlayBounds(this.gameObject))
+        if (!Singleton.Instance.boardMetrics.IsObjectInPlayBounds(this.gameObject))
         {
             KillBall();
         }
@@ -75,7 +94,7 @@ public class Ball : MonoBehaviour
         currentHangtime += Time.deltaTime;
     }
 
-    void KillBall()
+    public void KillBall()
     {
         gameObject.SetActive(false);
     }
@@ -112,5 +131,27 @@ public class Ball : MonoBehaviour
         {
             wallBonkSFX.Play(other.GetContact(0).point);
         }
+    }
+
+    public void AddBonkValue(float bonkValueAdd)
+    {
+        bonkValue += bonkValueAdd;
+        bonkValueText.text = Helpers.FormatWithSuffix(bonkValue);
+        bonkValueText.enabled = true;
+        SetBonkValueMatProp();
+        bonkValueUpSFX.Play();
+        bonkValueUpVFX.Spawn(this.transform.position);
+        bonkValueUpFloater.Spawn("Ball Upgraded!", this.transform.position, Color.white);
+    }
+
+    void SetBonkValueMatProp()
+    {
+        float propValue = Helpers.RemapClamped(bonkValue, bonkValueRangeForMat.x, bonkValueRangeForMat.y,
+            bonkValueMatPropRange.x, bonkValueMatPropRange.y);
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        sr.GetPropertyBlock(mpb);
+        mpb.SetFloat(bonkValueMaterialProp, propValue);
+        sr.SetPropertyBlock(mpb);
+        tr.SetPropertyBlock(mpb);
     }
 }

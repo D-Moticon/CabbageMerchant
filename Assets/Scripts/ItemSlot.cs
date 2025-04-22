@@ -100,4 +100,9 @@ public class ItemSlot : MonoBehaviour
         
         itemAddedSFX.Play();
     }
+
+    public void DestroySlot()
+    {
+        Destroy(this.gameObject);
+    }
 }

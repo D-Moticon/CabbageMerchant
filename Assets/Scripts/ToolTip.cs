@@ -14,6 +14,7 @@ public class ToolTip : MonoBehaviour
     public TMP_Text rarityText;
     public TMP_Text triggerText;
     public TMP_Text valueText;
+    public Transform valueHeader;
     public Image itemImage;
     public Material normalMat;
     public Material holofoilMat;
@@ -153,6 +154,14 @@ public class ToolTip : MonoBehaviour
         itemImage.sprite     = hoverable.GetImage();
         triggerText.text     = hoverable.GetTriggerText();
         valueText.text = hoverable.GetValueText();
+        if(string.IsNullOrEmpty(hoverable.GetValueText()))
+        {
+            valueHeader.gameObject.SetActive(false);
+        }
+        else
+        {
+            valueHeader.gameObject.SetActive(true);
+        }
 
         if (hm != null)
         {

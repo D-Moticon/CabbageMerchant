@@ -1,24 +1,28 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 using MoreMountains.Feedbacks;
+using Unity.Mathematics;
 
 public class Launcher : MonoBehaviour
 {
     PlayerInputManager playerInputManager;
-    private ObjectPoolManager objectPoolManager;
+    public ObjectPoolManager objectPoolManager;
     public PooledObjectData ballPooledObject;
     private Vector2 crosshairPos;
-    public Crosshair crosshair;
     public float launchSpeed;
     [HideInInspector] public Vector2 currentLaunchVelocity;
     public MMF_Player launchFeel;
     public SFXInfo launchSFX;
+    public ParticleSystem launchVFX;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInputManager = Singleton.Instance.playerInputManager;
-        objectPoolManager = GameSingleton.Instance.objectPoolManager;
+        if (objectPoolManager == null)
+        {
+            objectPoolManager = GameSingleton.Instance.objectPoolManager;
+        }
     }
 
     // Update is called once per frame
@@ -29,12 +33,7 @@ public class Launcher : MonoBehaviour
             playerInputManager = Singleton.Instance.playerInputManager;
         }
 
-        if (objectPoolManager == null)
-        {
-            objectPoolManager = objectPoolManager = GameSingleton.Instance.objectPoolManager;
-        }
-
-        crosshairPos = crosshair.transform.position;
+        crosshairPos = Singleton.Instance.playerInputManager.crosshair.transform.position;
         
         Vector2 dir = (crosshairPos - (Vector2)this.transform.position).normalized;
         currentLaunchVelocity = dir * launchSpeed;
@@ -44,9 +43,18 @@ public class Launcher : MonoBehaviour
 
     public Ball LaunchBall()
     {
-        Ball ball = objectPoolManager.Spawn(ballPooledObject, this.transform.position, Quaternion.identity).GetComponent<Ball>();
+        Ball ball = objectPoolManager.Spawn(ballPooledObject, this.transform.position, quaternion.identity).GetComponent<Ball>();
         ball.SetVelocity(currentLaunchVelocity);
-        launchFeel.PlayFeedbacks();
+        if (launchFeel != null)
+        {
+            launchFeel.PlayFeedbacks();
+        }
+
+        if (launchVFX != null)
+        {
+            launchVFX.Play();
+        }
+
         launchSFX.Play();
         return ball;
     }

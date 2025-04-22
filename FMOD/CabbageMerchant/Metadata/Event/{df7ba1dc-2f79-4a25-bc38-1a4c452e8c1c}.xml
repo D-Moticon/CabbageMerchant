@@ -61,7 +61,7 @@
 	</object>
 	<object class="EventAutomatableProperties" id="{a6dd6cf5-a308-4cae-85f1-cddad0423a41}">
 		<property name="maxVoices">
-			<value>6</value>
+			<value>2</value>
 		</property>
 		<property name="triggerCooldown">
 			<value>80</value>
@@ -110,6 +110,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{4b3aa219-926e-4377-9420-f9cacd802264}" />
 	<object class="MultiSound" id="{6fffb153-69bc-4c40-9c4f-2a49926f23de}">
+		<property name="startOffset">
+			<value>17.5</value>
+		</property>
 		<relationship name="sounds">
 			<destination>{72260102-6e00-42eb-9def-03a15b05b513}</destination>
 			<destination>{dd114c4d-4ef0-43cd-a825-e7902d0717f8}</destination>
@@ -118,17 +121,11 @@
 	<object class="MixerBusFader" id="{6c23d7ec-33df-4848-8c00-46950163ecd7}" />
 	<object class="MixerBusFader" id="{8a8876b8-9962-4576-b8e1-ed8eef204b42}" />
 	<object class="SingleSound" id="{72260102-6e00-42eb-9def-03a15b05b513}">
-		<property name="startOffset">
-			<value>17.5</value>
-		</property>
 		<relationship name="audioFile">
 			<destination>{3ecc0861-02a5-4be9-aa27-800819f05822}</destination>
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{dd114c4d-4ef0-43cd-a825-e7902d0717f8}">
-		<property name="startOffset">
-			<value>12.5</value>
-		</property>
 		<relationship name="audioFile">
 			<destination>{b05eee1a-c9bf-4b7f-841b-d872a9556f9e}</destination>
 		</relationship>

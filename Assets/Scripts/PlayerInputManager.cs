@@ -13,6 +13,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] private InputActionReference dialogueSkipInput;
 
     public Vector2 crosshairMove;
+    public Crosshair crosshair;
     public Vector2 mousePos;
     public Vector2 mousePosWorldSpace;
     public bool fireDown;
@@ -23,6 +24,9 @@ public class PlayerInputManager : MonoBehaviour
     public bool weaponFireUp;
     public bool dialogueSkipDown;
 
+    public static System.Action fireDownAction;
+    public static System.Action fireUpAction;
+    
     public static System.Action weaponFireDownAction;
     public static System.Action weaponFireUpAction;
     
@@ -49,6 +53,16 @@ public class PlayerInputManager : MonoBehaviour
         weaponFireHeld = weaponFireInput.action.IsPressed();
         weaponFireUp = weaponFireInput.action.WasReleasedThisFrame();
 
+        if (fireDown)
+        {
+            fireDownAction?.Invoke();
+        }
+
+        if (fireUp)
+        {
+            fireUpAction?.Invoke();
+        }
+        
         if (weaponFireDown)
         {
             weaponFireDownAction?.Invoke();

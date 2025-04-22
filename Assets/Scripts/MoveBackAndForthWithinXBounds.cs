@@ -17,7 +17,7 @@ public class MoveBackAndForthWithinXBounds : MonoBehaviour
     {
         // We'll assume BoardMetrics.gridBounds.x is the total width,
         // so half of that is from center to edge.
-        float halfWidth = GameSingleton.Instance.boardMetrics.gridBounds.x * 0.5f;
+        float halfWidth = Singleton.Instance.boardMetrics.gridBounds.x * 0.5f;
 
         // Position is relative to the object's current local position
         // so let's define the leftBound and rightBound from that.

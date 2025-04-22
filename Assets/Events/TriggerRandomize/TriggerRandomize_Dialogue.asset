@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueTasks:
   - rid: 328110102544646310
-  - rid: 328110102544646311
-  - rid: 328110102544646319
-  - rid: 328110102544646354
+  - rid: 328110125889880241
   references:
     version: 2
     RefIds:
@@ -24,35 +22,112 @@ MonoBehaviour:
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
-        dialogueLine: 'In order, we survive...
-
-          In chaos, we thrive....'
+        dialogueLine: Tell me, traveler, do you embrace chaos? Or fear it?
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110102544646311
+    - rid: 328110125889880241
+      type: {class: ChoiceDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        choices:
+        - rid: 328110125889880242
+        - rid: 328110125889880243
+    - rid: 328110125889880242
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: Embrace Chaos
+        dialogueTasks:
+        - rid: 328110125889880255
+        dialogueButton: {fileID: 0}
+    - rid: 328110125889880243
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: Fear Chaos
+        dialogueTasks:
+        - rid: 328110125889880247
+        dialogueButton: {fileID: 0}
+    - rid: 328110125889880247
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+        dialogueLine: 'Some are not ready...
+
+          Go on, then.'
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110125889880255
+      type: {class: BranchDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        conditions:
+        - rid: 328110125889880256
+        trueTask:
+          rid: 328110125889880279
+        falseTask:
+          rid: 328110125889880258
+    - rid: 328110125889880256
+      type: {class: PlayerHasItemsCondition, ns: , asm: Assembly-CSharp}
+      data:
+        quantity: 1
+        normalItemsOnly: 1
+    - rid: 328110125889880258
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 328110125889880261
+        - rid: 328110125889880262
+    - rid: 328110125889880261
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+        dialogueLine: They look disappointed that you don't have any items...
+        hideCharacterName: 1
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 0
+    - rid: 328110125889880262
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
+        dialogueLine: Well, sometimes chaos must wait, too...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110125889880279
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 328110125889880280
+        - rid: 328110125889880281
+        - rid: 328110125889880282
+    - rid: 328110125889880280
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
         dialogueLine: The shaman holds out a tentacle.
         hideCharacterName: 1
-        waitForSkipInput: 1
-        extraWaitTime: 0
+        waitForSkipInput: 0
+        extraWaitTime: 1
         centerText: 0
         playSFX: 1
-    - rid: 328110102544646319
+    - rid: 328110125889880281
       type: {class: RandomizeItemTriggerTask, ns: , asm: Assembly-CSharp}
       data:
         triggersToChooseFrom:
-        - rid: 328110102544646321
-        - rid: 328110102544646323
-        - rid: 328110102544646325
-        - rid: 328110102544646329
-        - rid: 328110102544646331
-        - rid: 328110102544646333
-        - rid: 328110102544646352
+        - rid: 328110125889880283
+        - rid: 328110125889880284
+        - rid: 328110125889880285
+        - rid: 328110125889880286
+        - rid: 328110125889880287
+        - rid: 328110125889880288
+        - rid: 328110125889880289
         validItemPlacedLine:
           dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
           dialogueLine: By the power of chaos!
@@ -79,45 +154,7 @@ MonoBehaviour:
               Data4: 939684103
             Path: event:/Score1
           vol: 0.5
-    - rid: 328110102544646321
-      type: {class: AnyItemTriggeredTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        quantity: 8
-    - rid: 328110102544646323
-      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        numberBounces: 10
-        bounceType: 0
-    - rid: 328110102544646325
-      type: {class: CabbageMergedTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        quantity: 1
-    - rid: 328110102544646329
-      type: {class: CabbageHitAfterHangtimeTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        minHangtime: 1
-    - rid: 328110102544646331
-      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        numberBounces: 5
-        bounceType: 2
-    - rid: 328110102544646333
-      type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        everyXHit: 10
-        onlyByBall: 0
-    - rid: 328110102544646352
-      type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        duration: 5
-    - rid: 328110102544646354
+    - rid: 328110125889880282
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
@@ -127,3 +164,41 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
+    - rid: 328110125889880283
+      type: {class: AnyItemTriggeredTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        quantity: 8
+    - rid: 328110125889880284
+      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        numberBounces: 10
+        bounceType: 0
+    - rid: 328110125889880285
+      type: {class: CabbageMergedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        quantity: 1
+    - rid: 328110125889880286
+      type: {class: CabbageHitAfterHangtimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        minHangtime: 1
+    - rid: 328110125889880287
+      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        numberBounces: 5
+        bounceType: 2
+    - rid: 328110125889880288
+      type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        everyXHit: 10
+        onlyByBall: 0
+    - rid: 328110125889880289
+      type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        duration: 5

@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: a07671a4da49329488e078ecdc84379e, type: 3}
   itemType: 2
+  canBeForceTriggered: 1
   effects:
   - rid: 328110031350006016
   holofoilEffects:
   - rid: 328110031350006253
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110031350006017
   triggerChance: 1
@@ -75,6 +77,8 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 4464935079155661255, guid: 82afa2eacb4fd6d4b8e66a1bb8cef572, type: 3}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -82,6 +86,7 @@ MonoBehaviour:
       type: {class: Weapon_Scythe_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         scythe: {fileID: 11400000, guid: 90c0726d28c0a8a44ba2cbcb349777c6, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
         boostSpeed: 45
@@ -97,10 +102,11 @@ MonoBehaviour:
       type: {class: Weapon_Scythe_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         scythe: {fileID: 11400000, guid: 19e8089355712894088126415b61e411, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
         boostSpeed: 45
         duration: 1.25
         scytheRotationOffset: 90
         scytheDescription: Holofoil Chain Scythe
-        extraDescriptionInfo: Cabbages hit by this have a 2% chance to become <rainb>rainbow</rainb>
+        extraDescriptionInfo: Cabbages hit by this have a 5% chance to become <rainb>rainbow</rainb>

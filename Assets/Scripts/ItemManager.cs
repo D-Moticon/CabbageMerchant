@@ -29,6 +29,7 @@ public class ItemManager : MonoBehaviour
     public delegate void ItemSlotDelegate(Item item, ItemSlot slot);
 
     public static event ItemSlotDelegate ItemAddedToSlotEvent;
+    public static ItemPurchasedDelegate ItemClickedEvent;
 
     [Header("Sell Settings")]
     public Collider2D sellCollider;
@@ -52,7 +53,8 @@ public class ItemManager : MonoBehaviour
 
     public SFXInfo itemDestroySFX;
     public PooledObjectData itemDestroyVFX;
-
+    private bool sellDisabled = false;
+    
     private void OnEnable()
     {
         RunManager.RunStartEvent += RunStartListener;
@@ -160,6 +162,7 @@ public class ItemManager : MonoBehaviour
         // Otherwise normal item logic:
         if (clickedItem.purchasable)
         {
+            ItemClickedEvent?.Invoke(clickedItem);
             double cost = clickedItem.GetItemPrice();
             if (Singleton.Instance.playerStats.coins < cost)
             {
@@ -194,15 +197,25 @@ public class ItemManager : MonoBehaviour
             // Only sell if item is owned (not from the shop)
             if (!draggingItem.purchasable)
             {
-                // Actually call SellItem
-                draggingItem.SellItem();
-                sellVFX.transform.position = draggingItem.transform.position;
-                sellVFX.Play();
-                sellSFX.Play();
-                sellFloater.Spawn(draggingItem.GetSellValue().ToString(), draggingItem.transform.position, Color.white);
+                if (sellDisabled)
+                {
+                    infoFloater.Spawn("Can't sell right now!", draggingItem.transform.position, Color.red);
+                    RevertDraggedItem();
+                }
                 
-                // Destroy it visually
-                Destroy(draggingItem.itemWrapper.gameObject);
+                else
+                {
+                    // Actually call SellItem
+                    draggingItem.SellItem();
+                    sellVFX.transform.position = draggingItem.transform.position;
+                    sellVFX.Play();
+                    sellSFX.Play();
+                    sellFloater.Spawn(draggingItem.GetSellValue().ToString(), draggingItem.transform.position, Color.white);
+                
+                    // Destroy it visually
+                    Destroy(draggingItem.itemWrapper.gameObject);
+                }
+                
             }
             else
             {
@@ -327,34 +340,63 @@ public class ItemManager : MonoBehaviour
         {
             Debug.Log("Merging items into upgraded item!");
 
+            // 1) figure out holofoil & upgrade‐flag state up front
             bool isHolofoil = inSlot.isHolofoil || dragged.isHolofoil;
+            bool keep       = dragged.keepTriggerOnUpgrade || inSlot.keepTriggerOnUpgrade;
 
-            // Destroy old items
+            // if we need to keep triggers, pick the one that had the flag
+            List<Trigger> triggersToCopy = null;
+            if (keep)
+            {
+                var src = dragged.keepTriggerOnUpgrade ? dragged : inSlot;
+                triggersToCopy = src.triggers;
+            }
+
+            // 2) destroy the old wrappers/items
             Destroy(inSlot.itemWrapper.gameObject);
             Destroy(dragged.itemWrapper.gameObject);
 
-            // create upgraded
+            // 3) create the new upgraded item
             Item upgraded = GenerateItemWithWrapper(dragged.upgradedItem);
             if (isHolofoil) upgraded.SetHolofoil();
             AddItemToSlot(upgraded, slot);
-            ItemAddedToSlotEvent?.Invoke(upgraded,slot);
+            ItemAddedToSlotEvent?.Invoke(upgraded, slot);
 
-            // If dragged was from shop => pay cost once
-            // We'll also consider the new item as purchased
+            // 4) if we’re carrying over triggers, deep‐clone & init them
+            if (keep && triggersToCopy != null)
+            {
+                foreach (Trigger t in upgraded.triggers)
+                {
+                    t.RemoveTrigger(upgraded);
+                }
+                upgraded.triggers = new List<Trigger>();
+                foreach (var trig in triggersToCopy)
+                {
+                    // deep‐clone the trigger instance
+                    var clone = Helpers.DeepClone(trig);
+                    clone.owningItem = upgraded;
+                    clone.InitializeTrigger(upgraded);
+                    upgraded.triggers.Add(clone);
+                }
+                // carry the flag forward
+                upgraded.keepTriggerOnUpgrade = true;
+            }
+
+            // 5) handle shop payment & purchased event
             if (dragged.purchasable)
             {
                 double cost = dragged.GetItemPrice();
                 Singleton.Instance.playerStats.AddCoins(-cost);
                 dragged.purchasable = false;
-
-                // Fire the purchased event exactly once, referencing the new upgraded item
                 ItemPurchasedEvent?.Invoke(upgraded);
             }
 
             return true;
         }
+
         return false;
     }
+
 
     private void RevertDraggedItem()
     {
@@ -660,6 +702,21 @@ public class ItemManager : MonoBehaviour
 
         return items;
     }
+    
+    public List<Item> GetNormalItems()
+    {
+        // Inventory items
+        var items = GetItemsInInventory();
+
+        // Perk items: any Item under perkParent that's not in an inventory slot
+        items.AddRange(
+            perkParent
+                .GetComponentsInChildren<Item>()
+                .Where(item => item.itemType == Item.ItemType.Item)
+        );
+
+        return items;
+    }
 
     /// <summary>
     /// Completely removes an Item from the game: unhooks it from any slot or perk,
@@ -737,5 +794,15 @@ public class ItemManager : MonoBehaviour
         }
 
         return count;
+    }
+
+    public void DisableSell()
+    {
+        sellDisabled = true;
+    }
+
+    public void EnableSell()
+    {
+        sellDisabled = false;
     }
 }

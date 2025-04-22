@@ -23,6 +23,8 @@ public class DuplicateItemDialogueTask : DialogueTask
             yield break;
         }
         
+        Singleton.Instance.itemManager.DisableSell();
+        
         ItemSlot itemSlot = GameObject.Instantiate(Singleton.Instance.itemManager.itemSlotPrefab);
         itemSlot.transform.parent = dc.dialogueBox.itemSlotParent;
         itemSlot.transform.localPosition = new Vector3(0f,0f,0f);
@@ -73,6 +75,8 @@ public class DuplicateItemDialogueTask : DialogueTask
             Singleton.Instance.itemManager.MoveItemsToEmptyInventorySlots(items, 0.25f);
             yield return new WaitForSeconds(0.5f);
         }
+        
+        Singleton.Instance.itemManager.EnableSell();
     }
 
 }

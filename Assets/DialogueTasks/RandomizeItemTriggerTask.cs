@@ -17,6 +17,8 @@ public class RandomizeItemTriggerTask : DialogueTask
         ItemSlot itemSlot = DialogueTask.CreateItemSlot(dc);
         itemSlot.allowedTypes = ItemSlot.AllowedTypes.itemOnly;
         
+        Singleton.Instance.itemManager.DisableSell();
+        
         while (itemSlot.currentItem == null || itemSlot.currentItem.itemType != Item.ItemType.Item)
         {
             yield return null;
@@ -46,6 +48,7 @@ public class RandomizeItemTriggerTask : DialogueTask
         
         item.triggers.Clear();
         item.triggers.Add(clone);
+        item.keepTriggerOnUpgrade = true;
 
         itemChangedVFX.Spawn(item.transform.position);
         itemChangedSFX.Play();
@@ -55,6 +58,8 @@ public class RandomizeItemTriggerTask : DialogueTask
         {
             yield return null;
         }
+        
+        Singleton.Instance.itemManager.EnableSell();
         
         Singleton.Instance.itemManager.MoveItemToEmptyInventorySlot(item, 0.25f);
         yield return new WaitForSeconds(0.5f);

@@ -7,6 +7,11 @@ public class SpawnCabbageEffect : ItemEffect
     public float overlapCheckRadius = 0.5f;
     public List<CabbageVariantType> specialVariants;
     public float specialVariantChance = 0.5f;
+    public PooledObjectData tracer;
+    public Sprite tracerSprite;
+    public Color tracerColor;
+    public PooledObjectData spawnVFX;
+    public SFXInfo spawnSFX;
     
     public override void TriggerItemEffect(TriggerContext tc)
     {
@@ -18,6 +23,12 @@ public class SpawnCabbageEffect : ItemEffect
         }
 
         Cabbage c = GameSingleton.Instance.gameStateMachine.SpawnCabbageInSlot(bs);
+
+        if (c == null)
+        {
+            return;
+        }
+        
         if (specialVariants != null && specialVariants.Count > 0)
         {
             float rand = Random.Range(0f, 1f);
@@ -26,6 +37,18 @@ public class SpawnCabbageEffect : ItemEffect
                 int randVar = Random.Range(0, specialVariants.Count);
                 c.SetVariant(specialVariants[randVar]);
             }
+        }
+
+        if (spawnVFX != null)
+        {
+            spawnVFX.Spawn(c.transform.position);
+        }
+
+        spawnSFX.Play();
+        
+        if (tracer != null && owningItem != null)
+        {
+            Tracer.SpawnTracer(tracer, owningItem.transform.position, c.transform.position, 0.5f, 1f, tracerSprite, tracerColor);
         }
     }
 

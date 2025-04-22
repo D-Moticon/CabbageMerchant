@@ -9,6 +9,7 @@ public class Bonker : MonoBehaviour
     public int bonksBeforeKill = 0;
     private int bonkCounter = 0;
     public bool treatAsBall = false;
+    public PooledObjectData vfxOnBonk;
 
     private void OnEnable()
     {
@@ -27,6 +28,11 @@ public class Bonker : MonoBehaviour
             bp.ball = null;
             bp.treatAsBall = treatAsBall;
             b.Bonk(bp);
+
+            if (vfxOnBonk != null)
+            {
+                vfxOnBonk.Spawn(bp.collisionPos, Quaternion.identity);
+            }
 
             if (killOnBonk)
             {

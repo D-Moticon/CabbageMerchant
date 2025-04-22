@@ -3,30 +3,47 @@ using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
+using System.Collections.Generic;
 
 public class MusicManager : MonoBehaviour
 {
-    [Header("FMOD Music Event")]
-    [Tooltip("Drag your looping music Event here (make sure it loops in FMOD Studio).")]
-    [SerializeField]
-    private EventReference musicEvent;
-
-    private EventInstance musicInstance;
-
-    private void Start()
+    [System.Serializable]
+    public class BiomeMusicPair
     {
-        PlayMusic();
+        public Biome biome;
+        public EventReference music;
     }
 
-    /// <summary>
-    /// Begins playing the assigned music event.
-    /// If it’s already playing, it will first stop the old instance.
-    /// </summary>
-    public void PlayMusic()
+    public List<BiomeMusicPair> biomeMusicPairs;
+    private EventReference musicEvent;
+    private EventInstance musicInstance;
+
+    private void OnEnable()
+    {
+        RunManager.BiomeChangedEvent += BiomeChangedListener;
+    }
+
+    private void OnDisable()
+    {
+        RunManager.BiomeChangedEvent -= BiomeChangedListener;
+    }
+
+    void PlayMusic()
     {
         StopCurrentInstance(STOP_MODE.IMMEDIATE);
         musicInstance = RuntimeManager.CreateInstance(musicEvent);
         musicInstance.start();
+    }
+    
+    void BiomeChangedListener(Biome newBiome)
+    {
+        for (int i = 0; i < biomeMusicPairs.Count; i++)
+        {
+            if (biomeMusicPairs[i].biome == newBiome)
+            {
+                ChangeMusic(biomeMusicPairs[i].music);
+            }
+        }
     }
 
     /// <summary>

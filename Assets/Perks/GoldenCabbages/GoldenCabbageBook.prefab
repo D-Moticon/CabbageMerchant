@@ -54,6 +54,10 @@ MonoBehaviour:
   - rid: 328109986689057172
   triggers:
   - rid: 328109986689057173
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 1
   normalizedPrice: 0
   sellValueMultiplier: 1
@@ -71,17 +75,23 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
     - rid: 328109986689057171
       type: {class: GoldenCabbageChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        goldenChanceAdd: 0.05
+        chance: 1
+        owningItem: {fileID: 0}
+        goldenChanceAdd: 0.1
     - rid: 328109986689057172
       type: {class: GoldenCabbageChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        goldenChanceAdd: 0.1
+        chance: 1
+        owningItem: {fileID: 0}
+        goldenChanceAdd: 0.2
     - rid: 328109986689057173
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:

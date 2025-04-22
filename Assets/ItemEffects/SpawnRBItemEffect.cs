@@ -86,8 +86,15 @@ public class SpawnRBItemEffect : ItemEffect
                     }
                     else
                     {
-                        int rand = Random.Range(0, GameSingleton.Instance.gameStateMachine.activeBalls.Count);
-                        pos = GameSingleton.Instance.gameStateMachine.activeBalls[rand].transform.position;
+                        Ball b = GameSingleton.Instance.gameStateMachine.GetRandomActiveBall();
+                        if (b != null)
+                        {
+                            pos = b.transform.position;
+                        }
+                        else
+                        {
+                            pos = GameSingleton.Instance.gameStateMachine.GetEmptyBonkableSlot().transform.position;
+                        }
                     }
 
                     break;

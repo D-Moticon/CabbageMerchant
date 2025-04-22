@@ -48,12 +48,18 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 191f0ff6d5185874bb68210f77b009f2, type: 3}
   itemType: 0
+  canBeForceTriggered: 1
   effects:
   - rid: 328109986689056860
   holofoilEffects:
   - rid: 328109986689056871
+  holofoilEffectDescription: 
   triggers:
   - rid: 328109942880338078
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 1
   normalizedPrice: 2
   sellValueMultiplier: 1
@@ -71,6 +77,8 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: -4604959134935355132, guid: 2eaa4f83b6241a64fad7688bd6214dac, type: 3}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -81,18 +89,22 @@ MonoBehaviour:
     - rid: 328109986689056860
       type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
+        owningItem: {fileID: 0}
         ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
         ballName: ball
         ballDescription: 
         numberCopies: 1
-        ballLaunchSpeed: 7
+        ballLaunchSpeed: 10
         ballLaunchAngleRange: {x: 45, y: 135}
     - rid: 328109986689056871
       type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
+        owningItem: {fileID: 0}
         ballPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
         ballName: <rainb>rainbow ball</rainb>
         ballDescription: bonks for 2
         numberCopies: 1
-        ballLaunchSpeed: 7
+        ballLaunchSpeed: 10
         ballLaunchAngleRange: {x: 45, y: 135}

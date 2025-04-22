@@ -546,7 +546,7 @@ MonoBehaviour:
   - rarity: 1
     weight: 0.1
   - rarity: 2
-    weight: 0.01
+    weight: 0.02
   rerollsRemaining: 0
   rerollSFX:
     sfx:
@@ -671,7 +671,7 @@ Transform:
   m_GameObject: {fileID: 1100179988}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.44, y: -1.16, z: 0}
+  m_LocalPosition: {x: -7.16, y: -1.16, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

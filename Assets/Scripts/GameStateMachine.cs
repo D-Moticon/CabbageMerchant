@@ -70,11 +70,15 @@ public class GameStateMachine : MonoBehaviour
     private void OnEnable()
     {
         Cabbage.CabbageMergedEvent += CabbageMergedListener;
+        Ball.BallEnabledEvent += BallEnabledListener;
+        Ball.BallDisabledEvent += BallDisabledListener;
     }
 
     private void OnDisable()
     {
         Cabbage.CabbageMergedEvent -= CabbageMergedListener;
+        Ball.BallEnabledEvent -= BallEnabledListener;
+        Ball.BallDisabledEvent -= BallDisabledListener;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -106,6 +110,16 @@ public class GameStateMachine : MonoBehaviour
         newState.EnterState();
     }
 
+    void BallEnabledListener(Ball b)
+    {
+        AddActiveBall(b);
+    }
+
+    void BallDisabledListener(Ball b)
+    {
+        RemoveActiveBall(b);
+    }
+    
     public void AddActiveBall(Ball b)
     {
         if(!activeBalls.Contains(b))
@@ -217,9 +231,6 @@ public class GameStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
             
-            Vector2[] positions = GameSingleton.Instance.boardMetrics.GetRandomGridPoints(numPegs);
- 
-            
             State newState = new AimingState();
             gameStateMachine.ChangeState(newState);
         }
@@ -302,6 +313,23 @@ public class GameStateMachine : MonoBehaviour
         RoundGoalOverHitEvent?.Invoke(roundScoreOverMultRounded);
     }
 
+    public Ball GetRandomActiveBall()
+    {
+        if (activeBalls.Count == 0)
+        {
+            return null;
+        }
+        int rand = Random.Range(0, activeBalls.Count);
+        if (activeBalls[rand] != null)
+        {
+            return activeBalls[rand];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {
         for(int i = 0; i < bonkableSlots.Count; i++)

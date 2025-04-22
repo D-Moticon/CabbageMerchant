@@ -11,6 +11,7 @@ public class DialogueBox : MonoBehaviour
 
     public TextAnimator_TMP dialogueTextAnimator;
     public TypewriterByCharacter dialogueTypewriter;
+    public TMP_Text dialogueText;
     public Image characterImage;
     public float targetImageHeight = 200f;
     public MMF_Player characterTalkPlayer;

@@ -81,8 +81,28 @@ public class DialogueLine : DialogueTask
         
         if (waitForSkipInput)
         {
-            while (!Singleton.Instance.playerInputManager.dialogueSkipDown)
+            // keep polling until either they press the normal skip key
+            // or they press fireDown while NOT hovering over any collider
+            while (true)
             {
+                // 1) Normal “skip dialogue” key
+                if (Singleton.Instance.playerInputManager.dialogueSkipDown)
+                    break;
+
+                // 2) Fire button pressed, but only if we’re *not* over any collider
+                if (Singleton.Instance.playerInputManager.fireDown)
+                {
+                    // turn screen coords into world coords
+                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                    // 2D example—checks if there's any Collider2D under the cursor
+                    bool hovering = Physics2D.OverlapPoint(worldPos) != null;
+
+                    // if nothing was hit, we can treat fireDown as a skip
+                    if (!hovering)
+                        break;
+                }
+
                 yield return null;
             }
         }

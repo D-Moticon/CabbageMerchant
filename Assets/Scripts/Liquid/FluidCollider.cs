@@ -17,11 +17,19 @@ public class FluidCollider : MonoBehaviour
 
     private void OnEnable()
     {
+        if (GameSingleton.Instance == null)
+        {
+            return;
+        }
         GameSingleton.Instance.fluidRTReferences.fluidColliderVelocityTextureGenerator.AddToFluidColliders(this);
     }
 
     private void OnDisable()
     {
+        if (GameSingleton.Instance == null)
+        {
+            return;
+        }
         GameSingleton.Instance.fluidRTReferences.fluidColliderVelocityTextureGenerator.RemoveFromFluidColliders(this);
     }
 
@@ -62,6 +70,11 @@ public class FluidCollider : MonoBehaviour
 
     void UpdateSamplePoints(float timeStep)
     {
+        if (GameSingleton.Instance == null)
+        {
+            return;
+        }
+        
         RenderTexture renderTexture = GameSingleton.Instance.fluidRTReferences.externalVelocityRT;
         float halfHeight = 10f;
         float halfWidth = halfHeight * 16f / 9f;
