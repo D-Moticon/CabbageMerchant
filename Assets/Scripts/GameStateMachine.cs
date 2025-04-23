@@ -27,7 +27,6 @@ public class GameStateMachine : MonoBehaviour
 
     public State currentState;
     public int numberPegs;
-    public BoardMetrics boardMetrics;
     public Launcher launcher;
     
     //Game Rules
@@ -36,6 +35,8 @@ public class GameStateMachine : MonoBehaviour
     [HideInInspector] public double currentRoundScore;
     [HideInInspector] public double currentRoundScoreOverMult = 0;
     [HideInInspector] public double roundScoreOverMultRounded = 0;
+    public float secondsBeforeStopTryButton = 15f;
+    public float roundGoalMultBeforeStopTryButton = 50f;
     public static int coinsPerRoundGoal = 3;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
@@ -66,6 +67,11 @@ public class GameStateMachine : MonoBehaviour
     public static DoubleDelegate RoundGoalUpdatedEvent;
     public static DoubleDelegate RoundScoreUpdatedEvent;
     public static DoubleDelegate RoundGoalOverHitEvent;
+
+    public GameObject stopTryButton;
+    private bool stopTry = false;
+
+    [FormerlySerializedAs("keyYPos")] public float keyMaxYPos = -3.5f;
 
     private void OnEnable()
     {
@@ -190,6 +196,7 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.currentBalls = Singleton.Instance.playerStats.currentBalls;
             gameStateMachine.StartCoroutine(PopulateBoard());
             BallsRemainingUpdatedEvent?.Invoke(gameStateMachine.currentBalls);
+            gameStateMachine.stopTryButton.SetActive(false);
         }
 
         public override void UpdateState()
@@ -207,6 +214,11 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.ResetRoundScore();
             gameStateMachine.SetRoundGoal();
 
+            if (GameSingleton.Instance.currentBiomeParent == null)
+            {
+                GameSingleton.Instance.SetBiome(GameSingleton.Instance.biomeInfos[0].biome);
+            }
+            
             int randVar = Random.Range(0, GameSingleton.Instance.currentBiomeParent.boardVariants.Length);
             GameObject boardVariant = GameSingleton.Instance.currentBiomeParent.boardVariants[randVar];
             
@@ -229,6 +241,30 @@ public class GameStateMachine : MonoBehaviour
             {
                 gameStateMachine.SpawnCabbageInSlot(slotsToPopulate[i]);
                 yield return new WaitForSeconds(0.05f);
+            }
+            
+            
+            if (Random.value < Singleton.Instance.playerStats.keyChance)
+            {
+                // find any slots *not* holding a cabbage
+                var emptySlots = gameStateMachine.bonkableSlots
+                    .Except(slotsToPopulate)
+                    .Where(x => x.transform.position.y <= gameStateMachine.keyMaxYPos)
+                    .ToList();
+        
+                if (emptySlots.Count > 0)
+                {
+                    // pick one at random
+                    var keySlot = emptySlots[Random.Range(0, emptySlots.Count)];
+            
+                    // build a spawn position at the slot's X, but at keyYPos
+                    Vector3 keyPos = keySlot.transform.position;
+            
+                    // spawn from your item‐manager's pool
+                    Singleton.Instance.itemManager
+                        .keyPooledObject
+                        .Spawn(keyPos, Quaternion.identity);
+                }
             }
             
             State newState = new AimingState();
@@ -255,19 +291,13 @@ public class GameStateMachine : MonoBehaviour
 
     public void SetRoundGoal()
     {
-        if (MapSingleton.Instance == null)
-        {
-            print("HEY CHANGE THIS BACK JESS");
-            roundGoal = 15;
-            return;
-        }
-        
-        int mapLayer = MapSingleton.Instance.mapManager.currentLayerIndex;
+        int mapLayer = Singleton.Instance.playerStats.currentMapLayer;
         double firstRoundGoal = MapSingleton.Instance.mapManager.currentMapBlueprint.firstRoundGoal;
         float goalBase = MapSingleton.Instance.mapManager.currentMapBlueprint.goalBase;
         float goalPower = MapSingleton.Instance.mapManager.currentMapBlueprint.goalPower;
 
         roundGoal = firstRoundGoal + goalBase * Mathf.Pow(mapLayer, goalPower);
+
         RoundGoalUpdatedEvent?.Invoke(roundGoal);
     }
 
@@ -329,6 +359,11 @@ public class GameStateMachine : MonoBehaviour
             return null;
         }
     }
+
+    public void StopTry()
+    {
+        stopTry = true;
+    }
     
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {
@@ -351,12 +386,22 @@ public class GameStateMachine : MonoBehaviour
             {
                 Singleton.Instance.uiManager.ShowNotification("Last Ball!");
             }
+            
+            gameStateMachine.stopTryButton.SetActive(false);
         }
 
         public override void UpdateState()
         {
             if (playerInputManager.fireDown)
             {
+                Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
+                Collider2D hit = Physics2D.OverlapPoint(mousePos);
+                if (hit != null && hit.GetComponentInParent<ItemSlot>() != null)
+                {
+                    // we’re over an item slot → do not fire
+                    return;
+                }
+                
                 Ball b = gameStateMachine.launcher.LaunchBall();
                 gameStateMachine.currentBalls--;
                 State newState = new BouncingState();
@@ -374,9 +419,11 @@ public class GameStateMachine : MonoBehaviour
 
     public class BouncingState : State
     {
+        private Coroutine stopTryCoroutine;
+        
         public override void EnterState()
         {
-            
+            stopTryCoroutine = gameStateMachine.StartCoroutine(StopTryButtonShowRoutine());
         }
 
         public override void UpdateState()
@@ -385,6 +432,21 @@ public class GameStateMachine : MonoBehaviour
             {
                 State newState = new ScoringState();
                 gameStateMachine.ChangeState(newState);
+            }
+
+            if (gameStateMachine.currentRoundScoreOverMult > gameStateMachine.roundGoalMultBeforeStopTryButton)
+            {
+                gameStateMachine.stopTryButton.gameObject.SetActive(true);
+            }
+
+            if (gameStateMachine.stopTry)
+            {
+                for (int i = gameStateMachine.activeBalls.Count - 1; i >= 0; i--)
+                {
+                    gameStateMachine.activeBalls[i].KillBall();
+                }
+
+                gameStateMachine.stopTry = false;
             }
             
             if (gameStateMachine.activeBalls.Count <= 0)
@@ -402,7 +464,18 @@ public class GameStateMachine : MonoBehaviour
 
         public override void ExitState()
         {
+            if (stopTryCoroutine != null)
+            {
+                gameStateMachine.StopCoroutine(stopTryCoroutine);
+            }
+            
             ExitingBounceStateAction?.Invoke();
+        }
+
+        IEnumerator StopTryButtonShowRoutine()
+        {
+            yield return new WaitForSeconds(gameStateMachine.secondsBeforeStopTryButton);
+            gameStateMachine.stopTryButton.SetActive(true);
         }
     }
 
@@ -410,6 +483,8 @@ public class GameStateMachine : MonoBehaviour
     {
         public override void EnterState()
         {
+            Singleton.Instance.objectPoolManager.DespawnAll(Singleton.Instance.itemManager.keyPooledObject);
+            gameStateMachine.stopTryButton.SetActive(false);
             gameStateMachine.StartCoroutine(ScoringRoutine());
         }
 
@@ -442,7 +517,7 @@ public class GameStateMachine : MonoBehaviour
                 }
                 else
                 {
-                    Singleton.Instance.runManager.StartNewRun();
+                    Singleton.Instance.runManager.GoToSceneExclusive("Overworld");
                     yield break;
                 }
             }

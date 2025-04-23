@@ -18,6 +18,8 @@ public class Singleton : MonoBehaviour
     public ObjectPoolManager objectPoolManager;
     public GameHintManager gameHintManager;
     public BoardMetrics boardMetrics;
+    public MenuManager menuManager;
+    public PetManager petManager;
     
     private void OnEnable()
     {

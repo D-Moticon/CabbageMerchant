@@ -8,7 +8,7 @@
 [LOG] SystemI::init                            : Output requires a sample rate of 44100Hz, resampling will occur.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000025760421188 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000022A09D96178 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -20,15 +20,58 @@
 [LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
 [LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
-[LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
-[LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
-[LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
+[LOG] SystemI::mixerResume                     : Resuming output.
+[LOG] SoundI::release                          :  (0000022AA47D9AE8)
+[LOG] SoundI::release                          :     KeyGet (0000022A5F2653C8)
+[LOG] SoundI::release                          :  (0000022AA47D90D8)
+[LOG] SoundI::release                          :     KeyUnlock (0000022A09451A38)
+[LOG] SoundI::release                          :  (000002264BF171D8)
+[LOG] SoundI::release                          :     UI_Click_001 (00000229BB02F228)
+[LOG] SoundI::release                          :  (0000022A0E2BE4C8)
+[LOG] SoundI::release                          :     FastTyping (0000022A10438578)
+[LOG] SoundI::release                          :  (00000229BD61FC08)
+[LOG] SoundI::release                          :     Goal1 (0000022A95766428)
+[LOG] SoundI::release                          :  (00000229BD61F7B8)
+[LOG] SoundI::release                          :     Goal3 (0000022A95765F48)
+[LOG] SoundI::release                          :  (00000229BD61F4D8)
+[LOG] SoundI::release                          :     Goal4 (0000022A0FBA4098)
+[LOG] SoundI::release                          :  (00000229BD61FA98)
+[LOG] SoundI::release                          :     Goal6 (0000022A0FBA4D98)
+[LOG] SoundI::release                          :  (00000226418C97F8)
+[LOG] SoundI::release                          :     RiftShot001 (00000229BB20F578)
+[LOG] SoundI::release                          :  (0000022878187838)
+[LOG] SoundI::release                          :     bullet_impact_wood_heavy_02 (0000022A9DDA7D98)
+[LOG] SoundI::release                          :  (00000228781876C8)
+[LOG] SoundI::release                          :     bullet_impact_wood_heavy_01 (0000022A9DDA7578)
+[LOG] SoundI::release                          :  (0000022878187B18)
+[LOG] SoundI::release                          :     ValthorneThorne01 (0000022A9DDA7BF8)
+[LOG] SoundI::release                          :  (00000228781879A8)
+[LOG] SoundI::release                          :     PerformanceTierSFXA (00000229FDDE6088)
+[LOG] SoundI::release                          :  (0000022AA47D9248)
+[LOG] SoundI::release                          :     footstep_grass_run_01 (0000022A5F265A48)
+[LOG] SoundI::release                          :  (0000022AA47D9C58)
+[LOG] SoundI::release                          :     footstep_grass_run_02 (0000022A5F265BE8)
+[LOG] SoundI::release                          :  (000002264C0A3628)
+[LOG] SoundI::release                          :     footstep_grass_run_03 (0000022983028BD8)
+[LOG] SoundI::release                          :  (0000022AA47D8F68)
+[LOG] SoundI::release                          :     footstep_grass_run_04 (0000022A5F265088)
+[LOG] SoundI::release                          :  (000002264C0A3908)
+[LOG] SoundI::release                          :     footstep_grass_run_05 (0000022983028078)
+[LOG] SoundI::release                          :  (000002264C0A3A78)
+[LOG] SoundI::release                          :     footstep_grass_run_06 (0000022983028898)
+[LOG] SoundI::release                          :  (0000022AA47D9698)
+[LOG] SoundI::release                          :     UI_Hover (0000022A5F265568)
+[LOG] SoundI::release                          :  (00000228781873E8)
+[LOG] SoundI::release                          :     Pop (0000022A9DDA7718)
+[LOG] SoundI::release                          :  (0000022AA47D9808)
+[LOG] SoundI::release                          :     CoinKaching (0000022A094513B8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
 [LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
 [LOG] SystemI::close                           : Closed.

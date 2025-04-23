@@ -36,6 +36,13 @@ public class AnyItemTriggeredTrigger : Trigger
             //prevent infinite loops
             return;
         }
+
+        if (!(GameSingleton.Instance.gameStateMachine.currentState is GameStateMachine.BouncingState))
+        {
+            //Prevent triggering from board populated items
+            return;
+        }
+        
         currentCount++;
         if (currentCount >= quantity)
         {

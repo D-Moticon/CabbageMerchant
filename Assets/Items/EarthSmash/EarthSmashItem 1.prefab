@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 50ea87d4de975764a991d3515d63228c, type: 3}
   itemType: 0
+  canBeForceTriggered: 1
   effects:
   - rid: 328109986689056855
   holofoilEffects:
   - rid: 328110010024067179
+  holofoilEffectDescription: 
   triggers:
   - rid: 328109942880338091
   triggerChance: 1
@@ -75,6 +77,8 @@ MonoBehaviour:
     vol: 0.3
   upgradedItem: {fileID: 7878032925082585029, guid: c92abfbae9ecf0d409902b21f8571497, type: 3}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -87,6 +91,7 @@ MonoBehaviour:
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}
@@ -101,12 +106,13 @@ MonoBehaviour:
         surfaceOffset: 0.45
         spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         rotateVFXtoNormal: 1
-        velocityDirection: 0
-        worldVelocityDirection: {x: 0, y: 0}
+        velocityDirection: 1
+        worldVelocityDirection: {x: 0, y: 1}
     - rid: 328110010024067179
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}
@@ -121,5 +127,5 @@ MonoBehaviour:
         surfaceOffset: 0.45
         spawnVFX: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         rotateVFXtoNormal: 1
-        velocityDirection: 0
-        worldVelocityDirection: {x: 0, y: 0}
+        velocityDirection: 1
+        worldVelocityDirection: {x: 0, y: 1}

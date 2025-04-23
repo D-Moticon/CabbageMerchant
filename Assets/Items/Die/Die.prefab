@@ -75,7 +75,7 @@ MonoBehaviour:
         Data4: 1010117198
       Path: event:/Reroll
     vol: 0.3
-  upgradedItem: {fileID: 0}
+  upgradedItem: {fileID: 5064643839433957501, guid: d8dfccb791c26d041a14b745d789d3d7, type: 3}
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0

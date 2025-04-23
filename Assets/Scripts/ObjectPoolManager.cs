@@ -119,4 +119,17 @@ public class ObjectPoolManager : MonoBehaviour
         data.available.Enqueue(obj);
         data.activeOrder.Remove(obj);
     }
+    
+    public void DespawnAll(PooledObjectData objectData)
+    {
+        if (!poolDictionary.TryGetValue(objectData, out var data))
+            return;
+
+        // any active in “all” but not in “available” must be out there in the world
+        foreach (var go in data.all)
+        {
+            if (go.activeSelf)
+                ReturnToPool(objectData, go);
+        }
+    }
 }

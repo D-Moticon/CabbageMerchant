@@ -59,8 +59,7 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         int layer = testMapLayer;
-        if (MapSingleton.Instance != null)
-            layer = MapSingleton.Instance.mapManager.currentLayerIndex;
+        layer = Singleton.Instance.playerStats.currentMapLayer;
 
         enemiesPerSecond = firstRoundEnemiesPerSecond + epsBase * Mathf.Pow(layer, epsPower);
         secondsPerEnemy = 1f / enemiesPerSecond;

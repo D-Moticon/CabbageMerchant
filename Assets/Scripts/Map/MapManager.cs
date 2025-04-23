@@ -17,16 +17,13 @@ public class MapManager : MonoBehaviour
     public float scrollDuration = 1.0f;
     public float yOffset = -3f;
 
-    public int currentLayerIndex = 0;
-
     private void Start()
     {
         MapBlueprint mbp = Singleton.Instance.runManager.startingMapBlueprint;
         map = MapSingleton.Instance.mapGenerator.GenerateMap(mbp);
         currentMapBlueprint = mbp;
         map.InitializeMap(currentMapBlueprint);
-
-        currentLayerIndex = 0;
+        
         UpdateLayerStates();
         CenterOnLayer(0, instant: true);
 
@@ -38,16 +35,16 @@ public class MapManager : MonoBehaviour
 
     public void MoveToNextLayer()
     {
-        if (currentLayerIndex >= map.layers.Count - 1) return;
+        if (Singleton.Instance.playerStats.currentMapLayer >= map.layers.Count - 1) return;
 
-        currentLayerIndex++;
+        Singleton.Instance.playerStats.currentMapLayer++;
         UpdateLayerStates();
     }
 
     public void OnMapIconClicked(MapIcon icon)
     {
         int layerIndex = FindIconLayer(icon);
-        if (layerIndex == currentLayerIndex)
+        if (layerIndex == Singleton.Instance.playerStats.currentMapLayer)
         {
             StartCoroutine(MoveCharacterAndGoToScene(icon));
         }
@@ -65,6 +62,8 @@ public class MapManager : MonoBehaviour
         Vector3 startMapPos = map.transform.localPosition;
         Vector3 endMapPos = new Vector3(startMapPos.x, -FindIconLayer(targetIcon) * map.verticalSpacing + yOffset, 0f);
 
+        mapCharacter.StartWalkingAnimation();
+        
         float elapsed = 0f;
         while (elapsed < scrollDuration)
         {
@@ -79,6 +78,7 @@ public class MapManager : MonoBehaviour
 
         mapCharacter.transform.localPosition = endCharPos;
         map.transform.localPosition = endMapPos;
+        mapCharacter.StopWalkingAnimation();
 
         if (!string.IsNullOrEmpty(targetIcon.mapPoint.sceneName))
         {
@@ -90,7 +90,7 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < map.layers.Count; i++)
         {
-            bool isCurrent = (i == currentLayerIndex);
+            bool isCurrent = (i == Singleton.Instance.playerStats.currentMapLayer);
             var layer = map.layers[i];
 
             foreach (var icon in layer.mapIcons)
@@ -125,6 +125,6 @@ public class MapManager : MonoBehaviour
 
     public void SetCurrentLayerIndex(int newLayer)
     {
-        currentLayerIndex = newLayer;
+        Singleton.Instance.playerStats.currentMapLayer = newLayer;
     }
 }

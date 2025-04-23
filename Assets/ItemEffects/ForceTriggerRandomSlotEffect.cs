@@ -16,7 +16,7 @@ public class ForceTriggerRandomSlotEffect : ItemEffect
             Tracer.SpawnTracer(tracer, owningItem.transform.position, itemSlot.transform.position, 0.3f, 1f, this.owningItem.icon, Color.white);
         }
 
-        if (itemSlot.currentItem != null && itemSlot.currentItem.itemType == Item.ItemType.Item)
+        if (itemSlot.currentItem != null && itemSlot.currentItem.itemType == Item.ItemType.Item && itemSlot.currentItem != owningItem)
         {
             for (int i = 0; i < numberTimes; i++)
             {

@@ -14,7 +14,8 @@ public class Item : MonoBehaviour, IHoverable
     {
         Item,
         Perk,
-        Weapon
+        Weapon,
+        Pet
     };
     public ItemType itemType;
     public bool canBeForceTriggered = true;
@@ -266,6 +267,9 @@ public class Item : MonoBehaviour, IHoverable
             case ItemType.Weapon:
                 col = "#ff7800";
                 break;
+            case ItemType.Pet:
+                col = "#7ae3ff";
+                break;
             default:
                 break;
         }
@@ -343,7 +347,16 @@ public class Item : MonoBehaviour, IHoverable
 
     public string GetValueText()
     {
-        return (GetSellValue().ToString());
+        if (itemType == ItemType.Pet)
+        {
+            return "";
+        }
+
+        else
+        {
+            return (GetSellValue().ToString());
+        }
+        
     }
 
     public void SetHolofoil()

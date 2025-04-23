@@ -11,6 +11,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] private InputActionReference fireInput;
     [SerializeField] private InputActionReference weaponFireInput;
     [SerializeField] private InputActionReference dialogueSkipInput;
+    [SerializeField] private InputActionReference pauseInput;
 
     public Vector2 crosshairMove;
     public Crosshair crosshair;
@@ -23,12 +24,15 @@ public class PlayerInputManager : MonoBehaviour
     public bool weaponFireHeld;
     public bool weaponFireUp;
     public bool dialogueSkipDown;
+    [FormerlySerializedAs("pauseInputDown")] public bool pauseDown;
 
     public static System.Action fireDownAction;
     public static System.Action fireUpAction;
     
     public static System.Action weaponFireDownAction;
     public static System.Action weaponFireUpAction;
+
+    public static System.Action pauseDownAction;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,6 +57,8 @@ public class PlayerInputManager : MonoBehaviour
         weaponFireHeld = weaponFireInput.action.IsPressed();
         weaponFireUp = weaponFireInput.action.WasReleasedThisFrame();
 
+        pauseDown = pauseInput.action.WasPressedThisFrame();
+
         if (fireDown)
         {
             fireDownAction?.Invoke();
@@ -71,6 +77,11 @@ public class PlayerInputManager : MonoBehaviour
         if (weaponFireUp)
         {
             weaponFireUpAction?.Invoke();
+        }
+
+        if (pauseDown)
+        {
+            pauseDownAction?.Invoke();
         }
 
         dialogueSkipDown = dialogueSkipInput.action.WasPressedThisFrame();

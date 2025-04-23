@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public int lives = 1;
     public int startingMaxCoins = 99;
     [HideInInspector] public int maxCoins = 99;
+    [HideInInspector] public int numberKeys = 0;
+    public float startingKeyChance = 0.25f;
+    [HideInInspector]public float keyChance = 0.25f;
+    [HideInInspector] public int currentMapLayer = 0;
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -35,7 +40,8 @@ public class PlayerStats : MonoBehaviour
     public delegate void IntEvent(int value);
     public static event IntEvent LivesUpdated;
     public static Action LifeLostEvent;
-
+    public static event IntEvent KeysUpdatedEvent;
+    
     private void OnEnable()
     {
         RunManager.RunStartEvent += StartRunListener;
@@ -65,6 +71,10 @@ public class PlayerStats : MonoBehaviour
         lives = startingLives;
         LivesUpdated?.Invoke(lives);
         maxCoins = startingMaxCoins;
+        numberKeys = 0;
+        KeysUpdatedEvent?.Invoke(numberKeys);
+        keyChance = startingKeyChance;
+        currentMapLayer = 0;
     }
     
     public void AddCoins(double coinsToAdd)
@@ -153,5 +163,17 @@ public class PlayerStats : MonoBehaviour
     public void AddMaxCoins(int amount)
     {
         maxCoins += amount;
+    }
+
+    public void AddKey(int amount)
+    {
+        numberKeys += amount;
+        KeysUpdatedEvent?.Invoke(numberKeys);
+    }
+
+    public void RemoveKey(int amount)
+    {
+        numberKeys -= amount;
+        KeysUpdatedEvent?.Invoke(numberKeys);
     }
 }

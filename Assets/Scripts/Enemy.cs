@@ -37,6 +37,11 @@ public class Enemy : MonoBehaviour, IBonkable
         }
     }
 
+    public void Remove()
+    {
+        gameObject.SetActive(false);
+    }
+
     void KillEnemy()
     {
         if (killVFX != null)

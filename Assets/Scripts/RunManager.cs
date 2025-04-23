@@ -8,7 +8,9 @@ public class RunManager : MonoBehaviour
 {
     public MapBlueprint startingMapBlueprint;
     [Header("Scene Names")]
-    public string startingSceneName = "MainMenuScene";  
+    public string startingSceneName = "MainMenuScene";
+
+    public string runStartScene = "Map";
     public string gameSceneName     = "GameScene";
     public string shopSceneName     = "ShopScene";
     public string mapSceneName      = "Map";
@@ -52,10 +54,11 @@ public class RunManager : MonoBehaviour
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
+    public static System.Action SceneChangedEvent;
     
     void Start()
     {
-        StartNewRun();
+        StartOverallGame();
     }
 
     public void GoToMap()
@@ -66,6 +69,7 @@ public class RunManager : MonoBehaviour
 
     public void GoToScene(string sceneName, MapPoint mapPoint = null)
     {
+        SceneChangedEvent?.Invoke();
         StartCoroutine(SlideToScene(sceneName, mapPoint));
     }
 
@@ -375,14 +379,24 @@ public class RunManager : MonoBehaviour
         }
         return null;
     }
+
+
+    public void StartOverallGame()
+    {
+        GoToSceneExclusive(startingSceneName);
+    }
     
-    // Run-start method.
     public void StartNewRun()
     {
         // Fire any listeners
         RunStartParams rsp = new RunStartParams();
         RunStartEvent?.Invoke(rsp);
 
+        GoToSceneExclusive(runStartScene);
+    }
+
+    public void GoToSceneExclusive(string sceneName)
+    {
         // 1) Figure out which scene is our GlobalScene (the one that remains loaded)
         string globalSceneName = "GlobalScene";
 
@@ -406,7 +420,7 @@ public class RunManager : MonoBehaviour
 
         // 5) Finally, slide in the starting scene
         if (!string.IsNullOrEmpty(startingSceneName))
-            StartCoroutine(SlideToScene(startingSceneName));
+            StartCoroutine(SlideToScene(sceneName));
     }
     
     public void ReloadCurrentScene()

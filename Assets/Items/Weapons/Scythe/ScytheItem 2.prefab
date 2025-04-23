@@ -90,7 +90,7 @@ MonoBehaviour:
         scythe: {fileID: 11400000, guid: 90c0726d28c0a8a44ba2cbcb349777c6, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
         boostSpeed: 65
-        duration: 1.5
+        duration: 2.5
         scytheRotationOffset: 90
         scytheDescription: Chain Scythe
         extraDescriptionInfo: 
@@ -106,7 +106,7 @@ MonoBehaviour:
         scythe: {fileID: 11400000, guid: 19e8089355712894088126415b61e411, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
         boostSpeed: 65
-        duration: 1.5
+        duration: 2.5
         scytheRotationOffset: 90
         scytheDescription: Holofoil Chain Scythe
         extraDescriptionInfo: Cabbages hit by this have a 5% chance to become <rainb>rainbow</rainb>

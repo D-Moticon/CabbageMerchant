@@ -15,6 +15,11 @@ public class BallSplitterItemEffect : ItemEffect
         {
             tc = new TriggerContext();
         }
+
+        if (GameSingleton.Instance.gameStateMachine.activeBalls.Count == 0)
+        {
+            return;
+        }
         
         if (tc.ball == null)
         {

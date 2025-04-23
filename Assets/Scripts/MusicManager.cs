@@ -7,6 +7,8 @@ using System.Collections.Generic;
 
 public class MusicManager : MonoBehaviour
 {
+    public EventReference startingMusic;
+    
     [System.Serializable]
     public class BiomeMusicPair
     {
@@ -21,6 +23,7 @@ public class MusicManager : MonoBehaviour
     private void OnEnable()
     {
         RunManager.BiomeChangedEvent += BiomeChangedListener;
+        ChangeMusic(startingMusic);
     }
 
     private void OnDisable()

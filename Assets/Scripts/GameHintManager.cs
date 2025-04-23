@@ -15,6 +15,7 @@ public class GameHintManager : MonoBehaviour
     [TextArea] public string noCabbagesBonkedHint;
     [TextArea] public string needToDragItemsHint;
     [TextArea] public string cantAffordItemHint;
+    [TextArea] public string keyHint;
     public int maxNeedToDragItemsFires = 5;
     private int needToDragItemsCounter = 0;
 
@@ -30,6 +31,8 @@ public class GameHintManager : MonoBehaviour
     private Coroutine hintCoroutine;
     private string queuedHint;
 
+    private bool keyHintGiven = false;
+
     private void OnEnable()
     {
         Item.WeaponTriggeredEvent += WeaponTriggeredListener;
@@ -39,6 +42,8 @@ public class GameHintManager : MonoBehaviour
         Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
         ItemManager.ItemClickedEvent += ItemClickedListener;
         bubbleCanvasGroup.alpha = 0f;
+        Key.KeyCollectedEvent += KeyCollectedListener;
+        RunManager.SceneChangedEvent += SceneChangedListener;
     }
 
     private void OnDisable()
@@ -49,6 +54,8 @@ public class GameHintManager : MonoBehaviour
         GameStateMachine.ExitingScoringAction -= ExitingScoringListener;
         Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
         ItemManager.ItemClickedEvent -= ItemClickedListener;
+        Key.KeyCollectedEvent -= KeyCollectedListener;
+        RunManager.SceneChangedEvent -= SceneChangedListener;
     }
 
     private void WeaponTriggeredListener(Item item)
@@ -97,7 +104,7 @@ public class GameHintManager : MonoBehaviour
 
     void CheckQueuedHint()
     {
-        if (queuedHint != null)
+        if (!string.IsNullOrEmpty(queuedHint))
         {
             GiveHint(queuedHint);
             queuedHint = null;
@@ -228,5 +235,21 @@ public class GameHintManager : MonoBehaviour
             countdown -= Time.deltaTime;
             yield return null;
         }
+    }
+
+    void KeyCollectedListener()
+    {
+        if (keyHintGiven)
+        {
+            return;
+        }
+        
+        GiveHint(keyHint);
+        keyHintGiven = true;
+    }
+
+    void SceneChangedListener()
+    {
+        StartCoroutine(FadeOutBubble());
     }
 }

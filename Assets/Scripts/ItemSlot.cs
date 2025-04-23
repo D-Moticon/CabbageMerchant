@@ -13,6 +13,11 @@ public class ItemSlot : MonoBehaviour
     public MMF_Player bumpFeel;
     public SFXInfo spawnSFX;
     public SFXInfo itemAddedSFX;
+    public bool isLocked;
+    public SpriteRenderer lockedSR;
+    public PooledObjectData unlockVFX;
+    public SFXInfo unlockSFX;
+    
 
     public enum AllowedTypes
     {
@@ -32,6 +37,11 @@ public class ItemSlot : MonoBehaviour
             bumpFeel.PlayFeedbacks();
         }
         spawnSFX.Play();
+
+        if (!isLocked)
+        {
+            UnLockSlot(false);
+        }
     }
 
     private void OnDisable()
@@ -104,5 +114,39 @@ public class ItemSlot : MonoBehaviour
     public void DestroySlot()
     {
         Destroy(this.gameObject);
+    }
+
+    public void LockSlot()
+    {
+        isLocked = true;
+        if (lockedSR != null)
+        {
+            lockedSR.enabled = true;
+        }
+
+        if (currentItem != null)
+        {
+            currentItem.itemWrapper.spriteRenderer.enabled = false;
+        }
+    }
+
+    public void UnLockSlot(bool playFX = true)
+    {
+        isLocked = false;
+        if (lockedSR != null)
+        {
+            lockedSR.enabled = false;
+        }
+        
+        if (currentItem != null)
+        {
+            currentItem.itemWrapper.spriteRenderer.enabled = true;
+        }
+
+        if (playFX)
+        {
+            unlockVFX.Spawn(this.transform.position);
+            unlockSFX.Play(this.transform.position);
+        }
     }
 }

@@ -9,7 +9,8 @@ public class ItemManager : MonoBehaviour
     public ItemSlot itemSlotPrefab;
     public ItemWrapper itemWrapperPrefab;
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
-
+    public int startingLockedSlots = 4;
+    
     [Header("Grid Dimensions")]
     public int rows = 4;
     public int columns = 2;
@@ -20,8 +21,9 @@ public class ItemManager : MonoBehaviour
 
     [Header("Starting Items")] public bool forceHolofoilStarting = false;
     public List<Item> startingItems = new List<Item>();
-
     public List<Item> startingPerks = new List<Item>();
+    public PetDefinition startingPet;
+    public ItemSlot petSlot;
     
     public delegate void ItemPurchasedDelegate(Item item);
     public static event ItemPurchasedDelegate ItemPurchasedEvent;
@@ -54,6 +56,8 @@ public class ItemManager : MonoBehaviour
     public SFXInfo itemDestroySFX;
     public PooledObjectData itemDestroyVFX;
     private bool sellDisabled = false;
+
+    [Header("Keys")] public PooledObjectData keyPooledObject;
     
     private void OnEnable()
     {
@@ -64,10 +68,14 @@ public class ItemManager : MonoBehaviour
     {
         RunManager.RunStartEvent -= RunStartListener;
     }
-
+    
     private void Start()
     {
-        GenerateItemSlots();
+        if (startingPet != null && petSlot != null)
+        {
+            AddPet(startingPet);
+        }
+        
         for (int i = 0; i < startingItems.Count && i < itemSlots.Count; i++)
         {
             Item item = GenerateItemWithWrapper(startingItems[i]);
@@ -98,6 +106,30 @@ public class ItemManager : MonoBehaviour
         HandleItemHoverAndMerging();
     }
 
+    public void AddPet(PetDefinition def)
+    {
+        if (petSlot == null)
+            return;
+
+        // destroy existing pet item
+        if (petSlot.currentItem != null)
+        {
+            Destroy(petSlot.currentItem.itemWrapper.gameObject);
+            petSlot.currentItem = null;
+        }
+
+        if (def == null)
+            return;
+
+        // instantiate new pet item
+        Item petItem = GenerateItemWithWrapper(def.itemPrefab);
+        petSlot.currentItem = petItem;
+        petItem.currentItemSlot = petSlot;
+        petItem.itemWrapper.transform.SetParent(petSlot.transform);
+        petItem.itemWrapper.transform.localPosition = Vector3.zero;
+        ItemAddedToSlotEvent?.Invoke(petItem, petSlot);
+    }
+    
     //==================================
     // DRAG + DROP
     //==================================
@@ -149,8 +181,24 @@ public class ItemManager : MonoBehaviour
         Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
         if (!col) return;
 
+        // 1) If they clicked on a locked slot, try to unlock
+        var slot = col.GetComponentInParent<ItemSlot>();
+        if (slot != null && slot.isLocked)
+        {
+            if (Singleton.Instance.playerStats.numberKeys > 0)
+            {
+                Singleton.Instance.playerStats.RemoveKey(1);
+                slot.UnLockSlot();
+            }
+            else
+            {
+                infoFloater.Spawn("No keys!", slot.transform.position, Color.red);
+            }
+            return; // block any drag from this click
+        }
+        
         Item clickedItem = col.GetComponentInChildren<Item>();
-        if (clickedItem == null) return;
+        if (clickedItem == null || clickedItem.itemType == Item.ItemType.Pet) return;
 
         // If perk, single-click buy
         if (clickedItem.itemType == Item.ItemType.Perk)
@@ -229,6 +277,13 @@ public class ItemManager : MonoBehaviour
         Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
         ItemSlot slot = col ? col.GetComponentInParent<ItemSlot>() : null;
 
+        if (slot != null && slot.isLocked)
+        {
+            infoFloater.Spawn("Slot is locked!", slot.transform.position, Color.red);
+            RevertDraggedItem();
+            return;
+        }
+        
         //Check if it's an event slot
         if (slot == null)
         {
@@ -557,6 +612,12 @@ public class ItemManager : MonoBehaviour
 
     private void GenerateItemSlots()
     {
+        foreach (var oldSlot in itemSlots)
+        {
+            if (oldSlot != null)
+                Destroy(oldSlot.gameObject);
+        }
+        
         itemSlots.Clear();
 
         Vector2 gridSize = new Vector2(columns * spacing.x, rows * spacing.y);
@@ -758,6 +819,8 @@ public class ItemManager : MonoBehaviour
     
     void RunStartListener(RunManager.RunStartParams rsp)
     {
+        GenerateItemSlots();
+        
         // 1) Destroy and clear all inventory items
         var inventoryItems = GetItemsInInventory().ToList();
         foreach (var item in inventoryItems)
@@ -774,8 +837,8 @@ public class ItemManager : MonoBehaviour
         {
             DestroyItem(perk);
         }
-
-        // At this point, all slots are empty and perkParent has no active items.
+        
+        LockInventorySlots(startingLockedSlots);
     }
 
     public int GetWeaponCount()
@@ -804,5 +867,24 @@ public class ItemManager : MonoBehaviour
     public void EnableSell()
     {
         sellDisabled = false;
+    }
+    
+    public void LockInventorySlots(int number)
+    {
+        int totalSlots = itemSlots.Count;
+        // clamp to [0, totalSlots]
+        int toLock = Mathf.Clamp(number, 0, totalSlots);
+        for (int i = 0; i < totalSlots; i++)
+        {
+            // if this index is in the “last toLock” range → lock, otherwise unlock
+            if (i >= totalSlots - toLock)
+            {
+                itemSlots[i].LockSlot();
+            }
+            else
+            {
+                itemSlots[i].UnLockSlot(false);
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ public interface IHoverable
 public interface IBonkable
 {
     public void Bonk(BonkParams bp);
+    public void Remove();
 }
 
 public class BonkParams

@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public double coinsPerSecond = 100;
     private double currentCoins;
     private double targetCoins;
+    public TMP_Text keysText;
     public Transform ballsParent;
     public Transform livesParent;
     public Image ballRemainingPrefab;
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.LivesUpdated += UpdateLivesIndicator;
         PlayerStats.LifeLostEvent += LifeLostListener;
         RunManager.RunStartEvent += RunStartListener;
+        PlayerStats.KeysUpdatedEvent += KeysUpdatedListener;
     }
 
     private void OnDisable()
@@ -39,6 +41,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.LivesUpdated -= UpdateLivesIndicator;
         PlayerStats.LifeLostEvent -= LifeLostListener;
         RunManager.RunStartEvent -= RunStartListener;
+        PlayerStats.KeysUpdatedEvent -= KeysUpdatedListener;
     }
 
 
@@ -74,8 +77,12 @@ public class UIManager : MonoBehaviour
     {
         targetCoins = newCoins;
     }
-    
 
+    void KeysUpdatedListener(int newKeys)
+    {
+        keysText.text = newKeys.ToString();
+    }
+    
     private void Update()
     {
         double coinDiff = System.Math.Abs(currentCoins - targetCoins);
@@ -105,6 +112,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowNotification(string text)
     {
+        notificationText.gameObject.SetActive(true);
         notificationTextTypewriter.ShowText(text);
         notificationFeel.PlayFeedbacks();
     }

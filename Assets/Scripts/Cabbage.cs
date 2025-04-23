@@ -68,8 +68,6 @@ public class Cabbage : MonoBehaviour, IBonkable
     [HideInInspector] public bool isStolen = false;
 
     [Header("Scoring")]
-    public float startingPoints = 0f;
-
     public double basePointsPerSize = 1;
     [HideInInspector]public double currentPointsPerSize = 1;
     public float pointMultPerColor = 1.5f;
@@ -117,6 +115,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     private void OnEnable()
     {
         spawnSFX.Play();
+        currentPointsPerSize = basePointsPerSize;
     }
 
     void Start()
@@ -159,7 +158,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         // VFX and feedback
         bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkValue);
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
-        vfx.transform.localScale = new Vector3(bp.bonkValue, bp.bonkValue, 1f);
+        vfx.transform.localScale = new Vector3(1f+bp.bonkValue*0.1f, 1f+bp.bonkValue*0.1f, 1f);
 
         float sca = transform.localScale.x;
         float intensity = 1f / sca;
@@ -177,6 +176,15 @@ public class Cabbage : MonoBehaviour, IBonkable
         {
             currentVariant.CabbageBonked(bp);
         }
+    }
+
+    public void Remove()
+    {
+        if (GameSingleton.Instance != null)
+        {
+            GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(this);
+        }
+        gameObject.SetActive(false);
     }
 
     public void Pop(Vector2 collisionPos)
