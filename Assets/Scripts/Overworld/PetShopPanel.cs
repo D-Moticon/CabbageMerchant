@@ -28,7 +28,7 @@ public class PetShopPanel : MenuPanel
         foreach (var def in petDatabase.allPets)
         {
             var btn = Instantiate(petButtonPrefab, gridParent);
-            btn.def = def;
+            btn.petDefinition = def;
             btn.name = def.name + "Button";
             btn.Start(); // manually initialize UI
             buttons.Add(btn);

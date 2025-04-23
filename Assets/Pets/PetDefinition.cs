@@ -4,6 +4,7 @@ using UnityEngine;
 public class PetDefinition : ScriptableObject
 {
     public string displayName;
+    public string dataName;
     public Item itemPrefab;
     public int cost;
     public Sprite upSprite;

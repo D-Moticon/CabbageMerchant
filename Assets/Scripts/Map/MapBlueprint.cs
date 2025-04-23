@@ -8,6 +8,9 @@ public class MapBlueprint : ScriptableObject
     public double firstRoundGoal = 15;
     public float goalBase = 1f; //exponent base
     public float goalPower = 1.2f;
+    public float metacurrencyBase = 1f;
+    public float metacurrencyPower = 1.2f;
+    public int metacurrencyLayerPeriod = 5;
     
     [System.Serializable]
     public class MapLayer

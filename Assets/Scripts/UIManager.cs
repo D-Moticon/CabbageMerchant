@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public TypewriterByCharacter notificationTextTypewriter;
     public MMF_Player notificationFeel;
     public Animator lifeLostAnimator;
+    public TMP_Text metacurrencyText;
 
     private void OnEnable()
     {
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.LifeLostEvent += LifeLostListener;
         RunManager.RunStartEvent += RunStartListener;
         PlayerStats.KeysUpdatedEvent += KeysUpdatedListener;
+        PlayerStats.MetacurrencyUpdatedEvent += MetacurrencyUpdatedListener;
     }
 
     private void OnDisable()
@@ -42,6 +44,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.LifeLostEvent -= LifeLostListener;
         RunManager.RunStartEvent -= RunStartListener;
         PlayerStats.KeysUpdatedEvent -= KeysUpdatedListener;
+        PlayerStats.MetacurrencyUpdatedEvent -= MetacurrencyUpdatedListener;
     }
 
 
@@ -126,5 +129,10 @@ public class UIManager : MonoBehaviour
     void RunStartListener(RunManager.RunStartParams rsp)
     {
         ShowNotification("A new journey begins!");
+    }
+
+    void MetacurrencyUpdatedListener(double newMetacurrency)
+    {
+        metacurrencyText.text = Helpers.FormatWithSuffix(newMetacurrency);
     }
 }

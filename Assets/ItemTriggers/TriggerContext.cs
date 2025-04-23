@@ -7,4 +7,5 @@ public class TriggerContext
     public Vector2 point;
     public Vector2 normal;
     public Vector2 relativeVelocity;
+    public Item itemA;
 }

@@ -67,6 +67,13 @@ public class OverworldPet : MonoBehaviour, IHoverable
 
     void Update()
     {
+        if (PauseManager.IsPaused())
+        {
+            animator.StopPlayback();
+            animator.SetBool("isWalking", false);
+            return;
+        }
+        
         // update trailing direction based on player movement
         if (player != null)
         {

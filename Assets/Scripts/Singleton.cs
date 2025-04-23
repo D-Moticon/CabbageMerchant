@@ -20,6 +20,8 @@ public class Singleton : MonoBehaviour
     public BoardMetrics boardMetrics;
     public MenuManager menuManager;
     public PetManager petManager;
+    public SaveManager saveManager;
+    public PauseManager pauseManager;
     
     private void OnEnable()
     {

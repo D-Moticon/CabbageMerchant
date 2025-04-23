@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Tammy
   m_EditorClassIdentifier: 
   displayName: Tammy
+  dataName: cat
   itemPrefab: {fileID: 7589841050348396428, guid: aa2c5cbb845c4f44ebb9c67243274300, type: 3}
-  cost: 0
+  cost: 50
   upSprite: {fileID: -1408478284, guid: 37be90908f638ac4bb47ff36ab94ac44, type: 3}
   downSprite: {fileID: 409103081, guid: 37be90908f638ac4bb47ff36ab94ac44, type: 3}
   leftSprite: {fileID: -373987829, guid: 37be90908f638ac4bb47ff36ab94ac44, type: 3}

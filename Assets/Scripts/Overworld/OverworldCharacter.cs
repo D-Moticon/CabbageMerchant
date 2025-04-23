@@ -35,6 +35,13 @@ public class OverworldCharacter : MonoBehaviour
 
     void Update()
     {
+        if (PauseManager.IsPaused())
+        {
+            animator.StopPlayback();
+            animator.SetBool("isWalking", false);
+            return;
+        }
+        
         var input = Singleton.Instance.playerInputManager;
 
         // On click (fireDown), set a new target position

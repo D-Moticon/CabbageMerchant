@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allPets:
   - {fileID: 11400000, guid: 81d07125e8e07eb48af1c40390c7d798, type: 2}
+  - {fileID: 11400000, guid: f4a4a363411785c4881772686530f533, type: 2}
+  - {fileID: 11400000, guid: 1d2a0d67775e33340bc55ddf1a02c8e7, type: 2}

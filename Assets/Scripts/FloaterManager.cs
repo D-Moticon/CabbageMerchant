@@ -89,4 +89,9 @@ public class FloaterManager : MonoBehaviour
         floater.transform.SetParent(transform);
         floaterPools[floaterRef].Enqueue(floater);
     }
+
+    public void SpawnInfoFloater(string text, Vector3 position, Color? textColor = null, float scale = 1f)
+    {
+        SpawnFloater(floaterReferences[3], text, position, textColor, scale);
+    }
 }

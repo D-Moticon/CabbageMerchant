@@ -42,6 +42,9 @@ public class MenuManager : MonoBehaviour
 
         if (pushHistory)
             history.Push(next);
+
+        // pause the game any time at least one panel is open
+        Singleton.Instance.pauseManager.SetPaused(true);
     }
 
     /// <summary>
@@ -49,21 +52,25 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void Back()
     {
+        if (history.Count == 0) return;
+
+        // hide current
         var current = history.Pop();
-        if (history.Count <= 1)
+        current.OnHide();
+
+        if (history.Count == 0)
         {
-            current.OnHide();
+            // no panels left → unpause
+            Singleton.Instance.pauseManager.SetPaused(false);
             return;
         }
-            
-
-        // pop and hide current
-        current.OnHide();
 
         // show previous
         var prev = history.Peek();
         prev.OnShow();
         prev.OnFocus();
+
+        // still paused, because there's still at least one panel open
     }
 
     /// <summary>
@@ -76,5 +83,7 @@ public class MenuManager : MonoBehaviour
             var panel = history.Pop();
             panel.OnHide();
         }
+        // clear everything → unpause
+        Singleton.Instance.pauseManager.SetPaused(false);
     }
 }

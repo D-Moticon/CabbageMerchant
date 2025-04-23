@@ -15,6 +15,9 @@ MonoBehaviour:
   firstRoundGoal: 10
   goalBase: 1.25
   goalPower: 1.75
+  metacurrencyBase: 0.25
+  metacurrencyPower: 1.2
+  metacurrencyLayerPeriod: 1
   mapLayers:
   - possiblePoints:
     - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}

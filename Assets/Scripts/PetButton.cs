@@ -1,25 +1,34 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using TMPro;
 
 /// <summary>
-/// Button component that displays a PetDefinition and handles purchase/equip logic.
+/// Button component that displays a PetDefinition and handles purchase/equip logic,
+/// implements IHoverable by delegating to the in-game item.
 /// </summary>
 [RequireComponent(typeof(Button))]
-public class PetButton : MonoBehaviour
+public class PetButton : MonoBehaviour, IHoverable
 {
     [Tooltip("Reference to the pet definition this button represents")] 
-    public PetDefinition def;
+    public PetDefinition petDefinition;
 
-    [Tooltip("UI Text for pet name")] public TMP_Text nameText;
+    [Tooltip("UI Text for pet name")] 
+    public TMP_Text nameText;
+    [Tooltip("UI Text for cost or owned state")] 
     public TMP_Text costText;
-    [Tooltip("UI Image for pet icon")] public Image iconImage;
-    [Tooltip("Button component")] public Button button;
+    [Tooltip("UI Image for pet icon")] 
+    public Image iconImage;
+    [Tooltip("Visual indicator when this pet is currently selected")] 
+    public Image selectedImage;
+
+    [Tooltip("Button component")] 
+    public Button button;
 
     void Awake()
     {
-        if (button == null) button = GetComponent<Button>();
+        if (button == null)
+            button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
     }
 
@@ -31,29 +40,35 @@ public class PetButton : MonoBehaviour
     public void Start()
     {
         // initialize UI
-        if (nameText != null) nameText.text = def.displayName;
-        if (iconImage != null) iconImage.sprite = def.downSprite;
-        if (costText != null) costText.text = def.cost.ToString();
+        if (nameText != null)
+            nameText.text = petDefinition.displayName;
+        if (iconImage != null)
+            iconImage.sprite = petDefinition.downSprite;
         UpdateState();
     }
 
-    /// <summary>
-    /// Called when player clicks this pet button.
-    /// Purchases if not owned, otherwise equips.
-    /// </summary>
     void OnClick()
     {
+        var ps = Singleton.Instance.playerStats;
         var pm = Singleton.Instance.petManager;
-        if (!pm.ownedPets.Contains(def))
+
+        bool owned = pm.ownedPets.Contains(petDefinition);
+        if (!owned)
         {
-            // purchase
-            Singleton.Instance.playerStats.AddCoins(-def.cost);
-            pm.PurchasePet(def);
+            // attempt purchase
+            if (ps.metaCurrency < petDefinition.cost)
+            {
+                Singleton.Instance.floaterManager.SpawnInfoFloater(
+                    "Can't afford!", transform.position, Color.red);
+                return;
+            }
+            ps.AddMetacurrency(-petDefinition.cost);
+            pm.PurchasePet(petDefinition);
         }
         else
         {
             // equip
-            pm.SetCurrentPet(def);
+            pm.SetCurrentPet(petDefinition);
         }
         UpdateState();
     }
@@ -63,16 +78,45 @@ public class PetButton : MonoBehaviour
     /// </summary>
     public void UpdateState()
     {
+        var ps = Singleton.Instance.playerStats;
         var pm = Singleton.Instance.petManager;
-        bool owned = pm.ownedPets.Contains(def);
-        bool active = pm.currentPet == def;
 
-        // disable if not enough coins and not owned
-        button.interactable = owned || (Singleton.Instance.playerStats.coins >= def.cost);
+        bool owned = pm.ownedPets.Contains(petDefinition);
+        bool active = pm.currentPet == petDefinition;
 
-        // highlight active pet
-        var colors = button.colors;
-        colors.normalColor = active ? Color.green : Color.white;
-        button.colors = colors;
+        // cost text
+        if (costText != null)
+            costText.text = owned ? "Owned" : petDefinition.cost.ToString();
+
+        // icon transparency
+        if (iconImage != null)
+        {
+            var color = iconImage.color;
+            color.a = owned ? 1f : 0.75f;
+            iconImage.color = color;
+        }
+
+        // selected indicator
+        if (selectedImage != null)
+            selectedImage.enabled = active;
+
+        // button interactable
+        button.interactable = owned || (ps.metaCurrency >= petDefinition.cost);
     }
+
+    //=============== IHoverable ===============
+    public string GetTitleText(HoverableModifier mod = null)
+        => petDefinition.itemPrefab.GetTitleText(mod);
+    public string GetDescriptionText(HoverableModifier mod = null)
+        => petDefinition.itemPrefab.GetDescriptionText(mod);
+    public string GetTypeText(HoverableModifier mod = null)
+        => petDefinition.itemPrefab.GetTypeText(mod);
+    public string GetRarityText()
+        => petDefinition.itemPrefab.GetRarityText();
+    public string GetTriggerText()
+        => petDefinition.itemPrefab.GetTriggerText();
+    public Sprite GetImage()
+        => petDefinition.itemPrefab.GetImage();
+    public string GetValueText()
+        => petDefinition.itemPrefab.GetValueText();
 }

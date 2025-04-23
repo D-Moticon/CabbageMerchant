@@ -5,12 +5,14 @@ using UnityEngine.Serialization;
 public class PlayerStats : MonoBehaviour
 {
     public double startingCoins = 0;
+    public double startingMetacurrency = 0;
     
     public int startingBalls = 3;
     [HideInInspector]public int currentBalls = 3;
     [HideInInspector] public int extraStartingCabbages = 0;
     
     [HideInInspector]public double coins;
+    [HideInInspector] public double metaCurrency;
     public float startingHolofoilChance = 0.005f;
     [HideInInspector] public float holofoilChance = 0.005f;
     public float startingGoldenCabbageChance = 0.01f;
@@ -41,10 +43,12 @@ public class PlayerStats : MonoBehaviour
     public static event IntEvent LivesUpdated;
     public static Action LifeLostEvent;
     public static event IntEvent KeysUpdatedEvent;
+    public static event DoubleEvent MetacurrencyUpdatedEvent;
     
     private void OnEnable()
     {
         RunManager.RunStartEvent += StartRunListener;
+        GetMetacurrencyFromSave();
     }
 
     private void OnDisable()
@@ -52,6 +56,12 @@ public class PlayerStats : MonoBehaviour
         RunManager.RunStartEvent -= StartRunListener;
     }
 
+    void GetMetacurrencyFromSave()
+    {
+        metaCurrency = Singleton.Instance.saveManager.GetMetaCurrency();
+        MetacurrencyUpdatedEvent?.Invoke(metaCurrency);
+    }
+    
     void StartRunListener(RunManager.RunStartParams rsp)
     {
         coins = startingCoins;
@@ -176,4 +186,13 @@ public class PlayerStats : MonoBehaviour
         numberKeys -= amount;
         KeysUpdatedEvent?.Invoke(numberKeys);
     }
+
+    public void AddMetacurrency(int amount)
+    {
+        metaCurrency += amount;
+        if (metaCurrency < 0) metaCurrency = 0;
+        Singleton.Instance.saveManager.SetMetaCurrency((int)metaCurrency);
+        MetacurrencyUpdatedEvent?.Invoke(metaCurrency);
+    }
+
 }

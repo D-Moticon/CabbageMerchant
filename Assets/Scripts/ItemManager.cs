@@ -27,6 +27,7 @@ public class ItemManager : MonoBehaviour
     
     public delegate void ItemPurchasedDelegate(Item item);
     public static event ItemPurchasedDelegate ItemPurchasedEvent;
+    public static event ItemPurchasedDelegate ItemSpawnedEvent;
 
     public delegate void ItemSlotDelegate(Item item, ItemSlot slot);
 
@@ -598,6 +599,8 @@ public class ItemManager : MonoBehaviour
             }
         }
 
+        ItemSpawnedEvent?.Invoke(item);
+        
         return item;
     }
 

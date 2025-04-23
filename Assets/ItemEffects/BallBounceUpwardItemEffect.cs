@@ -7,8 +7,9 @@ public class BallBounceUpwardItemEffect : ItemEffect
     
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        if (tc == null || tc.ball == null)
+        if (tc == null || tc.ball == null || GameSingleton.Instance == null)
         {
+            //Checking game singleton to prevent golf ball bounces
             return;
         }
 

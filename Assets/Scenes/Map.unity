@@ -163,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e769cc670ab7ffe4b86e810024daa0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMapBlueprint: {fileID: 11400000, guid: 4f649b0d3afa7d2458b3ab63bd698517, type: 2}
   currentMapBlueprint: {fileID: 0}
   map: {fileID: 0}
   mapCharacterPrefab: {fileID: 7033008294106402310, guid: 77487a92485bb7c42a907dd04857bb92, type: 3}
@@ -171,7 +170,6 @@ MonoBehaviour:
   disabledColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.9490196}
   scrollDuration: 1
   yOffset: -1.5
-  currentLayerIndex: 0
 --- !u!1 &1100633564
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPrefab: {fileID: 4939499581730615837, guid: 06011de5d41dd094a9a6bddb73e3757c, type: 3}
+  metacurrencyPickupPrefab: {fileID: 5463216478161150186, guid: c531091cfd99c4846b1a380dc4931efc, type: 3}
 --- !u!4 &1453963897
 Transform:
   m_ObjectHideFlags: 0
