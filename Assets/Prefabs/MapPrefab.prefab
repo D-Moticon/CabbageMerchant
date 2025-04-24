@@ -54,9 +54,9 @@ MonoBehaviour:
   randomYOffset: 0.5
   mapBG: {fileID: 2111436783076589469}
   mapFarBGPrefab: {fileID: 3783086909706734505, guid: cc1089f886f5a034faa44365278f566d, type: 3}
-  farBGPaddingStart: 6
+  farBGPaddingStart: 15
   farBGPaddingEnd: 6
-  farBGExtraHeight: 2
+  farBGExtraHeight: 10
   farBGLayerYOffset: -3
   mapBG_YMargin: 6
   mapSignPrefab: {fileID: 1311928862425307863, guid: fa66b7bc3eb13b040ae9db7766ab767c, type: 3}

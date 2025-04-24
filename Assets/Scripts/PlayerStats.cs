@@ -6,6 +6,8 @@ public class PlayerStats : MonoBehaviour
 {
     public double startingCoins = 0;
     public double startingMetacurrency = 0;
+
+    [HideInInspector]public RunStats currentRunStats;
     
     public int startingBalls = 3;
     [HideInInspector]public int currentBalls = 3;
@@ -48,12 +50,14 @@ public class PlayerStats : MonoBehaviour
     private void OnEnable()
     {
         RunManager.RunStartEvent += StartRunListener;
+        Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
         GetMetacurrencyFromSave();
     }
 
     private void OnDisable()
     {
         RunManager.RunStartEvent -= StartRunListener;
+        Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
     }
 
     void GetMetacurrencyFromSave()
@@ -85,6 +89,7 @@ public class PlayerStats : MonoBehaviour
         KeysUpdatedEvent?.Invoke(numberKeys);
         keyChance = startingKeyChance;
         currentMapLayer = 0;
+        currentRunStats = new RunStats();
     }
     
     public void AddCoins(double coinsToAdd)
@@ -195,4 +200,9 @@ public class PlayerStats : MonoBehaviour
         MetacurrencyUpdatedEvent?.Invoke(metaCurrency);
     }
 
+    void CabbageBonkedListener(BonkParams bonkParams)
+    {
+        currentRunStats.totalBonks += bonkParams.bonkValue;
+    }
+    
 }

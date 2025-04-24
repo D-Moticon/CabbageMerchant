@@ -248,7 +248,7 @@ public class GameHintManager : MonoBehaviour
         keyHintGiven = true;
     }
 
-    void SceneChangedListener()
+    void SceneChangedListener(string s)
     {
         StartCoroutine(FadeOutBubble());
     }

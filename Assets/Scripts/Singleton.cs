@@ -22,6 +22,7 @@ public class Singleton : MonoBehaviour
     public PetManager petManager;
     public SaveManager saveManager;
     public PauseManager pauseManager;
+    public BuildManager buildManager;
     
     private void OnEnable()
     {

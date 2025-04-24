@@ -1156,7 +1156,7 @@ MonoBehaviour:
   colorLevel: 0
   maxSizeLevel: 1000
   maxColorLevel: 100
-  huePerLevel: 0.05
+  huePerLevel: 0.1
   maxHue: 0.65
   startingScale: 0.75
   scalePerLevel: 0.2
@@ -1166,7 +1166,6 @@ MonoBehaviour:
   rootExponent: 0.5
   isMerging: 0
   isStolen: 0
-  startingPoints: 0
   basePointsPerSize: 1
   currentPointsPerSize: 1
   pointMultPerColor: 2

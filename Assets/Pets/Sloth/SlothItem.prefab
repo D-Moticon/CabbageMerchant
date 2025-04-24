@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Sloth
+  itemName: Roth
   itemDescription: 
   icon: {fileID: 21300000, guid: 789a56b68f8004c478de8614524ed438, type: 3}
   itemType: 3

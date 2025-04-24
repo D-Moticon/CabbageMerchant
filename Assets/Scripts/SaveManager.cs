@@ -85,4 +85,17 @@ public class SaveManager : MonoBehaviour
         public List<string> ownedPetIDs = new List<string>();
         public int metaCurrency = 0;
     }
+    
+    /// <summary>
+    /// Clears all saved data (pets & metacurrency) and writes defaults to disk.
+    /// </summary>
+    public void ClearAllData()
+    {
+        // Reset in-memory data to defaults
+        data = new SaveData();
+        // Overwrite the file on disk
+        SaveToDisk();
+        Load();
+    }
+
 }

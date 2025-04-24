@@ -48,7 +48,7 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 9eed0502b4abc9a4eb95b46602c078a3, type: 3}
   itemType: 2
-  canBeForceTriggered: 1
+  canBeForceTriggered: 0
   effects:
   - rid: 328110147362881623
   holofoilEffects:

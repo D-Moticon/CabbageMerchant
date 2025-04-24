@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Die
+  itemName: Dice II
   itemDescription: 
-  icon: {fileID: 21300000, guid: 49bfe86a228ce4744a733750f2b38319, type: 3}
+  icon: {fileID: 21300000, guid: 7a4b0e8a28c6d0e4598239ff95846a62, type: 3}
   itemType: 0
   canBeForceTriggered: 1
   effects:
@@ -74,7 +74,7 @@ MonoBehaviour:
         Data3: -1962625893
         Data4: 1010117198
       Path: event:/Reroll
-    vol: 0.3
+    vol: 0.2
   upgradedItem: {fileID: 5064643839433957501, guid: 22b386885bcf604409b590c8bb797aba, type: 3}
   isHolofoil: 0
   firstUseHint: 

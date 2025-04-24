@@ -17,7 +17,7 @@ MonoBehaviour:
   goalPower: 1.75
   metacurrencyBase: 0.25
   metacurrencyPower: 1.2
-  metacurrencyLayerPeriod: 1
+  metacurrencyLayerPeriod: 4
   mapLayers:
   - possiblePoints:
     - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
@@ -163,5 +163,75 @@ MonoBehaviour:
     newBiome: {fileID: 0}
   - possiblePoints:
     - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 11400000, guid: da8e77cff1314bf48b639d7e3050b46d, type: 2}
+  - possiblePoints:
+    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
+    forceAll: 1
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    forceAll: 1
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
+    - {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
+    forceAll: 1
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    - {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
+    forceAll: 1
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
+    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
+    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
+    forceAll: 1
+    newBiome: {fileID: 0}
+  - possiblePoints:
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using UnityEngine.Serialization;
 
 public class ItemManager : MonoBehaviour
 {
+    [FormerlySerializedAs("itemManagerMainParent")] public GameObject hideableParent;
     public ItemSlot itemSlotPrefab;
     public ItemWrapper itemWrapperPrefab;
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
@@ -18,10 +20,7 @@ public class ItemManager : MonoBehaviour
     [Header("Layout Settings")]
     public Vector2 spacing = new Vector2(1f, 1f);
     public Vector2 slotSize = new Vector2(1f, 1f);
-
-    [Header("Starting Items")] public bool forceHolofoilStarting = false;
-    public List<Item> startingItems = new List<Item>();
-    public List<Item> startingPerks = new List<Item>();
+    
     public PetDefinition startingPet;
     public ItemSlot petSlot;
     
@@ -63,42 +62,15 @@ public class ItemManager : MonoBehaviour
     private void OnEnable()
     {
         RunManager.RunStartEvent += RunStartListener;
+        RunManager.SceneChangedEvent += SceneChangedListener;
+        BuildManager.FullGameStartedEvent += FullGameStartedListener;
     }
 
     private void OnDisable()
     {
         RunManager.RunStartEvent -= RunStartListener;
-    }
-    
-    private void Start()
-    {
-        if (startingPet != null && petSlot != null)
-        {
-            AddPet(startingPet);
-        }
-        
-        for (int i = 0; i < startingItems.Count && i < itemSlots.Count; i++)
-        {
-            Item item = GenerateItemWithWrapper(startingItems[i]);
-            AddItemToSlot(item, itemSlots[i]);
-            if (forceHolofoilStarting)
-            {
-                item.SetHolofoil();
-            }
-            ItemPurchasedEvent?.Invoke(item);
-        }
-
-        for (int i = 0; i < startingPerks.Count; i++)
-        {
-            Item perkItem = GenerateItemWithWrapper(startingPerks[i]);
-            perkItem.itemWrapper.transform.SetParent(perkParent);
-            perkItem.itemWrapper.transform.localPosition = Vector3.zero;
-            if (forceHolofoilStarting)
-            {
-                perkItem.SetHolofoil();
-            }
-            ItemPurchasedEvent?.Invoke(perkItem);
-        }
+        RunManager.SceneChangedEvent -= SceneChangedListener;
+        BuildManager.FullGameStartedEvent -= FullGameStartedListener;
     }
 
     private void Update()
@@ -107,6 +79,49 @@ public class ItemManager : MonoBehaviour
         HandleItemHoverAndMerging();
     }
 
+    public void AddItemToInventoryFromPrefab(Item itemPrefab, bool forceHolofoil = false)
+    {
+        ItemSlot itemSlot = GetEmptySlot();
+        if (itemSlot == null)
+        {
+            return;
+        }
+        
+        Item item = GenerateItemWithWrapper(itemPrefab);
+        AddItemToSlot(item, itemSlot);
+        if (forceHolofoil)
+        {
+            item.SetHolofoil();
+        }
+        
+        ItemPurchasedEvent?.Invoke(item);
+    }
+
+    public void AddPerkFromPrefab(Item itemPrefab, bool forceHolofoil = false)
+    {
+        Item perkItem = GenerateItemWithWrapper(itemPrefab);
+        perkItem.itemWrapper.transform.SetParent(perkParent);
+        perkItem.itemWrapper.transform.localPosition = Vector3.zero;
+        if (forceHolofoil)
+        {
+            perkItem.SetHolofoil();
+        }
+        ItemPurchasedEvent?.Invoke(perkItem);
+    }
+
+    ItemSlot GetEmptySlot()
+    {
+        for (int i = 0; i < itemSlots.Count(); i++)
+        {
+            if (itemSlots[i].currentItem == null)
+            {
+                return itemSlots[i];
+            }
+        }
+
+        return null;
+    }
+    
     public void AddPet(PetDefinition def)
     {
         if (petSlot == null)
@@ -823,7 +838,17 @@ public class ItemManager : MonoBehaviour
     void RunStartListener(RunManager.RunStartParams rsp)
     {
         GenerateItemSlots();
-        
+        DestroyAllItemsAndLockSlots();
+    }
+
+    void RunEndListener()
+    {
+        GenerateItemSlots();
+        DestroyAllItemsAndLockSlots();
+    }
+
+    void DestroyAllItemsAndLockSlots()
+    {
         // 1) Destroy and clear all inventory items
         var inventoryItems = GetItemsInInventory().ToList();
         foreach (var item in inventoryItems)
@@ -889,5 +914,33 @@ public class ItemManager : MonoBehaviour
                 itemSlots[i].UnLockSlot(false);
             }
         }
+    }
+
+    void SceneChangedListener(string sceneName)
+    {
+        if (sceneName == "Overworld")
+        {
+            HideItemManager();
+        }
+
+        else
+        {
+            ShowItemManager();
+        }
+    }
+
+    public void HideItemManager()
+    {
+        hideableParent.SetActive(false);
+    }
+
+    public void ShowItemManager()
+    {
+        hideableParent.SetActive(true);
+    }
+
+    void FullGameStartedListener()
+    {
+        HideItemManager();
     }
 }

@@ -37,8 +37,12 @@ public class GolfStateMachine : MonoBehaviour
 
     private void Start()
     {
-        //DialogueContext dc = new DialogueContext();
-        //StartCoroutine(GolfRoutine(dc));
+        if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.none)
+        {
+            //Testing
+            DialogueContext dc = new DialogueContext();
+            StartCoroutine(GolfRoutine(dc));
+        }
     }
 
     public IEnumerator GolfRoutine(DialogueContext dc)
@@ -51,6 +55,7 @@ public class GolfStateMachine : MonoBehaviour
 
         int currentVar = 0;
         EnableVariant(shuffledVars, currentVar);
+        launcher = shuffledVars[currentVar].GetComponentInChildren<Launcher>();
         
         while (ballsRemaining > 0)
         {

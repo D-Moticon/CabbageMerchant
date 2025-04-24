@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b729244fb9c6eb4f88bba1572f4b1d0, type: 3}
-  m_Name: GloomyTest
+  m_Name: TestMap_CCity
   m_EditorClassIdentifier: 
   firstRoundGoal: 10
   goalBase: 1.8
   goalPower: 1.5
+  metacurrencyBase: 1
+  metacurrencyPower: 1.2
+  metacurrencyLayerPeriod: 5
   mapLayers:
   - possiblePoints:
     - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
@@ -28,29 +31,29 @@ MonoBehaviour:
   - possiblePoints:
     - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
     forceAll: 0
-    newBiome: {fileID: 11400000, guid: a83797117384b5246913fa59856de085, type: 2}
+    newBiome: {fileID: 11400000, guid: da8e77cff1314bf48b639d7e3050b46d, type: 2}
   - possiblePoints:
-    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
-    - {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
-    - {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
+    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
+    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:
-    - {fileID: 11400000, guid: cfffcbf5c3be8d94dba839e829e9437c, type: 2}
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
+    - {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
     forceAll: 1
     newBiome: {fileID: 0}
   - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
+    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
+    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:

@@ -169,7 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16629f2f8ef142408309231f3b3311d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonkValue: 1
+  bonkValue: 1.5
   killOnBonk: 0
   bonksBeforeKill: 0
   treatAsBall: 1
+  vfxOnBonk: {fileID: 0}

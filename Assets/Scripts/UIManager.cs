@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public MMF_Player notificationFeel;
     public Animator lifeLostAnimator;
     public TMP_Text metacurrencyText;
+    public GameObject runOnlyParent;
 
     private void OnEnable()
     {
@@ -34,6 +35,8 @@ public class UIManager : MonoBehaviour
         RunManager.RunStartEvent += RunStartListener;
         PlayerStats.KeysUpdatedEvent += KeysUpdatedListener;
         PlayerStats.MetacurrencyUpdatedEvent += MetacurrencyUpdatedListener;
+        RunManager.SceneChangedEvent += SceneChangedListener;
+        BuildManager.FullGameStartedEvent += FullGameStartedListener;
     }
 
     private void OnDisable()
@@ -45,6 +48,8 @@ public class UIManager : MonoBehaviour
         RunManager.RunStartEvent -= RunStartListener;
         PlayerStats.KeysUpdatedEvent -= KeysUpdatedListener;
         PlayerStats.MetacurrencyUpdatedEvent -= MetacurrencyUpdatedListener;
+        RunManager.SceneChangedEvent -= SceneChangedListener;
+        BuildManager.FullGameStartedEvent -= FullGameStartedListener;
     }
 
 
@@ -115,6 +120,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowNotification(string text)
     {
+        print("NOTIF: " + text);
         notificationText.gameObject.SetActive(true);
         notificationTextTypewriter.ShowText(text);
         notificationFeel.PlayFeedbacks();
@@ -134,5 +140,33 @@ public class UIManager : MonoBehaviour
     void MetacurrencyUpdatedListener(double newMetacurrency)
     {
         metacurrencyText.text = Helpers.FormatWithSuffix(newMetacurrency);
+    }
+
+    void SceneChangedListener(string sceneName)
+    {
+        if (sceneName == "Overworld")
+        {
+            HideRunOnlyItems();
+        }
+
+        else
+        {
+            ShowRunOnlyItems();
+        }
+    }
+
+    public void HideRunOnlyItems()
+    {
+        runOnlyParent.SetActive(false);
+    }
+
+    public void ShowRunOnlyItems()
+    {
+        runOnlyParent.SetActive(true);
+    }
+
+    void FullGameStartedListener()
+    {
+        HideRunOnlyItems();
     }
 }

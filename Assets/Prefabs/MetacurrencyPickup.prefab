@@ -256,15 +256,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currencyValueText: {fileID: 8302019559000805203}
-  pickupVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+  currentValue: 0
+  pickupVFX: {fileID: 11400000, guid: 92cd6676791361f47b884242977f4a27, type: 2}
   pickupSFX:
     sfx:
       Guid:
-        Data1: -2073052138
-        Data2: 1146213397
-        Data3: -2020708975
-        Data4: 1962319494
-      Path: event:/RainbowHit
+        Data1: -388259375
+        Data2: 1081402945
+        Data3: -420787289
+        Data4: 939684103
+      Path: event:/Score1
     vol: 0.5
 --- !u!58 &2846085899910304936
 CircleCollider2D:

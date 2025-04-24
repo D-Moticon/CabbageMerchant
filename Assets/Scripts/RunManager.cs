@@ -8,11 +8,8 @@ public class RunManager : MonoBehaviour
 {
     public MapBlueprint startingMapBlueprint;
     [Header("Scene Names")]
-    public string startingSceneName = "MainMenuScene";
 
     public string runStartScene = "Map";
-    public string gameSceneName     = "GameScene";
-    public string shopSceneName     = "ShopScene";
     public string mapSceneName      = "Map";
 
     [Header("Parent Object Name")]
@@ -51,15 +48,22 @@ public class RunManager : MonoBehaviour
         
     }
 
+    public class RunEndParams
+    {
+        
+    }
+    
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
-    public static System.Action SceneChangedEvent;
+
+    public delegate void RunEndDelegate(RunEndParams rep);
+
+    public static event RunEndDelegate RunEndEvent;
     
-    void Start()
-    {
-        StartOverallGame();
-    }
+    
+    public delegate void StringDelegate(string s);
+    public static StringDelegate SceneChangedEvent;
 
     public void GoToMap()
     {
@@ -69,7 +73,7 @@ public class RunManager : MonoBehaviour
 
     public void GoToScene(string sceneName, MapPoint mapPoint = null)
     {
-        SceneChangedEvent?.Invoke();
+        SceneChangedEvent?.Invoke(sceneName);
         StartCoroutine(SlideToScene(sceneName, mapPoint));
     }
 
@@ -379,20 +383,14 @@ public class RunManager : MonoBehaviour
         }
         return null;
     }
-
-
-    public void StartOverallGame()
-    {
-        GoToSceneExclusive(startingSceneName);
-    }
     
-    public void StartNewRun()
+    public void StartNewRun(string startScene = "Map")
     {
         // Fire any listeners
         RunStartParams rsp = new RunStartParams();
         RunStartEvent?.Invoke(rsp);
-
-        GoToSceneExclusive(runStartScene);
+        
+        GoToSceneExclusive(startScene);
     }
 
     public void GoToSceneExclusive(string sceneName)
@@ -418,8 +416,10 @@ public class RunManager : MonoBehaviour
         currentSceneName   = null;
         currentSceneParent = null;
 
+        SceneChangedEvent?.Invoke(sceneName);
+        
         // 5) Finally, slide in the starting scene
-        if (!string.IsNullOrEmpty(startingSceneName))
+        if (!string.IsNullOrEmpty(sceneName))
             StartCoroutine(SlideToScene(sceneName));
     }
     
@@ -452,5 +452,19 @@ public class RunManager : MonoBehaviour
         if (currentSceneParent == null)
             Debug.LogWarning($"RunManager: Couldn't find '{parentObjectName}' in reloaded '{sceneName}'.");
         SceneManager.SetActiveScene(sc);
+    }
+
+    public void EndRun()
+    {
+        //StartCoroutine(EndRunRoutine());
+        Singleton.Instance.menuManager.ShowPanel("RunEnd");
+        RunEndParams rep = new RunEndParams();
+        RunEndEvent?.Invoke(rep);
+        GoToSceneExclusive("Overworld");
+    }
+
+    IEnumerator EndRunRoutine()
+    {
+        yield break;
     }
 }

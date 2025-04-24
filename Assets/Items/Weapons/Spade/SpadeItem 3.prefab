@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 8a86ae725553ee840822035da2823c2c, type: 3}
   itemType: 2
+  canBeForceTriggered: 0
   effects:
   - rid: 328110044618948712
   holofoilEffects:
   - rid: 328110044618948730
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110031350006017
   triggerChance: 1
@@ -75,6 +77,8 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 4464935079155661255, guid: f134aab2516578d4a9bc7670451d2dfb, type: 3}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -86,6 +90,7 @@ MonoBehaviour:
       type: {class: Weapon_Spade_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         boostSpeed: 25
         extraDescriptionInfo: 
         ballHitEffect:
@@ -116,6 +121,7 @@ MonoBehaviour:
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}
@@ -136,6 +142,7 @@ MonoBehaviour:
       type: {class: Weapon_Spade_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         boostSpeed: 25
         extraDescriptionInfo: 10% Chance to create rainbow cabbage
         ballHitEffect:
@@ -166,6 +173,7 @@ MonoBehaviour:
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         objectToSpawn: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}

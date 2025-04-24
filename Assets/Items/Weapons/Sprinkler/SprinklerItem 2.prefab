@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 8848022ab9e13464ca51428bc6f57d04, type: 3}
   itemType: 2
+  canBeForceTriggered: 0
   effects:
   - rid: 328110044618948962
   holofoilEffects:
   - rid: 328110044618948963
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110044618948964
   triggerChance: 1
@@ -75,6 +77,8 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -82,6 +86,7 @@ MonoBehaviour:
       type: {class: Weapon_Sprinkler_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         objectToSpawn: {fileID: 11400000, guid: c9ebe486a71bf304fa073574a11e86a9, type: 2}
         sprinklerSprite: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
         angularSpeed: 600
@@ -102,6 +107,7 @@ MonoBehaviour:
       type: {class: Weapon_Sprinkler_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
+        owningItem: {fileID: 0}
         objectToSpawn: {fileID: 11400000, guid: c9ebe486a71bf304fa073574a11e86a9, type: 2}
         sprinklerSprite: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
         angularSpeed: 600

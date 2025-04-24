@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7136680983288671046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1480610958605702925}
+  - component: {fileID: 5273499133406254909}
+  m_Layer: 0
+  m_Name: Portal_Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1480610958605702925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7136680983288671046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5273499133406254909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7136680983288671046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Portal
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 1c6bf5122225f3a4b9dbeef7a848e6d1, type: 3}
+  itemType: 2
+  canBeForceTriggered: 0
+  effects:
+  - rid: 328110207799132307
+  holofoilEffects:
+  - rid: 328110207799132326
+  holofoilEffectDescription: Portal lasts an extra 0.5s
+  triggers:
+  - rid: 328110207799132309
+  triggerChance: 1
+  hasCooldown: 1
+  cooldownDuration: 10
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 5273499133406254909, guid: 99241d4b558f48e4caaad26a8ba66c0a, type: 3}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110207799132307
+      type: {class: Weapon_Portal_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        portalPrefab: {fileID: 11400000, guid: 1f2e7214c1856b84b8db7e0d05f01076, type: 2}
+        portalY: 4.5
+        effectDuration: 1.5
+        bonkValue: 1
+    - rid: 328110207799132309
+      type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+    - rid: 328110207799132326
+      type: {class: Weapon_Portal_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        portalPrefab: {fileID: 11400000, guid: 1f2e7214c1856b84b8db7e0d05f01076, type: 2}
+        portalY: 4.5
+        effectDuration: 2
+        bonkValue: 1

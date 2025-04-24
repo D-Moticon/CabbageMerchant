@@ -33,7 +33,7 @@ public class PetManager : MonoBehaviour
     public List<PetDefinition> ownedPets = new List<PetDefinition>();
 
     // Internal list of live OverworldPet instances
-    private List<OverworldPet> overworldPets = new List<OverworldPet>();
+    [HideInInspector]public List<OverworldPet> overworldPets = new List<OverworldPet>();
 
     public delegate void PetDefListDelegate(List<PetDefinition> petDefs);
     public static event PetDefListDelegate OwnedPetsChangedEvent;
@@ -121,7 +121,7 @@ public class PetManager : MonoBehaviour
         }
 
         // Close the pet shop panel if open
-        Singleton.Instance.menuManager.HideAll();
+        //Singleton.Instance.menuManager.HideAll();
 
         // Notify listeners
         OwnedPetsChangedEvent?.Invoke(ownedPets);

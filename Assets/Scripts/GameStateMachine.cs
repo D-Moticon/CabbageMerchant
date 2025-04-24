@@ -517,7 +517,7 @@ public class GameStateMachine : MonoBehaviour
                 }
                 else
                 {
-                    Singleton.Instance.runManager.GoToSceneExclusive("Overworld");
+                    Singleton.Instance.runManager.EndRun();
                     yield break;
                 }
             }

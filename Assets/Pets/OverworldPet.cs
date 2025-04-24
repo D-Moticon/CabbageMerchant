@@ -1,10 +1,14 @@
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 /// <summary>
 /// Pet controller that follows or wanders around the player in a top-down overworld.
 /// Trails behind the character in the direction they last moved, uses a constant follow distance,
 /// swaps sprites/animations based on movement direction defined in the PetDefinition,
 /// stops moving when hovered, and implements IHoverable by delegating to its in-game item.
+/// Supports wander bounds, avoids overlapping other pets, and skips Default-layer colliders.
+/// Randomizes wander interval each move.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
 public class OverworldPet : MonoBehaviour, IHoverable
@@ -17,10 +21,20 @@ public class OverworldPet : MonoBehaviour, IHoverable
 
     [Header("Wander Settings")]
     [Tooltip("Radius around the player to pick random wander targets")] public float wanderRadius = 2f;
-    [Tooltip("Time between picking new wander targets")]      public float wanderInterval = 3f;
+    [Tooltip("Minimum time between moves")]
+    public float wanderIntervalMin = 1f;
+    [Tooltip("Maximum time between moves")]
+    public float wanderIntervalMax = 3f;
+
+    [Header("Wander Bounds")]
+    [Tooltip("Minimum X position allowed")] public float minX = -10f;
+    [Tooltip("Maximum X position allowed")] public float maxX = 10f;
+    [Tooltip("Minimum Y position allowed")] public float minY = -5f;
+    [Tooltip("Maximum Y position allowed")] public float maxY = 5f;
+    [Tooltip("Minimum allowed distance between pets")] public float minPetSeparation = 0.5f;
 
     [Header("Pet Definition")]
-    [Tooltip("ScriptableObject defining pet visuals and parameters")] public PetDefinition def;
+    [Tooltip("ScriptableObject defining pet visuals")] public PetDefinition def;
 
     // runtime state
     private Transform      player;
@@ -34,6 +48,8 @@ public class OverworldPet : MonoBehaviour, IHoverable
     private enum State { Follow, Wander, Stop }
     private State current;
 
+    public SpriteRenderer currentPetIndicator;
+    
     void Awake()
     {
         animator       = GetComponentInChildren<Animator>();
@@ -49,14 +65,14 @@ public class OverworldPet : MonoBehaviour, IHoverable
 
         current = State.Follow;
         targetPosition = player != null
-            ? player.position - followDir * followDistance
+            ? ClampToBounds(player.position - followDir * followDistance)
             : transform.position;
-        wanderTimer = wanderInterval;
+        // randomize initial timer
+        wanderTimer = Random.Range(wanderIntervalMin, wanderIntervalMax);
     }
 
     void OnEnable()
     {
-        // register this pet with the PetManager
         Singleton.Instance.petManager.RegisterOverworldPet(this);
     }
 
@@ -69,16 +85,14 @@ public class OverworldPet : MonoBehaviour, IHoverable
     {
         if (PauseManager.IsPaused())
         {
-            animator.StopPlayback();
             animator.SetBool("isWalking", false);
             return;
         }
-        
-        // update trailing direction based on player movement
+
         if (player != null)
         {
-            Vector3 currPos = player.position;
-            Vector3 delta   = currPos - lastPlayerPos;
+            var currPos = player.position;
+            var delta   = currPos - lastPlayerPos;
             if (delta.sqrMagnitude > 0.0001f)
             {
                 followDir     = delta.normalized;
@@ -86,22 +100,16 @@ public class OverworldPet : MonoBehaviour, IHoverable
             }
         }
 
-        // execute behavior based on state
-        if (current == State.Follow)
+        switch (current)
         {
-            Follow();
+            case State.Follow: Follow(); break;
+            case State.Wander: Wander(); break;
+            case State.Stop: break;
         }
-        else if (current == State.Wander)
-        {
-            Wander();
-        }
-        // Stop state: do nothing
 
-        // animation
         bool walking = (transform.position - targetPosition).sqrMagnitude > 0.1f && current != State.Stop;
         animator.SetBool("isWalking", walking);
 
-        // sprite direction
         UpdateSpriteDirection();
     }
 
@@ -109,13 +117,15 @@ public class OverworldPet : MonoBehaviour, IHoverable
     {
         current = State.Follow;
         if (player != null)
-            targetPosition = player.position - followDir * followDistance;
+            targetPosition = ClampToBounds(player.position - followDir * followDistance);
+        currentPetIndicator.enabled = true;
     }
 
     public void SetWander()
     {
         current = State.Wander;
         wanderTimer = 0f;
+        currentPetIndicator.enabled = false;
     }
 
     public void SetStop()
@@ -126,7 +136,7 @@ public class OverworldPet : MonoBehaviour, IHoverable
     private void Follow()
     {
         if (player == null) return;
-        targetPosition = player.position - followDir * followDistance;
+        targetPosition = ClampToBounds(player.position - followDir * followDistance);
         MoveTowardTarget();
     }
 
@@ -135,69 +145,97 @@ public class OverworldPet : MonoBehaviour, IHoverable
         wanderTimer -= Time.deltaTime;
         if (wanderTimer <= 0f && player != null)
         {
-            Vector2 rnd = Random.insideUnitCircle * wanderRadius;
-            targetPosition = player.position + new Vector3(rnd.x, rnd.y, 0f);
-            wanderTimer    = wanderInterval;
+            Vector3 candidate = Vector3.zero;
+            int attempts = 0;
+            do
+            {
+                var rnd = Random.insideUnitCircle * wanderRadius;
+                candidate = player.position + new Vector3(rnd.x, rnd.y, 0f);
+                candidate = ClampToBounds(candidate);
+                attempts++;
+                if (attempts > 10) break;
+            }
+            while (IsOverlappingOtherPets(candidate) || OverlapsDefaultLayer(candidate));
+
+            targetPosition = candidate;
+            // randomize next interval
+            wanderTimer = Random.Range(wanderIntervalMin, wanderIntervalMax);
         }
         MoveTowardTarget();
     }
 
     private void MoveTowardTarget()
     {
-        Vector3 diff = targetPosition - transform.position;
-        float   dist = diff.magnitude;
+        var diff = targetPosition - transform.position;
+        var dist = diff.magnitude;
         if (dist < 0.05f) return;
-        Vector3 dir  = diff.normalized;
-        float   step = speed * Time.deltaTime;
+        var dir  = diff.normalized;
+        var step = speed * Time.deltaTime;
         transform.position += (step < dist ? dir * step : diff);
     }
 
     private void UpdateSpriteDirection()
     {
-        Vector3 moveVec = targetPosition - transform.position;
-        if (moveVec.sqrMagnitude < 0.0001f) return;
-        float absX = Mathf.Abs(moveVec.x), absY = Mathf.Abs(moveVec.y);
-        if (absX > absY)
-            spriteRenderer.sprite = moveVec.x > 0 ? def.rightSprite : def.leftSprite;
+        var mv = targetPosition - transform.position;
+        if (mv.sqrMagnitude < 0.0001f) return;
+        var ax = Mathf.Abs(mv.x);
+        var ay = Mathf.Abs(mv.y);
+        if (ax > ay)
+            spriteRenderer.sprite = mv.x > 0 ? def.rightSprite : def.leftSprite;
         else
-            spriteRenderer.sprite = moveVec.y > 0 ? def.upSprite    : def.downSprite;
+            spriteRenderer.sprite = mv.y > 0 ? def.upSprite : def.downSprite;
     }
 
     void OnMouseDown()
     {
-        // click to set active pet
+        if (PauseManager.IsPaused())
+        {
+            return;
+        }
         Singleton.Instance.petManager.SetCurrentPet(def);
         SetFollow();
     }
 
-    void OnMouseEnter()
-    {
-        // immediately stop when hovered
-        SetStop();
-    }
-
+    void OnMouseEnter() => SetStop();
     void OnMouseExit()
     {
-        // resume follow if active pet, otherwise wander
         if (def == Singleton.Instance.petManager.currentPet)
             SetFollow();
         else
             SetWander();
     }
 
+    private Vector3 ClampToBounds(Vector3 pos)
+    {
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        return pos;
+    }
+
+    private bool IsOverlappingOtherPets(Vector3 candidate)
+    {
+        foreach (var other in Singleton.Instance.petManager.overworldPets)
+        {
+            if (other == this) continue;
+            if (Vector3.Distance(candidate, other.transform.position) < minPetSeparation)
+                return true;
+        }
+        return false;
+    }
+
+    private bool OverlapsDefaultLayer(Vector3 candidate)
+    {
+        var radius = minPetSeparation;
+        int mask = 1 << LayerMask.NameToLayer("Default");
+        return Physics2D.OverlapCircle(candidate, radius, mask) != null;
+    }
+
     //=============== IHoverable ===============
-    public string GetTitleText(HoverableModifier mod = null)
-        => def.itemPrefab.GetTitleText(mod);
-    public string GetDescriptionText(HoverableModifier mod = null)
-        => def.itemPrefab.GetDescriptionText(mod);
-    public string GetTypeText(HoverableModifier mod = null)
-        => def.itemPrefab.GetTypeText(mod);
-    public string GetRarityText()
-        => def.itemPrefab.GetRarityText();
-    public string GetTriggerText()
-        => def.itemPrefab.GetTriggerText();
-    public Sprite GetImage()
-        => def.itemPrefab.GetImage();
-    public string GetValueText()
-        => def.itemPrefab.GetValueText();
+    public string GetTitleText(HoverableModifier mod = null) => def.itemPrefab.GetTitleText(mod);
+    public string GetDescriptionText(HoverableModifier mod = null) => def.itemPrefab.GetDescriptionText(mod);
+    public string GetTypeText(HoverableModifier mod = null) => def.itemPrefab.GetTypeText(mod);
+    public string GetRarityText() => def.itemPrefab.GetRarityText();
+    public string GetTriggerText() => def.itemPrefab.GetTriggerText();
+    public Sprite GetImage() => def.itemPrefab.GetImage();
+    public string GetValueText() => def.itemPrefab.GetValueText();
 }
