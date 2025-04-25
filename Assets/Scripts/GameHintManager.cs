@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using Febucci.UI;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.Serialization;
 
 public class GameHintManager : MonoBehaviour
 {
@@ -16,6 +19,9 @@ public class GameHintManager : MonoBehaviour
     [TextArea] public string needToDragItemsHint;
     [TextArea] public string cantAffordItemHint;
     [TextArea] public string keyHint;
+    [TextArea] public string itemMergeHint;
+    [FormerlySerializedAs("mergeCabbageHint")] [TextArea] public string cabbageMergeHint;
+    private bool cabbageMergeHintGiven = false;
     public int maxNeedToDragItemsFires = 5;
     private int needToDragItemsCounter = 0;
 
@@ -32,7 +38,8 @@ public class GameHintManager : MonoBehaviour
     private string queuedHint;
 
     private bool keyHintGiven = false;
-
+    private bool playerHasMergedItemsBefore = false;
+    
     private void OnEnable()
     {
         Item.WeaponTriggeredEvent += WeaponTriggeredListener;
@@ -44,6 +51,9 @@ public class GameHintManager : MonoBehaviour
         bubbleCanvasGroup.alpha = 0f;
         Key.KeyCollectedEvent += KeyCollectedListener;
         RunManager.SceneChangedEvent += SceneChangedListener;
+        ItemManager.ItemsMergedEvent += ItemsMergedListener;
+        ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
+        Cabbage.CabbageMergedEvent += CabbageMergedListener;
     }
 
     private void OnDisable()
@@ -56,6 +66,9 @@ public class GameHintManager : MonoBehaviour
         ItemManager.ItemClickedEvent -= ItemClickedListener;
         Key.KeyCollectedEvent -= KeyCollectedListener;
         RunManager.SceneChangedEvent -= SceneChangedListener;
+        ItemManager.ItemsMergedEvent -= ItemsMergedListener;
+        ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
+        Cabbage.CabbageMergedEvent -= CabbageMergedListener;
     }
 
     private void WeaponTriggeredListener(Item item)
@@ -251,5 +264,41 @@ public class GameHintManager : MonoBehaviour
     void SceneChangedListener(string s)
     {
         StartCoroutine(FadeOutBubble());
+    }
+
+    void ItemsMergedListener(Item itemA, Item itemB)
+    {
+        playerHasMergedItemsBefore = true;
+    }
+
+    void ItemPurchasedListener(Item item)
+    {
+        if (playerHasMergedItemsBefore)
+        {
+            return;
+        }
+
+        List<Item> ownedItems = Singleton.Instance.itemManager.GetItemsInInventory();
+        
+        bool hasDupes = ownedItems
+            .GroupBy(i => i.itemName)
+            .Any(g => g.Count() > 1);
+
+        if (hasDupes)
+        {
+            GiveHint(itemMergeHint);
+        }
+    }
+
+    void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
+    {
+        if (cabbageMergeHintGiven)
+        {
+            return;
+        }
+
+        cabbageMergeHintGiven = true;
+        
+        QueueHintUntilBouncingDone(cabbageMergeHint);
     }
 }

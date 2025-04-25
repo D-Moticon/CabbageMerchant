@@ -127,6 +127,7 @@ MonoBehaviour:
           playSFX: 1
         itemPool:
         - {fileID: 1475160629080221019, guid: 37242e26bbc104a4fb384a75d2a75e20, type: 3}
+        - {fileID: 2295320855855764854, guid: 72de7b2604cf2944f86acac9defd0385, type: 3}
 --- !u!1 &582811567158304131
 GameObject:
   m_ObjectHideFlags: 0

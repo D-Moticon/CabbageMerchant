@@ -54,6 +54,9 @@ public class SpawnRBItemEffect : ItemEffect
     [ShowIf("@velocityDirection == VelocityDirection.WorldDirection")]
     public Vector2 worldVelocityDirection = new Vector2(0f,1f);
 
+    public bool makeRainbowBonker = false;
+    public float rainbowConvertChance = 0.05f;
+
     public override void TriggerItemEffect(TriggerContext tc)
     {
         // Use the trigger context values:
@@ -148,6 +151,12 @@ public class SpawnRBItemEffect : ItemEffect
                 col.enabled = false;
                 GameSingleton.Instance.StartCoroutine(ReenableCollider(col, colliderDisableDuration));
             }
+
+            if (makeRainbowBonker)
+            {
+                Bonker bonker = rb.GetComponent<Bonker>();
+                bonker.SetBonkerRainbow(rainbowConvertChance);
+            }
         }
 
         if (spawnVFX != null)
@@ -165,8 +174,16 @@ public class SpawnRBItemEffect : ItemEffect
     public override string GetDescription()
     {
         string plural = quantity > 1 ? "s" : "";
+        string rainbow = "";
+        string rainbowSuffix = "";
+        if (makeRainbowBonker)
+        {
+            rainbow = " <rainb>Rainbow</rainb>";
+            rainbowSuffix =
+                $"and have a {Helpers.ToPercentageString(rainbowConvertChance)} chance to turn cabbage <rainb>rainbow</rainb>";
+        }
         string desc = string.IsNullOrEmpty(objectDescription) ? "" : $"that {objectDescription}";
-        return $"Spawn {quantity} {objectName}{plural} {desc}";
+        return $"Spawn {quantity}{rainbow} {objectName}{plural} {desc} {rainbowSuffix}";
     }
     
     private IEnumerator ReenableCollider(Collider2D col, float delay)

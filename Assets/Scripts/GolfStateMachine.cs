@@ -16,7 +16,7 @@ public class GolfStateMachine : MonoBehaviour
 
     const float velocityThreshold = 1f;
     const float requiredTimeBelow = 2.5f;
-    private const float maxTime = 17f;
+    private const float maxTime = 15f;
 
     public List<GameObject> variants;
     [SerializeReference]
@@ -55,7 +55,6 @@ public class GolfStateMachine : MonoBehaviour
 
         int currentVar = 0;
         EnableVariant(shuffledVars, currentVar);
-        launcher = shuffledVars[currentVar].GetComponentInChildren<Launcher>();
         
         while (ballsRemaining > 0)
         {
@@ -147,6 +146,7 @@ public class GolfStateMachine : MonoBehaviour
             {
                 varGOs[i].gameObject.SetActive(true);
                 GolfHole gHole = varGOs[i].GetComponentInChildren<GolfHole>();
+                launcher = varGOs[i].GetComponentInChildren<Launcher>();
                 int randPrize = Random.Range(0, prizes.Count);
                 gHole.SetPrize(prizes[randPrize]);
             }

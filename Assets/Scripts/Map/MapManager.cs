@@ -16,6 +16,7 @@ public class MapManager : MonoBehaviour
     [Header("Scrolling Settings")]
     public float scrollDuration = 1.0f;
     public float yOffset = -3f;
+    public float initialCharacterYOffset = -1f;
 
     private void Start()
     {
@@ -29,13 +30,33 @@ public class MapManager : MonoBehaviour
 
         if (map.layers.Count > 0 && map.layers[0].mapIcons.Count > 0)
         {
-            mapCharacter = Instantiate(mapCharacterPrefab, map.layers[0].mapIcons[0].transform.position, Quaternion.identity, map.transform);
+            // we only want to offset when we're at layer 0
+            bool applyOffset = Singleton.Instance.playerStats.currentMapLayer == 0;
+
+            // grab that icon’s world position
+            Vector3 iconWorldPos = map.layers[0].mapIcons[0].transform.position;
+
+            // apply a downward offset (in world‐space) if it’s the first layer
+            if (applyOffset)
+                iconWorldPos += Vector3.up * initialCharacterYOffset;
+
+            // instantiate under the map so localPosition is relative to it
+            mapCharacter = Instantiate(
+                mapCharacterPrefab,
+                iconWorldPos,
+                Quaternion.identity,
+                map.transform
+            );
         }
     }
 
     public void MoveToNextLayer()
     {
-        if (Singleton.Instance.playerStats.currentMapLayer >= map.layers.Count - 1) return;
+        if (Singleton.Instance.playerStats.currentMapLayer >= map.layers.Count - 1)
+        {
+            Singleton.Instance.runManager.FinishRun(true);
+            return;
+        }
 
         Singleton.Instance.playerStats.currentMapLayer++;
         UpdateLayerStates();

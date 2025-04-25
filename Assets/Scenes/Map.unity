@@ -170,6 +170,7 @@ MonoBehaviour:
   disabledColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.9490196}
   scrollDuration: 1
   yOffset: -1.5
+  initialCharacterYOffset: -2.5
 --- !u!1 &1100633564
 GameObject:
   m_ObjectHideFlags: 0

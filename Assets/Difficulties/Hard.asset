@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: Hard
   m_EditorClassIdentifier: 
   displayName: Hard
+  firstRoundGoal: 15
+  goalBase: 1.5
+  goalPower: 2
+  metacurrencyBase: 0.5
+  metacurrencyPower: 1.75

@@ -13,6 +13,8 @@ public class SaveManager : MonoBehaviour
     private string saveFilePath;
     private SaveData data;
 
+    public static event System.Action DataLoadedEvent;
+    
     void Awake()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "save.json");
@@ -34,12 +36,14 @@ public class SaveManager : MonoBehaviour
         {
             data = new SaveData();
         }
+        
+        DataLoadedEvent?.Invoke();
     }
 
     /// <summary>
     /// Write the internal SaveData as pretty JSON to disk.
     /// </summary>
-    private void SaveToDisk()
+    public void SaveToDisk()
     {
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, json);

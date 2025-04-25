@@ -17,7 +17,6 @@ public class DialogueLine : DialogueTask
 
     public override IEnumerator RunTask(DialogueContext dc)
     {
-        Debug.Log(dc.dialogueBox);
         if (centerText)
         {
             dc.dialogueBox.dialogueTextAnimator.TMProComponent.alignment = TextAlignmentOptions.Center;

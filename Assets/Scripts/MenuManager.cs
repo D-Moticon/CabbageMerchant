@@ -1,4 +1,6 @@
 // MenuManager.cs
+
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,16 @@ public class MenuManager : MonoBehaviour
     // history stack for Back() behavior
     private Stack<MenuPanel> history = new Stack<MenuPanel>();
 
+    private void OnEnable()
+    {
+        RunManager.RunStartEvent += RunStartedListener;
+    }
+
+    private void OnDisable()
+    {
+        RunManager.RunStartEvent -= RunStartedListener;
+    }
+
     void Awake()
     {
         panelsByName = allPanels.ToDictionary(p => p.gameObject.name, p => p);
@@ -21,6 +33,8 @@ public class MenuManager : MonoBehaviour
         foreach (var panel in allPanels)
             panel.OnHide();
         ShowPanel(firstPanelName);
+
+        
     }
 
     /// <summary>
@@ -45,6 +59,11 @@ public class MenuManager : MonoBehaviour
 
         // pause the game any time at least one panel is open
         Singleton.Instance.pauseManager.SetPaused(true);
+    }
+
+    public void ShowPanel(string panelName)
+    {
+        ShowPanel(panelName, true);
     }
 
     /// <summary>
@@ -85,5 +104,10 @@ public class MenuManager : MonoBehaviour
         }
         // clear everything → unpause
         Singleton.Instance.pauseManager.SetPaused(false);
+    }
+
+    void RunStartedListener(RunManager.RunStartParams rsp)
+    {
+        HideAll();
     }
 }

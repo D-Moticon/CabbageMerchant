@@ -20390,6 +20390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6234937145169336611}
   holofoilMaterial: {fileID: 2100000, guid: 6ac5ec1694f2d4a46acb45360a763f2f, type: 2}
+  petMaterial: {fileID: 2100000, guid: 9934c98075aabbd49a0c6c77a51dd67a, type: 2}
   item: {fileID: 0}
   triggerFeel: {fileID: 3734253909560782542}
   purchaseVFX: {fileID: 6686050707894789316}

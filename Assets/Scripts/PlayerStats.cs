@@ -5,7 +5,6 @@ using UnityEngine.Serialization;
 public class PlayerStats : MonoBehaviour
 {
     public double startingCoins = 0;
-    public double startingMetacurrency = 0;
 
     [HideInInspector]public RunStats currentRunStats;
     
@@ -37,6 +36,10 @@ public class PlayerStats : MonoBehaviour
     public float startingKeyChance = 0.25f;
     [HideInInspector]public float keyChance = 0.25f;
     [HideInInspector] public int currentMapLayer = 0;
+    [HideInInspector] public double firstRoundGoal = 10;
+    [HideInInspector] public float goalBase = 1;
+    [HideInInspector] public float goalPower = 1;
+    public Difficulty currentDifficulty;
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -44,6 +47,7 @@ public class PlayerStats : MonoBehaviour
     public delegate void IntEvent(int value);
     public static event IntEvent LivesUpdated;
     public static Action LifeLostEvent;
+    public static Action LifeGainedEvent;
     public static event IntEvent KeysUpdatedEvent;
     public static event DoubleEvent MetacurrencyUpdatedEvent;
     
@@ -51,6 +55,8 @@ public class PlayerStats : MonoBehaviour
     {
         RunManager.RunStartEvent += StartRunListener;
         Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
+        MapGenerator.MapGeneratedEvent += MapGeneratedListener;
+        SaveManager.DataLoadedEvent += SaveDataLoadedListener;
         GetMetacurrencyFromSave();
     }
 
@@ -58,6 +64,8 @@ public class PlayerStats : MonoBehaviour
     {
         RunManager.RunStartEvent -= StartRunListener;
         Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
+        MapGenerator.MapGeneratedEvent -= MapGeneratedListener;
+        SaveManager.DataLoadedEvent -= SaveDataLoadedListener;
     }
 
     void GetMetacurrencyFromSave()
@@ -166,6 +174,7 @@ public class PlayerStats : MonoBehaviour
     {
         lives += livesToAdd;
         LivesUpdated?.Invoke(lives);
+        LifeGainedEvent?.Invoke();
     }
 
     public void RemoveLife()
@@ -204,5 +213,16 @@ public class PlayerStats : MonoBehaviour
     {
         currentRunStats.totalBonks += bonkParams.bonkValue;
     }
-    
+
+    void MapGeneratedListener(Map map, MapBlueprint blueprint)
+    {
+        firstRoundGoal = currentDifficulty.firstRoundGoal;
+        goalBase = currentDifficulty.goalBase;
+        goalPower = currentDifficulty.goalPower;
+    }
+
+    void SaveDataLoadedListener()
+    {
+        GetMetacurrencyFromSave();
+    }
 }

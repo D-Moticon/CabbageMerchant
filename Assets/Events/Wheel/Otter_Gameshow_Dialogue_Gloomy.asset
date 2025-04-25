@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: Otter_Gameshow_Dialogue_Gloomy
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110079628279916
+  - rid: 328110079628279917
+  - rid: 328110079628279918
+  - rid: 328110079628279928
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110079628279916
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
+        dialogueLine: From the grave...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279917
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
+        dialogueLine: To the GAME!!!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279918
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
+        dialogueLine: I'm DEAD set on seeing how our next contestant fares on <wave
+          a=.5>THE SPOOK ZONE!!</wave>
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279928
+      type: {class: ChoiceDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        choices:
+        - rid: 328110079628279929
+        - rid: 328110079628279930
+    - rid: 328110079628279929
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: Let's Spin!
+        dialogueTasks:
+        - rid: 328110079628280028
+        - rid: 328110079628280030
+        - rid: 328110079628279937
+        - rid: 328110079628280010
+        - rid: 328110079628280012
+        dialogueButton: {fileID: 0}
+        conditions: []
+        cost: 0
+        conditionsNotMetLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: 
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+    - rid: 328110079628279930
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: No Thanks...
+        dialogueTasks:
+        - rid: 328110079628279931
+        dialogueButton: {fileID: 0}
+        conditions: []
+        cost: 0
+        conditionsNotMetLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: 
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+    - rid: 328110079628279931
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
+        dialogueLine: It's every host's worst nightmare!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628279937
+      type: {class: SpinWheelDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        wheelSpinnerPrefab: {fileID: 3112246484142189688, guid: 60ba69216fb35ed438382eac0de82c18, type: 3}
+    - rid: 328110079628280010
+      type: {class: FadeCharacterTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 1
+        duration: 1
+    - rid: 328110079628280012
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
+        dialogueLine: And that's it for this afterlife, folks! We'll see you next
+          time, on <wave a=.5>THE SPOOK ZONE!</wave>
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110079628280028
+      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 1
+    - rid: 328110079628280030
+      type: {class: FadeCharacterTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 0.01

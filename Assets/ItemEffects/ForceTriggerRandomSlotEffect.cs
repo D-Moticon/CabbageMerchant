@@ -10,10 +10,15 @@ public class ForceTriggerRandomSlotEffect : ItemEffect
     {
         int rand = Random.Range(randomSlotRange.x, randomSlotRange.y);
         ItemSlot itemSlot = Singleton.Instance.itemManager.itemSlots[rand];
+
+        if (itemSlot == null || owningItem == null)
+        {
+            return;
+        }
         
         if (tracer != null)
         {
-            Tracer.SpawnTracer(tracer, owningItem.transform.position, itemSlot.transform.position, 0.3f, 1f, this.owningItem.icon, Color.white);
+            Tracer.SpawnTracer(tracer, owningItem.transform.position, itemSlot.transform.position, 0.3f, 1f, owningItem.icon, Color.white);
         }
 
         if (itemSlot.currentItem != null && itemSlot.currentItem.itemType == Item.ItemType.Item && itemSlot.currentItem != owningItem)

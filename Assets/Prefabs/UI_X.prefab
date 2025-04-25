@@ -574,5 +574,5 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 5, y: 5, z: 5}
-        BumpScaleMax: {x: 10, y: 10, z: 10}
+        BumpScaleMin: {x: 1, y: 1, z: 1}
+        BumpScaleMax: {x: 2, y: 2, z: 2}

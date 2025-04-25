@@ -18,6 +18,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     }
 
     [Header("References")]
+    public PooledObjectData pooledObjectReference;
     public Rigidbody2D rb;
     public Collider2D col;
     public SpriteRenderer sr;
@@ -68,10 +69,14 @@ public class Cabbage : MonoBehaviour, IBonkable
     [HideInInspector] public bool isStolen = false;
 
     [Header("Scoring")]
-    public double basePointsPerSize = 1;
-    [HideInInspector]public double currentPointsPerSize = 1;
-    public float pointMultPerColor = 1.5f;
-    [HideInInspector]public double points;
+    public double baseBonkMultiplier = 1;
+    [HideInInspector]public double bonkMultiplier = 1;
+    [HideInInspector]public double points = 0;
+    public float bonkMultPerColor = 1.5f;
+    public TMP_Text pointMultText;
+
+    [Header("Merging")]
+    public bool forceThisTypeOnMerge = false;
 
     [System.Serializable]
     public class ScoringInfo
@@ -111,11 +116,13 @@ public class Cabbage : MonoBehaviour, IBonkable
     public delegate void CabbageMergedDelegate(CabbageMergedParams cpp);
 
     public static event CabbageMergedDelegate CabbageMergedEvent;
+    bool isHarvesting = false;
     
     private void OnEnable()
     {
         spawnSFX.Play();
-        currentPointsPerSize = basePointsPerSize;
+        points = 0;
+        bonkMultiplier = baseBonkMultiplier;
     }
 
     void Start()
@@ -125,17 +132,23 @@ public class Cabbage : MonoBehaviour, IBonkable
 
         UpdateSizeLevel();
         UpdateColorLevel();
-        UpdatePoints();
+        UpdateBonkValueDisplay();
         wallLayerMask = LayerMask.NameToLayer("Wall");
     }
 
     void Update()
     {
+        UpdateBonkValueDisplay();
         CheckForOverlaps();
     }
 
     void CheckForOverlaps()
     {
+        if (isHarvesting)
+        {
+            return;
+        }
+        
         float rad = GetComponent<CircleCollider2D>().radius * transform.localScale.x;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, rad);
         foreach (Collider2D col in colliders)
@@ -164,8 +177,8 @@ public class Cabbage : MonoBehaviour, IBonkable
         float intensity = 1f / sca;
         bonkFeel.PlayFeedbacks(transform.position, intensity);
         pointsTextFeel.PlayFeedbacks(transform.position, intensity);
-        
-        UpdatePoints();
+
+        points += (bp.bonkValue * bonkMultiplier);
         
         bp.bonkedCabbage = this;
         bp.bonkable = this;
@@ -208,6 +221,16 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     }
 
+    public void Harvest()
+    {
+        //OLD
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        bonkFeel.PlayFeedbacks(transform.position, 2f, false);
+        rb.angularVelocity = Random.Range(-400f, 400f);
+        gameObject.layer = LayerMask.NameToLayer("Water");
+        isHarvesting = true;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.layer == wallLayerMask)
@@ -216,19 +239,25 @@ public class Cabbage : MonoBehaviour, IBonkable
         }
     }
 
-    private void OnCollisionStay(Collision other)
+    void UpdateBonkValueDisplay()
     {
-        
-    }
-
-    void UpdatePoints()
-    {
-        points = sizeLevel * currentPointsPerSize * (1 + pointMultPerColor * colorLevel);
         pointsText.text = Helpers.FormatWithSuffix(points);
+        if (pointMultText != null)
+        {
+            if (bonkMultiplier > 1.1)
+            {
+                pointMultText.text = $"<size=17>x</size>{bonkMultiplier:F1}";
+            }
+            else
+            {
+                pointMultText.text = "";
+            }
+        }
     }
     
     void Merge(Cabbage otherCabbage)
     {
+        if (isHarvesting || otherCabbage.isHarvesting) return;   
         if (isMerging || otherCabbage.isMerging) return;
         if (!col.enabled || !otherCabbage.col.enabled)
         {
@@ -242,11 +271,18 @@ public class Cabbage : MonoBehaviour, IBonkable
         int newColorLevel = Mathf.Min(Mathf.Max(colorLevel, otherCabbage.colorLevel) + 1, maxColorLevel);
         float newSizeLevel = Mathf.Min(Mathf.Max(sizeLevel, otherCabbage.sizeLevel) + 1, maxSizeLevel);
 
-        Cabbage c = GameSingleton.Instance.currentBiomeParent
-            .cabbagePooledObject.Spawn(pos, Quaternion.identity)
+        PooledObjectData objToSpawn = pooledObjectReference;
+        if (otherCabbage.forceThisTypeOnMerge)
+        {
+            objToSpawn = otherCabbage.pooledObjectReference;
+        }
+        
+        Cabbage c = objToSpawn.Spawn(pos, Quaternion.identity)
             .GetComponent<Cabbage>();
 
         c.colorLevel = newColorLevel;
+        c.points = otherCabbage.points + points;
+        c.bonkMultiplier = c.baseBonkMultiplier + c.colorLevel * bonkMultPerColor;
         c.sizeLevel = newSizeLevel;
         c.UpdateColorLevel();
         c.UpdateSizeLevel();
@@ -255,7 +291,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         c.popSFX.Play(pos);
         c.popFeel.PlayFeedbacks();
         c.pointsTextFeel.PlayFeedbacks();
-        c.UpdatePoints();
+        c.UpdateBonkValueDisplay();
         
         GameSingleton.Instance.gameStateMachine.AddActiveCabbage(c);
 
@@ -301,7 +337,7 @@ public class Cabbage : MonoBehaviour, IBonkable
 
         float newHue = Mathf.Min(colorLevel * huePerLevel, maxHue);
         mpb.SetFloat("_Hue", newHue);
-
+        
         sr.SetPropertyBlock(mpb);
     }
 
@@ -401,11 +437,12 @@ public class Cabbage : MonoBehaviour, IBonkable
 
         currentVariantType = CabbageVariantType.none;
         sr.material = baseMaterial;
-        currentPointsPerSize = basePointsPerSize;
+        points = 0;
+        bonkMultiplier = 1;
     }
 
-    public void AddPointsPerSize(double pointAdd)
+    public void AddBonkMultiplier(double multAdd)
     {
-        currentPointsPerSize += pointAdd;
+        bonkMultiplier += multAdd;
     }
 }

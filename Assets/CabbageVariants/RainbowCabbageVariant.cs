@@ -6,6 +6,6 @@ public class RainbowCabbageVariant : CabbageVariant
     {
         base.Initialize(cabbage);
         
-        cabbage.AddPointsPerSize(1);
+        cabbage.AddBonkMultiplier(1);
     }
 }

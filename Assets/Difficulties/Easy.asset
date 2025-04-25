@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   displayName: Easy
+  firstRoundGoal: 10
+  goalBase: 1.1
+  goalPower: 1.5
+  metacurrencyBase: 0.2
+  metacurrencyPower: 1

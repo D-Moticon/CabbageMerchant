@@ -22,8 +22,13 @@ public class PetButton : MonoBehaviour, IHoverable
     [Tooltip("Visual indicator when this pet is currently selected")] 
     public Image selectedImage;
 
+    public Sprite unownedSprite;
+
     [Tooltip("Button component")] 
     public Button button;
+
+    public Color unOwnedColor = Color.black;
+    public Color ownedColor = Color.white;
 
     void Awake()
     {
@@ -86,14 +91,12 @@ public class PetButton : MonoBehaviour, IHoverable
 
         // cost text
         if (costText != null)
-            costText.text = owned ? "Owned" : petDefinition.cost.ToString();
+            costText.text = owned ? "Owned" : $"<sprite index=0/>{petDefinition.cost.ToString()}";
 
         // icon transparency
         if (iconImage != null)
         {
-            var color = iconImage.color;
-            color.a = owned ? 1f : 0.75f;
-            iconImage.color = color;
+            iconImage.color = owned? ownedColor : unOwnedColor;
         }
 
         // selected indicator
@@ -106,17 +109,17 @@ public class PetButton : MonoBehaviour, IHoverable
 
     //=============== IHoverable ===============
     public string GetTitleText(HoverableModifier mod = null)
-        => petDefinition.itemPrefab.GetTitleText(mod);
+        => Singleton.Instance.petManager.ownedPets.Contains(petDefinition)? petDefinition.itemPrefab.GetTitleText(mod) : "???";
     public string GetDescriptionText(HoverableModifier mod = null)
-        => petDefinition.itemPrefab.GetDescriptionText(mod);
+        => Singleton.Instance.petManager.ownedPets.Contains(petDefinition)? petDefinition.itemPrefab.GetDescriptionText(mod) : "???";
     public string GetTypeText(HoverableModifier mod = null)
         => petDefinition.itemPrefab.GetTypeText(mod);
     public string GetRarityText()
-        => petDefinition.itemPrefab.GetRarityText();
+        => "";
     public string GetTriggerText()
-        => petDefinition.itemPrefab.GetTriggerText();
+        => Singleton.Instance.petManager.ownedPets.Contains(petDefinition)? petDefinition.itemPrefab.GetTriggerText() : "???";
     public Sprite GetImage()
-        => petDefinition.itemPrefab.GetImage();
+        => Singleton.Instance.petManager.ownedPets.Contains(petDefinition)? petDefinition.itemPrefab.GetImage() : unownedSprite;
     public string GetValueText()
-        => petDefinition.itemPrefab.GetValueText();
+        => "";
 }

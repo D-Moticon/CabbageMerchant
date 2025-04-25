@@ -7,6 +7,7 @@ public class ItemWrapper : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public Material holofoilMaterial;
+    public Material petMaterial;
     [HideInInspector]public Item item;
     public MMF_Player triggerFeel;
     public ParticleSystem purchaseVFX;
@@ -57,6 +58,11 @@ public class ItemWrapper : MonoBehaviour
         else
         {
             cooldownSlider.gameObject.SetActive(false);
+        }
+
+        if (item.itemType == Item.ItemType.Pet)
+        {
+            spriteRenderer.material = petMaterial;
         }
     }
     

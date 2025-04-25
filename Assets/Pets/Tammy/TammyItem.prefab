@@ -91,4 +91,4 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         replacementObject: {fileID: 11400000, guid: d9c452cf7836b5244974a9707db72289, type: 2}
-        objectDescriptionString: a yarn ball that gives triple points when bonked
+        objectDescriptionString: a yarn ball with 3x base bonk multiplier

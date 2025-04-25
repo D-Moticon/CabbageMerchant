@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
     public Collider2D col;
     public SpriteRenderer sr;
     public TrailRenderer tr;
+    public float baseBonkValue = 1f;
     public float bonkValue = 1f;
     public TMP_Text bonkValueText;
     public string bonkValueMaterialProp;
@@ -49,7 +50,7 @@ public class Ball : MonoBehaviour
     {
         //GameSingleton.Instance.gameStateMachine.AddActiveBall(this);
         BallEnabledEvent?.Invoke(this);
-        bonkValue = 1f;
+        bonkValue = baseBonkValue;
         bonkValueText.text = Helpers.FormatWithSuffix(bonkValue);
         bonkValueText.enabled = false;
         SetBonkValueMatProp();
@@ -67,7 +68,7 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if (!Singleton.Instance.boardMetrics.IsObjectInPlayBounds(this.gameObject))
+        if (!Singleton.Instance.boundsManager.IsObjectInPlayBounds(this.gameObject))
         {
             KillBall();
         }

@@ -1,19 +1,24 @@
 using System;
 using UnityEngine;
 using TMPro;
+using Febucci.UI;
 
 public class RunEndPanel : MenuPanel
 {
+    public TypewriterByCharacter runResultTypewriter;
     public TMP_Text totalBonksText;
 
+    public string runSuccessfulText;
+    public string runFailedText;
+    
     private void OnEnable()
     {
-        RunManager.RunEndEvent += RunEndListener;
+        RunManager.RunFinishedEvent += RunFinishedListener;
     }
 
     private void OnDisable()
     {
-        RunManager.RunEndEvent -= RunEndListener;
+        RunManager.RunFinishedEvent -= RunFinishedListener;
     }
 
     public void ShowRunStats(RunStats stats)
@@ -21,8 +26,18 @@ public class RunEndPanel : MenuPanel
         totalBonksText.text = $"Cabbages Bonked: {Helpers.FormatWithSuffix(stats.totalBonks)}";
     }
 
-    void RunEndListener(RunManager.RunEndParams rep)
+    void RunFinishedListener(RunManager.RunCompleteParams rep)
     {
+        if (rep.success)
+        {
+            runResultTypewriter.ShowText(runSuccessfulText);
+        }
+
+        else
+        {
+            runResultTypewriter.ShowText(runFailedText);
+        }
+        
         ShowRunStats(Singleton.Instance.playerStats.currentRunStats);
     }
 }

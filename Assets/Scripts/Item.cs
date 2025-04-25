@@ -84,6 +84,12 @@ public class Item : MonoBehaviour, IHoverable
             itemEffect.owningItem = this;
             itemEffect.InitializeItemEffect();
         }
+        
+        foreach (ItemEffect itemEffect in holofoilEffects)
+        {
+            itemEffect.owningItem = this;
+            itemEffect.InitializeItemEffect();
+        }
 
         GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
     }
@@ -146,6 +152,7 @@ public class Item : MonoBehaviour, IHoverable
         {
             itemWrapper = GetComponentInParent<ItemWrapper>();
         }
+
         itemWrapper.triggerFeel.PlayFeedbacks();
 
         if (isHolofoil)

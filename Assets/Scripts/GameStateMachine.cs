@@ -292,9 +292,9 @@ public class GameStateMachine : MonoBehaviour
     public void SetRoundGoal()
     {
         int mapLayer = Singleton.Instance.playerStats.currentMapLayer;
-        double firstRoundGoal = MapSingleton.Instance.mapManager.currentMapBlueprint.firstRoundGoal;
-        float goalBase = MapSingleton.Instance.mapManager.currentMapBlueprint.goalBase;
-        float goalPower = MapSingleton.Instance.mapManager.currentMapBlueprint.goalPower;
+        double firstRoundGoal = Singleton.Instance.playerStats.firstRoundGoal;
+        float goalBase = Singleton.Instance.playerStats.goalBase;
+        float goalPower = Singleton.Instance.playerStats.goalPower;
 
         roundGoal = firstRoundGoal + goalBase * Mathf.Pow(mapLayer, goalPower);
 
@@ -392,6 +392,10 @@ public class GameStateMachine : MonoBehaviour
 
         public override void UpdateState()
         {
+            if (PauseManager.IsPaused())
+            {
+                return;
+            }
             if (playerInputManager.fireDown)
             {
                 Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
@@ -517,7 +521,7 @@ public class GameStateMachine : MonoBehaviour
                 }
                 else
                 {
-                    Singleton.Instance.runManager.EndRun();
+                    Singleton.Instance.runManager.FinishRun(false);
                     yield break;
                 }
             }
@@ -543,7 +547,8 @@ public class GameStateMachine : MonoBehaviour
                         cabbages[i].transform.position,
                         col,
                         cabbages[i].transform.localScale.x);
-                    cabbages[i].gameObject.SetActive(false);
+                    //cabbages[i].gameObject.SetActive(false);
+                    cabbages[i].Harvest();
                     yield return new WaitForSeconds(0.05f);
                 
                 }

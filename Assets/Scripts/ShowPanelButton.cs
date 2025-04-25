@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,7 @@ public class ShowPanelButton : MonoBehaviour
         _button.onClick.RemoveListener(OnShowClicked);
     }
 
-    private void OnShowClicked()
+    private void OnMouseDown()
     {
         if (string.IsNullOrEmpty(panelName))
         {
@@ -36,5 +37,17 @@ public class ShowPanelButton : MonoBehaviour
 
         // Delegate to MenuManager to show the requested panel
         Singleton.Instance.menuManager.ShowPanel(panelName, pushHistory);
+    }
+
+    private void OnShowClicked()
+    {
+        /*if (string.IsNullOrEmpty(panelName))
+        {
+            Debug.LogWarning("ShowPanelButton: panelName is empty. Please set the panel name in the inspector.");
+            return;
+        }
+
+        // Delegate to MenuManager to show the requested panel
+        Singleton.Instance.menuManager.ShowPanel(panelName, pushHistory);*/
     }
 }

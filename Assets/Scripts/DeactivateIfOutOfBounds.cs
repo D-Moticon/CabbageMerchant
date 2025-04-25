@@ -13,5 +13,10 @@ public class DeactivateIfOutOfBounds : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        else if (!Singleton.Instance.boundsManager.IsObjectInPlayBounds(gameObject))
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

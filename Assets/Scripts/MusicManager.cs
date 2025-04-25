@@ -17,18 +17,24 @@ public class MusicManager : MonoBehaviour
     }
 
     public List<BiomeMusicPair> biomeMusicPairs;
+    public EventReference overworldMusic;
+    public EventReference victoryMusic;
     private EventReference musicEvent;
     private EventInstance musicInstance;
 
     private void OnEnable()
     {
         RunManager.BiomeChangedEvent += BiomeChangedListener;
+        RunManager.RunFinishedEvent += RunFinishedListener;
+        OverworldManager.overworldStartedAction += OverworldStartedListener;
         ChangeMusic(startingMusic);
     }
 
     private void OnDisable()
     {
         RunManager.BiomeChangedEvent -= BiomeChangedListener;
+        RunManager.RunFinishedEvent -= RunFinishedListener;
+        OverworldManager.overworldStartedAction -= OverworldStartedListener;
     }
 
     void PlayMusic()
@@ -65,6 +71,12 @@ public class MusicManager : MonoBehaviour
     /// <param name="playNow">If true, starts playback immediately after swapping.</param>
     public void ChangeMusic(EventReference newEvent, bool playNow = true)
     {
+        if (musicInstance.isValid() && newEvent.Guid == musicEvent.Guid)
+        {
+            // already playing that exact event → nothing to do
+            return;
+        }
+        
         // stop whatever’s playing
         StopCurrentInstance(STOP_MODE.IMMEDIATE);
 
@@ -88,5 +100,18 @@ public class MusicManager : MonoBehaviour
     private void OnDestroy()
     {
         StopCurrentInstance(STOP_MODE.IMMEDIATE);
+    }
+
+    void RunFinishedListener(RunManager.RunCompleteParams rep)
+    {
+        if (rep.success)
+        {
+            ChangeMusic(victoryMusic);
+        }
+    }
+
+    void OverworldStartedListener()
+    {
+        ChangeMusic(overworldMusic);
     }
 }

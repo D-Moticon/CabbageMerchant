@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherPortal: {fileID: 0}
   bonkValue: 1
+  canEnter: 1
+  maxSpeed: 17
   teleportVFXPrefab: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
   teleportSFX:
     sfx:

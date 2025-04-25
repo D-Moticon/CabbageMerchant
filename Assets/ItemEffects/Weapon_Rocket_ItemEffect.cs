@@ -35,16 +35,24 @@ public class Weapon_Rocket_ItemEffect : ItemEffect
 
     IEnumerator RocketCoroutine(Ball ball)
     {
+        if (ball == null)
+        {
+            yield break;
+        }
+        
         GameObject instantiatedRocket = rocket.Spawn(ball.transform.position, Quaternion.identity);
         if (overrideRocketSprite != null)
         {
             SpriteRenderer sr = instantiatedRocket.GetComponentInChildren<SpriteRenderer>();
-            sr.sprite = overrideRocketSprite;
+            if (sr != null)
+            {
+                sr.sprite = overrideRocketSprite;
+            }
         }
         instantiatedRocket.transform.parent = ball.transform;
         ball.gameObject.layer = LayerMask.NameToLayer("BallWallsOnly");
 
-        FMOD.Studio.EventInstance flightSFXInstance = flightSFX.Play(duration,owningItem.transform.position);
+        FMOD.Studio.EventInstance flightSFXInstance = flightSFX.Play(duration,ball.transform.position);
         
         float elapsedTime = 0f;
         while (elapsedTime < duration && !Singleton.Instance.playerInputManager.weaponFireUp)

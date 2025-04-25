@@ -65,7 +65,14 @@ public class Weapon_LeafBlower_ItemEffect : ItemEffect
         while (elapsed < effectDuration)
         {
             if (Singleton.Instance.playerInputManager.weaponFireUp)
+            {
+                if (elapsed < 0.2f)
+                {
+                    Singleton.Instance.gameHintManager.QueueHintUntilBouncingDone("Looks like I need to hold the weapon button to get the full effect!");
+                }
+                
                 break;
+            }
 
             // remove destroyed balls & sprites
             for (int i = balls.Count - 1; i >= 0; i--)

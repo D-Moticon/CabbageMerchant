@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2f218a86a4fbff4696488536f396cff, type: 3}
-  m_Name: YarnBall
+  m_Name: GolfHole
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4558657398295511331, guid: 204d9813e984ea64b877de99c83346d1, type: 3}
+  prefab: {fileID: 531499619570884490, guid: 610f0eae4fb7d3b438fe23eee3aabfec, type: 3}

@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public TypewriterByCharacter notificationTextTypewriter;
     public MMF_Player notificationFeel;
     public Animator lifeLostAnimator;
+    public Animator lifeGainedAnimator;
     public TMP_Text metacurrencyText;
     public GameObject runOnlyParent;
 
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.CoinsUpdated += CoinsUpdatedListener;
         PlayerStats.LivesUpdated += UpdateLivesIndicator;
         PlayerStats.LifeLostEvent += LifeLostListener;
+        PlayerStats.LifeGainedEvent += LifeGainedListener;
         RunManager.RunStartEvent += RunStartListener;
         PlayerStats.KeysUpdatedEvent += KeysUpdatedListener;
         PlayerStats.MetacurrencyUpdatedEvent += MetacurrencyUpdatedListener;
@@ -45,6 +47,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.CoinsUpdated -= CoinsUpdatedListener;
         PlayerStats.LivesUpdated -= UpdateLivesIndicator;
         PlayerStats.LifeLostEvent -= LifeLostListener;
+        PlayerStats.LifeGainedEvent -= LifeGainedListener;
         RunManager.RunStartEvent -= RunStartListener;
         PlayerStats.KeysUpdatedEvent -= KeysUpdatedListener;
         PlayerStats.MetacurrencyUpdatedEvent -= MetacurrencyUpdatedListener;
@@ -120,7 +123,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowNotification(string text)
     {
-        print("NOTIF: " + text);
         notificationText.gameObject.SetActive(true);
         notificationTextTypewriter.ShowText(text);
         notificationFeel.PlayFeedbacks();
@@ -130,6 +132,12 @@ public class UIManager : MonoBehaviour
     {
         lifeLostAnimator.gameObject.SetActive(true);
         lifeLostAnimator.Play("LifeLostAnim");
+    }
+
+    void LifeGainedListener()
+    {
+        lifeGainedAnimator.gameObject.SetActive(true);
+        lifeGainedAnimator.Play("LifeGained");
     }
 
     void RunStartListener(RunManager.RunStartParams rsp)

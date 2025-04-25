@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manages global pause state. Called by the main Singleton to pause/unpause.
@@ -25,7 +26,8 @@ public class PauseManager : MonoBehaviour
     {
         if (isPaused == paused)
             return;
-
+        
+        
         if (!paused)
         {
             // Delay unpause by one frame
@@ -37,6 +39,12 @@ public class PauseManager : MonoBehaviour
             isPaused = true;
             OnPauseStateChanged?.Invoke(true);
         }
+    }
+
+    public void GoToPauseMenu()
+    {
+        SetPaused(true);
+        Singleton.Instance.menuManager.ShowPanel("Pause");
     }
 
     /// <summary>
@@ -55,5 +63,26 @@ public class PauseManager : MonoBehaviour
         yield return null;
         isPaused = false;
         OnPauseStateChanged?.Invoke(false);
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "GlobalScene")
+        {
+            return;
+        }
+        
+        if (Singleton.Instance.playerInputManager.pauseDown)
+        {
+            if (isPaused)
+            {
+                Singleton.Instance.menuManager.HideAll();
+            }
+
+            else
+            {
+                GoToPauseMenu();
+            }
+        }
     }
 }

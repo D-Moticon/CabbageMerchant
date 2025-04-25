@@ -11,6 +11,7 @@ public class BuildManager : MonoBehaviour
         startAtOverworld,
         startRunAtMap,
         startAtGame,
+        startAtShop,
         none
     }
 
@@ -22,6 +23,7 @@ public class BuildManager : MonoBehaviour
     public PetDefinition startingPet;
     public List<Item> startingItems = new List<Item>();
     public List<Item> startingPerks = new List<Item>();
+    public MapBlueprint mapBlueprint;
 
     public static Action FullGameStartedEvent;
     
@@ -29,9 +31,6 @@ public class BuildManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        string startingSceneName = "";
-        
-        
         switch (buildMode)
         {
             case BuildMode.release:
@@ -42,22 +41,33 @@ public class BuildManager : MonoBehaviour
                 PopulateStartingItems();
                 break;
             case BuildMode.startAtOverworld:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.menuManager.HideAll();
                 Singleton.Instance.runManager.GoToSceneExclusive("Overworld");
                 break;
             case BuildMode.startRunAtMap:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.runManager.StartNewRun("Map");
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 break;
             case BuildMode.startAtGame:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.runManager.StartNewRun("CabbageShoot");
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 break;
+            case BuildMode.startAtShop:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.runManager.StartNewRun("Shop");
+                Singleton.Instance.menuManager.HideAll();
+                PopulateStartingItems();
+                Singleton.Instance.playerStats.AddCoins(startingCoins);
+                break;
             case BuildMode.none:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.menuManager.HideAll();
                 break;

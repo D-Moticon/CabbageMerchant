@@ -461,4 +461,6 @@ MonoBehaviour:
   maxY: 2.7
   minPetSeparation: 0.5
   def: {fileID: 0}
+  animator: {fileID: 8916654137383857392}
+  spriteRenderer: {fileID: 3131867939363491555}
   currentPetIndicator: {fileID: 9218139117414437051}

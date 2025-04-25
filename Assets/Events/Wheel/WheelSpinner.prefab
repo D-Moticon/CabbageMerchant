@@ -324,7 +324,7 @@ MonoBehaviour:
   arrowSpeedMultiplier: 20
   randomItemCollection: {fileID: 11400000, guid: 1d0beb4a926cbde4ba869bfc29f6bb78, type: 2}
   randomItemLine:
-    dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+    dialogueCharacter: {fileID: 0}
     dialogueLine: Incredible! I've never seen something quite like it!
     hideCharacterName: 0
     waitForSkipInput: 1
@@ -385,7 +385,7 @@ MonoBehaviour:
     - rid: 328110079628279979
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
-        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueCharacter: {fileID: 0}
         dialogueLine: Ouch! That's gotta hurt!
         hideCharacterName: 0
         waitForSkipInput: 1
@@ -395,7 +395,7 @@ MonoBehaviour:
     - rid: 328110079628279980
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
-        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueCharacter: {fileID: 0}
         dialogueLine: Will ya look at that!
         hideCharacterName: 0
         waitForSkipInput: 1
@@ -405,7 +405,7 @@ MonoBehaviour:
     - rid: 328110079628279981
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
-        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueCharacter: {fileID: 0}
         dialogueLine: Well, they say good things don't last forever!
         hideCharacterName: 0
         waitForSkipInput: 1
@@ -415,7 +415,7 @@ MonoBehaviour:
     - rid: 328110079628279982
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
-        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueCharacter: {fileID: 0}
         dialogueLine: What a spin!! We've got a big winner here!
         hideCharacterName: 0
         waitForSkipInput: 1
@@ -425,7 +425,7 @@ MonoBehaviour:
     - rid: 328110079628279984
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
-        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueCharacter: {fileID: 0}
         dialogueLine: A huge spin from our contestant!
         hideCharacterName: 0
         waitForSkipInput: 1
@@ -435,7 +435,7 @@ MonoBehaviour:
     - rid: 328110079628279985
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
-        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueCharacter: {fileID: 0}
         dialogueLine: And now to reveal your prize!
         hideCharacterName: 0
         waitForSkipInput: 1

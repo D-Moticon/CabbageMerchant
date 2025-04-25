@@ -41,11 +41,13 @@ public class PetManager : MonoBehaviour
     void OnEnable()
     {
         RunManager.RunStartEvent += OnRunStart;
+        SaveManager.DataLoadedEvent += SaveDataLoaded;
     }
 
     void OnDisable()
     {
         RunManager.RunStartEvent -= OnRunStart;
+        SaveManager.DataLoadedEvent -= SaveDataLoaded;
     }
 
     private void Start()
@@ -192,7 +194,7 @@ public class PetManager : MonoBehaviour
                 SceneManager.MoveGameObjectToScene(go, scene);
 
             var pet = go.GetComponent<OverworldPet>();
-            pet.def = def;
+            pet.Initialize(def);
             pet.SetWander();
 
             var ids = ownedPets.Select(p => p.dataName).ToList();
@@ -214,5 +216,10 @@ public class PetManager : MonoBehaviour
         {
             ownedPets.Add(def);
         }
+    }
+
+    void SaveDataLoaded()
+    {
+        LoadOwnedPetsFromSave();
     }
 }

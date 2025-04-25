@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class OverworldManager : MonoBehaviour
 {
+    public static System.Action overworldStartedAction;
+    
     void Start()
     {
         // Spawn all owned pets via your PetManager
@@ -22,5 +24,7 @@ public class OverworldManager : MonoBehaviour
         {
             Debug.LogWarning("OverworldManager: petManager not found on Singleton.Instance.");
         }
+        
+        overworldStartedAction?.Invoke();
     }
 }

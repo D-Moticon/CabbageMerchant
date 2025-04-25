@@ -24,14 +24,19 @@ public class ItemManager : MonoBehaviour
     public PetDefinition startingPet;
     public ItemSlot petSlot;
     
-    public delegate void ItemPurchasedDelegate(Item item);
-    public static event ItemPurchasedDelegate ItemPurchasedEvent;
-    public static event ItemPurchasedDelegate ItemSpawnedEvent;
+    public delegate void ItemDelegate(Item item);
+    public static event ItemDelegate ItemPurchasedEvent;
+    public static event ItemDelegate ItemSpawnedEvent;
 
     public delegate void ItemSlotDelegate(Item item, ItemSlot slot);
 
     public static event ItemSlotDelegate ItemAddedToSlotEvent;
-    public static ItemPurchasedDelegate ItemClickedEvent;
+    public static ItemDelegate ItemClickedEvent;
+
+    public delegate void TwoItemDelegate(Item itemA, Item itemB);
+
+    public static event TwoItemDelegate ItemsMergedEvent;
+    public static event ItemDelegate ItemResultedFromMergeEvent;
 
     [Header("Sell Settings")]
     public Collider2D sellCollider;
@@ -62,6 +67,7 @@ public class ItemManager : MonoBehaviour
     private void OnEnable()
     {
         RunManager.RunStartEvent += RunStartListener;
+        RunManager.RunEndedEvent += RunEndListener;
         RunManager.SceneChangedEvent += SceneChangedListener;
         BuildManager.FullGameStartedEvent += FullGameStartedListener;
     }
@@ -69,6 +75,7 @@ public class ItemManager : MonoBehaviour
     private void OnDisable()
     {
         RunManager.RunStartEvent -= RunStartListener;
+        RunManager.RunEndedEvent -= RunEndListener;
         RunManager.SceneChangedEvent -= SceneChangedListener;
         BuildManager.FullGameStartedEvent -= FullGameStartedListener;
     }
@@ -373,6 +380,9 @@ public class ItemManager : MonoBehaviour
                 }
             }
 
+            AddItemToSlot(draggingItem, slot);
+            ItemAddedToSlotEvent?.Invoke(draggingItem, slot);
+            
             // ——— normal purchase (if applicable) + place ———
             if (draggingItem.purchasable)
             {
@@ -381,14 +391,21 @@ public class ItemManager : MonoBehaviour
                 draggingItem.purchasable = false;
                 ItemPurchasedEvent?.Invoke(draggingItem);
             }
-
-            AddItemToSlot(draggingItem, slot);
-            ItemAddedToSlotEvent?.Invoke(draggingItem, slot);
+ 
         }
         
         else
         {
-            // try merge
+            // ——— 1) If both items came from inventory AND names differ, swap them ———
+            if (draggingStartSlot != null &&
+                IsInventorySlot(slot) &&
+                draggingItem.itemName != slot.currentItem.itemName)
+            {
+                SwapItemsBetweenSlots(draggingStartSlot, slot);
+                return;
+            }
+
+            // ——— 2) Otherwise, if they’re the same item and upgradable, merge ———
             if (CheckForDuplicateMerge(draggingItem, slot.currentItem, slot))
             {
                 mergeVFX.transform.position = slot.transform.position;
@@ -397,6 +414,7 @@ public class ItemManager : MonoBehaviour
             }
             else
             {
+                // ——— 3) Fallback: can’t merge or swap, so revert ———
                 RevertDraggedItem();
             }
         }
@@ -423,6 +441,8 @@ public class ItemManager : MonoBehaviour
                 triggersToCopy = src.triggers;
             }
 
+            ItemsMergedEvent?.Invoke(dragged, inSlot);
+            
             // 2) destroy the old wrappers/items
             Destroy(inSlot.itemWrapper.gameObject);
             Destroy(dragged.itemWrapper.gameObject);
@@ -432,7 +452,8 @@ public class ItemManager : MonoBehaviour
             if (isHolofoil) upgraded.SetHolofoil();
             AddItemToSlot(upgraded, slot);
             ItemAddedToSlotEvent?.Invoke(upgraded, slot);
-
+            ItemResultedFromMergeEvent?.Invoke(upgraded);
+            
             // 4) if we’re carrying over triggers, deep‐clone & init them
             if (keep && triggersToCopy != null)
             {
@@ -626,6 +647,24 @@ public class ItemManager : MonoBehaviour
         item.itemWrapper.transform.position = itemSlot.transform.position;
         item.itemWrapper.transform.SetParent(itemSlot.transform);
         itemSlot.PlayItemAddedToSlotFX();
+    }
+    
+    private void SwapItemsBetweenSlots(ItemSlot fromSlot, ItemSlot toSlot)
+    {
+        // remember the items
+        Item movedItem    = draggingItem;          // the one you’re dragging
+        Item residentItem = toSlot.currentItem;    // the one already in the target slot
+
+        // place the dragged item into the target
+        AddItemToSlot(movedItem, toSlot);
+        ItemAddedToSlotEvent?.Invoke(movedItem, toSlot);
+
+        // place the resident item back into the original slot
+        AddItemToSlot(residentItem, fromSlot);
+        ItemAddedToSlotEvent?.Invoke(residentItem, fromSlot);
+
+        // clear our drag state
+        //draggingItem = null;
     }
 
     private void GenerateItemSlots()

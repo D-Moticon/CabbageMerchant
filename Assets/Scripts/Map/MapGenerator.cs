@@ -16,6 +16,9 @@ public class MapGenerator : MonoBehaviour
     // Tracks the current map so we can destroy it before generating a new one
     private Map currentMap;
 
+    public delegate void MapEvent(Map m, MapBlueprint mbp);
+    public static event MapEvent MapGeneratedEvent;
+
     /// <summary>
     /// Creates a new Map from mapBlueprint as a child of this generator,
     /// clearing any existing map. Spawns pickups between every icon connection
@@ -71,8 +74,8 @@ public class MapGenerator : MonoBehaviour
 
             // calculate pickup value
             int value = Mathf.CeilToInt(
-                mapBlueprint.metacurrencyBase *
-                Mathf.Pow(layerNum, mapBlueprint.metacurrencyPower)
+                Singleton.Instance.playerStats.currentDifficulty.metacurrencyBase *
+                Mathf.Pow(layerNum, Singleton.Instance.playerStats.currentDifficulty.metacurrencyPower)
             );
 
             // spawn at midpoints, skip overlaps via collider check
@@ -108,6 +111,8 @@ public class MapGenerator : MonoBehaviour
         }
 
         currentMap = newMap;
+        MapGeneratedEvent?.Invoke(currentMap, mapBlueprint);
+        
         return newMap;
     }
 }

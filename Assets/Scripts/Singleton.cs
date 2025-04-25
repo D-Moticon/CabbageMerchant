@@ -17,12 +17,13 @@ public class Singleton : MonoBehaviour
     public ToolTip toolTip;
     public ObjectPoolManager objectPoolManager;
     public GameHintManager gameHintManager;
-    public BoardMetrics boardMetrics;
+    public BoundsManager boundsManager;
     public MenuManager menuManager;
     public PetManager petManager;
     public SaveManager saveManager;
     public PauseManager pauseManager;
     public BuildManager buildManager;
+    public EffectsManager effectsManager;
     
     private void OnEnable()
     {

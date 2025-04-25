@@ -38,8 +38,8 @@ public class OverworldPet : MonoBehaviour, IHoverable
 
     // runtime state
     private Transform      player;
-    private Animator       animator;
-    private SpriteRenderer spriteRenderer;
+    public Animator       animator;
+    public SpriteRenderer spriteRenderer;
     private Vector3        targetPosition;
     private float          wanderTimer;
     private Vector3        followDir;
@@ -52,10 +52,7 @@ public class OverworldPet : MonoBehaviour, IHoverable
     
     void Awake()
     {
-        animator       = GetComponentInChildren<Animator>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        var charObj = FindObjectOfType<OverworldCharacter>();
+        var charObj = FindFirstObjectByType<OverworldCharacter>();
         if (charObj)
         {
             player        = charObj.transform;
@@ -81,6 +78,12 @@ public class OverworldPet : MonoBehaviour, IHoverable
         Singleton.Instance.petManager.UnregisterOverworldPet(this);
     }
 
+
+    public void Initialize(PetDefinition pd)
+    {
+        def = pd;
+        spriteRenderer.sprite = pd.downSprite;
+    }
     void Update()
     {
         if (PauseManager.IsPaused())

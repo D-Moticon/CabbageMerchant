@@ -176,6 +176,7 @@ MonoBehaviour:
   col: {fileID: 4766804890256451116}
   sr: {fileID: 2441018423855059572}
   tr: {fileID: 1467333479415118735}
+  baseBonkValue: 2
   bonkValue: 2
   bonkValueText: {fileID: 7876515201019864368}
   bonkValueMaterialProp: _AddHueFade

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BoardMetrics : MonoBehaviour
+public class BoundsManager : MonoBehaviour
 {
     [Header("Grid Settings")]
     public Vector2 gridBounds = new Vector2(10f, 10f);

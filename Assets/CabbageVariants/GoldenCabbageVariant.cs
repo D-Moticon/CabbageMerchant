@@ -9,7 +9,7 @@ public class GoldenCabbageVariant : CabbageVariant
         base.CabbageBonked(bp);
         
         float goldValue = Singleton.Instance.playerStats.goldenCabbageValue;
-        Singleton.Instance.playerStats.AddCoins(goldValue);
+        Singleton.Instance.playerStats.AddCoins(goldValue*owningCabbage.bonkMultiplier);
         Singleton.Instance.floaterManager.SpawnFloater(goldenHitFloater, goldValue.ToString(), this.transform.position);
         owningCabbage.SetNoVariant();
     }

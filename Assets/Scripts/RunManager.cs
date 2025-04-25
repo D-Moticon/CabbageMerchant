@@ -29,7 +29,7 @@ public class RunManager : MonoBehaviour
     
     public float transitionTime  = 0.7f;
 
-    private string currentSceneName;
+    [HideInInspector]public string currentSceneName;
     private GameObject currentSceneParent;
 
     private Scene mapScene;
@@ -37,6 +37,7 @@ public class RunManager : MonoBehaviour
 
     private int totalEncounters;
     [HideInInspector] public int currentmapLayer;
+    public Biome startingBiome;
     public Biome currentBiome;
 
     public delegate void BiomeDelegate(Biome biome);
@@ -48,19 +49,18 @@ public class RunManager : MonoBehaviour
         
     }
 
-    public class RunEndParams
+    public class RunCompleteParams
     {
-        
+        public bool success;
     }
     
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
-
-    public delegate void RunEndDelegate(RunEndParams rep);
-
-    public static event RunEndDelegate RunEndEvent;
     
+    public delegate void RunEndDelegate(RunCompleteParams rep);
+    public static event RunEndDelegate RunFinishedEvent;
+    public static System.Action RunEndedEvent;
     
     public delegate void StringDelegate(string s);
     public static StringDelegate SceneChangedEvent;
@@ -98,8 +98,7 @@ public class RunManager : MonoBehaviour
             {
                 if (mapPoint.biome != currentBiome && mapPoint.biome != null)
                 {
-                    BiomeChangedEvent?.Invoke(mapPoint.biome);
-                    currentBiome = mapPoint.biome;
+                    ChangeBiome(mapPoint.biome);
                 }
             }
         }
@@ -118,6 +117,15 @@ public class RunManager : MonoBehaviour
         }
 
         GameObject newSceneParent = FindSceneParent(newScene);
+        
+        if (newSceneName == mapSceneName && newSceneParent != null)
+        {
+            mapScene       = newScene;
+            mapSceneParent = newSceneParent;
+            // and make sure it's active (in case you hid it previously)
+            mapSceneParent.SetActive(true);
+        }
+        
         if (newSceneParent == null)
         {
             Debug.LogWarning($"No '{parentObjectName}' found in '{newSceneName}'. Will not animate.");
@@ -219,6 +227,12 @@ public class RunManager : MonoBehaviour
         }
     }
 
+    void ChangeBiome(Biome newBiome)
+    {
+        BiomeChangedEvent?.Invoke(newBiome);
+        currentBiome = newBiome;
+    }
+    
     /// <summary>
     /// Goes to the map scene. If not already loaded, it loads the scene once;
     /// otherwise, it just re-activates it. Then performs a slide transition 
@@ -453,18 +467,32 @@ public class RunManager : MonoBehaviour
             Debug.LogWarning($"RunManager: Couldn't find '{parentObjectName}' in reloaded '{sceneName}'.");
         SceneManager.SetActiveScene(sc);
     }
-
-    public void EndRun()
+    
+    public void FinishRun(bool success)
     {
-        //StartCoroutine(EndRunRoutine());
+        //This displays the run complete screen
         Singleton.Instance.menuManager.ShowPanel("RunEnd");
-        RunEndParams rep = new RunEndParams();
-        RunEndEvent?.Invoke(rep);
+        RunCompleteParams rep = new RunCompleteParams();
+        rep.success = success;
+        RunFinishedEvent?.Invoke(rep);
+    }
+
+    public void EndRunToOverworld()
+    {
+        //This sends you back to the overworld, resets items, etc.
+        RunEndedEvent?.Invoke();
+        ChangeBiome(startingBiome);
         GoToSceneExclusive("Overworld");
     }
 
     IEnumerator EndRunRoutine()
     {
         yield break;
+    }
+
+    public void QuitGame()
+    {
+        Singleton.Instance.saveManager.SaveToDisk();
+        Application.Quit();
     }
 }

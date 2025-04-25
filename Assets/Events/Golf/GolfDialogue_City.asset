@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: GolfDialogue_City
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110152951267506
+  - rid: 328110152951267501
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110152951267501
+      type: {class: ChoiceDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        choices:
+        - rid: 328110152951267502
+        - rid: 328110152951267503
+    - rid: 328110152951267502
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: Play!
+        dialogueTasks:
+        - rid: 328110152951267504
+        - rid: 328110152951267505
+        dialogueButton: {fileID: 0}
+        conditions: []
+        cost: 5
+        conditionsNotMetLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: 
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+    - rid: 328110152951267503
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        choiceButtonLabel: No Thanks
+        dialogueTasks:
+        - rid: 328110152951267524
+        dialogueButton: {fileID: 0}
+        conditions: []
+        cost: 0
+        conditionsNotMetLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: 
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+    - rid: 328110152951267504
+      type: {class: GolfTask, ns: , asm: Assembly-CSharp}
+      data:
+        golfGamePrefab: {fileID: 6876543138695577321, guid: 3237caf998ffdcd4da888ae12a812fc5, type: 3}
+        explanationLine:
+          dialogueCharacter: {fileID: 11400000, guid: 66a2944dcaa3a894c8df34b369a127ce, type: 2}
+          dialogueLine: Three tries, cabbage merchant.  Let's see what you can do!
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+    - rid: 328110152951267505
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 66a2944dcaa3a894c8df34b369a127ce, type: 2}
+        dialogueLine: Positively regal!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110152951267506
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 66a2944dcaa3a894c8df34b369a127ce, type: 2}
+        dialogueLine: The fairway is my kingdom? Think you can golf like royalty?
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110152951267524
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 66a2944dcaa3a894c8df34b369a127ce, type: 2}
+        dialogueLine: Come back when you're ready to play like a king!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
