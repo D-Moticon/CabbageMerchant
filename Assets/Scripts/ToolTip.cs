@@ -59,6 +59,11 @@ public class ToolTip : MonoBehaviour
             return;
         }
 
+        CheckForHover(false);
+    }
+
+    void CheckForHover(bool updateIfSame = false)
+    {
         Vector2 mouseWorldPos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
         PositionTooltip(mouseWorldPos);
 
@@ -67,10 +72,10 @@ public class ToolTip : MonoBehaviour
         if (collider)
         {
             IHoverable hoverable = collider.GetComponentInChildren<IHoverable>()
-                                    ?? collider.GetComponentInParent<IHoverable>();
+                                   ?? collider.GetComponentInParent<IHoverable>();
             if (hoverable != null)
             {
-                if (hoverable != currentHover)
+                if (hoverable != currentHover || updateIfSame)
                 {
                     currentHover = hoverable;
                     
@@ -100,7 +105,12 @@ public class ToolTip : MonoBehaviour
             HideTooltip();
         }
     }
-
+    
+    public void ForceToolTipUpdate()
+    {
+        CheckForHover(true);
+    }
+    
     /// <summary>
     /// Sets the tooltip fields from the hovered item's data, then fades it in.
     /// </summary>

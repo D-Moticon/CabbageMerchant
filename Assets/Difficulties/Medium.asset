@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Medium
   firstRoundGoal: 10
-  goalBase: 1.25
-  goalPower: 1.75
-  metacurrencyBase: 0.25
+  goalBase: 1.4
+  goalPower: 2.1
+  metacurrencyBase: 0.2
   metacurrencyPower: 1.2
+  mapLayerNumberForCalc: 45
+  roundGoalCalc: 4158.338015291723

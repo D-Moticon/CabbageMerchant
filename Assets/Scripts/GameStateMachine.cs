@@ -339,7 +339,7 @@ public class GameStateMachine : MonoBehaviour
 
     void RoundGoalHit()
     {
-        Singleton.Instance.playerStats.AddCoins(coinsPerRoundGoal);
+        //Singleton.Instance.playerStats.AddCoins(coinsPerRoundGoal);
         RoundGoalOverHitEvent?.Invoke(roundScoreOverMultRounded);
     }
 
@@ -353,6 +353,23 @@ public class GameStateMachine : MonoBehaviour
         if (activeBalls[rand] != null)
         {
             return activeBalls[rand];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    public Cabbage GetRandomActiveCabbage()
+    {
+        if (activeCabbages.Count == 0)
+        {
+            return null;
+        }
+        int rand = Random.Range(0, activeCabbages.Count);
+        if (activeCabbages[rand] != null)
+        {
+            return activeCabbages[rand];
         }
         else
         {
@@ -553,8 +570,10 @@ public class GameStateMachine : MonoBehaviour
                 
                 }
 
-                double coinsToGive = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*coinsPerRoundGoal;
-                //Singleton.Instance.playerStats.AddCoins(coinsToGive);
+                //double coinsEarned = Math.Ceiling(gameStateMachine.currentRoundScore / gameStateMachine.roundGoal)*coinsPerRoundGoal;
+                double coinsEarned = Math.Round(gameStateMachine.roundScoreOverMultRounded * coinsPerRoundGoal);
+                Singleton.Instance.playerStats.AddCoins(coinsEarned);
+                Singleton.Instance.uiManager.DisplayCoinsGainedAnimation(coinsEarned);
                 
                 yield return new WaitForSeconds(1f);
             }

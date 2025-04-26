@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1727719652817439778}
   - component: {fileID: 1498841357149454456}
   m_Layer: 0
-  m_Name: Golf
+  m_Name: Golf_Meadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

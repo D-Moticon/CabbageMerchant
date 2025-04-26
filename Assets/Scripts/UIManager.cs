@@ -23,11 +23,15 @@ public class UIManager : MonoBehaviour
     public Animator lifeGainedAnimator;
     public TMP_Text metacurrencyText;
     public GameObject runOnlyParent;
+    public Animator coinGainedAnimator;
+    public TypewriterByCharacter coinGainedTypewriter;
 
     private void OnEnable()
     {
         notificationText.alpha = 0f;
         lifeLostAnimator.gameObject.SetActive(false);
+        lifeGainedAnimator.gameObject.SetActive(false);
+        coinGainedAnimator.gameObject.SetActive(false);
         
         GameStateMachine.BallsRemainingUpdatedEvent += UpdateBallsIndicator;
         PlayerStats.CoinsUpdated += CoinsUpdatedListener;
@@ -176,5 +180,12 @@ public class UIManager : MonoBehaviour
     void FullGameStartedListener()
     {
         HideRunOnlyItems();
+    }
+
+    public void DisplayCoinsGainedAnimation(double coinsGained)
+    {
+        coinGainedAnimator.gameObject.SetActive(true);
+        coinGainedAnimator.Play("LifeGained");
+        coinGainedTypewriter.ShowText($"<wave a=.2>+{coinsGained:F0}</wave>");
     }
 }

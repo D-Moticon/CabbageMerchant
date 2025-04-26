@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Easy
   firstRoundGoal: 10
-  goalBase: 1.1
-  goalPower: 1.5
-  metacurrencyBase: 0.2
-  metacurrencyPower: 1
+  goalBase: 1.35
+  goalPower: 1.55
+  metacurrencyBase: 0.15
+  metacurrencyPower: 1.05
+  mapLayerNumberForCalc: 10
+  roundGoalCalc: 57.89980267241799

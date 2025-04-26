@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7187573872890555276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7023800743831376909}
+  - component: {fileID: 987615755453735997}
+  m_Layer: 0
+  m_Name: FormulaXY
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7023800743831376909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187573872890555276}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &987615755453735997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187573872890555276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Formula XY
+  itemDescription: 
+  icon: {fileID: 21300000, guid: d16cdb5e03675d2429e24cda83ca2168, type: 3}
+  itemType: 0
+  canBeForceTriggered: 1
+  effects:
+  - rid: 328110255371190357
+  holofoilEffects:
+  - rid: 328110255371190358
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 328110255371190359
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 2
+  normalizedPrice: 3.6
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 987615755453735997, guid: 520359ba188ebc845a1fb863e379757f, type: 3}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110255371190357
+      type: {class: MultiplyRandomCabbageMultEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        quantity: 2
+        multMult: 2
+        vfx: {fileID: 11400000, guid: 0a6b1eea9ddfe3f429b84e8a3313e83d, type: 2}
+        sfx:
+          sfx:
+            Guid:
+              Data1: -1516327129
+              Data2: 1278429651
+              Data3: 465009556
+              Data4: -1884801215
+            Path: event:/Mystical
+          vol: 0.5
+    - rid: 328110255371190358
+      type: {class: MultiplyRandomCabbageMultEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        quantity: 2
+        multMult: 3
+        vfx: {fileID: 11400000, guid: 0a6b1eea9ddfe3f429b84e8a3313e83d, type: 2}
+        sfx:
+          sfx:
+            Guid:
+              Data1: -1516327129
+              Data2: 1278429651
+              Data3: 465009556
+              Data4: -1884801215
+            Path: event:/Mystical
+          vol: 0.5
+    - rid: 328110255371190359
+      type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        numberBounces: 20
+        bounceType: 0

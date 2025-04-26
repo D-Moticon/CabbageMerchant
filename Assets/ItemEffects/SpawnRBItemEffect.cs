@@ -155,7 +155,25 @@ public class SpawnRBItemEffect : ItemEffect
             if (makeRainbowBonker)
             {
                 Bonker bonker = rb.GetComponent<Bonker>();
-                bonker.SetBonkerRainbow(rainbowConvertChance);
+                if (bonker != null)
+                {
+                    bonker.SetBonkerRainbow(rainbowConvertChance);
+                }
+
+                AddBonkMultOnCollide bonkMulter = rb.GetComponent<AddBonkMultOnCollide>();
+                if (bonkMulter != null)
+                {
+                    bonkMulter.SetRainbow();
+                }
+            }
+
+            else
+            {
+                AddBonkMultOnCollide bonkMulter = rb.GetComponent<AddBonkMultOnCollide>();
+                if (bonkMulter != null)
+                {
+                    bonkMulter.SetNormal();
+                }
             }
         }
 

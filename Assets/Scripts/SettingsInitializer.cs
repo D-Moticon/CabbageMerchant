@@ -21,7 +21,7 @@ public class SettingsInitializer : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float defaultMusic = 0.75f;
     [Range(0f, 1f)]
-    [SerializeField] private float defaultSFX   = 0.75f;
+    [SerializeField] private float defaultSFX   = 1.00f;
 
     [Header("FMOD Bus Paths")]
     [Tooltip("Path to your FMOD Music bus, e.g. 'bus:/Music'")]

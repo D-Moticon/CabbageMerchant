@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 8205598444377445192}
   - component: {fileID: 1519757218779632850}
   - component: {fileID: 144260904248492124}
+  - component: {fileID: 5999971252085819850}
   m_Layer: 6
   m_Name: Scythe
   m_TagString: Untagged
@@ -171,6 +172,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonkValue: 1.5
   killOnBonk: 0
+  killOnWallCollide: 0
   bonksBeforeKill: 0
   treatAsBall: 1
   vfxOnBonk: {fileID: 0}
+  vfxOnKill: {fileID: 0}
+  sfxOnKill:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  baseMat: {fileID: 0}
+  rainbowMat: {fileID: 0}
+--- !u!114 &5999971252085819850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7751832552313730884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e150ba222c0a634e8e6f1e1fccba038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joint: {fileID: 0}
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 512
+  shortenSpeed: 50
+  minDistance: 1

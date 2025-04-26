@@ -24,6 +24,7 @@ public class Singleton : MonoBehaviour
     public PauseManager pauseManager;
     public BuildManager buildManager;
     public EffectsManager effectsManager;
+    public DialogueManager dialogueManager;
     
     private void OnEnable()
     {

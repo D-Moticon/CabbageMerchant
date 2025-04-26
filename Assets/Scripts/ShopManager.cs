@@ -190,6 +190,10 @@ public class ShopManager : MonoBehaviour
 
     public void LeaveShop()
     {
+        if (Singleton.Instance.pauseManager.isPaused)
+        {
+            return;
+        }
         Singleton.Instance.runManager.GoToMap();
     }
 }

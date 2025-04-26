@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: OverworldIntro
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110247000932480
+  - rid: 328110247000932473
+  - rid: 328110247000932476
+  - rid: 328110247000932452
+  - rid: 328110247000932462
+  - rid: 328110247000932461
+  - rid: 328110247000932450
+  - rid: 328110247000932451
+  - rid: 328110247000932463
+  - rid: 328110250964549715
+  - rid: 328110247000932477
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110247000932450
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: You haven't even learned the ropes, yet.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932451
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: But since I'm such a nice guy, I'll show you a thing or two.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932452
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Sorry kid, I don't take autographs.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932461
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: So you wanna be a cabbage merchant? Heh, I'll believe it when
+          I see it.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932462
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Huh?
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932463
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Meet me in the meadows north of here.  Ciao!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932473
+      type: {class: SpawnOverworldNPCTask, ns: , asm: Assembly-CSharp}
+      data:
+        overworldNPCPrefab: {fileID: 6565108083615572126, guid: ee162671d1aaa1d4a95a15c38bf85ae8, type: 3}
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        spawnPos: {x: 0, y: 5}
+    - rid: 328110247000932476
+      type: {class: MoveNPCTask, ns: , asm: Assembly-CSharp}
+      data:
+        targetPos: {x: 0, y: 1}
+        moveSpeed: 5
+        animationBool: isWalking
+        destroyOnFinish: 0
+    - rid: 328110247000932477
+      type: {class: MoveNPCTask, ns: , asm: Assembly-CSharp}
+      data:
+        targetPos: {x: 0, y: 7}
+        moveSpeed: 5
+        animationBool: isWalking
+        destroyOnFinish: 0
+    - rid: 328110247000932480
+      type: {class: WaitForSecondsTask, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 0.75
+    - rid: 328110250964549715
+      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 0.5

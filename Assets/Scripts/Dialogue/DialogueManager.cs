@@ -1,37 +1,45 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
-    private Queue<Task> dialogueTasks = new Queue<Task>();
-    private Task currentTask;
-    public DialogueBox eventDialogueBox;
-    public Transform itemSlotParent;
-    
-    
-    public void AddDialogueTask(Task task)
+    public DialogueBox dialogueBox;
+
+    private void Awake()
     {
-        dialogueTasks.Enqueue(task);
+        dialogueBox.HideDialogueBox();
     }
 
-    public IEnumerator DialogueTaskRoutine(Task firstTask)
+    public void PlayDialogue(Dialogue d)
     {
-        dialogueTasks.Clear();
-        AddDialogueTask(firstTask);
+        StartCoroutine(DialogueTaskRoutine(d));
+    }
 
-        while (dialogueTasks.Count > 0)
-        {   
-            currentTask = dialogueTasks.Dequeue();
-            if (currentTask == null)
-            {
-                break;
-            }
-            
-            while (currentTask.Running)
-            {
-                yield return null;
-            }
+    public IEnumerator DialogueTaskRoutine(Dialogue d)
+    {
+        if (d == null)
+        {
+            print("Tried to play dialogue but dialogue was null");
+            yield break;
         }
+        
+        dialogueBox.gameObject.SetActive(true);
+        Singleton.Instance.pauseManager.SetPaused(true);
+        DialogueContext dc = new DialogueContext();
+        dc.dialogueBox = dialogueBox;
+
+        Task t = new Task(d.PlayDialogue(dc));
+        while (t.Running)
+        {
+            yield return null;
+        }
+        
+        Singleton.Instance.pauseManager.SetPaused(false);
+        dialogueBox.HideDialogueBox();
+        yield return new WaitForSeconds(0.5f);
+        dialogueBox.gameObject.SetActive(false);
+        
     }
 }

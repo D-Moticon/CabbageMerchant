@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: DojoTutorial
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110250964549728
+  - rid: 328110250964549729
+  - rid: 328110250964549730
+  - rid: 328110250964549731
+  - rid: 328110250964549732
+  - rid: 328110250964549733
+  - rid: 328110250964549738
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110250964549728
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: f2f4c0262542d2c4e94d493d47c07da9, type: 2}
+        dialogueLine: Konnichiwa! And welcome to my dojo.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549729
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: f2f4c0262542d2c4e94d493d47c07da9, type: 2}
+        dialogueLine: Any student of the leafy arts needs a weapon for self defense...
+          And of course, for cabbage harvesting.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549730
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: f2f4c0262542d2c4e94d493d47c07da9, type: 2}
+        dialogueLine: To wield your weapon, press and hold the right mouse button
+          while your bonk ball is bouncing.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549731
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: f2f4c0262542d2c4e94d493d47c07da9, type: 2}
+        dialogueLine: A weapon can be used once every turn, or multiple times if
+          the cooldown resets.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549732
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: f2f4c0262542d2c4e94d493d47c07da9, type: 2}
+        dialogueLine: Oh, and you can only carry one weapon at a time, so choose
+          wisely, Cabbage-Chan.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549733
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: f2f4c0262542d2c4e94d493d47c07da9, type: 2}
+        dialogueLine: <wave a=.5> KIYAHH!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549738
+      type: {class: GiveCoinsIfBelowThreshold, ns: , asm: Assembly-CSharp}
+      data:
+        coinThreshold: 11

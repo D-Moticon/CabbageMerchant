@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: GameplayTutorial
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110247000932452
+  - rid: 328110247000932450
+  - rid: 328110247000932451
+  - rid: 328110247000932455
+  - rid: 328110247000932456
+  - rid: 328110247000932457
+  - rid: 328110250964549716
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110247000932450
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: 'That''s where your bonk balls come in.  Every cabbage merchant
+          worth their salt''s got at least three of ''em.  '
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932451
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Go ahead and bonk as many cabbages as you can! Bigger is better!!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932452
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: If you wanna sell cabbages, you gotta grow 'em, first.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932455
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Just make sure you match the round goal.  You'll get extra
+          coins if you're able to even double, triple, quadruple it!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932456
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: If you don't, well... Better hope you have some hearts, or
+          you're gonna be taking a one way trip straight back home.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110247000932457
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: I'm off to Cabbage City, maybe I'll catch you there if you
+          really are cut out for this business.  Ciao!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549716
+      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 0.5

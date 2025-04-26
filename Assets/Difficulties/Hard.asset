@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Hard
   firstRoundGoal: 15
-  goalBase: 1.5
-  goalPower: 2
+  goalBase: 1.8
+  goalPower: 2.26474
   metacurrencyBase: 0.5
-  metacurrencyPower: 1.75
+  metacurrencyPower: 1.15
+  mapLayerNumberForCalc: 45
+  roundGoalCalc: 10000.481278443825

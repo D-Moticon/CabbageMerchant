@@ -26,6 +26,7 @@ public class MusicManager : MonoBehaviour
     {
         RunManager.BiomeChangedEvent += BiomeChangedListener;
         RunManager.RunFinishedEvent += RunFinishedListener;
+        RunManager.RunStartEvent += RunStartedListener;
         OverworldManager.overworldStartedAction += OverworldStartedListener;
         ChangeMusic(startingMusic);
     }
@@ -34,6 +35,7 @@ public class MusicManager : MonoBehaviour
     {
         RunManager.BiomeChangedEvent -= BiomeChangedListener;
         RunManager.RunFinishedEvent -= RunFinishedListener;
+        RunManager.RunStartEvent -= RunStartedListener;
         OverworldManager.overworldStartedAction -= OverworldStartedListener;
     }
 
@@ -113,5 +115,10 @@ public class MusicManager : MonoBehaviour
     void OverworldStartedListener()
     {
         ChangeMusic(overworldMusic);
+    }
+
+    void RunStartedListener(RunManager.RunStartParams rsp)
+    {
+        ChangeMusic(biomeMusicPairs[0].music);
     }
 }

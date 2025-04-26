@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9028637066508105076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 125648393350284067}
+  - component: {fileID: 5774383859868527779}
+  m_Layer: 0
+  m_Name: Ant_Item 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &125648393350284067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028637066508105076}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5774383859868527779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028637066508105076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Ant II
+  itemDescription: 
+  icon: {fileID: 21300000, guid: fac2483df22ea4947ab63bf89366cdd1, type: 3}
+  itemType: 0
+  canBeForceTriggered: 1
+  effects:
+  - rid: 328110255371190366
+  holofoilEffects:
+  - rid: 328110255371190368
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 328110255371190370
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 0.6
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 5774383859868527779, guid: 9b24563e1f99ecc48ad022787b9ae969, type: 3}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110255371190366
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        objectToSpawn: {fileID: 11400000, guid: 36807f0c82ee46e4aae73e9789bba222, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: Ant
+        objectDescription: add 0.25x bonk mult to cabbage on impact
+        quantity: 10
+        speedRange: {x: 10, y: 15}
+        spreadAngle: 45
+        scaleRange: {x: 1, y: 1}
+        spreadType: 0
+        surfaceOffset: 0.35
+        spawnVFX: {fileID: 0}
+        rotateVFXtoNormal: 0
+        velocityDirection: 1
+        worldVelocityDirection: {x: 0, y: 1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05
+    - rid: 328110255371190368
+      type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        objectToSpawn: {fileID: 11400000, guid: 36807f0c82ee46e4aae73e9789bba222, type: 2}
+        spawnLocation: 0
+        spawnCenter: {x: 0, y: 0}
+        spawnAreaSize: {x: 1, y: 1}
+        objectName: <rainb>Rainbow</rainb> Ant
+        objectDescription: add 0.5x bonk mult to cabbage on impact
+        quantity: 10
+        speedRange: {x: 10, y: 15}
+        spreadAngle: 45
+        scaleRange: {x: 1, y: 1}
+        spreadType: 0
+        surfaceOffset: 0.35
+        spawnVFX: {fileID: 0}
+        rotateVFXtoNormal: 0
+        velocityDirection: 1
+        worldVelocityDirection: {x: 0, y: 1}
+        makeRainbowBonker: 1
+        rainbowConvertChance: 0.05
+    - rid: 328110255371190370
+      type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        everyXHit: 7
+        onlyByBall: 0

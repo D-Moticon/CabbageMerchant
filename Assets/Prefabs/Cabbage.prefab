@@ -1337,11 +1337,11 @@ MonoBehaviour:
   huePerLevel: 0.1
   maxHue: 0.65
   startingScale: 0.75
-  scalePerLevel: 0.2
+  scalePerLevel: 0.22
   growthMode: 2
   logBase: 2
   logMultiplier: 1
-  rootExponent: 0.5
+  rootExponent: 0.52
   isMerging: 0
   isStolen: 0
   baseBonkMultiplier: 1

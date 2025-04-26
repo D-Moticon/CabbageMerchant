@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: LibraryTutorial
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110250964549739
+  - rid: 328110250964549740
+  - rid: 328110250964549741
+  - rid: 328110250964549742
+  - rid: 328110250964549743
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110250964549739
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 12a4f4b797bbf894b8b85d10774f8000, type: 2}
+        dialogueLine: Ah, it is refreshing to see the youth stopping by for a good
+          read!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549740
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 12a4f4b797bbf894b8b85d10774f8000, type: 2}
+        dialogueLine: The wonderful thing about books is that once you read them,
+          they stick with you forever!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549741
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 12a4f4b797bbf894b8b85d10774f8000, type: 2}
+        dialogueLine: The only inventory space you need is your mind, which is limitless!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549742
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 12a4f4b797bbf894b8b85d10774f8000, type: 2}
+        dialogueLine: And since this is a public library, this knowledge is completely
+          free!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110250964549743
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 12a4f4b797bbf894b8b85d10774f8000, type: 2}
+        dialogueLine: Go on then, pick a book and enrich yourself!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1

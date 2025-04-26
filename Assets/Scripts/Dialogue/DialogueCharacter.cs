@@ -8,4 +8,10 @@ public class DialogueCharacter : ScriptableObject
     public SFXInfo speakingSFX_Short;
     public SFXInfo speakingSFX_Med;
     public SFXInfo speakingSFX_Long;
+    [Header("Overworld")]
+    public Sprite upSprite;
+
+    public Sprite downSprite;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
 }

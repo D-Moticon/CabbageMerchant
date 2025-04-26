@@ -173,10 +173,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
         vfx.transform.localScale = new Vector3(1f+bp.bonkValue*0.1f, 1f+bp.bonkValue*0.1f, 1f);
 
-        float sca = transform.localScale.x;
-        float intensity = 1f / sca;
-        bonkFeel.PlayFeedbacks(transform.position, intensity);
-        pointsTextFeel.PlayFeedbacks(transform.position, intensity);
+        PlayBonkFX();
 
         points += (bp.bonkValue * bonkMultiplier);
         
@@ -189,6 +186,14 @@ public class Cabbage : MonoBehaviour, IBonkable
         {
             currentVariant.CabbageBonked(bp);
         }
+    }
+
+    public void PlayBonkFX()
+    {
+        float sca = transform.localScale.x;
+        float intensity = 1f / sca;
+        bonkFeel.PlayFeedbacks(transform.position, intensity);
+        pointsTextFeel.PlayFeedbacks(transform.position, intensity);
     }
 
     public void Remove()
@@ -282,7 +287,7 @@ public class Cabbage : MonoBehaviour, IBonkable
 
         c.colorLevel = newColorLevel;
         c.points = otherCabbage.points + points;
-        c.bonkMultiplier = c.baseBonkMultiplier + c.colorLevel * bonkMultPerColor;
+        c.bonkMultiplier = (otherCabbage.bonkMultiplier+bonkMultiplier) * bonkMultPerColor;
         c.sizeLevel = newSizeLevel;
         c.UpdateColorLevel();
         c.UpdateSizeLevel();
@@ -444,5 +449,10 @@ public class Cabbage : MonoBehaviour, IBonkable
     public void AddBonkMultiplier(double multAdd)
     {
         bonkMultiplier += multAdd;
+    }
+
+    public void MultiplyBonkMultiplier(double multMult)
+    {
+        bonkMultiplier *= multMult;
     }
 }

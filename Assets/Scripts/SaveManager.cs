@@ -88,6 +88,15 @@ public class SaveManager : MonoBehaviour
     {
         public List<string> ownedPetIDs = new List<string>();
         public int metaCurrency = 0;
+        
+        // ─── NEW STORY FLAGS ───
+        public bool seenOverworldIntro = false;
+        public bool wonFirstRun        = false;
+        public bool lostFirstRun       = false;
+        public bool hasSeenGameplayTutorial = false;
+        public bool seenShopIntro;
+        public bool seenDojoIntro;
+        public bool seenLibraryIntro;
     }
     
     /// <summary>
@@ -102,4 +111,58 @@ public class SaveManager : MonoBehaviour
         Load();
     }
 
+    
+    //STORY GETTERS / SETTERS
+    public bool HasSeenOverworldIntro()   => data.seenOverworldIntro;
+    public void MarkSeenOverworldIntro()
+    {
+        data.seenOverworldIntro = true;
+        SaveToDisk();
+    }
+
+    public bool HasWonFirstRun()           => data.wonFirstRun;
+    public void MarkWonFirstRun()
+    {
+        data.wonFirstRun = true;
+        SaveToDisk();
+    }
+
+    public bool HasLostFirstRun()          => data.lostFirstRun;
+    public void MarkLostFirstRun()
+    {
+        data.lostFirstRun = true;
+        SaveToDisk();
+    }
+
+    public bool HasSeenGameplayTutorial() => data.hasSeenGameplayTutorial;
+
+    public void MarkSeenGameplayTutorial()
+    {
+        data.hasSeenGameplayTutorial = true;
+        SaveToDisk();
+    }
+    
+    public bool HasSeenShopIntro() => data.seenShopIntro;
+
+    public void MarkSeenShopIntro()
+    {
+        data.seenShopIntro = true;
+        SaveToDisk();
+    }
+    
+    public bool HasSeenDojoIntro() => data.seenDojoIntro;
+
+    public void MarkSeenDojoIntro()
+    {
+        data.seenDojoIntro = true;
+        SaveToDisk();
+    }
+    
+    public bool HasSeenLibraryIntro() => data.seenLibraryIntro;
+
+    public void MarkSeenLibraryIntro()
+    {
+        data.seenLibraryIntro = true;
+        SaveToDisk();
+    }
 }

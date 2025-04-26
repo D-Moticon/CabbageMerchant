@@ -76,6 +76,7 @@ public class PetButton : MonoBehaviour, IHoverable
             pm.SetCurrentPet(petDefinition);
         }
         UpdateState();
+        Singleton.Instance.toolTip.ForceToolTipUpdate();
     }
 
     /// <summary>
@@ -91,7 +92,25 @@ public class PetButton : MonoBehaviour, IHoverable
 
         // cost text
         if (costText != null)
-            costText.text = owned ? "Owned" : $"<sprite index=0/>{petDefinition.cost.ToString()}";
+        {
+            if (owned)
+            {
+                costText.text = "Owned";
+            }
+
+            else
+            {
+                if (ps.metaCurrency >= petDefinition.cost)
+                {
+                    costText.text = $"<sprite index=0/>{petDefinition.cost.ToString()}";
+                }
+
+                else
+                {
+                    costText.text = $"<sprite index=0/><color=red>{petDefinition.cost.ToString()}</color>";
+                }
+            }
+        }
 
         // icon transparency
         if (iconImage != null)

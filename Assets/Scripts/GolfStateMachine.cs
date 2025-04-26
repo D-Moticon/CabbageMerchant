@@ -125,14 +125,14 @@ public class GolfStateMachine : MonoBehaviour
 
         if (prizeWon)
         {
-            Task winDialogueTask = new Task(overDidntLoseDialogue.RunTask(dc));
-            while (winDialogueTask.Running) yield return null;
+            Task overPrizeWonTask = new Task(overDidntLoseDialogue.RunTask(dc));
+            while (overPrizeWonTask.Running) yield return null;
         }
         
         else
         {
-            Task loseDialogueTask = new Task(loseDialogue.RunTask(dc));
-            while (loseDialogueTask.Running) yield return null;
+            Task overNoPrizeWonTask = new Task(loseDialogue.RunTask(dc));
+            while (overNoPrizeWonTask.Running) yield return null;
         }
         
         //yield return new WaitForSeconds(1f);

@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5425,7 +5425,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4f12ca3989a221445801b25177e0aeac, type: 2}
+  - {fileID: 2100000, guid: 427d190302b632f4cb735c541868f7b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15374,7 +15374,7 @@ MonoBehaviour:
     vol: 0.5
   failClickFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
   clickFeel: {fileID: 4928869792280585558}
-  shopManager: {fileID: 0}
+  shopManagers: []
   rollsRemainingText: {fileID: 1601308418738947330}
   rollCostText: {fileID: 1621214113968565970}
 --- !u!61 &4664449909568525619
@@ -30512,7 +30512,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4f12ca3989a221445801b25177e0aeac, type: 2}
+  - {fileID: 2100000, guid: 427d190302b632f4cb735c541868f7b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
