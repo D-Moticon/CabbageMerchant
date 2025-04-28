@@ -94,6 +94,7 @@ MonoBehaviour:
         - rid: 328110182838305007
         - rid: 328110182838305008
         - rid: 328110182838305009
+        - rid: 328110304141508865
     - rid: 328110182838305000
       type: {class: ItemSpawnedTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -137,3 +138,9 @@ MonoBehaviour:
       data:
         owningItem: {fileID: 0}
         duration: 5
+    - rid: 328110304141508865
+      type: {class: ItemInSlotTriggered, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        quantity: 7
+        slotForTrigger: 0

@@ -88,7 +88,7 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         randomSlotRange: {x: 0, y: 5}
-        numberTimes: 3
+        numberTimes: 4
         tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
     - rid: 328110133225980009
       type: {class: ForceTriggerRandomSlotEffect, ns: , asm: Assembly-CSharp}
@@ -96,7 +96,7 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         randomSlotRange: {x: 0, y: 5}
-        numberTimes: 6
+        numberTimes: 8
         tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
     - rid: 328110133225980011
       type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}

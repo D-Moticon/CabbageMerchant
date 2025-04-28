@@ -89,7 +89,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         projectilePrefab: {fileID: 11400000, guid: 3ec711a577dadd44ab136bbb6509509c, type: 2}
         projectileSpeed: 20
-        projectilesPerShot: 3
+        projectilesPerShot: 4
         spreadAngle: 10
         fireRate: 15
         effectDuration: 1.5
@@ -123,7 +123,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         projectilePrefab: {fileID: 11400000, guid: 3ec711a577dadd44ab136bbb6509509c, type: 2}
         projectileSpeed: 20
-        projectilesPerShot: 3
+        projectilesPerShot: 4
         spreadAngle: 10
         fireRate: 25
         effectDuration: 1.5

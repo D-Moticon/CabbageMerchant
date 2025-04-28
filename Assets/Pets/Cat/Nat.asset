@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
-  m_Name: Tammy
+  m_Name: Nat
   m_EditorClassIdentifier: 
-  displayName: Tammy
+  displayName: Nat
   dataName: cat
   itemPrefab: {fileID: 7589841050348396428, guid: aa2c5cbb845c4f44ebb9c67243274300, type: 3}
   cost: 50

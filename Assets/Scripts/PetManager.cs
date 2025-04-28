@@ -33,7 +33,8 @@ public class PetManager : MonoBehaviour
     public List<PetDefinition> ownedPets = new List<PetDefinition>();
 
     // Internal list of live OverworldPet instances
-    [HideInInspector]public List<OverworldPet> overworldPets = new List<OverworldPet>();
+    [HideInInspector]
+    public List<OverworldPet> overworldPets = new List<OverworldPet>();
 
     public delegate void PetDefListDelegate(List<PetDefinition> petDefs);
     public static event PetDefListDelegate OwnedPetsChangedEvent;
@@ -122,20 +123,17 @@ public class PetManager : MonoBehaviour
             petSelectedSFX.Play();
         }
 
-        // Close the pet shop panel if open
-        //Singleton.Instance.menuManager.HideAll();
-
         // Notify listeners
         OwnedPetsChangedEvent?.Invoke(ownedPets);
     }
 
     /// <summary>
-    /// Spawns all owned pets in the overworld at random positions.
+    /// Spawns all owned pets in the overworld at defined spawn points.
     /// Clears any existing instances first.
     /// </summary>
     public void SpawnOwnedOverworldPets()
     {
-        // clean up
+        // clean up existing
         foreach (var pet in new List<OverworldPet>(overworldPets))
         {
             if (pet != null)
@@ -143,17 +141,17 @@ public class PetManager : MonoBehaviour
         }
         overworldPets.Clear();
 
-        // spawn each
+        // spawn each at its configured point (or random fallback)
         foreach (var def in ownedPets)
         {
-            Vector3 pos = GetRandomSpawnPosition();
+            Vector3 pos = GetSpawnPositionFor(def);
+
             // instantiate into overworld scene
             GameObject go = Instantiate(
                 overworldPetPrefab.gameObject,
                 pos,
                 Quaternion.identity
             );
-            // move to overworld scene if available
             var scene = SceneManager.GetSceneByName(overworldSceneName);
             if (scene.IsValid())
                 SceneManager.MoveGameObjectToScene(go, scene);
@@ -164,6 +162,25 @@ public class PetManager : MonoBehaviour
                 pet.SetFollow();
             else
                 pet.SetWander();
+        }
+    }
+
+    /// <summary>
+    /// Looks for a GameObject in the scene named "{dataName}_SpawnPoint".
+    /// If found, uses its position; otherwise falls back to a random position.
+    /// </summary>
+    private Vector3 GetSpawnPositionFor(PetDefinition def)
+    {
+        string spawnName = def.dataName + "_Spawn";
+        var spawnObj = GameObject.Find(spawnName);
+        if (spawnObj != null)
+        {
+            return spawnObj.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning($"PetManager: no spawn point named '{spawnName}' found. Using random.");
+            return GetRandomSpawnPosition();
         }
     }
 
@@ -182,8 +199,7 @@ public class PetManager : MonoBehaviour
         {
             ownedPets.Add(def);
             SetCurrentPet(def);
-            Vector3 pos = GetRandomSpawnPosition();
-            // instantiate into overworld scene
+            Vector3 pos = GetSpawnPositionFor(def);
             GameObject go = Instantiate(
                 overworldPetPrefab.gameObject,
                 pos,
@@ -202,7 +218,7 @@ public class PetManager : MonoBehaviour
 
             petSelectedVFX.Spawn(pos);
             petSelectedSFX.Play();
-            
+
             OwnedPetsChangedEvent?.Invoke(ownedPets);
         }
     }

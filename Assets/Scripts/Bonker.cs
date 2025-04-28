@@ -66,7 +66,7 @@ public class Bonker : MonoBehaviour
         if (b != null)
         {
             BonkParams bp = new BonkParams();
-            bp.bonkValue = bonkValue;
+            bp.bonkerPower = bonkValue;
             bp.collisionPos = pos;
             bp.normal = normal;
             bp.ball = null;

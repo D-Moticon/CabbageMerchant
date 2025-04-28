@@ -73,10 +73,8 @@ public class MapGenerator : MonoBehaviour
             var nextLayer = newMap.layers[i + 1];
 
             // calculate pickup value
-            int value = Mathf.CeilToInt(
-                Singleton.Instance.playerStats.currentDifficulty.metacurrencyBase *
-                Mathf.Pow(layerNum, Singleton.Instance.playerStats.currentDifficulty.metacurrencyPower)
-            );
+            int value = Singleton.Instance.playerStats.currentDifficulty.GetMetaCurrencyForLayer(layerNum);
+            
 
             // spawn at midpoints, skip overlaps via collider check
             foreach (var iconA in prevLayer.mapIcons)

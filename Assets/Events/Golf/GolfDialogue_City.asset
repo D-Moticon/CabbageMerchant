@@ -85,7 +85,7 @@ MonoBehaviour:
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 66a2944dcaa3a894c8df34b369a127ce, type: 2}
-        dialogueLine: The fairway is my kingdom? Think you can golf like royalty?
+        dialogueLine: The fairway is my kingdom! Think you can golf like royalty?
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0

@@ -109,7 +109,7 @@ public class Ball : MonoBehaviour
         if (b != null && bonkCooldownCounter <= 0f)
         {
             BonkParams bp = new BonkParams();
-            bp.bonkValue = bonkValue;
+            bp.bonkerPower = bonkValue;
             bp.collisionPos = other.GetContact(0).point;
             bp.normal = other.GetContact(0).normal;
             bp.ball = this;

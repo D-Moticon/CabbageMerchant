@@ -399,6 +399,7 @@ public class ItemManager : MonoBehaviour
             // ——— 1) If both items came from inventory AND names differ, swap them ———
             if (draggingStartSlot != null &&
                 IsInventorySlot(slot) &&
+                IsInventorySlot(draggingStartSlot) &&
                 draggingItem.itemName != slot.currentItem.itemName)
             {
                 SwapItemsBetweenSlots(draggingStartSlot, slot);
@@ -683,6 +684,8 @@ public class ItemManager : MonoBehaviour
             gridSize.y * 0.5f - spacing.y * 0.5f
         );
 
+        int slotNumber = 0;
+        
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < columns; col++)
@@ -690,6 +693,8 @@ public class ItemManager : MonoBehaviour
                 Vector2 pos = startPos + new Vector2(col * spacing.x, -row * spacing.y);
                 ItemSlot newSlot = Instantiate(itemSlotPrefab, pos, Quaternion.identity, transform);
                 itemSlots.Add(newSlot);
+                newSlot.SetSlotNumber(slotNumber);
+                slotNumber++;
             }
         }
     }
@@ -702,7 +707,7 @@ public class ItemManager : MonoBehaviour
             .ToList();
 
         // 2) Find all free inventory slots
-        var emptySlots = itemSlots.Where(s => s.currentItem == null).ToList();
+        var emptySlots = itemSlots.Where(s => s.currentItem == null && !s.isLocked).ToList();
 
         // 3) Kick off the sequenced mover
         StartCoroutine(MoveItemsSequentially(itemsToMove, emptySlots, moveDuration));

@@ -5,7 +5,7 @@ public class CabbageMergedTrigger : Trigger
     public int quantity = 1;
     private int counter = 0;
 
-    private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 4);
+    private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 3);
     
     public override void InitializeTrigger(Item item)
     {

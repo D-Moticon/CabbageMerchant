@@ -450,15 +450,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b26a6794a465cf49ad4e7cccac476f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 3
   followDistance: 1
-  wanderRadius: 2
-  wanderIntervalMin: 1
-  wanderIntervalMax: 3
-  minX: -7.5
-  maxX: 7.5
-  minY: -4
-  maxY: 2.7
+  wanderRadius: 3
+  wanderIntervalMin: 0.5
+  wanderIntervalMax: 2.5
+  minX: -1
+  maxX: 1
+  minY: -1
+  maxY: 1
   minPetSeparation: 0.5
   def: {fileID: 0}
   animator: {fileID: 8916654137383857392}

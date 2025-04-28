@@ -322,11 +322,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16629f2f8ef142408309231f3b3311d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonkValue: 0.5
+  bonkValue: 0.75
   killOnBonk: 1
+  killOnWallCollide: 0
   bonksBeforeKill: 0
   treatAsBall: 0
   vfxOnBonk: {fileID: 0}
+  vfxOnKill: {fileID: 0}
+  sfxOnKill:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  baseMat: {fileID: 0}
+  rainbowMat: {fileID: 0}
 --- !u!50 &2571502174319882938
 Rigidbody2D:
   serializedVersion: 5

@@ -4,7 +4,7 @@ public class AnyItemTriggeredTrigger : Trigger
 {
     public int quantity = 1;
     private int currentCount = 0;
-    private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 10);
+    private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 7);
     
     public override void InitializeTrigger(Item item)
     {
@@ -31,6 +31,7 @@ public class AnyItemTriggeredTrigger : Trigger
 
     void ItemTriggeredListener(Item item)
     {
+        
         if (item == owningItem)
         {
             //prevent infinite loops

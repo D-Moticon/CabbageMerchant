@@ -249,6 +249,16 @@ MonoBehaviour:
     vol: 0.5
   isLocked: 0
   lockedSR: {fileID: 2929657816424641593}
+  unlockVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
+  unlockSFX:
+    sfx:
+      Guid:
+        Data1: -1235266270
+        Data2: 1107526470
+        Data3: 761275303
+        Data4: 127689943
+      Path: event:/KeyUnlock
+    vol: 0.5
   allowedTypes: 0
 --- !u!61 &7819962026239484316
 BoxCollider2D:
@@ -504,7 +514,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1958674045
   m_SortingLayer: 1
-  m_SortingOrder: -4
+  m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: 8e08dc6aaa9335846a14d6c77c24cbfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

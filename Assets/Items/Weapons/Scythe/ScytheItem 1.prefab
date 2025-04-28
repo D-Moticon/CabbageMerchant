@@ -58,7 +58,7 @@ MonoBehaviour:
   - rid: 328110031350006017
   triggerChance: 1
   hasCooldown: 1
-  cooldownDuration: 8.5
+  cooldownDuration: 10
   cooldownCounter: 0
   rarity: 0
   normalizedPrice: 2
@@ -89,7 +89,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         scythe: {fileID: 11400000, guid: 90c0726d28c0a8a44ba2cbcb349777c6, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
-        boostSpeed: 45
+        boostSpeed: 60
         duration: 2
         scytheRotationOffset: 90
         scytheDescription: Chain Scythe
@@ -105,7 +105,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         scythe: {fileID: 11400000, guid: 19e8089355712894088126415b61e411, type: 2}
         lineRenderer: {fileID: 11400000, guid: 352a7188e7274dd4681f4d575eec9f3c, type: 2}
-        boostSpeed: 45
+        boostSpeed: 60
         duration: 2
         scytheRotationOffset: 90
         scytheDescription: Holofoil Chain Scythe

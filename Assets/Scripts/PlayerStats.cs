@@ -36,10 +36,10 @@ public class PlayerStats : MonoBehaviour
     public float startingKeyChance = 0.25f;
     [HideInInspector]public float keyChance = 0.25f;
     [HideInInspector] public int currentMapLayer = 0;
-    [HideInInspector] public double firstRoundGoal = 10;
-    [HideInInspector] public float goalBase = 1;
-    [HideInInspector] public float goalPower = 1;
     public Difficulty currentDifficulty;
+
+    [HideInInspector] public double totalCabbagesBonkedThisRun;
+    [HideInInspector] public double totalBonkValueThisRun;
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -211,14 +211,13 @@ public class PlayerStats : MonoBehaviour
 
     void CabbageBonkedListener(BonkParams bonkParams)
     {
-        currentRunStats.totalBonks += bonkParams.bonkValue;
+        totalCabbagesBonkedThisRun += bonkParams.bonkerPower;
+        totalBonkValueThisRun += bonkParams.totalBonkValueGained;
     }
 
     void MapGeneratedListener(Map map, MapBlueprint blueprint)
     {
-        firstRoundGoal = currentDifficulty.firstRoundGoal;
-        goalBase = currentDifficulty.goalBase;
-        goalPower = currentDifficulty.goalPower;
+        
     }
 
     void SaveDataLoadedListener()

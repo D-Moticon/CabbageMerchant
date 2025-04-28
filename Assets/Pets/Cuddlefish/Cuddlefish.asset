@@ -15,8 +15,8 @@ MonoBehaviour:
   displayName: Cuddles
   dataName: cuttlefish
   itemPrefab: {fileID: 2563034315626464184, guid: cb7e11ad9a276ef4d8cc69d8fc4ae9ff, type: 3}
-  cost: 200
-  upSprite: {fileID: -2094763672, guid: ba74aea6f42e48b4bae0a62820ca7c3d, type: 3}
-  downSprite: {fileID: 179397455, guid: ba74aea6f42e48b4bae0a62820ca7c3d, type: 3}
+  cost: 100
+  upSprite: {fileID: 179397455, guid: ba74aea6f42e48b4bae0a62820ca7c3d, type: 3}
+  downSprite: {fileID: -2094763672, guid: ba74aea6f42e48b4bae0a62820ca7c3d, type: 3}
   leftSprite: {fileID: -72549926, guid: ba74aea6f42e48b4bae0a62820ca7c3d, type: 3}
   rightSprite: {fileID: 221289143, guid: ba74aea6f42e48b4bae0a62820ca7c3d, type: 3}

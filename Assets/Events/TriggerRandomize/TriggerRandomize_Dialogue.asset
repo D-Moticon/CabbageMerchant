@@ -41,6 +41,16 @@ MonoBehaviour:
         dialogueTasks:
         - rid: 328110125889880255
         dialogueButton: {fileID: 0}
+        conditions: []
+        cost: 0
+        conditionsNotMetLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: 
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
     - rid: 328110125889880243
       type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
       data:
@@ -48,6 +58,16 @@ MonoBehaviour:
         dialogueTasks:
         - rid: 328110125889880247
         dialogueButton: {fileID: 0}
+        conditions: []
+        cost: 0
+        conditionsNotMetLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: 
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
     - rid: 328110125889880247
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -128,6 +148,7 @@ MonoBehaviour:
         - rid: 328110125889880287
         - rid: 328110125889880288
         - rid: 328110125889880289
+        - rid: 328110304141508864
         validItemPlacedLine:
           dialogueCharacter: {fileID: 11400000, guid: 6d8c806cc255c7444a581f4f5f9ff60e, type: 2}
           dialogueLine: By the power of chaos!
@@ -202,3 +223,9 @@ MonoBehaviour:
       data:
         owningItem: {fileID: 0}
         duration: 5
+    - rid: 328110304141508864
+      type: {class: ItemInSlotTriggered, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        quantity: 7
+        slotForTrigger: 0

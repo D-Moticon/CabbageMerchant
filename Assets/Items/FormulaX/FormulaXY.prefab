@@ -120,5 +120,5 @@ MonoBehaviour:
       type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
-        numberBounces: 20
+        numberBounces: 15
         bounceType: 0

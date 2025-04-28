@@ -94,7 +94,7 @@ MonoBehaviour:
         ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
         ballName: ball
         ballDescription: 
-        numberCopies: 3
+        numberCopies: 4
         ballLaunchSpeed: 10
         ballLaunchAngleRange: {x: 45, y: 135}
     - rid: 328109986689056876
@@ -105,6 +105,6 @@ MonoBehaviour:
         ballPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
         ballName: <rainb>rainbow ball</rainb>
         ballDescription: bonks for 2
-        numberCopies: 3
+        numberCopies: 4
         ballLaunchSpeed: 10
         ballLaunchAngleRange: {x: 45, y: 135}

@@ -128,7 +128,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: rock
         objectDescription: bonk cabbages for 2
-        quantity: 15
+        quantity: 28
         speedRange: {x: 8, y: 20}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
@@ -138,6 +138,8 @@ MonoBehaviour:
         rotateVFXtoNormal: 1
         velocityDirection: 1
         worldVelocityDirection: {x: 0, y: 1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05
     - rid: 328110044618948730
       type: {class: Weapon_Spade_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -180,7 +182,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: rock
         objectDescription: bonk cabbages for 2
-        quantity: 15
+        quantity: 28
         speedRange: {x: 8, y: 20}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
@@ -190,3 +192,5 @@ MonoBehaviour:
         rotateVFXtoNormal: 1
         velocityDirection: 1
         worldVelocityDirection: {x: 0, y: 1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05

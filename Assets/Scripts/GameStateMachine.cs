@@ -41,19 +41,15 @@ public class GameStateMachine : MonoBehaviour
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
-
-    /*public class CabbageSlot
-    {
-        public Vector2 position;
-        public Cabbage c;
-    }*/
     
     [HideInInspector] public List<BonkableSlot> bonkableSlots = new List<BonkableSlot>();
     
     public static Action BoardFinishedPopulatingAction;
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
+    public static Action EnteringBounceStateAction;
     public static Action ExitingBounceStateAction;
+    public static Action EnteringScoringAction;
     public static Action ExitingScoringAction;
 
     public delegate void IntDelegate(int ballsRemaining);
@@ -68,11 +64,20 @@ public class GameStateMachine : MonoBehaviour
     public static DoubleDelegate RoundScoreUpdatedEvent;
     public static DoubleDelegate RoundGoalOverHitEvent;
 
+    public delegate void FloatDelegate(float value);
+    public static FloatDelegate TimerUpdatedEvent;
+
     public GameObject stopTryButton;
     private bool stopTry = false;
 
     [FormerlySerializedAs("keyYPos")] public float keyMaxYPos = -3.5f;
 
+    float countdownTimerDuration = 0f;
+    private float countdownTimer = 0f;
+    [HideInInspector]public bool usingTimer = false;
+
+    public GameObject floorObject;
+    
     private void OnEnable()
     {
         Cabbage.CabbageMergedEvent += CabbageMergedListener;
@@ -85,6 +90,7 @@ public class GameStateMachine : MonoBehaviour
         Cabbage.CabbageMergedEvent -= CabbageMergedListener;
         Ball.BallEnabledEvent -= BallEnabledListener;
         Ball.BallDisabledEvent -= BallDisabledListener;
+        Physics2D.gravity = new Vector2(0f,-9.81f);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -187,6 +193,23 @@ public class GameStateMachine : MonoBehaviour
         }
 
         return validSlots[Random.Range(0, validSlots.Count)];
+    }
+
+
+    public void SetTimerMode(bool useTimer, float duration = 10f)
+    {
+        usingTimer = useTimer;
+        countdownTimerDuration = duration;
+    }
+
+    public void TurnOnFloor()
+    {
+        floorObject.SetActive(true);
+    }
+    
+    public void TurnOffFloor()
+    {
+        floorObject.SetActive(false);
     }
     
     public class PopulateBoardState : State
@@ -292,11 +315,7 @@ public class GameStateMachine : MonoBehaviour
     public void SetRoundGoal()
     {
         int mapLayer = Singleton.Instance.playerStats.currentMapLayer;
-        double firstRoundGoal = Singleton.Instance.playerStats.firstRoundGoal;
-        float goalBase = Singleton.Instance.playerStats.goalBase;
-        float goalPower = Singleton.Instance.playerStats.goalPower;
-
-        roundGoal = firstRoundGoal + goalBase * Mathf.Pow(mapLayer, goalPower);
+        roundGoal = Singleton.Instance.playerStats.currentDifficulty.GetRoundGoal(mapLayer);
 
         RoundGoalUpdatedEvent?.Invoke(roundGoal);
     }
@@ -445,6 +464,13 @@ public class GameStateMachine : MonoBehaviour
         public override void EnterState()
         {
             stopTryCoroutine = gameStateMachine.StartCoroutine(StopTryButtonShowRoutine());
+            EnteringBounceStateAction?.Invoke();
+            
+            //This needs to be after the event for any items that start the timer
+            if (gameStateMachine.usingTimer)
+            {
+                gameStateMachine.countdownTimer = gameStateMachine.countdownTimerDuration;
+            }
         }
 
         public override void UpdateState()
@@ -469,6 +495,19 @@ public class GameStateMachine : MonoBehaviour
 
                 gameStateMachine.stopTry = false;
             }
+
+            if (gameStateMachine.usingTimer)
+            {
+                gameStateMachine.countdownTimer -= Time.deltaTime;
+                TimerUpdatedEvent?.Invoke(gameStateMachine.countdownTimer);
+                if (gameStateMachine.countdownTimer <= 0f)
+                {
+                    for (int i = gameStateMachine.activeBalls.Count - 1; i >= 0; i--)
+                    {
+                        gameStateMachine.activeBalls[i].KillBall();
+                    }
+                }
+            }
             
             if (gameStateMachine.activeBalls.Count <= 0)
             {
@@ -489,7 +528,7 @@ public class GameStateMachine : MonoBehaviour
             {
                 gameStateMachine.StopCoroutine(stopTryCoroutine);
             }
-            
+
             ExitingBounceStateAction?.Invoke();
         }
 
@@ -506,6 +545,7 @@ public class GameStateMachine : MonoBehaviour
         {
             Singleton.Instance.objectPoolManager.DespawnAll(Singleton.Instance.itemManager.keyPooledObject);
             gameStateMachine.stopTryButton.SetActive(false);
+            EnteringScoringAction?.Invoke();
             gameStateMachine.StartCoroutine(ScoringRoutine());
         }
 
@@ -516,6 +556,7 @@ public class GameStateMachine : MonoBehaviour
 
         public override void ExitState()
         {
+            Physics2D.gravity = new Vector2(0f,-9.81f);
             ExitingScoringAction?.Invoke();
             Singleton.Instance.runManager.GoToMap();
         }

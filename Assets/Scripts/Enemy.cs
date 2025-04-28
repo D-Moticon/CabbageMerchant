@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour, IBonkable
 
     public void Bonk(BonkParams bp)
     {
-        hp -= bp.bonkValue;
+        hp -= bp.bonkerPower;
         if (bonkVFX != null)
         {
             bonkVFX.Spawn(bp.collisionPos);

@@ -46,6 +46,11 @@ public class FluidColliderVelocityTextureGenerator : MonoBehaviour
             //float radius = collider.GetRadius() * Camera.main.orthographicSize*2f;
             float radius = collider.GetRadius() * 20f;
             float mass = collider.GetMassMultiplier();
+
+            if (positions == null || positions.Length == 0)
+            {
+                return;
+            }
             
             for (int i = 0; i < positions.Length; i++)
             {

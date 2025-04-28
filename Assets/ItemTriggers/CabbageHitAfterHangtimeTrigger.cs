@@ -3,7 +3,7 @@ using UnityEngine;
 public class CabbageHitAfterHangtimeTrigger : Trigger
 {
     public float minHangtime = 1f;
-    private static Vector2 randomizeMinHangtimeRange = new Vector2(0.35f, 1.25f);
+    private static Vector2 randomizeMinHangtimeRange = new Vector2(0.30f, 1.25f);
     
     public override void InitializeTrigger(Item item)
     {

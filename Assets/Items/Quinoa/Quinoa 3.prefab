@@ -93,7 +93,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: Quinoa
         objectDescription: bonk cabbages for 2
-        quantity: 5
+        quantity: 7
         speedRange: {x: 8, y: 10}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
@@ -122,7 +122,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: Quinoa
         objectDescription: bonk cabbages for 2
-        quantity: 5
+        quantity: 7
         speedRange: {x: 8, y: 10}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}

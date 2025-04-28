@@ -89,7 +89,78 @@ public static class Helpers
         string suffix;
         double displayValue;
 
-        if (absValue >= 1e9)
+        if (absValue >= 1e300)
+        {
+            return $"Utter Oblivion({absValue / 1e300})";
+        }
+        else if (absValue >= 1e200)
+        {
+            return $"Garden({absValue / 1e200})";
+        }
+        else if (absValue >= 1e100)
+        {
+            return $"Rayo({absValue / 1e100})";
+        }
+        else if (absValue >= 1e44)
+        {
+            return $"Tree({absValue / 1e44})";
+        }
+        else if (absValue >= 1e41)
+        {
+            suffix = " Fish";
+            displayValue = absValue / 1e41;
+        }
+        else if (absValue >= 1e38)
+        {
+            suffix = " Graham";
+            displayValue = absValue / 1e38;
+        }
+        else if (absValue >= 1e35)
+        {
+            suffix = " Super K";
+            displayValue = absValue / 1e35;
+        }
+        else if (absValue >= 1e32)
+        {
+            suffix = " Mega";
+            displayValue = absValue / 1e32;
+        }
+        else if (absValue >= 1e29)
+        {
+            suffix = " Googolplex";
+            displayValue = absValue / 1e29;
+        }
+        else if (absValue >= 1e26)
+        {
+            suffix = " Googol";
+            displayValue = absValue / 1e26;
+        }
+        else if (absValue >= 1e23)
+        {
+            suffix = " Mol";
+            displayValue = absValue / 1e23;
+        }
+        else if (absValue >= 1e21)
+        {
+            suffix = " Sextillion";
+            displayValue = absValue / 1e21;
+        }
+        else if (absValue >= 1e18)
+        {
+            suffix = " Quintillion";
+            displayValue = absValue / 1e18;
+        }
+        else if (absValue >= 1e15)
+        {
+            suffix = " Quadrillion";
+            displayValue = absValue / 1e15;
+        }
+        else if (absValue >= 1e12)
+        {
+            suffix = " Trillion";
+            displayValue = absValue / 1e12;
+        }
+        else if (absValue >= 1e9)
         {
             suffix = "B";
             displayValue = absValue / 1e9;

@@ -90,7 +90,7 @@ MonoBehaviour:
         portalPrefab: {fileID: 11400000, guid: 1f2e7214c1856b84b8db7e0d05f01076, type: 2}
         portalY: 4.5
         effectDuration: 1.5
-        bonkValue: 3
+        bonkValue: 4
     - rid: 328110207799132309
       type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -103,4 +103,4 @@ MonoBehaviour:
         portalPrefab: {fileID: 11400000, guid: 1f2e7214c1856b84b8db7e0d05f01076, type: 2}
         portalY: 4.5
         effectDuration: 2
-        bonkValue: 3
+        bonkValue: 4

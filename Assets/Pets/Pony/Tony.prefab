@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7954962028489668083
+--- !u!1 &7272104974903308988
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8974079152028929423}
-  - component: {fileID: 7589841050348396428}
+  - component: {fileID: 3723447848926519019}
+  - component: {fileID: 9151453957486678061}
   m_Layer: 0
-  m_Name: TammyItem
+  m_Name: Tony
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8974079152028929423
+--- !u!4 &3723447848926519019
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7954962028489668083}
+  m_GameObject: {fileID: 7272104974903308988}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,35 +32,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7589841050348396428
+--- !u!114 &9151453957486678061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7954962028489668083}
+  m_GameObject: {fileID: 7272104974903308988}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Tammy
+  itemName: Tony
   itemDescription: 
-  icon: {fileID: 21300000, guid: d89ad5cf6502eb54e852fb2d12ef1656, type: 3}
+  icon: {fileID: 21300000, guid: 9eec2aa120310c44e86f8f8412f48e14, type: 3}
   itemType: 3
   canBeForceTriggered: 0
   effects:
-  - rid: 328110182838304881
+  - rid: 328110234980581469
   holofoilEffects: []
   holofoilEffectDescription: 
   triggers:
-  - rid: 328110182838304878
+  - rid: 328110234980581472
   triggerChance: 1
   hasCooldown: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 0
+  normalizedPrice: 1
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
@@ -81,14 +81,23 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 328110182838304878
-      type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-    - rid: 328110182838304881
-      type: {class: ConvertRandomCabbage, ns: , asm: Assembly-CSharp}
+    - rid: 328110234980581469
+      type: {class: MakeRandomItemHolofoilEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        replacementObject: {fileID: 11400000, guid: d9c452cf7836b5244974a9707db72289, type: 2}
-        objectDescriptionString: a yarn ball with 3x base bonk multiplier
+        holoVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        holoSFX:
+          sfx:
+            Guid:
+              Data1: -1516327129
+              Data2: 1278429651
+              Data3: 465009556
+              Data4: -1884801215
+            Path: event:/Mystical
+          vol: 0.5
+    - rid: 328110234980581472
+      type: {class: RoundGoalMultHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        goalMultThreshold: 7

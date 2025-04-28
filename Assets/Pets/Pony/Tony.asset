@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
-  m_Name: Charlize
+  m_Name: Tony
   m_EditorClassIdentifier: 
-  displayName: Charlize
+  displayName: Tony
   dataName: unicorn
   itemPrefab: {fileID: 9151453957486678061, guid: bbd499ce0167d8f4ba70288e4db03a09, type: 3}
-  cost: 150
+  cost: 100
   upSprite: {fileID: -980827824, guid: 0735020ba4bfcfd438bdd9e79678b6ad, type: 3}
   downSprite: {fileID: 376373431, guid: 0735020ba4bfcfd438bdd9e79678b6ad, type: 3}
   leftSprite: {fileID: 988726620, guid: 0735020ba4bfcfd438bdd9e79678b6ad, type: 3}
-  rightSprite: {fileID: -980827824, guid: 0735020ba4bfcfd438bdd9e79678b6ad, type: 3}
+  rightSprite: {fileID: -847750685, guid: 0735020ba4bfcfd438bdd9e79678b6ad, type: 3}

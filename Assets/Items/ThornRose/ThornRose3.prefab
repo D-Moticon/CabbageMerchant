@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 048b9a7d76809bb4aa841ed3f65c9153, type: 3}
   itemType: 0
+  canBeForceTriggered: 1
   effects:
   - rid: 328109986689056856
   holofoilEffects:
   - rid: 328109986689056892
+  holofoilEffectDescription: 
   triggers:
   - rid: 328109942880338085
   triggerChance: 1
@@ -76,6 +78,7 @@ MonoBehaviour:
   upgradedItem: {fileID: 0}
   isHolofoil: 0
   firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -96,7 +99,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: thorn
         objectDescription: bonks cabbages for 0.5
-        quantity: 3
+        quantity: 4
         speedRange: {x: 8, y: 15}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
@@ -106,6 +109,8 @@ MonoBehaviour:
         rotateVFXtoNormal: 0
         velocityDirection: 0
         worldVelocityDirection: {x: 0, y: 0}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05
     - rid: 328109986689056892
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -117,7 +122,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: <rainb>rainbow thorn</rainb>
         objectDescription: bonks cabbages for 0.5 and bounces once
-        quantity: 3
+        quantity: 4
         speedRange: {x: 8, y: 15}
         spreadAngle: 45
         scaleRange: {x: 1, y: 1}
@@ -127,3 +132,5 @@ MonoBehaviour:
         rotateVFXtoNormal: 0
         velocityDirection: 0
         worldVelocityDirection: {x: 0, y: 0}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05

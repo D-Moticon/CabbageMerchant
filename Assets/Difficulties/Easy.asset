@@ -14,9 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Easy
   firstRoundGoal: 10
-  goalBase: 1.35
-  goalPower: 1.55
+  referenceFirstRoundGoal: 10
+  referenceFunctionPieces:
+  - rid: 328110304141508608
   metacurrencyBase: 0.15
   metacurrencyPower: 1.05
-  mapLayerNumberForCalc: 10
-  roundGoalCalc: 57.89980267241799
+  functionPieces:
+  - rid: 328110304141508609
+  - rid: 328110304141508612
+  - rid: 328110304141508610
+  - rid: 328110304141508611
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110304141508608
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 0
+        baseValue: 1.35
+        exponent: 1.55
+    - rid: 328110304141508609
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 0
+        baseValue: 1.35
+        exponent: 1.55
+    - rid: 328110304141508610
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 15
+        baseValue: 14.27
+        exponent: 1
+    - rid: 328110304141508611
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 30
+        baseValue: 50.47
+        exponent: 1
+    - rid: 328110304141508612
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 7
+        baseValue: 6
+        exponent: 1

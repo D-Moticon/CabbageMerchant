@@ -48,10 +48,12 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: b6bc9e72c48356d48b8269a44b39ade1, type: 3}
   itemType: 0
+  canBeForceTriggered: 1
   effects:
   - rid: 328110125889880153
   holofoilEffects:
   - rid: 328110125889880154
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110125889880155
   triggerChance: 1
@@ -85,13 +87,13 @@ MonoBehaviour:
       data:
         chance: 0.5
         owningItem: {fileID: 0}
-        valueAdd: 3
+        valueAdd: 4
     - rid: 328110125889880154
       type: {class: BallBonkValueItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 0.9
         owningItem: {fileID: 0}
-        valueAdd: 3
+        valueAdd: 4
     - rid: 328110125889880155
       type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
       data:

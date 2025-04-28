@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7080178880069128011}
   - component: {fileID: 2396357699464077126}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,8 @@ GameObject:
   - component: {fileID: 9099188729845478629}
   - component: {fileID: 8053395208652864509}
   - component: {fileID: 4384870735609471917}
-  m_Layer: 0
+  - component: {fileID: -7618175839650110713}
+  m_Layer: 6
   m_Name: Ant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f2641738db89349aca2b50a1665a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseBonkMultAdd: 0.25
+  baseBonkMultAdd: 0.15
   bouncesBeforeDestroy: 0
   bonkMultVFX: {fileID: 11400000, guid: 6c75de8a6bdd1764d9cbc70d35bb3d44, type: 2}
   bonkMultSFX:
@@ -240,6 +241,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deactivateIfBelowYBounds: 1
+--- !u!114 &-7618175839650110713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380343592779018882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0827c2b6ba929408e35bd646bfcdf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 6
 --- !u!1 &8912681047042488346
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8118773569119466231}
   - component: {fileID: 4420722383506186764}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -25,3 +25,5 @@ MonoBehaviour:
     enabled: 1
   - item: {fileID: 5273499133406254909, guid: 7e3665c686be5964784c7a4eef734422, type: 3}
     enabled: 1
+  - item: {fileID: 8474212204131141607, guid: a3b6602bdb6bc664ca499097cebd0f99, type: 3}
+    enabled: 1

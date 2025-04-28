@@ -19,13 +19,14 @@ public interface IBonkable
 
 public class BonkParams
 {
-    public float bonkValue;
+    public float bonkerPower;
     public Vector2 collisionPos;
     public Vector2 normal = default;
     public Ball ball = null;
     public bool treatAsBall = false;
     public Cabbage bonkedCabbage;
     public IBonkable bonkable;
+    public double totalBonkValueGained;
 }
 
 public interface IKillable

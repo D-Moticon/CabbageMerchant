@@ -14,9 +14,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Hard
   firstRoundGoal: 15
-  goalBase: 1.8
-  goalPower: 2.26474
+  referenceFirstRoundGoal: 15
+  referenceFunctionPieces:
+  - rid: 328110304141508618
   metacurrencyBase: 0.5
-  metacurrencyPower: 1.15
-  mapLayerNumberForCalc: 45
-  roundGoalCalc: 10000.481278443825
+  metacurrencyPower: 1.1
+  maxMetaCurrencyPerLayer: 10
+  functionPieces:
+  - rid: 328110304141508619
+  - rid: 328110304141508620
+  - rid: 328110304141508621
+  - rid: 328110304141508622
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110304141508618
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 0
+        baseValue: 1.8
+        exponent: 2.26474
+    - rid: 328110304141508619
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 0
+        baseValue: 6.16
+        exponent: 1.2
+    - rid: 328110304141508620
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 7
+        baseValue: 34.74
+        exponent: 1.2
+    - rid: 328110304141508621
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 15
+        baseValue: 54.6
+        exponent: 2
+    - rid: 328110304141508622
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 30
+        baseValue: 57.4
+        exponent: 3.7

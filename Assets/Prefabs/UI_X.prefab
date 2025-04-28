@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3424748237035417610}
   - component: {fileID: 2166145919843701568}
   - component: {fileID: 7739228278393716757}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: UI_X
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 8523371739230661866}
   - component: {fileID: 8410659656082565709}
   - component: {fileID: 8736624101056946085}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4496842038733492659}
   - component: {fileID: 7482392993534831792}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: HoverFeel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

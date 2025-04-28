@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9217423097802970094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2268724400158303466}
+  - component: {fileID: 8474212204131141607}
+  m_Layer: 0
+  m_Name: GardenShears_Item
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2268724400158303466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217423097802970094}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8474212204131141607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217423097802970094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Garden Shears
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 3c0300b24120f1c4c80570279c43dbce, type: 3}
+  itemType: 2
+  canBeForceTriggered: 0
+  effects:
+  - rid: 328110296925208661
+  holofoilEffects:
+  - rid: 328110296925208668
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 328110296925208662
+  triggerChance: 1
+  hasCooldown: 1
+  cooldownDuration: 10
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 8474212204131141607, guid: 405c9b9855216f74fac7008c985f3d40, type: 3}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110296925208661
+      type: {class: Weapon_Shears_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
+        boxSize: {x: 10, y: 0.75}
+        bonkValue: 2
+        numberShears: 1
+        bonkableLayerMask:
+          serializedVersion: 2
+          m_Bits: 129
+        splitUpwardAngleRange: 60
+        splitSpeedRange: {x: 5, y: 15}
+        ballLayerMask:
+          serializedVersion: 2
+          m_Bits: 64
+        sliceVFX: {fileID: 11400000, guid: 32eab333a4a0f4b4ca5c4a2ca69e680b, type: 2}
+        sliceSFX:
+          sfx:
+            Guid:
+              Data1: -853281388
+              Data2: 1302869585
+              Data3: -1618557821
+              Data4: -1036009970
+            Path: event:/Slice
+          vol: 0.5
+    - rid: 328110296925208662
+      type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+    - rid: 328110296925208668
+      type: {class: Weapon_Shears_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
+        boxSize: {x: 10, y: 0.75}
+        bonkValue: 3
+        numberShears: 1
+        bonkableLayerMask:
+          serializedVersion: 2
+          m_Bits: 129
+        splitUpwardAngleRange: 60
+        splitSpeedRange: {x: 5, y: 15}
+        ballLayerMask:
+          serializedVersion: 2
+          m_Bits: 64
+        sliceVFX: {fileID: 11400000, guid: 32eab333a4a0f4b4ca5c4a2ca69e680b, type: 2}
+        sliceSFX:
+          sfx:
+            Guid:
+              Data1: -853281388
+              Data2: 1302869585
+              Data3: -1618557821
+              Data4: -1036009970
+            Path: event:/Slice
+          vol: 0.5

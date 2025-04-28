@@ -12,6 +12,7 @@ public class BuildManager : MonoBehaviour
         startRunAtMap,
         startAtGame,
         startAtShop,
+        startAtEvent,
         none
     }
 
@@ -19,10 +20,12 @@ public class BuildManager : MonoBehaviour
 
     [Header("TESTING: These are not used for builds")]
     public int startingCoins;
+    public int startingKeys;
     public bool forceHolofoilStarting = false;
     public PetDefinition startingPet;
     public List<Item> startingItems = new List<Item>();
     public List<Item> startingPerks = new List<Item>();
+    public Biome startingBiome;
     public MapBlueprint mapBlueprint;
 
     public static Action FullGameStartedEvent;
@@ -51,6 +54,8 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 break;
             case BuildMode.startAtGame:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -58,6 +63,8 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 break;
             case BuildMode.startAtShop:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -65,10 +72,22 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                break;
+            case BuildMode.startAtEvent:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.runManager.StartNewRun("Event");
+                Singleton.Instance.menuManager.HideAll();
+                PopulateStartingItems();
+                Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 break;
             case BuildMode.none:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.menuManager.HideAll();
                 break;
             default:

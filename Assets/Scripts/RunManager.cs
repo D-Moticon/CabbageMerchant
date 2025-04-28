@@ -227,7 +227,7 @@ public class RunManager : MonoBehaviour
         }
     }
 
-    void ChangeBiome(Biome newBiome)
+    public void ChangeBiome(Biome newBiome)
     {
         BiomeChangedEvent?.Invoke(newBiome);
         currentBiome = newBiome;

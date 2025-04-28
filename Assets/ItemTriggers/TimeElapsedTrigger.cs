@@ -4,7 +4,7 @@ using System.Collections;
 public class TimeElapsedTrigger : Trigger
 {
     public float duration = 5f;
-    private static Vector2 randomizeDurationRange = new Vector2(0.5f, 5f);
+    private static Vector2 randomizeDurationRange = new Vector2(0.3f, 4f);
     
     // our running loop handle
     private Coroutine loopCoroutine;

@@ -79,7 +79,7 @@ public class RoundScoreUI : MonoBehaviour
         }
         
         roundScoreSlider.value = (float)sliderVal;
-        roundScoreMultText.text = $"{Math.Floor(roundScoreMult).ToString()}<size=5>x";
+        roundScoreMultText.text = $"{Helpers.FormatWithSuffix(Math.Floor(roundScoreMult))}<size=5>x";
 
         oldScore = newScore;
     }

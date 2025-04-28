@@ -98,7 +98,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: rock
         objectDescription: bonk cabbages for 2
-        quantity: 15
+        quantity: 20
         speedRange: {x: 5, y: 12}
         spreadAngle: 35
         scaleRange: {x: 1, y: 1}
@@ -108,6 +108,8 @@ MonoBehaviour:
         rotateVFXtoNormal: 1
         velocityDirection: 1
         worldVelocityDirection: {x: 0, y: 1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05
     - rid: 328110010024067180
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -119,7 +121,7 @@ MonoBehaviour:
         spawnAreaSize: {x: 1, y: 1}
         objectName: rock
         objectDescription: bonk cabbages for 2
-        quantity: 20
+        quantity: 32
         speedRange: {x: 5, y: 12}
         spreadAngle: 35
         scaleRange: {x: 1, y: 1}
@@ -129,3 +131,5 @@ MonoBehaviour:
         rotateVFXtoNormal: 1
         velocityDirection: 1
         worldVelocityDirection: {x: 0, y: 1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05

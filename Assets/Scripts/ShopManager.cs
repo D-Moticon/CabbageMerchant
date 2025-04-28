@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class ShopManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class ShopManager : MonoBehaviour
     public int baseNumberItems = 4;
     public bool onlyBuyOne = false;
     public bool noDupes = true;
+    [FormerlySerializedAs("lockItems")] public bool lockSlots = false;
 
     public ItemCollection itemCollection;
     [HideInInspector]public List<Item> spawnedItems = new List<Item>();
@@ -59,6 +61,11 @@ public class ShopManager : MonoBehaviour
                                            Quaternion.identity, itemSlotTransforms[i]);
             createdSlots.Add(newSlot);
             newSlot.SetPriceText();
+
+            if (lockSlots)
+            {
+                newSlot.LockSlot();
+            }
         }
     }
 

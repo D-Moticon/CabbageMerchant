@@ -96,7 +96,15 @@ public class SpawnRBItemEffect : ItemEffect
                         }
                         else
                         {
-                            pos = GameSingleton.Instance.gameStateMachine.GetEmptyBonkableSlot().transform.position;
+                            BonkableSlot bs = GameSingleton.Instance.gameStateMachine.GetEmptyBonkableSlot();
+                            if (bs != null)
+                            {
+                                pos = GameSingleton.Instance.gameStateMachine.GetEmptyBonkableSlot().transform.position;
+                            }
+                            else
+                            {
+                                continue;
+                            }
                         }
                     }
 

@@ -7,6 +7,7 @@ public class RunEndPanel : MenuPanel
 {
     public TypewriterByCharacter runResultTypewriter;
     public TMP_Text totalBonksText;
+    public TMP_Text totalBonkValueText;
 
     public string runSuccessfulText;
     public string runFailedText;
@@ -21,9 +22,11 @@ public class RunEndPanel : MenuPanel
         RunManager.RunFinishedEvent -= RunFinishedListener;
     }
 
-    public void ShowRunStats(RunStats stats)
+    public void ShowRunStats()
     {
-        totalBonksText.text = $"Cabbages Bonked: {Helpers.FormatWithSuffix(stats.totalBonks)}";
+        PlayerStats pStats = Singleton.Instance.playerStats;
+        totalBonksText.text = $"Cabbages Bonked: {Helpers.FormatWithSuffix(pStats.totalCabbagesBonkedThisRun)}";
+        totalBonkValueText.text = $"Total Bonk Value: {Helpers.FormatWithSuffix(pStats.totalBonkValueThisRun)}";
     }
 
     void RunFinishedListener(RunManager.RunCompleteParams rep)
@@ -38,6 +41,6 @@ public class RunEndPanel : MenuPanel
             runResultTypewriter.ShowText(runFailedText);
         }
         
-        ShowRunStats(Singleton.Instance.playerStats.currentRunStats);
+        ShowRunStats();
     }
 }

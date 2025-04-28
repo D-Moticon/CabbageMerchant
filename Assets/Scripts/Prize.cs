@@ -17,6 +17,7 @@ public class CoinsPrize : Prize
     public override IEnumerator AwardPrize(DialogueContext dc)
     {
         Singleton.Instance.playerStats.AddCoins(numberCoins);
+        Singleton.Instance.uiManager.DisplayCoinsGainedAnimation(numberCoins);
         awardLine.dialogueLine = $"+{numberCoins} coins!";
         Task awardLineTask = new Task(awardLine.RunTask(dc));
         while (awardLineTask.Running) yield return null;

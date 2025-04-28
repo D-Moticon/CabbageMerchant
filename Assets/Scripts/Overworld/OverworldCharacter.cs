@@ -1,15 +1,11 @@
 using UnityEngine;
 
-/// <summary>
-/// Top-down character controller using Rigidbody2D for movement and collisions.
-/// Click to set destination; the Rigidbody moves toward it and stops (and bumps back) on collision or when reached.
-/// </summary>
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class OverworldCharacter : MonoBehaviour
 {
     [Header("Movement")]
-    [Tooltip("Movement speed in world units per second")]
-    public float speed = 5f;
+    [Tooltip("Movement speed in world units per second")]    public float speed = 5f;
+    [Tooltip("How close to the target before we consider ourselves arrived")] public float stoppingDistance = 0.1f;
 
     [Header("Direction Sprites")]
     [Tooltip("Sprite when facing up")]    public Sprite upSprite;
@@ -18,37 +14,45 @@ public class OverworldCharacter : MonoBehaviour
     [Tooltip("Sprite when facing right")] public Sprite rightSprite;
 
     [Header("Collision")]
-    [Tooltip("Which layers to stop on collision")] public LayerMask collisionLayers;
-    [Tooltip("Distance to bump back on collision")] public float bumpBackDistance = 0.5f;
+    [Tooltip("Which layers block movement")] public LayerMask collisionLayers;
+    [Tooltip("Distance to bump back on collision if completely blocked")] public float bumpBackDistance = 0.1f;
 
-    private Rigidbody2D rb;
-    private Animator animator;
-    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D     rb;
+    private Animator        animator;
+    private SpriteRenderer  spriteRenderer;
 
     private Vector2 targetPosition;
     private Vector2 moveDir;
-    private bool isMoving = false;
+    private bool    isMoving;
+
+    // Filter and buffer for Rigidbody2D.Cast
+    private ContactFilter2D moveFilter;
+    private RaycastHit2D[]  hitBuffer = new RaycastHit2D[8];
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-        animator = GetComponent<Animator>();
+        animator       = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
+        moveFilter = new ContactFilter2D();
+        moveFilter.SetLayerMask(collisionLayers);
+        moveFilter.useTriggers = false;
+
         targetPosition = rb.position;
-        moveDir = Vector2.zero;
+        isMoving       = false;
     }
 
     void Update()
     {
+        // Pause handling
         if (PauseManager.IsPaused())
         {
-            isMoving = false;
-            rb.linearVelocity = Vector2.zero;
-            animator.SetBool("isWalking", false);
+            StopMovement();
             return;
         }
 
@@ -57,7 +61,7 @@ public class OverworldCharacter : MonoBehaviour
         {
             targetPosition = input.mousePosWorldSpace;
             Vector2 delta = targetPosition - rb.position;
-            if (delta.sqrMagnitude > 0.001f)
+            if (delta.sqrMagnitude > stoppingDistance * stoppingDistance)
             {
                 moveDir = delta.normalized;
                 isMoving = true;
@@ -65,34 +69,53 @@ public class OverworldCharacter : MonoBehaviour
                 animator.SetBool("isWalking", true);
             }
         }
-
-        if (isMoving)
-        {
-            float remaining = Vector2.Distance(rb.position, targetPosition);
-            if (remaining < 0.1f)
-            {
-                StopMovement();
-            }
-        }
     }
 
     void FixedUpdate()
     {
-        if (isMoving)
-            rb.linearVelocity = moveDir * speed;
-        else
-            rb.linearVelocity = Vector2.zero;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // only respond to specified layers
-        if ((collisionLayers.value & (1 << collision.gameObject.layer)) != 0)
+        if (PauseManager.IsPaused() || !isMoving)
         {
-            // bump back slightly to avoid sticking through
-            rb.position = rb.position - moveDir * bumpBackDistance;
             StopMovement();
+            return;
         }
+
+        Vector2 toTarget = targetPosition - rb.position;
+        float   distToTarget = toTarget.magnitude;
+
+        if (distToTarget <= stoppingDistance)
+        {
+            StopMovement();
+            return;
+        }
+
+        // Always drive toward target
+        moveDir = toTarget.normalized;
+        float moveDist = speed * Time.fixedDeltaTime;
+
+        // Shape-cast ahead to detect walls
+        int hitCount = rb.Cast(moveDir, moveFilter, hitBuffer, moveDist + bumpBackDistance);
+        if (hitCount > 0)
+        {
+            Vector2 normal = hitBuffer[0].normal;
+            // project moveDir onto tangent to slide along wall
+            Vector2 tangent = moveDir - normal * Vector2.Dot(moveDir, normal);
+            if (tangent.sqrMagnitude > 0.001f)
+            {
+                moveDir = tangent.normalized;
+            }
+            else
+            {
+                // no tangent (head-on), bump back slightly and stop
+                rb.position -= normal * bumpBackDistance;
+                StopMovement();
+                return;
+            }
+        }
+
+        // Apply velocity
+        rb.linearVelocity = moveDir * speed;
+        animator.SetBool("isWalking", true);
+        UpdateSprite(moveDir);
     }
 
     private void StopMovement()
@@ -104,9 +127,10 @@ public class OverworldCharacter : MonoBehaviour
 
     private void UpdateSprite(Vector2 dir)
     {
-        float absX = Mathf.Abs(dir.x);
-        float absY = Mathf.Abs(dir.y);
-        if (absX > absY)
+        float ax = Mathf.Abs(dir.x);
+        float ay = Mathf.Abs(dir.y);
+
+        if (ax > ay)
             spriteRenderer.sprite = dir.x > 0 ? rightSprite : leftSprite;
         else
             spriteRenderer.sprite = dir.y > 0 ? upSprite    : downSprite;

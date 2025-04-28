@@ -15210,6 +15210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPoolManager: {fileID: 0}
   ballPooledObject: {fileID: 11400000, guid: 7adae652fb4b22043a0dd66d32fef505, type: 2}
+  defaultPhysicsMat: {fileID: 6200000, guid: d2d5c7546c8905842ab03d3845a5ef6d, type: 2}
+  baseLaunchSpeed: 15
   launchSpeed: 15
   currentLaunchVelocity: {x: 0, y: 0}
   launchFeel: {fileID: 5322271209779806536}

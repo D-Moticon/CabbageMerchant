@@ -165,20 +165,21 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public void Bonk(BonkParams bp)
     {
-        sizeLevel = Mathf.Min(sizeLevel + bp.bonkValue, maxSizeLevel);
+        sizeLevel = Mathf.Min(sizeLevel + bp.bonkerPower, maxSizeLevel);
         UpdateSizeLevel();
 
         // VFX and feedback
-        bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkValue);
+        bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkerPower);
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
-        vfx.transform.localScale = new Vector3(1f+bp.bonkValue*0.1f, 1f+bp.bonkValue*0.1f, 1f);
+        vfx.transform.localScale = new Vector3(1f+bp.bonkerPower*0.1f, 1f+bp.bonkerPower*0.1f, 1f);
 
         PlayBonkFX();
 
-        points += (bp.bonkValue * bonkMultiplier);
+        points += (bp.bonkerPower * bonkMultiplier);
         
         bp.bonkedCabbage = this;
         bp.bonkable = this;
+        bp.totalBonkValueGained = bp.bonkerPower * bonkMultiplier;
 
         CabbageBonkedEvent?.Invoke(bp);
 
@@ -251,7 +252,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         {
             if (bonkMultiplier > 1.1)
             {
-                pointMultText.text = $"<size=17>x</size>{bonkMultiplier:F1}";
+                pointMultText.text = $"<size=17>x</size>{Helpers.FormatWithSuffix(bonkMultiplier)}";
             }
             else
             {
@@ -454,5 +455,6 @@ public class Cabbage : MonoBehaviour, IBonkable
     public void MultiplyBonkMultiplier(double multMult)
     {
         bonkMultiplier *= multMult;
+        Singleton.Instance.floaterManager.SpawnInfoFloater($"x{multMult:F1}", this.transform.position + new Vector3(0f,.3f,0f), Color.green, 0.75f);
     }
 }

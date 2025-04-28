@@ -17,6 +17,7 @@ public class ItemSlot : MonoBehaviour
     public SpriteRenderer lockedSR;
     public PooledObjectData unlockVFX;
     public SFXInfo unlockSFX;
+    public TMP_Text slotNumberText;
     
 
     public enum AllowedTypes
@@ -147,6 +148,15 @@ public class ItemSlot : MonoBehaviour
         {
             unlockVFX.Spawn(this.transform.position);
             unlockSFX.Play(this.transform.position);
+        }
+    }
+
+    public void SetSlotNumber(int newSlotNumber)
+    {
+        slotNumber = newSlotNumber;
+        if (slotNumberText != null)
+        {
+            slotNumberText.text = (newSlotNumber+1).ToString();
         }
     }
 }

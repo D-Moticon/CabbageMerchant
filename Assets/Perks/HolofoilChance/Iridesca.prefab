@@ -48,12 +48,18 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 3403c501bbc881047966bfe6990dc9dd, type: 3}
   itemType: 1
+  canBeForceTriggered: 1
   effects:
   - rid: 328109986689057254
   holofoilEffects:
   - rid: 328109986689057255
+  holofoilEffectDescription: 
   triggers:
   - rid: 328109942880338123
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
   normalizedPrice: 0
   sellValueMultiplier: 1
@@ -71,6 +77,8 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
@@ -81,8 +89,12 @@ MonoBehaviour:
     - rid: 328109986689057254
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        holofoilChanceAdd: 0.03
+        chance: 1
+        owningItem: {fileID: 0}
+        holofoilChanceAdd: 0.04
     - rid: 328109986689057255
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
-        holofoilChanceAdd: 0.06
+        chance: 1
+        owningItem: {fileID: 0}
+        holofoilChanceAdd: 0.08
