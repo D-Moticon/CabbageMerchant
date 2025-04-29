@@ -50,10 +50,10 @@ MonoBehaviour:
   itemType: 0
   canBeForceTriggered: 1
   effects:
-  - rid: 328110318754201600
+  - rid: 328110318890516480
   holofoilEffects:
-  - rid: 328110318754201601
-  holofoilEffectDescription: 
+  - rid: 328110318890516481
+  holofoilEffectDescription: Extra bonk value
   triggers:
   - rid: 328110304141508874
   triggerChance: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
         Data4: -815059769
       Path: event:/Bee
     vol: 0.3
-  upgradedItem: {fileID: 0}
+  upgradedItem: {fileID: 7250747233205241344, guid: 9040a82b1857cee42891bb3c76de7a17, type: 3}
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
@@ -86,17 +86,24 @@ MonoBehaviour:
       type: {class: ItemInSlotTriggered, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         quantity: 3
         slotForTrigger: 2
-    - rid: 328110318754201600
-      type: {class: BonkLowestCabbageEffect, ns: , asm: Assembly-CSharp}
+    - rid: 328110318890516480
+      type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
         bonkValue: 3
-    - rid: 328110318754201601
-      type: {class: BonkLowestCabbageEffect, ns: , asm: Assembly-CSharp}
+        quantity: 1
+        cabbageSelection: 1
+        spawnItemAtCabbage: {fileID: 11400000, guid: cab636e0831fb1d4db8af97f745c6505, type: 2}
+    - rid: 328110318890516481
+      type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        bonkValue: 3
+        bonkValue: 6
+        quantity: 1
+        cabbageSelection: 1
+        spawnItemAtCabbage: {fileID: 11400000, guid: cab636e0831fb1d4db8af97f745c6505, type: 2}

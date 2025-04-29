@@ -68,6 +68,11 @@ public class Item : MonoBehaviour, IHoverable
             }
             
         }
+
+        foreach (var trigger in triggers)
+        {
+            trigger.itemHasTriggeredThisFrame = false;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -169,6 +174,11 @@ public class Item : MonoBehaviour, IHoverable
             {
                 itemEffect.TryTriggerItemEffect(tc);
             } 
+        }
+
+        foreach (var trigger in triggers)
+        {
+            trigger.itemHasTriggeredThisFrame = true;
         }
 
         cooldownCounter = cooldownDuration;

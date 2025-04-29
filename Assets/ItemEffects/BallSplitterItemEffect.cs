@@ -20,12 +20,24 @@ public class BallSplitterItemEffect : ItemEffect
         {
             return;
         }
+
+        Vector2 pos = Vector2.zero;
         
         if (tc.ball == null)
         {
             int rand = Random.Range(0, GameSingleton.Instance.gameStateMachine.activeBalls.Count);
-            tc.ball = GameSingleton.Instance.gameStateMachine.activeBalls[rand];
-            tc.point = tc.ball.transform.position;
+            if (GameSingleton.Instance.gameStateMachine.activeBalls.Count > 0)
+            {
+                tc.ball = GameSingleton.Instance.gameStateMachine.activeBalls[rand];
+                tc.point = tc.ball.transform.position;
+                pos = tc.ball.transform.position;
+            }
+
+            else
+            {
+                pos = new Vector2(Random.Range(-4f,4f), Random.Range(-4f,4f));
+            }
+            
             float randAng = Random.Range(0f, 360f);
             Vector2 randDir = Helpers.AngleDegToVector2(randAng);
             tc.normal = randDir;
@@ -33,16 +45,26 @@ public class BallSplitterItemEffect : ItemEffect
 
         else
         {
-            for (int i = 0; i < numberCopies; i++)
+            pos = tc.ball.transform.position;
+        }
+
+        
+        for (int i = 0; i < numberCopies; i++)
+        {
+            Ball b = ballPooledObject.Spawn(pos, Quaternion.identity).GetComponent<Ball>();
+            float ang = Random.Range(ballLaunchAngleRange.x, ballLaunchAngleRange.y);
+            float speed = ballLaunchSpeed;
+            Vector2 dir = Helpers.AngleDegToVector2(ang);
+            Vector2 vel = speed * dir;
+            b.rb.linearVelocity = vel;
+
+            if (tc.ball != null)
             {
-                Ball b = ballPooledObject.Spawn(tc.ball.transform.position, Quaternion.identity).GetComponent<Ball>();
-                float ang = Random.Range(ballLaunchAngleRange.x, ballLaunchAngleRange.y);
-                float speed = ballLaunchSpeed;
-                Vector2 dir = Helpers.AngleDegToVector2(ang);
-                Vector2 vel = speed * dir;
-                b.rb.linearVelocity = vel;
+                b.rb.sharedMaterial = tc.ball.rb.sharedMaterial;
+                b.col.sharedMaterial = tc.ball.col.sharedMaterial;
             }
         }
+        
     }
 
     public override string GetDescription()

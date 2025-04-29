@@ -39,6 +39,11 @@ public class CabbageHitTrigger : Trigger
 
     void CabbageHitListener(BonkParams bp)
     {
+        if (itemHasTriggeredThisFrame)
+        {
+            return;
+        }
+        
         if (onlyByBall && !bp.treatAsBall)
         {
             return;

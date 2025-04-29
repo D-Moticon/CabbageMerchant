@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 772339724308061480}
   - component: {fileID: 506490923396703899}
   - component: {fileID: 7435079397661168389}
+  - component: {fileID: 4397932945761720244}
   m_Layer: 6
   m_Name: Ball
   m_TagString: Untagged
@@ -91,6 +92,7 @@ MonoBehaviour:
   col: {fileID: 4857814658084995253}
   sr: {fileID: 7681314831113446708}
   tr: {fileID: 7455946343944680310}
+  baseBonkValue: 1
   bonkValue: 1
   bonkValueText: {fileID: 1504988642242949044}
   bonkValueMaterialProp: _AddHueFade
@@ -176,6 +178,21 @@ MonoBehaviour:
   emissionTemperature: 0
   emissionColor: {r: 1, g: 1, b: 1, a: 1}
   velocityInherit: 1
+--- !u!114 &4397932945761720244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597044578796613092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be19d28d11a56ab45884cfdf6e69441e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeed: 10
+  maxSpeed: 30
+  skin: 0.2
 --- !u!1 &7438747504180923609
 GameObject:
   m_ObjectHideFlags: 0

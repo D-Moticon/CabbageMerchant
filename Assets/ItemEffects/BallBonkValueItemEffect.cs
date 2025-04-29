@@ -15,4 +15,10 @@ public class BallBonkValueItemEffect : ItemEffect
     {
         return ($"Increase ball bonk value by +{valueAdd:F0}");
     }
+
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        valueAdd = Random.Range(0.5f, 10f);
+    }
 }

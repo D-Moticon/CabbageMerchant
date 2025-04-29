@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public abstract class Trigger
@@ -8,4 +9,6 @@ public abstract class Trigger
     public abstract void RemoveTrigger(Item item);
     public abstract string GetTriggerDescription();
     public virtual void RandomizeTrigger(){}
+
+    [HideInInspector] public bool itemHasTriggeredThisFrame = false;
 }

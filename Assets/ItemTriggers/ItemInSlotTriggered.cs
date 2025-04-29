@@ -32,6 +32,11 @@ public class ItemInSlotTriggered : Trigger
 
     void ItemTriggeredListener(Item item)
     {
+        if (itemHasTriggeredThisFrame)
+        {
+            //prevent infinite loops
+            return;
+        }
         
         if (item == owningItem)
         {

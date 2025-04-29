@@ -35,8 +35,13 @@ public class Ball : MonoBehaviour
 
     public delegate void BallDelegate(Ball b);
 
-    public static event BallDelegate BallEnabledEvent;
-    public static event BallDelegate BallDisabledEvent;
+    public static BallDelegate BallEnabledEvent;
+    public static BallDelegate BallDisabledEvent;
+
+    public class BallSpawnParams
+    {
+        private Ball ball;
+    }
     
     private static float timeoutDuration = 0.5f;
     private static float timeoutVel = 0.1f;
@@ -131,6 +136,7 @@ public class Ball : MonoBehaviour
         else
         {
             wallBonkSFX.Play(other.GetContact(0).point);
+            print(other.gameObject);
         }
     }
 

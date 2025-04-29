@@ -113,6 +113,8 @@ public class ItemManager : MonoBehaviour
         {
             perkItem.SetHolofoil();
         }
+
+        perkItem.purchasable = false;
         ItemPurchasedEvent?.Invoke(perkItem);
     }
 

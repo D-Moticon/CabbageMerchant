@@ -49,4 +49,6 @@ public abstract class ItemEffect
     {
         Debug.Log(message);
     }
+    
+    public virtual void RandomizePower(){}
 }

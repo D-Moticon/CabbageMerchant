@@ -78,4 +78,9 @@ public class Launcher : MonoBehaviour
     {
         launchSpeed = baseLaunchSpeed;
     }
+
+    public void AddLaunchSpeed(float speedAdd)
+    {
+        launchSpeed += speedAdd;
+    }
 }

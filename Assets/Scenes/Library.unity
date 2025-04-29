@@ -119,6 +119,86 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &453549001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 804611306}
+    m_Modifications:
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675685012274352006, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: m_Name
+      value: ReRollButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: shopManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: shopManagers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: 'shopManagers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 763103695}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4457679623599891130, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 4840061029763307429, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+--- !u!4 &453549002 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1808174064589007311, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+  m_PrefabInstance: {fileID: 453549001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &569339946
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +401,7 @@ MonoBehaviour:
   baseNumberItems: 4
   onlyBuyOne: 1
   noDupes: 1
+  lockSlots: 0
   itemCollection: {fileID: 11400000, guid: 19f60e9c279842746bceef08332c1cc9, type: 2}
   spawnedItems: []
   rarityWeights:
@@ -334,13 +415,13 @@ MonoBehaviour:
   rerollSFX:
     sfx:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: 209480351
+        Data2: 1260769138
+        Data3: -1962625893
+        Data4: 1010117198
+      Path: event:/Reroll
     vol: 0.5
-  rerollVFX: {fileID: 0}
+  rerollVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
 --- !u!4 &763103696
 Transform:
   m_ObjectHideFlags: 0
@@ -423,6 +504,7 @@ Transform:
   - {fileID: 692235457}
   - {fileID: 569339948}
   - {fileID: 1494348518}
+  - {fileID: 453549002}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &831206538
