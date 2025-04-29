@@ -49,4 +49,10 @@ public class ForceTriggerRandomSlotEffect : ItemEffect
 
         return s;
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        numberTimes = Random.Range(1, 8);
+    }
 }

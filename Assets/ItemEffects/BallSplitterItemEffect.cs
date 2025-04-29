@@ -83,4 +83,10 @@ public class BallSplitterItemEffect : ItemEffect
         
         return ($"Split ball into {numberCopies} extra {ballName}{plural} {desc}");
     }
+
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        numberCopies = Random.Range(1, 8);
+    }
 }

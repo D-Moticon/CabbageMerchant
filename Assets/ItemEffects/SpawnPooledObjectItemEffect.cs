@@ -33,4 +33,10 @@ public class SpawnPooledObjectItemEffect : ItemEffect
 
         return ($"Spawn {quantity} {objectName}{plural} that {objectDescription}");
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        quantity = Random.Range(1, 8);
+    }
 }

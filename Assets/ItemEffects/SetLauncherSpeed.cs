@@ -12,4 +12,10 @@ public class SetLauncherSpeed : ItemEffect
     {
         return ($"Throw balls at {newSpeed} m/s");
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        newSpeed = Random.Range(12f, 40f);
+    }
 }

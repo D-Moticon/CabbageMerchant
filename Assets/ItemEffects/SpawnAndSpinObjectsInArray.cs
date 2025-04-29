@@ -88,4 +88,11 @@ public class SpawnAndSpinObjectsInArray : ItemEffect
         return
             $"Spawn {quantityToSpawn} {objectName} at {ballString} that spin and {objectDescription} for {duration}s";
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        quantityToSpawn = Random.Range(1, 8);
+        duration = Random.Range(0.5f, 3f);
+    }
 }

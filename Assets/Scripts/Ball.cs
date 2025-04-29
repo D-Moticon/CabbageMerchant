@@ -136,7 +136,6 @@ public class Ball : MonoBehaviour
         else
         {
             wallBonkSFX.Play(other.GetContact(0).point);
-            print(other.gameObject);
         }
     }
 

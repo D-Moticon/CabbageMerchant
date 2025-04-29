@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class BonkCabbageItemEffect : ItemEffect
 {
@@ -69,5 +70,12 @@ public class BonkCabbageItemEffect : ItemEffect
         };
 
         return ($"Bonk {quantity} {selectionDescription} cabbage(s) for {bonkValue}");
+    }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        bonkValue = Random.Range(0.5f, 10f);
+        quantity = Random.Range(1, 8);
     }
 }

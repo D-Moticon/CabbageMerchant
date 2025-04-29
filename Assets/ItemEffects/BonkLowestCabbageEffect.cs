@@ -41,4 +41,10 @@ public class BonkLowestCabbageEffect : ItemEffect
     {
         return $"Bonk the lowest value cabbage for {bonkValue}.";
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        bonkValue = Random.Range(0.5f, 8f);
+    }
 }

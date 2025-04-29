@@ -40,6 +40,7 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector] public double totalCabbagesBonkedThisRun;
     [HideInInspector] public double totalBonkValueThisRun;
+    [HideInInspector] public float totalRunTime = 0f;
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -97,9 +98,16 @@ public class PlayerStats : MonoBehaviour
         KeysUpdatedEvent?.Invoke(numberKeys);
         keyChance = startingKeyChance;
         currentMapLayer = 0;
-        currentRunStats = new RunStats();
+        totalCabbagesBonkedThisRun = 0;
+        totalBonkValueThisRun = 0;
+        totalRunTime = 0;
     }
-    
+
+    private void Update()
+    {
+        totalRunTime += Time.deltaTime;
+    }
+
     public void AddCoins(double coinsToAdd)
     {
         coins += coinsToAdd;

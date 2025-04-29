@@ -32,4 +32,11 @@ public class MultiplyRandomCabbageMultEffect : ItemEffect
         string s = $"Multiply the bonk multiplier of {quantity} random cabbage{plural} by {multMult:F1}x";
         return s;
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        quantity = Random.Range(1, 8);
+        multMult = Random.Range(1f, 8f);
+    }
 }

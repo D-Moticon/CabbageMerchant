@@ -217,4 +217,10 @@ public class SpawnRBItemEffect : ItemEffect
         yield return new WaitForSeconds(delay);
         if (col != null) col.enabled = true;
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        quantity = Random.Range(1, 40);
+    }
 }

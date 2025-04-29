@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
+  m_Name: Hedgehog
+  m_EditorClassIdentifier: 
+  displayName: Sedgwick
+  dataName: hedgehog
+  itemPrefab: {fileID: 205540689217561247, guid: ff720ad9997244d4fa9c902a0c3b61e6, type: 3}
+  cost: 100
+  upSprite: {fileID: 2031625265, guid: 80def878ff630c44c92a62acfb15e27a, type: 3}
+  downSprite: {fileID: 229984828, guid: 80def878ff630c44c92a62acfb15e27a, type: 3}
+  leftSprite: {fileID: -1740449739, guid: 80def878ff630c44c92a62acfb15e27a, type: 3}
+  rightSprite: {fileID: 801534098, guid: 80def878ff630c44c92a62acfb15e27a, type: 3}

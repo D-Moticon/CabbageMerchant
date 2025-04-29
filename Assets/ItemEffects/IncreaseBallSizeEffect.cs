@@ -41,4 +41,10 @@ public class IncreaseBallSizeEffect : ItemEffect
     {
         return $"Increase size of ball by {scaleIncrease} up to {scaleMax}";
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        scaleIncrease = Random.Range(.05f, 1f);
+    }
 }

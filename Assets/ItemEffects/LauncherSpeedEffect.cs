@@ -13,4 +13,10 @@ public class LauncherSpeedEffect : ItemEffect
     {
         return ($"Increase ball launch speed by {speedAdd:F1} m/s");
     }
+    
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        speedAdd = Random.Range(2f, 30f);
+    }
 }

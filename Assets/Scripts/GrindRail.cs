@@ -1,14 +1,34 @@
+// GrindRail.cs
 using UnityEngine;
 
 [RequireComponent(typeof(EdgeCollider2D))]
 public class GrindRail : MonoBehaviour
 {
     public EdgeCollider2D Edge { get; private set; }
+
+    [Header("Destruction")]
+    [Tooltip("Spawn VFX & destroy this rail when the ball leaves it.")]
+    public bool destroyOnExit = false;
+    public PooledObjectData destroyVFX;
+
     void Awake() => Edge = GetComponent<EdgeCollider2D>();
 
-    /// Returns:
-    /// • the closest point ON the rail to ‘worldPoint’
-    /// • the unit tangent (direction along the rail) at that point
+    /// <summary>
+    /// If flagged, spawns VFX at 'position' then destroys this rail GameObject.
+    /// </summary>
+    public void HandleDestruction(Vector2 position)
+    {
+        if (destroyOnExit)
+        {
+            if (destroyVFX != null)
+                destroyVFX.Spawn(position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Returns the closest point ON the rail to ‘worldPoint’ and the unit tangent there.
+    /// </summary>
     public void GetClosestPointAndTangent(Vector2 worldPoint,
         out Vector2 closest,
         out Vector2 tangent)

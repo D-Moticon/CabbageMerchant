@@ -4089,6 +4089,9 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: cab636e0831fb1d4db8af97f745c6505, type: 2}
     initialQuantity: 15
     maxQuantity: 100
+  - objectData: {fileID: 11400000, guid: 5236c2a9c12fd8648abd4206e5048c20, type: 2}
+    initialQuantity: 15
+    maxQuantity: 30
 --- !u!1 &2548950145100132322
 GameObject:
   m_ObjectHideFlags: 0
