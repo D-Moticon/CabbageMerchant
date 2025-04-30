@@ -85,6 +85,21 @@ public class Item : MonoBehaviour, IHoverable
             t.InitializeTrigger(this);
         }
 
+        if (isHolofoil)
+        {
+            InitializeHolofoilEffectsExclusive();
+        }
+
+        else
+        {
+            InitializeNonHoloEffectsExclusive();
+        }
+
+        GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
+    }
+
+    void InitializeNonHoloEffectsExclusive()
+    {
         foreach (ItemEffect itemEffect in effects)
         {
             itemEffect.owningItem = this;
@@ -94,12 +109,25 @@ public class Item : MonoBehaviour, IHoverable
         foreach (ItemEffect itemEffect in holofoilEffects)
         {
             itemEffect.owningItem = this;
-            itemEffect.InitializeItemEffect();
+            itemEffect.DestroyItemEffect();
         }
-
-        GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
     }
 
+    void InitializeHolofoilEffectsExclusive()
+    {
+        foreach (ItemEffect itemEffect in effects)
+        {
+            itemEffect.owningItem = this;
+            itemEffect.DestroyItemEffect();
+        }
+        
+        foreach (ItemEffect itemEffect in holofoilEffects)
+        {
+            itemEffect.owningItem = this;
+            itemEffect.InitializeItemEffect();
+        }
+    }
+    
     protected virtual void OnDisable()
     {
         foreach (Trigger t in triggers)
@@ -108,6 +136,11 @@ public class Item : MonoBehaviour, IHoverable
         }
         
         foreach (ItemEffect itemEffect in effects)
+        {
+            itemEffect.DestroyItemEffect();
+        }
+        
+        foreach (ItemEffect itemEffect in holofoilEffects)
         {
             itemEffect.DestroyItemEffect();
         }
@@ -395,6 +428,7 @@ public class Item : MonoBehaviour, IHoverable
         {
             isHolofoil = true;
             itemWrapper.spriteRenderer.material = itemWrapper.holofoilMaterial;
+            InitializeHolofoilEffectsExclusive();
         }
     }
 

@@ -6,7 +6,7 @@ public class MapPoint : ScriptableObject
 {
     public string sceneName;
     public string displayName;
-    public string description;
+    [TextArea]public string description;
     public Sprite mapIcon;
     public Biome biome;
     [SerializeReference]

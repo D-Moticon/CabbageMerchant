@@ -15,9 +15,9 @@ MonoBehaviour:
   metacurrencyLayerPeriod: 4
   mapLayers:
   - possiblePoints:
-    - {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
+    - {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
     forceAll: 0
-    newBiome: {fileID: 11400000, guid: e7b2961264174f34abc5a72fb16ae726, type: 2}
+    newBiome: {fileID: 11400000, guid: a83797117384b5246913fa59856de085, type: 2}
   - possiblePoints:
     - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
     forceAll: 0

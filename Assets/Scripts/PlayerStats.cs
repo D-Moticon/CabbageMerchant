@@ -116,6 +116,11 @@ public class PlayerStats : MonoBehaviour
         {
             coins = maxCoins;
         }
+
+        if (coins < 0)
+        {
+            coins = 0;
+        }
         
         CoinsUpdated?.Invoke(coins);
     }

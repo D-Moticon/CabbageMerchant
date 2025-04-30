@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Medium
   m_EditorClassIdentifier: 
   displayName: Medium
+  difficultyLevel: 2
   firstRoundGoal: 10
   referenceFirstRoundGoal: 10
   referenceFunctionPieces:

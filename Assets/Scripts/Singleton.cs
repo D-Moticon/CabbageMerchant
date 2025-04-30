@@ -27,6 +27,7 @@ public class Singleton : MonoBehaviour
     public EffectsManager effectsManager;
     public DialogueManager dialogueManager;
     public LaunchModifierManager launchModifierManager;
+    public OverworldSceneChanger overworldSceneChanger;
     
     private void OnEnable()
     {

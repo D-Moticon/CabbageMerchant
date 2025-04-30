@@ -14,7 +14,17 @@ public class SaveManager : MonoBehaviour
     private SaveData data;
 
     public static event System.Action DataLoadedEvent;
-    
+
+    private void OnEnable()
+    {
+        RunManager.RunFinishedEvent += RunFinishedListener;
+    }
+
+    private void OnDisable()
+    {
+        RunManager.RunFinishedEvent -= RunFinishedListener;
+    }
+
     void Awake()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "save.json");
@@ -82,21 +92,73 @@ public class SaveManager : MonoBehaviour
         data.metaCurrency = amount;
         SaveToDisk();
     }
+    
+    
+    
+    
+    // ─── Pet run tracking ───
 
+    /// <summary>
+    /// Returns the max difficulty this pet has been beaten at, or 0 if never.
+    /// </summary>
+    public int GetPetMaxDifficulty(string petID)
+    {
+        var record = data.petRecords.FirstOrDefault(r => r.petID == petID);
+        return record != null ? record.maxDifficulty : 0;
+    }
+
+    /// <summary>
+    /// Marks that the player has beaten the game with the given pet at this difficulty.
+    /// Updates max if higher.
+    /// </summary>
+    public void RecordPetWin(string petID, int difficulty)
+    {
+        var record = data.petRecords.FirstOrDefault(r => r.petID == petID);
+        if (record == null)
+        {
+            record = new SaveData.PetRunRecord { petID = petID, maxDifficulty = difficulty };
+            data.petRecords.Add(record);
+        }
+        else if (difficulty > record.maxDifficulty)
+        {
+            record.maxDifficulty = difficulty;
+        }
+        SaveToDisk();
+    }
+    
+    public List<(string petID, int maxDifficulty)> GetAllPetRecords()
+    {
+        return data.petRecords
+            .Select(r => (r.petID, r.maxDifficulty))
+            .ToList();
+    }
+
+    
+    
     [Serializable]
     private class SaveData
     {
         public List<string> ownedPetIDs = new List<string>();
         public int metaCurrency = 0;
-        
-        // ─── NEW STORY FLAGS ───
-        public bool seenOverworldIntro = false;
-        public bool wonFirstRun        = false;
-        public bool lostFirstRun       = false;
-        public bool hasSeenGameplayTutorial = false;
+
+        // track max difficulty beaten per pet
+        public List<PetRunRecord> petRecords = new List<PetRunRecord>();
+
+        // story flags...
+        public bool seenOverworldIntro;
+        public bool wonFirstRun;
+        public bool lostFirstRun;
+        public bool hasSeenGameplayTutorial;
         public bool seenShopIntro;
         public bool seenDojoIntro;
         public bool seenLibraryIntro;
+
+        [Serializable]
+        public class PetRunRecord
+        {
+            public string petID;
+            public int maxDifficulty;
+        }
     }
     
     /// <summary>
@@ -164,5 +226,15 @@ public class SaveManager : MonoBehaviour
     {
         data.seenLibraryIntro = true;
         SaveToDisk();
+    }
+
+    void RunFinishedListener(RunManager.RunCompleteParams rcp)
+    {
+        if (!rcp.success)
+        {
+            return;
+        }
+        
+        RecordPetWin(rcp.petDefinition.dataName, rcp.difficulty.difficultyLevel);
     }
 }

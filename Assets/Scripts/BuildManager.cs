@@ -14,6 +14,7 @@ public class BuildManager : MonoBehaviour
         startAtShop,
         startAtEvent,
         startAtRestaurant,
+        startAtLibrary,
         none
     }
 
@@ -28,6 +29,7 @@ public class BuildManager : MonoBehaviour
     public List<Item> startingPerks = new List<Item>();
     public Biome startingBiome;
     public MapBlueprint mapBlueprint;
+    public Difficulty startingDifficulty;
 
     public static Action FullGameStartedEvent;
     
@@ -57,6 +59,8 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
                 break;
             case BuildMode.startAtGame:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -66,6 +70,8 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
                 break;
             case BuildMode.startAtShop:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -75,6 +81,8 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
                 break;
             case BuildMode.startAtEvent:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -84,6 +92,8 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
                 break;
             case BuildMode.startAtRestaurant:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -93,12 +103,26 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                break;
+            case BuildMode.startAtLibrary:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.runManager.StartNewRun("Library");
+                Singleton.Instance.menuManager.HideAll();
+                PopulateStartingItems();
+                Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
                 break;
             case BuildMode.none:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.playerStats.AddCoins(startingCoins);
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.menuManager.HideAll();
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

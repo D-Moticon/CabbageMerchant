@@ -5,20 +5,13 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public enum SpawnType
-    {
-        Rate,
-        Burst
-    }
-
-    public enum SpawnLocation
-    {
-        RandomPos,
-        RandomCabbage
-    }
+    public enum SpawnType { Rate, Burst }
+    public enum SpawnLocation { RandomPos, RandomCabbage }
 
     [Header("Spawn Settings")]
     [Tooltip("Pooled enemy to spawn")] public PooledObjectData enemyToSpawn;
+    public PooledObjectData spawnVFX;
+    public SFXInfo spawnSFX;
     [Tooltip("Offset applied to the spawn bounds (local space)")] public Vector2 spawnOffset;
     [Tooltip("Local bounds within which to spawn enemies")] public Bounds spawnBounds;
 
@@ -26,12 +19,14 @@ public class EnemySpawner : MonoBehaviour
     public SpawnType spawnType = SpawnType.Rate;
     public SpawnLocation spawnLocation = SpawnLocation.RandomPos;
     [Tooltip("Enemies per second (used in Rate mode)")] public float firstRoundEnemiesPerSecond = 1f;
+
+    [Header("Burst Settings")]
     [Tooltip("Total number to spawn at once (used in Burst mode)")] public int burstCount = 10;
     [Tooltip("Delay between individual spawns in a burst (seconds)")] public float burstInterval = 0.2f;
+    [Tooltip("Minimum distance between burst spawn positions")] public float burstMinSeparation = 1f;
 
     [Header("Cabbage Spawn Offset")]
-    [Tooltip("Vertical offset when spawning on top of a cabbage")]
-    public float cabbageSpawnHeightOffset = 0.5f;
+    [Tooltip("Vertical offset when spawning on top of a cabbage")] public float cabbageSpawnHeightOffset = 0.5f;
 
     [Header("Scaling (Rate mode)")]
     [Tooltip("Exponential scaling base")] public float epsBase = 0.5f;
@@ -58,9 +53,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        int layer = testMapLayer;
-        layer = Singleton.Instance.playerStats.currentMapLayer;
-
+        int layer = Singleton.Instance.playerStats.currentMapLayer;
         enemiesPerSecond = firstRoundEnemiesPerSecond + epsBase * Mathf.Pow(layer, epsPower);
         secondsPerEnemy = 1f / enemiesPerSecond;
         spawnTimer = 0f;
@@ -78,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
             while (spawnTimer >= secondsPerEnemy)
             {
                 spawnTimer -= secondsPerEnemy;
-                SpawnEnemy();
+                SpawnEnemyAt(GetRandomSpawnPosition());
             }
         }
         else if (spawnType == SpawnType.Burst && !burstStarted)
@@ -90,47 +83,62 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator BurstSpawnCoroutine()
     {
+        var positions = new List<Vector3>();
         for (int i = 0; i < burstCount; i++)
         {
-            SpawnEnemy();
+            Vector3 pos = GetRandomSpawnPosition();
+            if (burstMinSeparation > 0f && positions.Count > 0)
+            {
+                // try to enforce minimum separation
+                const int maxTries = 10;
+                int tries = 0;
+                while (tries < maxTries)
+                {
+                    bool tooClose = false;
+                    foreach (var prev in positions)
+                    {
+                        if ((pos - prev).sqrMagnitude < burstMinSeparation * burstMinSeparation)
+                        {
+                            tooClose = true;
+                            break;
+                        }
+                    }
+                    if (!tooClose)
+                        break;
+                    pos = GetRandomSpawnPosition();
+                    tries++;
+                }
+            }
+            positions.Add(pos);
+            SpawnEnemyAt(pos);
             yield return new WaitForSeconds(burstInterval);
         }
     }
 
-    private void SpawnEnemy()
+    private void SpawnEnemyAt(Vector3 worldPos)
     {
-        Vector3 worldPos;
-
-        if (spawnLocation == SpawnLocation.RandomCabbage)
-        {
-            List<Cabbage> valid = new List<Cabbage>();
-            foreach (var c in FindObjectsOfType<Cabbage>())
-            {
-                if (c.gameObject.activeInHierarchy && c.enabled)
-                    valid.Add(c);
-            }
-
-            if (valid.Count == 0)
-            {
-                worldPos = GetRandomPosition();
-            }
-            else
-            {
-                var chosen = valid[Random.Range(0, valid.Count)];
-                worldPos = chosen.transform.position + Vector3.up * cabbageSpawnHeightOffset;
-            }
-        }
-        else // RandomPos
-        {
-            worldPos = GetRandomPosition();
-        }
-
         var enemy = enemyToSpawn.Spawn();
         enemy.transform.position = worldPos;
+        spawnSFX.Play();
+        if (spawnVFX != null)
+            spawnVFX.Spawn(worldPos);
     }
 
-    private Vector3 GetRandomPosition()
+    private Vector3 GetRandomSpawnPosition()
     {
+        if (spawnLocation == SpawnLocation.RandomCabbage)
+        {
+            var valid = new List<Cabbage>();
+            foreach (var c in FindObjectsOfType<Cabbage>())
+                if (c.gameObject.activeInHierarchy && c.enabled)
+                    valid.Add(c);
+            if (valid.Count > 0)
+            {
+                var chosen = valid[Random.Range(0, valid.Count)];
+                return chosen.transform.position + Vector3.up * cabbageSpawnHeightOffset;
+            }
+        }
+        // RandomPos fallback
         Vector2 ofs = new Vector2(
             Random.Range(-spawnBounds.extents.x, spawnBounds.extents.x),
             Random.Range(-spawnBounds.extents.y, spawnBounds.extents.y)

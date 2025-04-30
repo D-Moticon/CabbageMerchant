@@ -166,6 +166,10 @@ public class Cabbage : MonoBehaviour, IBonkable
     public void Bonk(BonkParams bp)
     {
         sizeLevel = Mathf.Min(sizeLevel + bp.bonkerPower, maxSizeLevel);
+        if (sizeLevel < 0)
+        {
+            sizeLevel = 0;
+        }
         UpdateSizeLevel();
 
         // VFX and feedback
@@ -176,6 +180,10 @@ public class Cabbage : MonoBehaviour, IBonkable
         PlayBonkFX();
 
         points += (bp.bonkerPower * bonkMultiplier);
+        if (points < 0)
+        {
+            points = 0;
+        }
         
         bp.bonkedCabbage = this;
         bp.bonkable = this;

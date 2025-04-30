@@ -119,4 +119,20 @@ public class FloaterManager : MonoBehaviour
         var infoRef = floaterReferences[3];
         SpawnFloater(infoRef, text, position + (Vector3)randPos, textColor, scale);
     }
+    
+    public void SpawnPopFloater(
+        string text,
+        Vector3 position,
+        Color? textColor = null,
+        float scale      = 1f)
+    {
+        float randPosMult = 0.2f;
+        float randX = Random.Range(-scale, scale) * randPosMult;
+        float randY = Random.Range(-scale, scale) * randPosMult;
+        Vector2 randPos = new Vector2(randX, randY);
+
+        // assuming index 3 is your info‐floater reference
+        var infoRef = floaterReferences[0];
+        SpawnFloater(infoRef, text, position + (Vector3)randPos, textColor, scale);
+    }
 }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Hard
   m_EditorClassIdentifier: 
   displayName: Hard
+  difficultyLevel: 3
   firstRoundGoal: 15
   referenceFirstRoundGoal: 15
   referenceFunctionPieces:

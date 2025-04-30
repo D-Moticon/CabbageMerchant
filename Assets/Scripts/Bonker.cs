@@ -12,9 +12,13 @@ public class Bonker : MonoBehaviour
     private int bonkCounter = 0;
     public bool treatAsBall = false;
     public PooledObjectData vfxOnBonk;
+    public SFXInfo sfxOnBonk;
     public PooledObjectData vfxOnKill;
     public SFXInfo sfxOnKill;
 
+    public bool popFloater = false;
+    public Color floaterColor = Color.white;
+    
     [Header("Rainbow")]
     public Material baseMat;
     public Material rainbowMat;
@@ -73,6 +77,17 @@ public class Bonker : MonoBehaviour
             bp.treatAsBall = treatAsBall;
             b.Bonk(bp);
 
+            if (vfxOnBonk != null)
+            {
+                vfxOnBonk.Spawn(pos);
+            }
+            sfxOnBonk.Play(this.transform.position);
+            
+            if (popFloater)
+            {
+                Singleton.Instance.floaterManager.SpawnPopFloater($"{bonkValue:F0}", pos, floaterColor, 2f);
+            }
+            
             if (isRainbow)
             {
                 Cabbage c = other.GetComponent<Cabbage>();

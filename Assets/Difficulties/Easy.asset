@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   displayName: Easy
+  difficultyLevel: 1
   firstRoundGoal: 10
   referenceFirstRoundGoal: 10
   referenceFunctionPieces:

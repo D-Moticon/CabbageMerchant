@@ -1,4 +1,3 @@
-// GrindRail.cs
 using UnityEngine;
 
 [RequireComponent(typeof(EdgeCollider2D))]
@@ -7,18 +6,30 @@ public class GrindRail : MonoBehaviour
     public EdgeCollider2D Edge { get; private set; }
 
     [Header("Destruction")]
-    [Tooltip("Spawn VFX & destroy this rail when the ball leaves it.")]
-    public bool destroyOnExit = false;
+    [Tooltip("Number of hits before this rail is destroyed.")]
+    public int hitPoints = 1;
+
+    [Tooltip("VFX to spawn when the rail is destroyed.")]
     public PooledObjectData destroyVFX;
 
-    void Awake() => Edge = GetComponent<EdgeCollider2D>();
+    public delegate void GrindRailDelegate(GrindRail gr);
+
+    public static event GrindRailDelegate GrindRailAwakeEvent;
+
+    void Awake()
+    {
+        Edge = GetComponent<EdgeCollider2D>();
+        GrindRailAwakeEvent?.Invoke(this);
+    }
 
     /// <summary>
-    /// If flagged, spawns VFX at 'position' then destroys this rail GameObject.
+    /// Called when the ball leaves or hits this rail.
+    /// Reduces hitPoints and destroys if depleted, spawning VFX.
     /// </summary>
     public void HandleDestruction(Vector2 position)
     {
-        if (destroyOnExit)
+        hitPoints--;
+        if (hitPoints <= 0)
         {
             if (destroyVFX != null)
                 destroyVFX.Spawn(position, Quaternion.identity);
@@ -40,7 +51,7 @@ public class GrindRail : MonoBehaviour
         if (pts.Length < 2) return;
 
         float bestSqr = float.MaxValue;
-        int   bestIdx = 0;
+        int bestIdx = 0;
 
         for (int i = 0; i < pts.Length - 1; i++)
         {
@@ -48,13 +59,18 @@ public class GrindRail : MonoBehaviour
             Vector2 b = transform.TransformPoint(pts[i + 1]);
 
             Vector2 p = ClosestOnSegment(a, b, worldPoint);
-            float   d = (worldPoint - p).sqrMagnitude;
-            if (d < bestSqr) { bestSqr = d; bestIdx = i; closest = p; }
+            float d = (worldPoint - p).sqrMagnitude;
+            if (d < bestSqr)
+            {
+                bestSqr = d;
+                bestIdx = i;
+                closest = p;
+            }
         }
 
         Vector2 s = transform.TransformPoint(pts[bestIdx]);
         Vector2 e = transform.TransformPoint(pts[bestIdx + 1]);
-        tangent   = (e - s).normalized;
+        tangent = (e - s).normalized;
     }
 
     static Vector2 ClosestOnSegment(Vector2 A, Vector2 B, Vector2 P)
@@ -62,5 +78,10 @@ public class GrindRail : MonoBehaviour
         Vector2 AB = B - A;
         float t = Mathf.Clamp01(Vector2.Dot(P - A, AB) / AB.sqrMagnitude);
         return A + AB * t;
+    }
+
+    public void AddHP(int hpAdd)
+    {
+        hitPoints += hpAdd;
     }
 }

@@ -141,6 +141,11 @@ public class PetManager : MonoBehaviour
         }
         overworldPets.Clear();
 
+        if (ownedPets.Count == 0)
+        {
+            LoadOwnedPetsFromSave();
+        }
+        
         // spawn each at its configured point (or random fallback)
         foreach (var def in ownedPets)
         {

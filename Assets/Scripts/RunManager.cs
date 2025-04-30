@@ -52,6 +52,10 @@ public class RunManager : MonoBehaviour
     public class RunCompleteParams
     {
         public bool success;
+        public float runTime;
+        public double totalBonkValue;
+        public PetDefinition petDefinition;
+        public Difficulty difficulty;
     }
     
     public delegate void RunStartDelegate(RunStartParams rsp);
@@ -224,6 +228,25 @@ public class RunManager : MonoBehaviour
                     mapPoint.mapPointExtras[i].GenerateMapPointExtra();
                 }
             }
+        }
+        
+        // 8) Teleport the NavMeshAgent back to a known spawn point
+        var walker = currentSceneParent.gameObject.GetComponentInChildren<OverworldCharacter>();
+        if (walker != null)
+        {
+            var agent = walker.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            // If you have a dedicated PlayerStart object in your map:
+            Transform startMarker = currentSceneParent.transform.Find("PlayerStart");
+            Vector3 spawnPos = startMarker != null
+                ? startMarker.position
+                : walker.transform.position;  // fallback to wherever they currently are
+
+            // Warp the agent (this instantly moves both the transform and internal navmesh state)
+            agent.Warp(spawnPos);
+            // Also force the transform in case Warp alone doesn’t
+            walker.transform.position = spawnPos;
+            // Clear any leftover path
+            agent.ResetPath();
         }
     }
 
@@ -472,9 +495,14 @@ public class RunManager : MonoBehaviour
     {
         //This displays the run complete screen
         Singleton.Instance.menuManager.ShowPanel("RunEnd");
-        RunCompleteParams rep = new RunCompleteParams();
-        rep.success = success;
-        RunFinishedEvent?.Invoke(rep);
+        RunCompleteParams rcp = new RunCompleteParams();
+        rcp.success = success;
+        rcp.totalBonkValue = Singleton.Instance.playerStats.totalBonkValueThisRun;
+        rcp.runTime = Singleton.Instance.playerStats.totalRunTime;
+        rcp.petDefinition = Singleton.Instance.petManager.currentPet;
+        rcp.difficulty = Singleton.Instance.playerStats.currentDifficulty;
+        
+        RunFinishedEvent?.Invoke(rcp);
     }
 
     public void EndRunToOverworld()

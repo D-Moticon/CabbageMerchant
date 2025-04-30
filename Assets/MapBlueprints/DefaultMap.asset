@@ -115,7 +115,7 @@ MonoBehaviour:
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
+    - {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:
@@ -163,7 +163,7 @@ MonoBehaviour:
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
+    - {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePoints:

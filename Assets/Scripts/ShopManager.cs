@@ -10,6 +10,7 @@ public class ShopManager : MonoBehaviour
     public List<Transform> itemSlotTransforms;
     public int baseNumberItems = 4;
     public bool onlyBuyOne = false;
+    public GameObject onlyBuyOneIndicator;
     public bool noDupes = true;
     [FormerlySerializedAs("lockItems")] public bool lockSlots = false;
 
@@ -35,6 +36,9 @@ public class ShopManager : MonoBehaviour
     public delegate void ShopRerolledDelegate(int rerollsLeft);
     public static event ShopRerolledDelegate ShopRerolledEvent;
 
+    public delegate void ShopDelegate(ShopManager shop);
+    public static event ShopDelegate ShopEnteredEvent;
+    
     void Start()
     {
         rerollsRemaining = Singleton.Instance.playerStats.shopReRolls;
@@ -50,6 +54,11 @@ public class ShopManager : MonoBehaviour
     private void OnDisable()
     {
         ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
+    }
+
+    private void Awake()
+    {
+        ShopEnteredEvent?.Invoke(this);
     }
 
     void CreateItemSlots()
@@ -202,5 +211,14 @@ public class ShopManager : MonoBehaviour
             return;
         }
         Singleton.Instance.runManager.GoToMap();
+    }
+
+    public void DisableOnlyBuyOne()
+    {
+        onlyBuyOne = false;
+        if (onlyBuyOneIndicator != null)
+        {
+            onlyBuyOneIndicator.SetActive(false);
+        }
     }
 }

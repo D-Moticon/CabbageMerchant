@@ -288,8 +288,14 @@ public class ItemManager : MonoBehaviour
                     if (draggingItem.itemType == Item.ItemType.Consumable && draggingItem.purchasable)
                     {
                         value = draggingItem.GetItemPrice();
+                        Singleton.Instance.playerStats.AddCoins(-value);
                     }
-                    Singleton.Instance.playerStats.AddCoins(-value);
+
+                    else
+                    {
+                        Singleton.Instance.playerStats.AddCoins(value);
+                    }
+                    
 
                     // Play VFX/SFX
                     sellVFX.transform.position = draggingItem.transform.position;
@@ -727,6 +733,7 @@ public class ItemManager : MonoBehaviour
             {
                 Vector2 pos = startPos + new Vector2(col * spacing.x, -row * spacing.y);
                 ItemSlot newSlot = Instantiate(itemSlotPrefab, pos, Quaternion.identity, transform);
+                newSlot.transform.SetParent(hideableParent.transform);
                 itemSlots.Add(newSlot);
                 newSlot.SetSlotNumber(slotNumber);
                 slotNumber++;

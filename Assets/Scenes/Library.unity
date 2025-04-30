@@ -400,6 +400,7 @@ MonoBehaviour:
   - {fileID: 1351772519}
   baseNumberItems: 4
   onlyBuyOne: 1
+  onlyBuyOneIndicator: {fileID: 1192124960}
   noDupes: 1
   lockSlots: 0
   itemCollection: {fileID: 11400000, guid: 19f60e9c279842746bceef08332c1cc9, type: 2}

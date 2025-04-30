@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Food.unity
     guid: 4731e9021fd93ab418133b316bb72bcc
+  - enabled: 1
+    path: Assets/Scenes/Museum.unity
+    guid: 95daf4fd734fa5a4a8bdfdb0bc14ff28
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

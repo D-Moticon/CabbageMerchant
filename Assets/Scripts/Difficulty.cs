@@ -9,6 +9,8 @@ public class Difficulty : ScriptableObject
     [Header("General")]
     public string displayName;
 
+    public int difficultyLevel;
+
     [Header("First Round Goal")]
     [Tooltip("The goal value for round 0 (before any pieces take over).")]
     public double firstRoundGoal = 15;

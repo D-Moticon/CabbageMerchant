@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2168997327907001596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2904697880730144231}
+  - component: {fileID: 6959685571676545341}
+  m_Layer: 0
+  m_Name: Paola
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2904697880730144231
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168997327907001596}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.42421, y: -0.19712, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6959685571676545341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168997327907001596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Paola
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 99bc35d5cb284184bb0a9e5879ee1f1d, type: 3}
+  itemType: 3
+  canBeForceTriggered: 0
+  effects:
+  - rid: 328110356282212438
+  holofoilEffects: []
+  holofoilEffectDescription: 
+  triggers: []
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 0
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110356282212438
+      type: {class: ShopRemoveOnlyBuyOneEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}

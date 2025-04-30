@@ -278,6 +278,7 @@ public class WheelSpinner : MonoBehaviour
     IEnumerator MoneyTask(int coinAmount)
     {
         Singleton.Instance.playerStats.AddCoins(coinAmount);
+        Singleton.Instance.uiManager.DisplayCoinsGainedAnimation(coinAmount);
         Singleton.Instance.itemManager.sellSFX.Play();
         Singleton.Instance.itemManager.sellVFX.transform.position =
             Singleton.Instance.uiManager.coinsText.transform.position;

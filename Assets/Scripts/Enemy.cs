@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using MoreMountains.Feedbacks;
+using TMPro;
 
 public class Enemy : MonoBehaviour, IBonkable
 {
@@ -11,10 +12,15 @@ public class Enemy : MonoBehaviour, IBonkable
     public SFXInfo bonkSFX;
     public PooledObjectData killVFX;
     public SFXInfo killSFX;
+    public TMP_Text hpText;
 
     private void OnEnable()
     {
         hp = maxHP;
+        if (hpText != null)
+        {
+            hpText.text = $"{hp:F0}";
+        }
     }
 
     private void OnDisable()
@@ -25,6 +31,12 @@ public class Enemy : MonoBehaviour, IBonkable
     public void Bonk(BonkParams bp)
     {
         hp -= bp.bonkerPower;
+        
+        if (hpText != null)
+        {
+            hpText.text = $"{hp:F0}";
+        }
+        
         if (bonkVFX != null)
         {
             bonkVFX.Spawn(bp.collisionPos);

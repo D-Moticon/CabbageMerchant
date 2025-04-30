@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c9ae5648f09964cbf72d0cef60df35, type: 3}
+  m_Name: Gloomy_Cabbage_Ghosts
+  m_EditorClassIdentifier: 
+  sceneName: CabbageShoot
+  displayName: Cabbage Graveyard
+  description: Ghosts are attacking the cabbages and destroying your bonk points!
+    Break the tombstones to stop them!
+  mapIcon: {fileID: 21300000, guid: 54d7cd216cc2a6246b9e076d5a14e0be, type: 3}
+  biome: {fileID: 11400000, guid: a83797117384b5246913fa59856de085, type: 2}
+  mapPointExtras:
+  - rid: 328110359655481432
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110359655481432
+      type: {class: SpawnGameObjectMapPointExtra, ns: , asm: Assembly-CSharp}
+      data:
+        objectToSpawn: {fileID: 1662762500459109585, guid: c1a07445d05af3e41a5c73796b628827, type: 3}
+        spawnPos: {x: 0, y: 0}
