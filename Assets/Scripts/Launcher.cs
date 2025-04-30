@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using MoreMountains.Feedbacks;
@@ -8,6 +9,7 @@ public class Launcher : MonoBehaviour
     PlayerInputManager playerInputManager;
     public ObjectPoolManager objectPoolManager;
     public PooledObjectData ballPooledObject;
+    public PooledObjectData rainbowBallPooledObject;
     public PhysicsMaterial2D defaultPhysicsMat;
     private Vector2 crosshairPos;
     public float baseLaunchSpeed = 10f;
@@ -16,7 +18,17 @@ public class Launcher : MonoBehaviour
     public MMF_Player launchFeel;
     public SFXInfo launchSFX;
     public ParticleSystem launchVFX;
-    
+
+    private void OnEnable()
+    {
+        GameStateMachine.EnteringAimStateAction += OnAimStateEnter;
+    }
+
+    private void OnDisable()
+    {
+        GameStateMachine.EnteringAimStateAction -= OnAimStateEnter;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -47,7 +59,14 @@ public class Launcher : MonoBehaviour
 
     public Ball LaunchBall()
     {
-        Ball ball = objectPoolManager.Spawn(ballPooledObject, this.transform.position, quaternion.identity).GetComponent<Ball>();
+        PooledObjectData ballToSpawn = ballPooledObject;
+        
+        if (Singleton.Instance.launchModifierManager.forceNextBallRainbow)
+        {
+            ballToSpawn = rainbowBallPooledObject;
+        }
+        
+        Ball ball = objectPoolManager.Spawn(ballToSpawn, this.transform.position, quaternion.identity).GetComponent<Ball>();
         ball.transform.localScale = new Vector3(1f, 1f, 1f);
         ball.SetVelocity(currentLaunchVelocity);
         if (defaultPhysicsMat != null)
@@ -55,6 +74,7 @@ public class Launcher : MonoBehaviour
             ball.rb.sharedMaterial = defaultPhysicsMat;
             ball.col.sharedMaterial = defaultPhysicsMat;
         }
+        
         if (launchFeel != null)
         {
             launchFeel.PlayFeedbacks();
@@ -65,7 +85,13 @@ public class Launcher : MonoBehaviour
             launchVFX.Play();
         }
 
+        if (Singleton.Instance.launchModifierManager.forceNextBallRainbow)
+        {
+            ball.bonkValue = Singleton.Instance.launchModifierManager.forceNextBallBonkValue;
+        }
+
         launchSFX.Play();
+        
         return ball;
     }
 
@@ -82,5 +108,10 @@ public class Launcher : MonoBehaviour
     public void AddLaunchSpeed(float speedAdd)
     {
         launchSpeed += speedAdd;
+    }
+
+    void OnAimStateEnter()
+    {
+        
     }
 }

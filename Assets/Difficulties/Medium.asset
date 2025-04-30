@@ -18,7 +18,8 @@ MonoBehaviour:
   referenceFunctionPieces:
   - rid: 328110304141508613
   metacurrencyBase: 0.2
-  metacurrencyPower: 1.2
+  metacurrencyPower: 1
+  maxMetaCurrencyPerLayer: 5
   functionPieces:
   - rid: 328110304141508614
   - rid: 328110304141508615

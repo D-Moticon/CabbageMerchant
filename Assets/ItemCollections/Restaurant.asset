@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46edb8a9969644419bdcaad9103a7b0, type: 3}
+  m_Name: Restaurant
+  m_EditorClassIdentifier: 
+  items:
+  - item: {fileID: 184268871305067490, guid: c4c5981a2a6c84147bd35baa2480283a, type: 3}
+    enabled: 1
+  - item: {fileID: 8424034213123109053, guid: e78df97a251bc914da54d5d4b771286f, type: 3}
+    enabled: 1
+  - item: {fileID: 8802626050805496807, guid: 0c7ec88391f9ca442adfdc9fc6aa2967, type: 3}
+    enabled: 1
+  - item: {fileID: 4425644436300913835, guid: c4662c324578f7b4ca901bb14c7708d3, type: 3}
+    enabled: 1
+  - item: {fileID: 1108301202013457258, guid: fd576e3f6f3822144ae4cccf650aa5da, type: 3}
+    enabled: 1
+  - item: {fileID: 3384270542583930400, guid: fe5823e2c56bf0844ba67089fd034acb, type: 3}
+    enabled: 1

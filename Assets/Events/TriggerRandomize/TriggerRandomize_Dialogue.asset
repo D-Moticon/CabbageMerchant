@@ -93,7 +93,7 @@ MonoBehaviour:
       type: {class: PlayerHasItemsCondition, ns: , asm: Assembly-CSharp}
       data:
         quantity: 1
-        normalItemsOnly: 1
+        allowedTypes: 1
     - rid: 328110125889880258
       type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
       data:
@@ -189,43 +189,51 @@ MonoBehaviour:
       type: {class: AnyItemTriggeredTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         quantity: 8
     - rid: 328110125889880284
       type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         numberBounces: 10
         bounceType: 0
     - rid: 328110125889880285
       type: {class: CabbageMergedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         quantity: 1
     - rid: 328110125889880286
       type: {class: CabbageHitAfterHangtimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         minHangtime: 1
     - rid: 328110125889880287
       type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         numberBounces: 5
         bounceType: 2
     - rid: 328110125889880288
       type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         everyXHit: 10
         onlyByBall: 0
     - rid: 328110125889880289
       type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         duration: 5
     - rid: 328110304141508864
       type: {class: ItemInSlotTriggered, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         quantity: 7
         slotForTrigger: 0

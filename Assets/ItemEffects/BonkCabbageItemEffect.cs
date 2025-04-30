@@ -69,7 +69,7 @@ public class BonkCabbageItemEffect : ItemEffect
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        return ($"Bonk {quantity} {selectionDescription} cabbage(s) for {bonkValue}");
+        return ($"Bonk {quantity} {selectionDescription} cabbage(s) for {bonkValue:F1}");
     }
     
     public override void RandomizePower()

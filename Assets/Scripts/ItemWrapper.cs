@@ -8,6 +8,7 @@ public class ItemWrapper : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Material holofoilMaterial;
     public Material petMaterial;
+    public Material ghostMaterial;
     [HideInInspector]public Item item;
     public MMF_Player triggerFeel;
     public ParticleSystem purchaseVFX;

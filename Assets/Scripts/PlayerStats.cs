@@ -123,6 +123,10 @@ public class PlayerStats : MonoBehaviour
     public void AddExtraBall()
     {
         currentBalls++;
+        if (currentBalls > 5)
+        {
+            currentBalls = 5;
+        }
     }
 
     public void AddExtraStartingCabbage()
@@ -181,6 +185,10 @@ public class PlayerStats : MonoBehaviour
     public void AddLife(int livesToAdd)
     {
         lives += livesToAdd;
+        if (lives > 10)
+        {
+            lives = 10;
+        }
         LivesUpdated?.Invoke(lives);
         LifeGainedEvent?.Invoke();
     }
@@ -232,4 +240,6 @@ public class PlayerStats : MonoBehaviour
     {
         GetMetacurrencyFromSave();
     }
+
+    
 }

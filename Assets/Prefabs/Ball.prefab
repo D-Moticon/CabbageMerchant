@@ -5029,6 +5029,8 @@ MonoBehaviour:
   minSpeed: 5
   maxSpeed: 30
   skin: 0.3
+  raycastSamples: 3
+  sampleForwardSpacing: 0.05
   showDebugLines: 1
   grindVFX: {fileID: 11400000, guid: 5236c2a9c12fd8648abd4206e5048c20, type: 2}
   sparkParticles: {fileID: 166103626457093841}
@@ -5087,7 +5089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16629f2f8ef142408309231f3b3311d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonkValue: 3
+  bonkValue: 2
   killOnBonk: 0
   killOnWallCollide: 0
   bonksBeforeKill: 0

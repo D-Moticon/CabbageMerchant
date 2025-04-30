@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: NecromancerEvent
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110326145876105
+  - rid: 328110326145876106
+  - rid: 328110326145876111
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110326145876105
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 2a0eef49fea14e448ae6177e5d3f28cf, type: 2}
+        dialogueLine: 'Kekeke... Old allies, once thought gone...
+
+          Summoned
+          back from the great beyond! ...Kekeke'
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+    - rid: 328110326145876106
+      type: {class: GraveyardItemsTask, ns: , asm: Assembly-CSharp}
+      data:
+        noItemsDialogueLine:
+          dialogueCharacter: {fileID: 11400000, guid: 2a0eef49fea14e448ae6177e5d3f28cf, type: 2}
+          dialogueLine: ...Is what I would say, had you lost an item along the way...
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+        promptLine:
+          dialogueCharacter: {fileID: 11400000, guid: 2a0eef49fea14e448ae6177e5d3f28cf, type: 2}
+          dialogueLine: Twisted beyond all recognition... One could prove vital to
+            your mission! But only one...
+          hideCharacterName: 0
+          waitForSkipInput: 0
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+        ghostSpawnVFX: {fileID: 11400000, guid: baa131c19ecfb9947a1db72b30ff6541, type: 2}
+        ghostSpawnSFX:
+          sfx:
+            Guid:
+              Data1: -487867802
+              Data2: 1236491574
+              Data3: 1954504588
+              Data4: 1914608371
+            Path: event:/GhostSummon
+          vol: 0.5
+        pickedSFX:
+          sfx:
+            Guid:
+              Data1: 0
+              Data2: 0
+              Data3: 0
+              Data4: 0
+            Path: 
+          vol: 0.5
+        slotSpacing: 2
+    - rid: 328110326145876111
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 2a0eef49fea14e448ae6177e5d3f28cf, type: 2}
+        dialogueLine: Begone begone, it's not your time... Well, not yet... Never
+          mind.  Kekeke
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1

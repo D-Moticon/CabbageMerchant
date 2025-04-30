@@ -274,21 +274,23 @@ public class GameHintManager : MonoBehaviour
     void ItemPurchasedListener(Item item)
     {
         if (playerHasMergedItemsBefore)
-        {
             return;
-        }
 
-        List<Item> ownedItems = Singleton.Instance.itemManager.GetItemsInInventory();
-        
-        bool hasDupes = ownedItems
+        var ownedItems = Singleton.Instance.itemManager.GetItemsInInventory();
+
+        // Group by itemName, then only consider groups of size >1
+        // where the base item has an upgradedItem to merge into:
+        bool hasMergeableDupes = ownedItems
             .GroupBy(i => i.itemName)
-            .Any(g => g.Count() > 1);
+            .Any(g => g.Count() > 1 
+                      && g.First().upgradedItem != null);
 
-        if (hasDupes)
+        if (hasMergeableDupes)
         {
             GiveHint(itemMergeHint);
         }
     }
+
 
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {

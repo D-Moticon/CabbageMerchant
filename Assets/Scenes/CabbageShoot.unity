@@ -5786,7 +5786,7 @@ Transform:
   m_GameObject: {fileID: 2704869233980320061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.34, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6265,6 +6265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPoolManager: {fileID: 2518928864320830021}
   ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
+  rainbowBallPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
   defaultPhysicsMat: {fileID: 6200000, guid: 64c4c2b11c50e3544b092db26726f44f, type: 2}
   baseLaunchSpeed: 10
   launchSpeed: 10

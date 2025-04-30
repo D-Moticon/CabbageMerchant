@@ -300,7 +300,7 @@ public class WheelSpinner : MonoBehaviour
         Item itemToDestroy = items[rand];
         if(itemToDestroy != null)
         {
-            Singleton.Instance.itemManager.DestroyItem(itemToDestroy);
+            Singleton.Instance.itemManager.DestroyItem(itemToDestroy, true);
         }
         losingSFX.Play();
 

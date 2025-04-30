@@ -10,6 +10,7 @@ public class Singleton : MonoBehaviour
     public AudioManager audioManager;
     public PrefabReferences prefabReferences;
     public ItemManager itemManager;
+    public ItemGraveyard itemGraveyard;
     public UIManager uiManager;
     public PlayerStats playerStats;
     public ScreenShaker screenShaker;
@@ -25,6 +26,7 @@ public class Singleton : MonoBehaviour
     public BuildManager buildManager;
     public EffectsManager effectsManager;
     public DialogueManager dialogueManager;
+    public LaunchModifierManager launchModifierManager;
     
     private void OnEnable()
     {

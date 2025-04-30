@@ -25,7 +25,8 @@ public class ItemSlot : MonoBehaviour
         any,
         itemOnly,
         perkOnly,
-        weaponOnly
+        weaponOnly,
+        itemOrConsumable
     }
 
     public AllowedTypes allowedTypes;

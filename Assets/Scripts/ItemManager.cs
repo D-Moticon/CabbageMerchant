@@ -27,6 +27,7 @@ public class ItemManager : MonoBehaviour
     public delegate void ItemDelegate(Item item);
     public static event ItemDelegate ItemPurchasedEvent;
     public static event ItemDelegate ItemSpawnedEvent;
+    public static event ItemDelegate ItemSoldEvent;
 
     public delegate void ItemSlotDelegate(Item item, ItemSlot slot);
 
@@ -42,6 +43,7 @@ public class ItemManager : MonoBehaviour
     public Collider2D sellCollider;
     public ParticleSystem sellVFX;
     public SFXInfo sellSFX;
+    public SFXInfo consumeSFX;
     public FloaterReference sellFloater;
     public FloaterReference infoFloater;
 
@@ -184,6 +186,8 @@ public class ItemManager : MonoBehaviour
             Singleton.Instance.toolTip.HideTooltip();
             draggingItem = null;
         }
+        
+        UpdateSellButtonLabel();
     }
 
     void ClickClickableIfPossible(Vector2 mouseWorldPos)
@@ -259,6 +263,8 @@ public class ItemManager : MonoBehaviour
         // disable collider
         Collider2D dragColl = draggingItem.itemWrapper.GetComponent<Collider2D>();
         if (dragColl) dragColl.enabled = false;
+        
+        UpdateSellButtonLabel();
     }
 
     private void AttemptToPlaceItem(Vector2 mouseWorldPos)
@@ -266,35 +272,54 @@ public class ItemManager : MonoBehaviour
         // First check if we are dropping on the sellCollider
         if (sellCollider && sellCollider.OverlapPoint(mouseWorldPos))
         {
-            // We are dropping onto the Sell zone
-            // Only sell if item is owned (not from the shop)
-            if (!draggingItem.purchasable)
+            // Allow eating if it's a consumable, or selling if it’s already in inventory (non-purchasable)
+            if (draggingItem.itemType == Item.ItemType.Consumable
+                || !draggingItem.purchasable)
             {
                 if (sellDisabled)
                 {
                     infoFloater.Spawn("Can't sell right now!", draggingItem.transform.position, Color.red);
                     RevertDraggedItem();
                 }
-                
                 else
                 {
-                    // Actually call SellItem
-                    draggingItem.SellItem();
+                    // Deduct coins: consumable “cost” is same as its sell value?
+                    double value = draggingItem.GetSellValue();
+                    if (draggingItem.itemType == Item.ItemType.Consumable && draggingItem.purchasable)
+                    {
+                        value = draggingItem.GetItemPrice();
+                    }
+                    Singleton.Instance.playerStats.AddCoins(-value);
+
+                    // Play VFX/SFX
                     sellVFX.transform.position = draggingItem.transform.position;
-                    sellVFX.Play();
-                    sellSFX.Play();
-                    sellFloater.Spawn(draggingItem.GetSellValue().ToString(), draggingItem.transform.position, Color.white);
-                
-                    // Destroy it visually
-                    Destroy(draggingItem.itemWrapper.gameObject);
+                    if (draggingItem.itemType == Item.ItemType.Consumable)
+                    {
+                        sellVFX.Play();
+                        consumeSFX.Play();
+                    }
+                    else
+                    {
+                        sellVFX.Play();
+                        sellSFX.Play();
+                    }
+
+                    // Show float text
+                    sellFloater.Spawn(value.ToString(), draggingItem.transform.position, Color.white);
+                    ItemSoldEvent?.Invoke(draggingItem);
+
+                    // Destroy it immediately
+                    draggingItem.DestroyItem(false, true);
                 }
-                
             }
             else
             {
-                // If not owned, revert
+                // Not a consumable and still purchasable → cannot sell
                 RevertDraggedItem();
             }
+
+            // Reset label back to “Sell”
+            RevertSellButtonLabel();
             return;
         }
 
@@ -343,6 +368,14 @@ public class ItemManager : MonoBehaviour
                     {
                         RevertDraggedItem();
                         infoFloater.Spawn("Only weapons allowed!", slot.transform.position, Color.red, 1f);
+                        return;
+                    }
+                    break;
+                case ItemSlot.AllowedTypes.itemOrConsumable:
+                    if (draggingItem.itemType != Item.ItemType.Item && draggingItem.itemType != Item.ItemType.Consumable)
+                    {
+                        RevertDraggedItem();
+                        infoFloater.Spawn("Only normal items and consumables allowed!", slot.transform.position, Color.red, 1f);
                         return;
                     }
                     break;
@@ -831,7 +864,7 @@ public class ItemManager : MonoBehaviour
     public List<Item> GetNormalItems()
     {
         // Inventory items
-        var items = GetItemsInInventory();
+        var items = GetItemsInInventory().Where(x=>x.itemType==Item.ItemType.Item).ToList();
 
         // Perk items: any Item under perkParent that's not in an inventory slot
         items.AddRange(
@@ -842,12 +875,37 @@ public class ItemManager : MonoBehaviour
 
         return items;
     }
+    
+    public List<Item> GetNormalItemsAndConsumables()
+    {
+        // Inventory items
+        var items = GetItemsInInventory().Where(x=>(x.itemType==Item.ItemType.Item || x.itemType==Item.ItemType.Consumable)).ToList();
+
+        return items;
+    }
+
+    public List<Item> GetItemsConsumablesAndPerks()
+    {
+        var items = GetItemsInInventory().Where(x=>(x.itemType==Item.ItemType.Item || x.itemType==Item.ItemType.Consumable)).ToList();
+        items.AddRange(
+            perkParent
+                .GetComponentsInChildren<Item>()
+                .Where(perk => perk.currentItemSlot == null)
+        );
+        return items;
+    }
+
+    public List<Item> GetWeapons()
+    {
+        var items = GetItemsInInventory().Where(x=>(x.itemType==Item.ItemType.Weapon)).ToList();
+        return items;
+    }
 
     /// <summary>
     /// Completely removes an Item from the game: unhooks it from any slot or perk,
     /// destroys its wrapper (and thus the Item component), and clears references.
     /// </summary>
-    public void DestroyItem(Item item)
+    public void DestroyItem(Item item, bool sendToGraveyard = false)
     {
         if (item == null)
             return;
@@ -877,7 +935,7 @@ public class ItemManager : MonoBehaviour
         // 3) Destroy the visual wrapper (this also destroys the Item component)
         if (item.itemWrapper != null)
         {
-            Destroy(item.itemWrapper.gameObject);
+            item.DestroyItem(false,sendToGraveyard);
         }
     }
     
@@ -988,5 +1046,23 @@ public class ItemManager : MonoBehaviour
     void FullGameStartedListener()
     {
         HideItemManager();
+    }
+    
+    private void UpdateSellButtonLabel()
+    {
+        if (draggingItem != null 
+            && draggingItem.itemType == Item.ItemType.Consumable)
+        {
+            sellCollider.GetComponentInChildren<TMPro.TMP_Text>().text = "Eat";
+        }
+        else
+        {
+            sellCollider.GetComponentInChildren<TMPro.TMP_Text>().text = "Sell";
+        }
+    }
+
+    void RevertSellButtonLabel()
+    {
+        sellCollider.GetComponentInChildren<TMPro.TMP_Text>().text = "Sell";
     }
 }

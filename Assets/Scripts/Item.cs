@@ -15,7 +15,8 @@ public class Item : MonoBehaviour, IHoverable
         Item,
         Perk,
         Weapon,
-        Pet
+        Pet,
+        Consumable
     };
     public ItemType itemType;
     public bool canBeForceTriggered = true;
@@ -287,6 +288,9 @@ public class Item : MonoBehaviour, IHoverable
             case ItemType.Pet:
                 col = "#7ae3ff";
                 break;
+            case ItemType.Consumable:
+                col = "green";
+                break;
             default:
                 break;
         }
@@ -352,6 +356,15 @@ public class Item : MonoBehaviour, IHoverable
         if (hasCooldown)
         {
             s += $"({Helpers.RoundToDecimal(cooldownDuration, 1)}s cooldown)";
+            if (!canBeForceTriggered)
+            {
+                s += "\n";
+            }
+        }
+
+        if (!canBeForceTriggered)
+        {
+            s += "(Cannot be force triggered)";
         }
 
         return s;
@@ -385,6 +398,32 @@ public class Item : MonoBehaviour, IHoverable
         }
     }
 
+    public void SetGhost()
+    {
+        itemWrapper.spriteRenderer.material = itemWrapper.ghostMaterial;
+    }
+
+    public void RandomizeEffectPowers()
+    {
+        foreach (var effect in effects)
+        {
+            effect.RandomizePower();
+        }
+        
+        foreach (var effect in holofoilEffects)
+        {
+            effect.RandomizePower();
+        }
+    }
+
+    public void RandomizeTriggers()
+    {
+        foreach (var trigger in triggers)
+        {
+            trigger.RandomizeTrigger();
+        }
+    }
+
     public void SellItem()
     {
         Singleton.Instance.playerStats.AddCoins(GetSellValue());
@@ -392,17 +431,33 @@ public class Item : MonoBehaviour, IHoverable
 
     public double GetSellValue()
     {
-        
+        if (itemType == ItemType.Consumable)
+        {
+            return 0;
+        }
         return (Math.Floor(normalizedPrice * globalItemPriceMult * 0.5*sellValueMultiplier));
     }
 
-    public void DestroyItem(bool withFX = false)
+    public void DestroyItem(bool withFX = false, bool sendToGraveyard = false)
     {
-        itemWrapper.DestroyItem(withFX);
+        if (sendToGraveyard)
+        {
+            Singleton.Instance.itemGraveyard.AddToGraveyard(this, withFX);
+        }
+        else
+        {
+            itemWrapper.DestroyItem(withFX);
+        }
     }
 
     public void EnteringAimStateListener()
     {
         cooldownCounter = -1f;
+    }
+
+    public void SetNormalizedPrice(float newSellValue)
+    {
+        normalizedPrice = newSellValue;
+        
     }
 }

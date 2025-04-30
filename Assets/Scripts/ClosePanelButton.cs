@@ -23,6 +23,11 @@ public class ClosePanelButton : MonoBehaviour
 
     private void OnMouseDown()
     {
+        ClosePanel();
+    }
+
+    public void ClosePanel()
+    {
         // Find the nearest MenuPanel in parents
         var panel = GetComponentInParent<MenuPanel>();
         if (panel == null)

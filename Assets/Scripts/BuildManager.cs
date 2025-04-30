@@ -13,6 +13,7 @@ public class BuildManager : MonoBehaviour
         startAtGame,
         startAtShop,
         startAtEvent,
+        startAtRestaurant,
         none
     }
 
@@ -78,6 +79,15 @@ public class BuildManager : MonoBehaviour
             case BuildMode.startAtEvent:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.runManager.StartNewRun("Event");
+                Singleton.Instance.menuManager.HideAll();
+                PopulateStartingItems();
+                Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                break;
+            case BuildMode.startAtRestaurant:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.runManager.StartNewRun("Food");
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);

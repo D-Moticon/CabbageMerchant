@@ -57,6 +57,7 @@ public class GameStateMachine : MonoBehaviour
 
     public delegate void BallDelegate(Ball b);
     public static event BallDelegate BallFiredEvent;
+    public static event BallDelegate BallFiredEarlyEvent; //fired before BallFired for things that need it
 
     public delegate void DoubleDelegate(double value);
 
@@ -210,6 +211,12 @@ public class GameStateMachine : MonoBehaviour
     public void TurnOffFloor()
     {
         floorObject.SetActive(false);
+    }
+
+    public void AddExtraBall(int quantity)
+    {
+        currentBalls += quantity;
+        BallsRemainingUpdatedEvent?.Invoke(currentBalls);
     }
     
     public class PopulateBoardState : State
@@ -447,6 +454,7 @@ public class GameStateMachine : MonoBehaviour
                 State newState = new BouncingState();
                 gameStateMachine.ChangeState(newState);
                 BallsRemainingUpdatedEvent?.Invoke(gameStateMachine.currentBalls);
+                BallFiredEarlyEvent?.Invoke(b);
                 BallFiredEvent?.Invoke(b);
             }
         }
