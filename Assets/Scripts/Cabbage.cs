@@ -116,6 +116,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     public delegate void CabbageMergedDelegate(CabbageMergedParams cpp);
 
     public static event CabbageMergedDelegate CabbageMergedEvent;
+    public static event CabbageMergedDelegate CabbageMergedEventPreDestroy;
     bool isHarvesting = false;
     
     private void OnEnable()
@@ -173,7 +174,11 @@ public class Cabbage : MonoBehaviour, IBonkable
         UpdateSizeLevel();
 
         // VFX and feedback
-        bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkerPower);
+        if (!bp.overrideSFX)
+        {
+            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkerPower);
+        }
+
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
         vfx.transform.localScale = new Vector3(1f+bp.bonkerPower*0.1f, 1f+bp.bonkerPower*0.1f, 1f);
 
@@ -335,15 +340,19 @@ public class Cabbage : MonoBehaviour, IBonkable
         
         SetNoVariant();
         otherCabbage.SetNoVariant();
-        gameObject.SetActive(false);
-        otherCabbage.gameObject.SetActive(false);
-
+        
         CabbageMergedParams cmp = new CabbageMergedParams();
         cmp.pos = pos;
         cmp.newCabbage = c;
         cmp.scale = sca;
         cmp.oldCabbageA = this;
         cmp.oldCabbageB = otherCabbage;
+        
+        CabbageMergedEventPreDestroy?.Invoke(cmp);
+        
+        gameObject.SetActive(false);
+        otherCabbage.gameObject.SetActive(false);
+        
         CabbageMergedEvent?.Invoke(cmp);
     }
 

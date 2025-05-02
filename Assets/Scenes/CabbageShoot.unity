@@ -4107,6 +4107,12 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: bfeb27979bdfcc8418818e2b7c130ad0, type: 2}
     initialQuantity: 100
     maxQuantity: 200
+  - objectData: {fileID: 11400000, guid: 8881d5d6d961e274faa431ccab4222e6, type: 2}
+    initialQuantity: 300
+    maxQuantity: 500
+  - objectData: {fileID: 11400000, guid: 205482d331ab4454fa0cde3f1ed80899, type: 2}
+    initialQuantity: 100
+    maxQuantity: 100
 --- !u!1 &2548950145100132322
 GameObject:
   m_ObjectHideFlags: 0
@@ -6278,6 +6284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7fdbf817305ce439e446f1eddbfc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGameLauncher: 1
   objectPoolManager: {fileID: 2518928864320830021}
   ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
   rainbowBallPooledObject: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}

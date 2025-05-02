@@ -3,11 +3,13 @@ using UnityEngine;
 using TMPro;
 using MoreMountains.Feedbacks;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 public class Fire : MonoBehaviour
 {
     public PooledObjectData thisPooledObject;
-    public float bonksPerSecond = 1f;
+    [FormerlySerializedAs("bonksPerSecond")] public float bonksPerSecondBase = 1f;
+    private static float bonksPerSecondPower = .5f;
     private float secondsPerBonk = 1f;
     public float bonkValue = 1f;
     public int stacksRemaining = 0;
@@ -32,8 +34,8 @@ public class Fire : MonoBehaviour
         GameStateMachine.EnteringBounceStateAction += OnBounceStateEntered;
         GameStateMachine.ExitingBounceStateAction += OnBounceStateExited;
         Ball.BallHitBonkableEvent += OnBallBonkedBonkable;
-        Cabbage.CabbageMergedEvent += CabbageMergedListener;
-        secondsPerBonk = 1f / bonksPerSecond;
+        Cabbage.CabbageMergedEventPreDestroy += CabbageMergedListener;
+        CalculateSecondsPerBonk();
         stackTimer = secondsPerBonk;
     }
 
@@ -42,7 +44,7 @@ public class Fire : MonoBehaviour
         GameStateMachine.EnteringBounceStateAction -= OnBounceStateEntered;
         GameStateMachine.ExitingBounceStateAction -= OnBounceStateExited;
         Ball.BallHitBonkableEvent -= OnBallBonkedBonkable;
-        Cabbage.CabbageMergedEvent -= CabbageMergedListener;
+        Cabbage.CabbageMergedEventPreDestroy -= CabbageMergedListener;
     }
 
     private void Update()
@@ -56,6 +58,7 @@ public class Fire : MonoBehaviour
         if (stackTimer <= 0)
         {
             PopStack();
+            CalculateSecondsPerBonk();
             stackTimer = secondsPerBonk;
             
             if (stacksRemaining <= 0)
@@ -65,12 +68,23 @@ public class Fire : MonoBehaviour
         }
     }
 
+    void CalculateSecondsPerBonk()
+    {
+        if (stacksRemaining <= 0)
+        {
+            secondsPerBonk = 1f / bonksPerSecondBase;
+            return;
+        }
+        secondsPerBonk = 1f / (bonksPerSecondBase*Mathf.Pow(stacksRemaining,bonksPerSecondPower));
+    }
+
     void PopStack()
     {
         BonkParams bp = new BonkParams();
         bp.bonkerPower = bonkValue;
         bp.collisionPos = this.transform.position;
         bp.normal = Vector2.up;
+        bp.overrideSFX = true;
         bonkable.Bonk(bp);
         
         stacksRemaining--;
@@ -155,7 +169,7 @@ public class Fire : MonoBehaviour
 
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {
-        if (cmp.oldCabbageA == bonkable || cmp.oldCabbageB == bonkable)
+        if (cmp.oldCabbageA as Object == bonkable as Object || cmp.oldCabbageB as Object == bonkable as Object)
         {
             SetBonkableOnFire(cmp.newCabbage, stacksRemaining);
             StopFire();

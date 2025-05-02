@@ -15208,8 +15208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7fdbf817305ce439e446f1eddbfc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGameLauncher: 0
   objectPoolManager: {fileID: 0}
   ballPooledObject: {fileID: 11400000, guid: 7adae652fb4b22043a0dd66d32fef505, type: 2}
+  rainbowBallPooledObject: {fileID: 11400000, guid: 7adae652fb4b22043a0dd66d32fef505, type: 2}
   defaultPhysicsMat: {fileID: 6200000, guid: d2d5c7546c8905842ab03d3845a5ef6d, type: 2}
   baseLaunchSpeed: 15
   launchSpeed: 15

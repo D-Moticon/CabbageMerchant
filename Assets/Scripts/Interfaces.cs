@@ -28,6 +28,7 @@ public class BonkParams
     public Cabbage bonkedCabbage;
     public IBonkable bonkable;
     public double totalBonkValueGained;
+    public bool overrideSFX = false;
 }
 
 public interface IKillable

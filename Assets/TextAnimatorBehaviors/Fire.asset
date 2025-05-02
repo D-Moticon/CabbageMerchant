@@ -16,7 +16,7 @@ MonoBehaviour:
   timeMode:
     startDelay: 0
     useUniformTime: 1
-    waveSize: 0.1
+    waveSize: 0
     timeSpeed: 1
   emissionCurve:
     cycles: -1
@@ -119,7 +119,7 @@ MonoBehaviour:
         m_PostInfinity: 1
         m_RotationOrder: 4
       amplitude: 1
-      waveSize: 0
+      waveSize: 0.1
     movementZ:
       enabled: 0
       weightOverTime:
@@ -374,5 +374,5 @@ MonoBehaviour:
         m_ColorSpace: 0
         m_NumColorKeys: 3
         m_NumAlphaKeys: 2
-      waveSize: 0
+      waveSize: 0.1
       duration: 1

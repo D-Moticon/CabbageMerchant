@@ -3,6 +3,7 @@ using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Object = UnityEngine.Object;
 
 public class ItemWrapper : MonoBehaviour
 {
@@ -85,7 +86,7 @@ public class ItemWrapper : MonoBehaviour
 
     void HoverableHoveredListener(IHoverable hovered)
     {
-        if (hovered == item)
+        if (hovered as Object == item as Object)
         {
             hoveredFeel.PlayFeedbacks();
             hoveredSFX.Play();

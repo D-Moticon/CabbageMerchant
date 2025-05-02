@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-[CreateAssetMenu(fileName = "ThreadItemEffect", menuName = "ItemEffects/ThreadItemEffect")]
 public class ThreadItemEffect : ItemEffect
 {
     [Tooltip("Line renderer prefab for drawing thread segments.")]
@@ -35,12 +34,12 @@ public class ThreadItemEffect : ItemEffect
     {
         return;
         // reset chain at start of first ball
-        chain.Clear();
+        /*chain.Clear();
         // remove any existing visuals
         foreach (var lr in segmentRenderers)
             lr.gameObject.SetActive(false);
         segmentRenderers.Clear();
-        chainActive = false;
+        chainActive = false;*/
     }
 
     private void OnBallHitCabbage(Ball.BallHitBonkableParams bhcp)

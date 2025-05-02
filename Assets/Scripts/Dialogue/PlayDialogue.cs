@@ -22,7 +22,7 @@ public class PlayDialogue : MonoBehaviour
     {
         public Biome biome;
 
-        [ListDrawerSettings(Expanded = true, ElementColor = "GetDialogueInfoColor")]
+        [ListDrawerSettings(ShowFoldout = true, ElementColor = "GetDialogueInfoColor")]
         public List<DialogueInfo> dialoguesToChooseFrom;
 
         // Odin requires signature: Color MethodName(int index)

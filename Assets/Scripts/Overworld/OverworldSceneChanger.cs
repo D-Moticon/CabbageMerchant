@@ -62,7 +62,7 @@ public class OverworldSceneChanger : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
         // Find the OverworldCharacter component in any active scene
-        var walker = Object.FindObjectOfType<OverworldCharacter>();
+        var walker = Object.FindFirstObjectByType<OverworldCharacter>();
         if (walker != null)
         {
             // Reposition if a valid position was passed

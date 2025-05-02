@@ -58,10 +58,11 @@ MonoBehaviour:
   - rid: 328110359655481478
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 0.8
+  normalizedPrice: 0.6
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}

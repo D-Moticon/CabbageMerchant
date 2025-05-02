@@ -33,10 +33,8 @@ public class CabbageBonkCountdown : Trigger
         {
             case CountdownType.numberCabbagesBonked:
                 return ($"{startingCountdown:F0} cabbages bonked");
-                break;
             case CountdownType.totalBonkValue:
                 return ($"{startingCountdown:F0} bonk value gained");
-                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }

@@ -129,7 +129,7 @@ public class EnemySpawner : MonoBehaviour
         if (spawnLocation == SpawnLocation.RandomCabbage)
         {
             var valid = new List<Cabbage>();
-            foreach (var c in FindObjectsOfType<Cabbage>())
+            foreach (var c in FindObjectsByType<Cabbage>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
                 if (c.gameObject.activeInHierarchy && c.enabled)
                     valid.Add(c);
             if (valid.Count > 0)

@@ -52,7 +52,7 @@ MonoBehaviour:
       data:
         firstLayer: 15
         baseValue: 54.6
-        exponent: 2
+        exponent: 1.8
     - rid: 328110304141508622
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:

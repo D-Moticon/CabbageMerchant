@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MoreMountains.Tools;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class GameStateMachine : MonoBehaviour
@@ -412,7 +413,7 @@ public class GameStateMachine : MonoBehaviour
     {
         for(int i = 0; i < bonkableSlots.Count; i++)
         {
-            if (bonkableSlots[i].bonkable == cmp.oldCabbageA || bonkableSlots[i].bonkable == cmp.oldCabbageB)
+            if (bonkableSlots[i].bonkable as Object == cmp.oldCabbageA as Object || bonkableSlots[i].bonkable as Object == cmp.oldCabbageB as Object)
             {
                 bonkableSlots[i].bonkable = null;
             }

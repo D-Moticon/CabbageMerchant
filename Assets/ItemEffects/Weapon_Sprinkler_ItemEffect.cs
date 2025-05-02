@@ -119,8 +119,7 @@ public class Weapon_Sprinkler_ItemEffect : ItemEffect
                     for (int i = 0; i < numberObjectsPerSpawn; i++)
                     {
                         float angleDeg = angleOffset + i * angleStep;
-                        float rad      = angleDeg * Mathf.Deg2Rad;
-                        Vector2 dir    = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                        Vector2 dir = Helpers.AngleDegToVector2(angleDeg);
 
                         var proj = objectToSpawn.Spawn();
                         proj.transform.position = center;

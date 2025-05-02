@@ -7,6 +7,7 @@ using Unity.Mathematics;
 public class Launcher : MonoBehaviour
 {
     PlayerInputManager playerInputManager;
+    public bool isGameLauncher = false;
     public ObjectPoolManager objectPoolManager;
     public PooledObjectData ballPooledObject;
     public PooledObjectData rainbowBallPooledObject;
@@ -61,7 +62,7 @@ public class Launcher : MonoBehaviour
     {
         PooledObjectData ballToSpawn = ballPooledObject;
         
-        if (Singleton.Instance.launchModifierManager.forceNextBallRainbow)
+        if (Singleton.Instance.launchModifierManager.forceNextBallRainbow && isGameLauncher)
         {
             ballToSpawn = rainbowBallPooledObject;
         }
