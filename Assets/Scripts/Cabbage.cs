@@ -214,6 +214,11 @@ public class Cabbage : MonoBehaviour, IBonkable
         gameObject.SetActive(false);
     }
 
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
     public void Pop(Vector2 collisionPos)
     {
         Color col = Color.white;

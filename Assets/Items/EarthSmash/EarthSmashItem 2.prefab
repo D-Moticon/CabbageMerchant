@@ -61,7 +61,7 @@ MonoBehaviour:
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 6
+  normalizedPrice: 5.2
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
@@ -86,7 +86,8 @@ MonoBehaviour:
       type: {class: CabbageHitAfterHangtimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
-        minHangtime: 1
+        itemHasTriggeredThisFrame: 0
+        minHangtime: 0.9
     - rid: 328109986689056855
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:

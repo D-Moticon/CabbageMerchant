@@ -157,6 +157,7 @@ public class ItemSlot : MonoBehaviour
         slotNumber = newSlotNumber;
         if (slotNumberText != null)
         {
+            slotNumberText.gameObject.SetActive(true);
             slotNumberText.text = (newSlotNumber+1).ToString();
         }
     }

@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class Weapon_Spade_ItemEffect : ItemEffect
 {
     public float boostSpeed = 30f;
+    public float outgoingSpeed = 18f;
     public string extraDescriptionInfo;
     [SerializeReference]
     public ItemEffect ballHitEffect;
@@ -32,7 +33,7 @@ public class Weapon_Spade_ItemEffect : ItemEffect
     public override void InitializeItemEffect()
     {
         base.InitializeItemEffect();
-        Ball.BallHitCabbageEvent += BallHitCabbageListener;
+        Ball.BallHitBonkableEvent += BallHitCabbageListener;
         GameStateMachine.ExitingBounceStateAction += ExitingBounceStateListener;
         ballHitEffect.InitializeItemEffect();
         ballSpades = new List<BallSpade>();
@@ -41,14 +42,14 @@ public class Weapon_Spade_ItemEffect : ItemEffect
     public override void DestroyItemEffect()
     {
         base.DestroyItemEffect();
-        Ball.BallHitCabbageEvent -= BallHitCabbageListener;
+        Ball.BallHitBonkableEvent -= BallHitCabbageListener;
         GameStateMachine.ExitingBounceStateAction -= ExitingBounceStateListener;
         ballHitEffect.DestroyItemEffect();
     }
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        Ball.BallHitCabbageEvent += BallHitCabbageListener;
+        Ball.BallHitBonkableEvent += BallHitCabbageListener;
         
         List<Ball> activeBalls = GameSingleton.Instance.gameStateMachine.activeBalls;
 
@@ -98,7 +99,7 @@ public class Weapon_Spade_ItemEffect : ItemEffect
         return desc;
     }
 
-    void BallHitCabbageListener(Ball.BallHitCabbageParams bhp)
+    void BallHitCabbageListener(Ball.BallHitBonkableParams bhp)
     {
         if (bhp == null)
         {
@@ -140,7 +141,13 @@ public class Weapon_Spade_ItemEffect : ItemEffect
                 {
                     ballHitVFX.Spawn(bhp.point);
                 }
-            
+
+                float ang = Random.Range(70f, 110f);
+                Vector2 dir = Helpers.AngleDegToVector2(ang);
+                Vector2 vel = outgoingSpeed * dir;
+                b.rb.linearVelocity = vel;
+                
+                Singleton.Instance.screenShaker.ShakeScreen(1f);
                 ballSpades[i].spadeSprite.SetActive(false);
                 ballSpades.RemoveAt(i);
             }

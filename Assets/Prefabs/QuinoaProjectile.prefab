@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1959300116415050621}
   - component: {fileID: 4915812102369811127}
   - component: {fileID: 9030935387976208431}
+  - component: {fileID: -7915991085959012490}
   m_Layer: 6
   m_Name: QuinoaProjectile
   m_TagString: Untagged
@@ -92,6 +93,15 @@ MonoBehaviour:
   bonksBeforeKill: 0
   treatAsBall: 0
   vfxOnBonk: {fileID: 0}
+  sfxOnBonk:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
   vfxOnKill: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
   sfxOnKill:
     sfx:
@@ -102,6 +112,8 @@ MonoBehaviour:
         Data4: 966856108
       Path: event:/RockBreak
     vol: 0.07
+  popFloater: 0
+  floaterColor: {r: 1, g: 1, b: 1, a: 1}
   baseMat: {fileID: 2100000, guid: 9934c98075aabbd49a0c6c77a51dd67a, type: 2}
   rainbowMat: {fileID: 2100000, guid: 391bd2b879384ab44a9b072110d46cdd, type: 2}
 --- !u!50 &1959300116415050621
@@ -157,6 +169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deactivateIfBelowYBounds: 1
+--- !u!114 &-7915991085959012490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670828935716225107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0827c2b6ba929408e35bd646bfcdf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 2
 --- !u!1 &3072691465983154010
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +237,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9934c98075aabbd49a0c6c77a51dd67a, type: 2}
+  - {fileID: 2100000, guid: 6de4c00056d8c9c4dbf8ea0153524b6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

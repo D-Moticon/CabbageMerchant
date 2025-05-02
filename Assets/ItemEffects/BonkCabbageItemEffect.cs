@@ -13,11 +13,14 @@ public class BonkCabbageItemEffect : ItemEffect
     {
         random,
         lowest,
-        highest
+        highest,
+        bonked
     }
 
     public CabbageSelection cabbageSelection;
     public PooledObjectData spawnItemAtCabbage;
+    public Sprite spriteForFloater;
+    public bool displayBonkValueInFloater = true;
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
@@ -43,6 +46,15 @@ public class BonkCabbageItemEffect : ItemEffect
             case CabbageSelection.highest:
                 selectedCabbages = cabbages.OrderByDescending(c => c.sizeLevel).Take(quantity).ToList();
                 break;
+            case CabbageSelection.bonked:
+                if (tc.cabbage == null)
+                {
+                    return;
+                }
+                selectedCabbages.Add(tc.cabbage);
+                break;
+            default:
+                return;
         }
 
         foreach (var c in selectedCabbages)
@@ -52,15 +64,31 @@ public class BonkCabbageItemEffect : ItemEffect
             bp.collisionPos = c.transform.position;
             c.Bonk(bp);
 
+            string floaterString = "";
+            if (displayBonkValueInFloater)
+            {
+                floaterString = $"{bonkValue:F1}";
+            }
+            
             if (spawnItemAtCabbage != null)
             {
                 spawnItemAtCabbage.Spawn(c.transform.position);
+            }
+
+            if (spriteForFloater != null)
+            {
+                Singleton.Instance.floaterManager.SpawnSpriteFloater(floaterString, c.transform.position, spriteForFloater, Color.white, 1f, owningItem.isHolofoil);
             }
         }
     }
 
     public override string GetDescription()
     {
+        if (cabbageSelection == CabbageSelection.bonked)
+        {
+            return($"Bonk cabbage for additional {bonkValue:F1} points");
+        }
+        
         string selectionDescription = cabbageSelection switch
         {
             CabbageSelection.random => "random",

@@ -92,7 +92,16 @@ public class DialogueLine : DialogueTask
                 // 2) Fire button pressed, but only if we’re *not* over any collider
                 if (Singleton.Instance.playerInputManager.fireDown)
                 {
-                    // turn screen coords into world coords
+                    // If the click is inside our dialogue panel's RectTransform, break
+                    if (RectTransformUtility.RectangleContainsScreenPoint(
+                            dc.dialogueBox.GetComponent<RectTransform>(), 
+                            Input.mousePosition, 
+                            Camera.main))
+                    {
+                        break;
+                    }
+                    
+                    /*// turn screen coords into world coords
                     Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                     // 2D example—checks if there's any Collider2D under the cursor
@@ -100,7 +109,7 @@ public class DialogueLine : DialogueTask
 
                     // if nothing was hit, we can treat fireDown as a skip
                     if (!hovering)
-                        break;
+                        break;*/
                 }
 
                 yield return null;

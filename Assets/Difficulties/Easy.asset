@@ -18,8 +18,8 @@ MonoBehaviour:
   referenceFirstRoundGoal: 10
   referenceFunctionPieces:
   - rid: 328110304141508608
-  metacurrencyBase: 0.15
-  metacurrencyPower: 1.05
+  metacurrencyBase: 0.1
+  metacurrencyPower: 1.02
   maxMetaCurrencyPerLayer: 5
   functionPieces:
   - rid: 328110304141508609

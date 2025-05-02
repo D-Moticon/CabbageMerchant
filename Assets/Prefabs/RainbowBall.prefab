@@ -5030,6 +5030,7 @@ MonoBehaviour:
     vol: 0.4
   bonkValueUpVFX: {fileID: 11400000, guid: 42e8069a7f5d6b84aaf7f4fc29b0f8ca, type: 2}
   bonkValueUpFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
+  pooledObjectRef: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
   wallBonkSFX:
     sfx:
       Guid:
@@ -5324,6 +5325,15 @@ MonoBehaviour:
   bonksBeforeKill: 0
   treatAsBall: 1
   vfxOnBonk: {fileID: 0}
+  sfxOnBonk:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
   vfxOnKill: {fileID: 0}
   sfxOnKill:
     sfx:
@@ -5334,6 +5344,8 @@ MonoBehaviour:
         Data4: 0
       Path: 
     vol: 0.5
+  popFloater: 0
+  floaterColor: {r: 1, g: 1, b: 1, a: 1}
   baseMat: {fileID: 0}
   rainbowMat: {fileID: 0}
 --- !u!58 &697489271317062608

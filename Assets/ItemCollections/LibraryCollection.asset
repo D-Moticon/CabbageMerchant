@@ -15,28 +15,21 @@ MonoBehaviour:
   items:
   - item: {fileID: 5970950755171899760, guid: 8abf115081c689a408b60e8c4f396932, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 1072895836480083994, guid: c85e3590ad52f874cbec43513aa16434, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 6753193354653355368, guid: 6182bd18e31de744cbb8effbaa3b28d9, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 5915494280890617260, guid: 7c3819c7c5825d84d96a7bd1e69d8a10, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 1022164866335740927, guid: 9425cf1b19753f94b8ff8aa89f11547f, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 3166674232661849240, guid: 4dbe6ad8d8dec5b4a88ce1ac6e02d8a7, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 3296758984794107481, guid: 44875cc5c9ff17b4ba23dacdac1f6107, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 5823416419293823318, guid: 6f6ef5fb0960fbc48a687e0d5825d289, type: 3}
     enabled: 1
-    requiredPet: {fileID: 0}
   - item: {fileID: 7122293884327519524, guid: 7a2e1a04ef4fd7e4989d68027f4b33bf, type: 3}
     enabled: 1
-    requiredPet: {fileID: 11400000, guid: 9ad6e6b3df25b95469aa982eccfe5cb6, type: 2}
+  - item: {fileID: 1810605003138051333, guid: d4c7e27aa68c36643a58a3d863739425, type: 3}
+    enabled: 1

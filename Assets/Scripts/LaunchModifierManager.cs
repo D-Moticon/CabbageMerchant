@@ -10,12 +10,14 @@ public class LaunchModifierManager : MonoBehaviour
     public float forceNextBallBonkValue = 1f;
     public float forceNextBallScale = 1f;
     public PhysicsMaterial2D forceNextBallPhysMat = null;
+    public int forceNextBallFireStacks = 0;
 
     public GameObject nextBallScaleIcon;
     public TMP_Text nextBallScaleText;
     public GameObject nextBallBonkValueIcon;
     public TMP_Text nextBallBonkValueText;
-    
+    public GameObject nextBallFireIcon;
+    public TMP_Text nextBallFireText;
 
     private void OnEnable()
     {
@@ -50,7 +52,12 @@ public class LaunchModifierManager : MonoBehaviour
         float sca = forceNextBallScale;
         if (sca > 1.01f)
         {
-            ball.transform.localScale = new Vector3(sca, sca, 1f);
+            ball.SetScale(sca);
+        }
+
+        if (forceNextBallFireStacks > 0)
+        {
+            BallFire.SetBallOnFire(ball, forceNextBallFireStacks);
         }
         
         ResetAllModifiers();
@@ -64,6 +71,8 @@ public class LaunchModifierManager : MonoBehaviour
         forceNextBallScale = 1f;
         forceNextBallPhysMat = null;
         nextBallScaleIcon.SetActive(false);
+        forceNextBallFireStacks = 0;
+        nextBallFireIcon.SetActive(false);
     }
     
     public void AddNextBallValue(float bonkValueAdd)
@@ -86,5 +95,13 @@ public class LaunchModifierManager : MonoBehaviour
     public void ForceNextBallPhysMat(PhysicsMaterial2D physMat)
     {
         forceNextBallPhysMat = physMat;
+    }
+
+    public void ForceNextBallFire(int stacksToAdd)
+    {
+        forceNextBallFireStacks += stacksToAdd;
+        nextBallFireIcon.gameObject.SetActive(true);
+        nextBallFireText.text = forceNextBallFireStacks.ToString();
+        nextBallFireIcon.GetComponentInChildren<MoreMountains.Feedbacks.MMF_Player>().PlayFeedbacks();
     }
 }

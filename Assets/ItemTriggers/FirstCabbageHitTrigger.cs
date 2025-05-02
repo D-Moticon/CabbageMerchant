@@ -6,13 +6,13 @@ public class FirstCabbageHitTrigger : Trigger
         
     public override void InitializeTrigger(Item item)
     {
-        Ball.BallHitCabbageEvent += CabbageHitListener;
+        Ball.BallHitBonkableEvent += CabbageHitListener;
         GameStateMachine.EnteringAimStateAction += AimStateEnteredListener;
     }
 
     public override void RemoveTrigger(Item item)
     {
-        Ball.BallHitCabbageEvent -= CabbageHitListener;
+        Ball.BallHitBonkableEvent -= CabbageHitListener;
         GameStateMachine.EnteringAimStateAction -= AimStateEnteredListener;
     }
 
@@ -21,7 +21,7 @@ public class FirstCabbageHitTrigger : Trigger
         return ("First cabbage bonked");
     }
 
-    void CabbageHitListener(Ball.BallHitCabbageParams bcParams)
+    void CabbageHitListener(Ball.BallHitBonkableParams bcParams)
     {
         if (hit)
         {

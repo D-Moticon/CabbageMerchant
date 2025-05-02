@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f218a86a4fbff4696488536f396cff, type: 3}
+  m_Name: BallFire
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6527249461814630453, guid: 7d703275797f82d49bec0a1cf3bfc197, type: 3}

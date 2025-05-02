@@ -18,8 +18,8 @@ MonoBehaviour:
   referenceFirstRoundGoal: 15
   referenceFunctionPieces:
   - rid: 328110304141508618
-  metacurrencyBase: 0.22
-  metacurrencyPower: 1.1
+  metacurrencyBase: 0.2
+  metacurrencyPower: 1.05
   maxMetaCurrencyPerLayer: 10
   functionPieces:
   - rid: 328110304141508619
@@ -39,14 +39,14 @@ MonoBehaviour:
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 0
-        baseValue: 6.16
-        exponent: 1.2
+        baseValue: 6
+        exponent: 1.05
     - rid: 328110304141508620
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 7
-        baseValue: 34.74
-        exponent: 1.2
+        baseValue: 34
+        exponent: 1.15
     - rid: 328110304141508621
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:

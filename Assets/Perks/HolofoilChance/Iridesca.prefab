@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Iridesca
+  itemName: Optics
   itemDescription: 
   icon: {fileID: 21300000, guid: 3403c501bbc881047966bfe6990dc9dd, type: 3}
   itemType: 1
@@ -76,6 +76,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
@@ -86,15 +87,16 @@ MonoBehaviour:
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
     - rid: 328109986689057254
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        holofoilChanceAdd: 0.04
+        holofoilChanceAdd: 0.05
     - rid: 328109986689057255
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        holofoilChanceAdd: 0.08
+        holofoilChanceAdd: 0.1

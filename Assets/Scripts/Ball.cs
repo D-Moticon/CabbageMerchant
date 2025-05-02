@@ -17,18 +17,20 @@ public class Ball : MonoBehaviour
     public SFXInfo bonkValueUpSFX;
     public PooledObjectData bonkValueUpVFX;
     public FloaterReference bonkValueUpFloater;
+    public PooledObjectData pooledObjectRef;
     
-    public class BallHitCabbageParams
+    public class BallHitBonkableParams
     {
         public Ball ball;
         public Cabbage cabbage;
+        public IBonkable bonkable;
         public Vector2 point;
         public Vector2 normal;
         public float hangTimeBeforeHit;
     }
     
-    public delegate void BallCabbageDelegate(BallHitCabbageParams bcParams);
-    public static BallCabbageDelegate BallHitCabbageEvent;
+    public delegate void BallCabbageDelegate(BallHitBonkableParams bcParams);
+    public static BallCabbageDelegate BallHitBonkableEvent;
 
     public delegate void CollisionDelegate(Ball b, Collision2D col);
     public static event CollisionDelegate BallCollidedEvent;
@@ -54,8 +56,8 @@ public class Ball : MonoBehaviour
     private void OnEnable()
     {
         //GameSingleton.Instance.gameStateMachine.AddActiveBall(this);
-        BallEnabledEvent?.Invoke(this);
         bonkValue = baseBonkValue;
+        BallEnabledEvent?.Invoke(this);
         bonkValueText.text = Helpers.FormatWithSuffix(bonkValue);
         bonkValueText.enabled = false;
         SetBonkValueMatProp();
@@ -121,14 +123,15 @@ public class Ball : MonoBehaviour
             bp.treatAsBall = true;
             b.Bonk(bp);
 
-            BallHitCabbageParams bcParams = new BallHitCabbageParams();
+            BallHitBonkableParams bcParams = new BallHitBonkableParams();
             bcParams.ball = this;
             bcParams.cabbage = c;
+            bcParams.bonkable = b;
             bcParams.point = other.GetContact(0).point;
             bcParams.normal = other.GetContact(0).normal;
             bcParams.hangTimeBeforeHit = currentHangtime;
             
-            BallHitCabbageEvent?.Invoke(bcParams);
+            BallHitBonkableEvent?.Invoke(bcParams);
             bonkCooldownCounter = bonkCooldown;
             currentHangtime = 0f;
         }
@@ -147,7 +150,10 @@ public class Ball : MonoBehaviour
         SetBonkValueMatProp();
         bonkValueUpSFX.Play();
         bonkValueUpVFX.Spawn(this.transform.position);
-        bonkValueUpFloater.Spawn("Ball Upgraded!", this.transform.position, Color.white);
+        if (bonkValueAdd > 0.1f)
+        {
+            bonkValueUpFloater.Spawn("Ball Upgraded!", this.transform.position, Color.white);
+        }
     }
 
     void SetBonkValueMatProp()
@@ -158,6 +164,21 @@ public class Ball : MonoBehaviour
         sr.GetPropertyBlock(mpb);
         mpb.SetFloat(bonkValueMaterialProp, propValue);
         sr.SetPropertyBlock(mpb);
-        tr.SetPropertyBlock(mpb);
+        
+        MaterialPropertyBlock tmpb = new MaterialPropertyBlock();
+        tr.GetPropertyBlock(tmpb);
+        tmpb.SetFloat(bonkValueMaterialProp, propValue);
+        tr.SetPropertyBlock(tmpb);
+    }
+
+    public void DestroyBall()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void SetScale(float sca)
+    {
+        transform.localScale = new Vector3(sca, sca, 1f);
+        tr.widthMultiplier = sca;
     }
 }

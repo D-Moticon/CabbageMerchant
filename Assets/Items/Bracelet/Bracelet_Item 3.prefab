@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7612869148746670911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 911783148283969509}
+  - component: {fileID: 1340719836493128289}
+  m_Layer: 0
+  m_Name: Bracelet_Item 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &911783148283969509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612869148746670911}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.46546, y: -0.25846, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1340719836493128289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612869148746670911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Bracelet III
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 0bd66a957aa21624580bb74f13b7e4f9, type: 3}
+  itemType: 0
+  canBeForceTriggered: 1
+  effects:
+  - rid: 328110359655481475
+  holofoilEffects:
+  - rid: 328110359655481477
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 328110359655481478
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1.6
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110359655481475
+      type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        bonkValue: 20
+        quantity: 1
+        cabbageSelection: 3
+        spawnItemAtCabbage: {fileID: 0}
+        spriteForFloater: {fileID: 21300000, guid: 0bd66a957aa21624580bb74f13b7e4f9, type: 3}
+        displayBonkValueInFloater: 1
+    - rid: 328110359655481477
+      type: {class: BonkCabbageItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        bonkValue: 50
+        quantity: 1
+        cabbageSelection: 3
+        spawnItemAtCabbage: {fileID: 0}
+        spriteForFloater: {fileID: 21300000, guid: 0bd66a957aa21624580bb74f13b7e4f9, type: 3}
+        displayBonkValueInFloater: 1
+    - rid: 328110359655481478
+      type: {class: FirstCabbageHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

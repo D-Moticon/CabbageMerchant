@@ -58,6 +58,7 @@ MonoBehaviour:
   - rid: 328109942880338078
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 1
@@ -76,6 +77,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
@@ -86,17 +88,21 @@ MonoBehaviour:
       type: {class: FirstCabbageHitTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
     - rid: 328109986689056860
       type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
         ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
-        ballName: ball
-        ballDescription: 
+        ballName: smaller ball
+        ballDescription: bonk for 0.75x
         numberCopies: 4
-        ballLaunchSpeed: 10
+        ballLaunchSpeed: 12
         ballLaunchAngleRange: {x: 45, y: 135}
+        multiplyScale: 0.75
+        multiplyBonkValue: 0.75
+        destroyOriginalBall: 0
     - rid: 328109986689056876
       type: {class: BallSplitterItemEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -108,3 +114,6 @@ MonoBehaviour:
         numberCopies: 4
         ballLaunchSpeed: 10
         ballLaunchAngleRange: {x: 45, y: 135}
+        multiplyScale: 0.75
+        multiplyBonkValue: 0.75
+        destroyOriginalBall: 0

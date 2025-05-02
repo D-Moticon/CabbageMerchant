@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MeadowPlatform
   m_EditorClassIdentifier: 
   m_Angles:
-  - m_Start: -80
-    m_End: 65
+  - m_Start: -89
+    m_End: 92
     m_Order: 0
     m_Sprites:
     - {fileID: 21300000, guid: 9fad711316456a948bf230f1ba7c1c0d, type: 3}

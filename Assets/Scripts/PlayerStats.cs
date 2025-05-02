@@ -41,6 +41,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public double totalCabbagesBonkedThisRun;
     [HideInInspector] public double totalBonkValueThisRun;
     [HideInInspector] public float totalRunTime = 0f;
+    [HideInInspector] public int totalConsumablesUsedThisRun = 0;
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -51,6 +52,7 @@ public class PlayerStats : MonoBehaviour
     public static Action LifeGainedEvent;
     public static event IntEvent KeysUpdatedEvent;
     public static event DoubleEvent MetacurrencyUpdatedEvent;
+    public static IntEvent ConsumablesUsedUpdatedEvent;
     
     private void OnEnable()
     {
@@ -58,6 +60,7 @@ public class PlayerStats : MonoBehaviour
         Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
         MapGenerator.MapGeneratedEvent += MapGeneratedListener;
         SaveManager.DataLoadedEvent += SaveDataLoadedListener;
+        ItemManager.ItemSoldEvent += ItemSoldListener;
         GetMetacurrencyFromSave();
     }
 
@@ -67,6 +70,7 @@ public class PlayerStats : MonoBehaviour
         Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
         MapGenerator.MapGeneratedEvent -= MapGeneratedListener;
         SaveManager.DataLoadedEvent -= SaveDataLoadedListener;
+        ItemManager.ItemSoldEvent -= ItemSoldListener;
     }
 
     void GetMetacurrencyFromSave()
@@ -101,6 +105,7 @@ public class PlayerStats : MonoBehaviour
         totalCabbagesBonkedThisRun = 0;
         totalBonkValueThisRun = 0;
         totalRunTime = 0;
+        totalConsumablesUsedThisRun = 0;
     }
 
     private void Update()
@@ -111,7 +116,8 @@ public class PlayerStats : MonoBehaviour
     public void AddCoins(double coinsToAdd)
     {
         coins += coinsToAdd;
-
+        coins = Math.Round(coins);
+        
         if (coins > maxCoins)
         {
             coins = maxCoins;
@@ -246,5 +252,12 @@ public class PlayerStats : MonoBehaviour
         GetMetacurrencyFromSave();
     }
 
-    
+    void ItemSoldListener(Item item)
+    {
+        if (item.itemType == Item.ItemType.Consumable)
+        {
+            totalConsumablesUsedThisRun++;
+            ConsumablesUsedUpdatedEvent?.Invoke(totalConsumablesUsedThisRun);
+        }
+    }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using Random = System.Random;
 using Sirenix.OdinInspector;
+using TMPro;
+using MoreMountains.Feedbacks;
 
 public class Item : MonoBehaviour, IHoverable
 {
@@ -26,6 +28,8 @@ public class Item : MonoBehaviour, IHoverable
     [SerializeReference] public List<Trigger> triggers;
     public float triggerChance = 1f;
     public bool hasCooldown = false;
+    public int limitPerShot = 0;
+    private int timesTriggeredThisShot = 0;
     [ShowIf("@hasCooldown == true")]
     public float cooldownDuration = 1f;
     [HideInInspector]public float cooldownCounter = 0f;
@@ -38,6 +42,7 @@ public class Item : MonoBehaviour, IHoverable
     [HideInInspector] public bool purchasable = false;
     public SFXInfo triggerSFX;
     public Item upgradedItem;
+    public PetDefinition requiredPet;
     [HideInInspector] public bool isHolofoil = false;
 
     public delegate void ItemDelegate(Item item);
@@ -181,6 +186,11 @@ public class Item : MonoBehaviour, IHoverable
                 return;
             }
         }
+
+        if (limitPerShot > 0 && timesTriggeredThisShot >= limitPerShot)
+        {
+            return;
+        }
         
         TriggerItem(tc);
     }
@@ -237,7 +247,8 @@ public class Item : MonoBehaviour, IHoverable
             }
             hasBeenUsedOnce = true;
         }
-        
+
+        timesTriggeredThisShot++;
         currentFrameTriggerCount++;
         
         
@@ -298,6 +309,11 @@ public class Item : MonoBehaviour, IHoverable
                 {
                     s += "\n" + $"<rainb>{holofoilEffectDescription}</rainb>";
                 }
+            }
+
+            if (limitPerShot > 0)
+            {
+                s += $" (Limit {limitPerShot} use per shot)";
             }
             
             return s;
@@ -487,11 +503,24 @@ public class Item : MonoBehaviour, IHoverable
     public void EnteringAimStateListener()
     {
         cooldownCounter = -1f;
+        timesTriggeredThisShot = 0;
     }
 
     public void SetNormalizedPrice(float newSellValue)
     {
         normalizedPrice = newSellValue;
         
+    }
+
+    public void SetExtraText(string text)
+    {
+        if (itemWrapper == null)
+        {
+            Debug.Log($"Tried to set extra text but item wrapper was null: {this.gameObject.name}, {this.itemName}");
+        }
+        else
+        {
+            itemWrapper.SetExtraText(text);
+        }
     }
 }

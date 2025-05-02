@@ -14,7 +14,7 @@ public class PetManager : MonoBehaviour
 {
     [Tooltip("Database of all possible pets.")]
     public PetDatabase petDatabase;
-
+    
     [HideInInspector]
     public PetDefinition currentPet;
 

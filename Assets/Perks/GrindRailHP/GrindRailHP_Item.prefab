@@ -75,6 +75,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 11400000, guid: 9ad6e6b3df25b95469aa982eccfe5cb6, type: 2}
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0

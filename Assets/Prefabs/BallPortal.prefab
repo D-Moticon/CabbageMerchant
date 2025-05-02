@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3605407616020889875}
   - component: {fileID: 7734164747919612954}
   - component: {fileID: 1710527030611491320}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: BallPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050153484776305460}
   - component: {fileID: 840914911871036406}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

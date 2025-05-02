@@ -234,7 +234,10 @@ public class SaveManager : MonoBehaviour
         {
             return;
         }
-        
-        RecordPetWin(rcp.petDefinition.dataName, rcp.difficulty.difficultyLevel);
+
+        if (rcp.petDefinition != null)
+        {
+            RecordPetWin(rcp.petDefinition.dataName, rcp.difficulty.difficultyLevel);
+        }
     }
 }

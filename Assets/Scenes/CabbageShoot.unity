@@ -600,11 +600,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449805c48a9af674aac84a63521d8c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 1
-  amplitude: 0.2
+  axis: 0
+  amplitude: 0.5
   frequency: 0.25
   phaseOffsetPerX: 0.5
-  phaseOffsetPerY: 0.5
+  phaseOffsetPerY: 0.1
 --- !u!114 &479302464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3989,19 +3989,16 @@ MonoBehaviour:
     maxQuantity: 300
   - objectData: {fileID: 11400000, guid: 12df07918005f8b498512c255add32e6, type: 2}
     initialQuantity: 10
-    maxQuantity: 50
+    maxQuantity: 25
   - objectData: {fileID: 11400000, guid: d037352bd8dee304cbc4853029ebeabe, type: 2}
     initialQuantity: 10
-    maxQuantity: 50
+    maxQuantity: 25
   - objectData: {fileID: 11400000, guid: fa0422f077049fe43be764134c9c49bc, type: 2}
     initialQuantity: 10
-    maxQuantity: 50
+    maxQuantity: 25
   - objectData: {fileID: 11400000, guid: 5d6375cce23916842b0e9811075cd01d, type: 2}
     initialQuantity: 10
-    maxQuantity: 50
-  - objectData: {fileID: 11400000, guid: d6fc569de734f59458383d6328b0ad1d, type: 2}
-    initialQuantity: 15
-    maxQuantity: 100
+    maxQuantity: 25
   - objectData: {fileID: 11400000, guid: 7ec412345a25f05458a2ecf6b4ea389f, type: 2}
     initialQuantity: 90
     maxQuantity: 300
@@ -4098,6 +4095,18 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: bc5e36a7e0c693c4798cbeaa89549422, type: 2}
     initialQuantity: 5
     maxQuantity: 15
+  - objectData: {fileID: 11400000, guid: cbc766ee72ee73e4d9049f69afc74a26, type: 2}
+    initialQuantity: 20
+    maxQuantity: 100
+  - objectData: {fileID: 11400000, guid: 7c9b78ca5acb166498c509786c241d45, type: 2}
+    initialQuantity: 50
+    maxQuantity: 100
+  - objectData: {fileID: 11400000, guid: 9d78ffc1588d901499278a738ab541ee, type: 2}
+    initialQuantity: 30
+    maxQuantity: 50
+  - objectData: {fileID: 11400000, guid: bfeb27979bdfcc8418818e2b7c130ad0, type: 2}
+    initialQuantity: 100
+    maxQuantity: 200
 --- !u!1 &2548950145100132322
 GameObject:
   m_ObjectHideFlags: 0
@@ -5666,7 +5675,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 679a54cacf3e3194ab07903eb4cdd695, type: 2}
+  - {fileID: 2100000, guid: bee1b0511f08f5b46a8f7088751c7dc7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

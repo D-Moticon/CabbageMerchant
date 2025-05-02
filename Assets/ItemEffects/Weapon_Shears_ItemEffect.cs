@@ -110,9 +110,11 @@ public class Weapon_Shears_ItemEffect : ItemEffect
         rb.linearVelocity = dirA * speedA;
 
         // 2) spawn and launch the new ball
-        Ball cloneBall = ballPooledObject.Spawn(ball.transform.position).GetComponent<Ball>();
+        Ball cloneBall = ball.pooledObjectRef.Spawn(ball.transform.position).GetComponent<Ball>();
         Rigidbody2D cloneRb  = cloneBall.GetComponent<Rigidbody2D>();
         cloneRb.linearVelocity = dirB * speedB;
+        cloneBall.transform.localScale = ball.transform.localScale;
+        cloneBall.bonkValue = ball.bonkValue;
     }
 
 
@@ -120,8 +122,9 @@ public class Weapon_Shears_ItemEffect : ItemEffect
     public override string GetDescription()
     {
         string plural = numberShears > 1 ? "s" : "";
+        string antiPlural = numberShears > 1 ? "" : "s";
         return
-            $"Create {numberShears} slice{plural} that each bonk cabbages for {bonkValue} and split balls into 2.";
+            $"Create {numberShears} slice{plural} at the mouse position that bonk{antiPlural} cabbages for {bonkValue} and split{antiPlural} balls into 2.";
     }
 
     // -- Editor helper to visualize the box in-scene --

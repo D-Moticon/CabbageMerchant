@@ -1027,6 +1027,15 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public void UnLockAllInventorySlots()
+    {
+        int totalSlots = itemSlots.Count;
+        for (int i = 0; i < totalSlots; i++)
+        {
+            itemSlots[i].UnLockSlot(true);
+        }
+    }
+
     void SceneChangedListener(string sceneName)
     {
         if (sceneName == "Overworld")

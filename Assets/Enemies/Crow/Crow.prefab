@@ -345,6 +345,7 @@ MonoBehaviour:
         Data4: -1194282694
       Path: event:/CabbagePop
     vol: 0.5
+  hpText: {fileID: 0}
 --- !u!58 &301760593021803896
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -394,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptyFlightSpeed: 1
-  cabbageFlightSpeed: 0.65
+  cabbageFlightSpeed: 0.55
   targetMode: 0
   grabRadius: 0.5
   grabYOffset: 6.6

@@ -15,6 +15,7 @@ public interface IBonkable
 {
     public void Bonk(BonkParams bp);
     public void Remove();
+    public GameObject GetGameObject();
 }
 
 public class BonkParams

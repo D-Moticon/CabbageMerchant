@@ -25,6 +25,7 @@ public class BuildManager : MonoBehaviour
     public int startingKeys;
     public bool forceHolofoilStarting = false;
     public PetDefinition startingPet;
+    public bool unlockAllSlots = false;
     public List<Item> startingItems = new List<Item>();
     public List<Item> startingPerks = new List<Item>();
     public Biome startingBiome;
@@ -61,6 +62,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             case BuildMode.startAtGame:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -72,6 +77,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             case BuildMode.startAtShop:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -83,6 +92,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             case BuildMode.startAtEvent:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -94,6 +107,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             case BuildMode.startAtRestaurant:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -105,6 +122,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             case BuildMode.startAtLibrary:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -116,6 +137,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.runManager.ChangeBiome(startingBiome);
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
                 Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             case BuildMode.none:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -123,6 +148,10 @@ public class BuildManager : MonoBehaviour
                 Singleton.Instance.playerStats.AddKey(startingKeys);
                 Singleton.Instance.menuManager.HideAll();
                 Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

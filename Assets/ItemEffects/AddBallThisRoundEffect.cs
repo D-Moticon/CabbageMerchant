@@ -14,6 +14,8 @@ public class AddBallThisRoundEffect : ItemEffect
 
     public override string GetDescription()
     {
-        return ($"Gain 1 extra ball this round");
+        string plural = "";
+        if (quantity > 1) plural = "s";
+        return ($"Gain {quantity} extra ball{plural} this round");
     }
 }

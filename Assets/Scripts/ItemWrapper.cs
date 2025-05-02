@@ -2,6 +2,7 @@ using System;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemWrapper : MonoBehaviour
 {
@@ -18,11 +19,15 @@ public class ItemWrapper : MonoBehaviour
     public MMF_Player hoveredFeel;
     public SFXInfo hoveredSFX;
     public Slider cooldownSlider;
+    public TMP_Text extraText;
+    public MMF_Player extraTextFeel;
     
     private void OnEnable()
     {
         ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
         ToolTip.HoverableHoveredEvent += HoverableHoveredListener;
+        extraText.enabled = false;
+        extraText.text = "";
     }
 
     private void OnDisable()
@@ -90,5 +95,19 @@ public class ItemWrapper : MonoBehaviour
     public void DestroyItem(bool withFX = false)
     {
         Destroy(this.gameObject);
+    }
+
+    public void SetExtraText(string text)
+    {
+        if (extraText != null)
+        {
+            extraText.enabled = true;
+            extraText.text = text;
+        }
+
+        if (extraTextFeel != null)
+        {
+            extraTextFeel.PlayFeedbacks();
+        }
     }
 }

@@ -79,6 +79,7 @@ public class Weapon_Rocket_ItemEffect : ItemEffect
 
         explosionVFX.Spawn(ball.transform.position);
         explosionSFX.Play();
+        Singleton.Instance.screenShaker.ShakeScreen(1f);
 
         if (rocket != null)
         {

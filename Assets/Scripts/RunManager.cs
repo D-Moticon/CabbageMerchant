@@ -65,6 +65,7 @@ public class RunManager : MonoBehaviour
     public delegate void RunEndDelegate(RunCompleteParams rep);
     public static event RunEndDelegate RunFinishedEvent;
     public static System.Action RunEndedEvent;
+    public static System.Action RunStartEventNoParams;
     
     public delegate void StringDelegate(string s);
     public static StringDelegate SceneChangedEvent;
@@ -426,7 +427,9 @@ public class RunManager : MonoBehaviour
         // Fire any listeners
         RunStartParams rsp = new RunStartParams();
         RunStartEvent?.Invoke(rsp);
+        RunStartEventNoParams?.Invoke();
         
+        ChangeBiome(startingBiome);
         GoToSceneExclusive(startScene);
     }
 

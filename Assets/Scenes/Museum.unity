@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: Overworld
-  spawnPos: {x: 0, y: 0}
+  spawnPos: {x: 6, y: -2.8}
   targetPosDelta: {x: 0, y: -0.3}
 --- !u!4 &332782164
 Transform:
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 2113205482}
   - component: {fileID: 2113205481}
   - component: {fileID: 2113205480}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

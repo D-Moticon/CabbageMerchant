@@ -67,7 +67,7 @@ public class Launcher : MonoBehaviour
         }
         
         Ball ball = objectPoolManager.Spawn(ballToSpawn, this.transform.position, quaternion.identity).GetComponent<Ball>();
-        ball.transform.localScale = new Vector3(1f, 1f, 1f);
+        ball.SetScale(1f);
         ball.SetVelocity(currentLaunchVelocity);
         if (defaultPhysicsMat != null)
         {

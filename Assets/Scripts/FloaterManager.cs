@@ -58,7 +58,9 @@ public class FloaterManager : MonoBehaviour
         string           text,
         Vector3          position,
         Color?           textColor = null,
-        float            scale     = 1f)
+        float            scale     = 1f,
+        Sprite sprite = null,
+        bool isHolofoil = false)
     {
         // Ensure we have a pool
         if (!floaterPools.ContainsKey(floaterRef))
@@ -87,7 +89,7 @@ public class FloaterManager : MonoBehaviour
         floater.transform.position    = position;
         floater.transform.localScale   = Vector3.one * scale;
         floater.gameObject.SetActive(true);
-        floater.Activate(text, textColor);
+        floater.Activate(text, textColor, sprite, isHolofoil);
     }
 
     /// <summary>
@@ -134,5 +136,23 @@ public class FloaterManager : MonoBehaviour
         // assuming index 3 is your info‐floater reference
         var infoRef = floaterReferences[0];
         SpawnFloater(infoRef, text, position + (Vector3)randPos, textColor, scale);
+    }
+    
+    public void SpawnSpriteFloater(
+        string text,
+        Vector3 position,
+        Sprite sprite,
+        Color? textColor = null,
+        float scale      = 1f,
+        bool isHolofoil = false)
+    {
+        float randPosMult = 0.2f;
+        float randX = Random.Range(-scale, scale) * randPosMult;
+        float randY = Random.Range(-scale, scale) * randPosMult;
+        Vector2 randPos = new Vector2(randX, randY);
+
+        // assuming index 3 is your info‐floater reference
+        var infoRef = floaterReferences[4];
+        SpawnFloater(infoRef, text, position + (Vector3)randPos, textColor, scale, sprite, isHolofoil);
     }
 }

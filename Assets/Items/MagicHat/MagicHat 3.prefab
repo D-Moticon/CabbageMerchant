@@ -61,7 +61,7 @@ MonoBehaviour:
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 1
-  normalizedPrice: 6
+  normalizedPrice: 5.2
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
@@ -92,7 +92,9 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 1a7c88dd050f3be4092bbff838a7f7af, type: 2}
         itemLevel: 2
         makeHolofoil: 0
+        destroyOnBounceExited: 1
         spawnVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        itemDescription: 
     - rid: 328110326145876123
       type: {class: CreateRandomItemInSlotEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -103,7 +105,9 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 1a7c88dd050f3be4092bbff838a7f7af, type: 2}
         itemLevel: 2
         makeHolofoil: 1
+        destroyOnBounceExited: 1
         spawnVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        itemDescription: 
     - rid: 328110326145876131
       type: {class: BallFiredEarlyTrigger, ns: , asm: Assembly-CSharp}
       data:

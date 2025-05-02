@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3462292152142259679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1513088066154282004}
+  - component: {fileID: 979534098987691107}
+  m_Layer: 0
+  m_Name: Egg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1513088066154282004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462292152142259679}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01865, y: 0.1987, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &979534098987691107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462292152142259679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Egg
+  itemDescription: Hatch into a random item
+  icon: {fileID: 21300000, guid: 0b6c4c89ab67c9d4e96f1efab4d312e3, type: 3}
+  itemType: 0
+  canBeForceTriggered: 0
+  effects:
+  - rid: 328110359655481504
+  holofoilEffects:
+  - rid: 328110359655481505
+  holofoilEffectDescription: Item will be holofoil
+  triggers:
+  - rid: 328110359655481509
+  triggerChance: 1
+  hasCooldown: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110359655481504
+      type: {class: TransformIntoItem, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        itemCollection: {fileID: 11400000, guid: baaab8a48738e7a4e8ab9b8e5b831d04, type: 2}
+        forceHolofoil: 0
+        spawnVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+        spawnSFX:
+          sfx:
+            Guid:
+              Data1: -480212586
+              Data2: 1143452460
+              Data3: -338862445
+              Data4: 743702491
+            Path: event:/Score4
+          vol: 0.5
+    - rid: 328110359655481505
+      type: {class: TransformIntoItem, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        itemCollection: {fileID: 11400000, guid: baaab8a48738e7a4e8ab9b8e5b831d04, type: 2}
+        forceHolofoil: 1
+        spawnVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+        spawnSFX:
+          sfx:
+            Guid:
+              Data1: -480212586
+              Data2: 1143452460
+              Data3: -338862445
+              Data4: 743702491
+            Path: event:/Score4
+          vol: 0.5
+    - rid: 328110359655481509
+      type: {class: CabbageBonkCountdown, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+        startingCountdown: 10
+        countdownType: 1

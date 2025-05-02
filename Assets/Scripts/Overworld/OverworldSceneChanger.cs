@@ -26,30 +26,11 @@ public class OverworldSceneChanger : MonoBehaviour
         if (string.IsNullOrEmpty(newSceneName))
             return;
 
-        // Store pending actions
+        // Store pending actions directly
         pendingSceneName = newSceneName;
-        if (overworldCharacterPosition != null)
-        {
-            pendingCharacterPosition = overworldCharacterPosition;
-        }
+        pendingCharacterPosition = overworldCharacterPosition;
+        pendingCharacterTargetDelta = overworldCharacterTargetPosDelta;
 
-        else
-        {
-            pendingCharacterPosition = Vector2.zero;
-        }
-
-        if (pendingCharacterTargetDelta != null)
-        {
-            pendingCharacterTargetDelta = overworldCharacterTargetPosDelta;
-        }
-
-        else
-        {
-            pendingCharacterTargetDelta = Vector2.zero;
-        }
-
-        print(pendingCharacterPosition);
-        
         // Unload other managed scenes
         foreach (var name in managedScenes)
         {
@@ -84,16 +65,18 @@ public class OverworldSceneChanger : MonoBehaviour
         var walker = Object.FindObjectOfType<OverworldCharacter>();
         if (walker != null)
         {
-            // Reposition if requested
+            // Reposition if a valid position was passed
             if (pendingCharacterPosition.HasValue)
             {
                 walker.transform.position = pendingCharacterPosition.Value;
             }
 
-            // Set a target delta if requested, with one-frame delay
-            if (pendingCharacterTargetDelta.HasValue && pendingCharacterPosition.HasValue)
+            // Set a target delta if provided, with one-frame delay
+            if (pendingCharacterTargetDelta.HasValue)
             {
-                Vector2 targetPos = pendingCharacterPosition.Value + pendingCharacterTargetDelta.Value;
+                // If no explicit starting position, use current walker position
+                Vector2 basePos = pendingCharacterPosition ?? (Vector2)walker.transform.position;
+                Vector2 targetPos = basePos + pendingCharacterTargetDelta.Value;
                 StartCoroutine(DelayedSetTarget(walker, targetPos));
             }
         }

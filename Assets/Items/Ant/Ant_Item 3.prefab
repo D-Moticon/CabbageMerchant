@@ -114,7 +114,7 @@ MonoBehaviour:
         spawnLocation: 0
         spawnCenter: {x: 0, y: 0}
         spawnAreaSize: {x: 1, y: 1}
-        objectName: <rainb>Rainbow</rainb> Ant
+        objectName: Ant
         objectDescription: add 0.3x bonk mult to cabbage on impact
         quantity: 20
         speedRange: {x: 10, y: 15}
@@ -132,5 +132,6 @@ MonoBehaviour:
       type: {class: CabbageHitTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         everyXHit: 7
         onlyByBall: 0

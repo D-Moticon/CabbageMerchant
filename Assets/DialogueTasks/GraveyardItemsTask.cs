@@ -25,19 +25,15 @@ public class GraveyardItemsTask : DialogueTask
     public override IEnumerator RunTask(DialogueContext dc)
     {
         // Gather graveyard contents
-        var graveItems = new List<Item>(Singleton.Instance.itemGraveyard.GetGraveyardContents());
-        
+        var graveItems = Singleton.Instance.itemGraveyard.GetGraveyardContents().ToList();
         if (graveItems.Count == 0)
         {
-            // No items to offer
             if (noItemsDialogueLine != null)
-            {
                 yield return noItemsDialogueLine.RunTask(dc);
-            }
             yield break;
         }
 
-        // Randomize and pick up to two
+        // Shuffle and take up to two
         for (int i = graveItems.Count - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
@@ -59,59 +55,56 @@ public class GraveyardItemsTask : DialogueTask
             slot.transform.localPosition = new Vector3(xPos, 0f, 0f);
             slot.isEventSlot = true;
 
-            // Reactivate and remove from graveyard
-            Singleton.Instance.itemGraveyard.RemoveFromGraveyard(offered[i]);
+            // Remove from graveyard and reactivate wrapper
+            var graveItem = offered[i];
+            Singleton.Instance.itemGraveyard.RemoveFromGraveyard(graveItem);
+            if (graveItem.itemWrapper != null)
+                graveItem.itemWrapper.gameObject.SetActive(true);
+
             // Place the item in the slot
-            Singleton.Instance.itemManager.AddItemToSlot(offered[i], slot);
-            offered[i].SetGhost();
-            offered[i].RandomizeEffectPowers();
-            offered[i].RandomizeTriggers();
-            
+            Singleton.Instance.itemManager.AddItemToSlot(graveItem, slot);
+            graveItem.SetGhost();
+            graveItem.RandomizeEffectPowers();
+            graveItem.RandomizeTriggers();
+
             if (ghostSpawnVFX != null)
-            {
-                ghostSpawnVFX.Spawn(offered[i].transform.position);
-            }
-            
+                ghostSpawnVFX.Spawn(graveItem.transform.position);
+
             slots.Add(slot);
         }
 
         ghostSpawnSFX.Play();
-        
-        // Optional prompt
+
         if (promptLine != null)
-        {
             yield return promptLine.RunTask(dc);
-        }
 
         dc.dialogueBox.ActivateButtons(1);
-        DialogueButton passButton = dc.dialogueBox.choiceButtons[0];
+        var passButton = dc.dialogueBox.choiceButtons[0];
         passButton.buttonPressed = false;
         passButton.SetText("Pass");
-        
-        // Wait until player drags one into inventory (one slot empties)
+
         var offeredSet = new HashSet<Item>(offered);
         while (true)
         {
             var inventoryItems = Singleton.Instance.itemManager.GetItemsInInventory();
             if (inventoryItems.Any(item => offeredSet.Contains(item)))
                 break;
-            if(passButton.buttonPressed)
+            if (passButton.buttonPressed)
                 break;
             yield return null;
         }
 
-        // Play pick sound
         pickedSFX.Play();
 
-        // Any item still in a slot goes back to the graveyard
+        // Return unpicked items to graveyard
         foreach (var slot in slots)
         {
             if (slot.currentItem != null)
             {
-                slot.currentItem.DestroyItem(true,true);
+                slot.currentItem.DestroyItem(true, true);
             }
         }
-        
+
         dc.dialogueBox.HideAllChoiceButtons();
     }
 }

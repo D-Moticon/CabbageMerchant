@@ -7,7 +7,7 @@ public class Dialogue : ScriptableObject
 {
     [SerializeReference]
     public List<DialogueTask> dialogueTasks;
-
+    
     public IEnumerator PlayDialogue(DialogueContext dc)
     {
         yield return new WaitForSeconds(0.5f); //allow scene to slide in

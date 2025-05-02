@@ -7,12 +7,12 @@ public class CabbageHitAfterHangtimeTrigger : Trigger
     
     public override void InitializeTrigger(Item item)
     {
-        Ball.BallHitCabbageEvent += CabbageHitListener;
+        Ball.BallHitBonkableEvent += CabbageHitListener;
     }
 
     public override void RemoveTrigger(Item item)
     {
-        Ball.BallHitCabbageEvent -= CabbageHitListener;
+        Ball.BallHitBonkableEvent -= CabbageHitListener;
     }
 
     public override string GetTriggerDescription()
@@ -21,7 +21,7 @@ public class CabbageHitAfterHangtimeTrigger : Trigger
         return s;
     }
 
-    void CabbageHitListener(Ball.BallHitCabbageParams bcParams)
+    void CabbageHitListener(Ball.BallHitBonkableParams bcParams)
     {
         if (bcParams.ball != null && bcParams.hangTimeBeforeHit >= minHangtime)
         {

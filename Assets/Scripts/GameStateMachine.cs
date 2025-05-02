@@ -489,7 +489,7 @@ public class GameStateMachine : MonoBehaviour
                 gameStateMachine.ChangeState(newState);
             }
 
-            if (gameStateMachine.currentRoundScoreOverMult > gameStateMachine.roundGoalMultBeforeStopTryButton)
+            if (gameStateMachine.currentRoundScoreOverMult > gameStateMachine.roundGoalMultBeforeStopTryButton || gameStateMachine.activeCabbages.Count == 0)
             {
                 gameStateMachine.stopTryButton.gameObject.SetActive(true);
             }

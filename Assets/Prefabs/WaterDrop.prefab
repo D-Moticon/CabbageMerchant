@@ -88,8 +88,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonkValue: 0.5
   killOnBonk: 1
+  killOnWallCollide: 0
   bonksBeforeKill: 0
   treatAsBall: 0
+  vfxOnBonk: {fileID: 0}
+  sfxOnBonk:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  vfxOnKill: {fileID: 0}
+  sfxOnKill:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  popFloater: 0
+  floaterColor: {r: 1, g: 1, b: 1, a: 1}
+  baseMat: {fileID: 0}
+  rainbowMat: {fileID: 0}
 --- !u!50 &3796210924507432099
 Rigidbody2D:
   serializedVersion: 5
@@ -199,7 +224,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9934c98075aabbd49a0c6c77a51dd67a, type: 2}
+  - {fileID: 2100000, guid: 6de4c00056d8c9c4dbf8ea0153524b6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -346,7 +371,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 6de4c00056d8c9c4dbf8ea0153524b6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
