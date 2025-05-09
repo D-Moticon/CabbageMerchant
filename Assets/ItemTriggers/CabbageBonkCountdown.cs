@@ -42,6 +42,11 @@ public class CabbageBonkCountdown : Trigger
 
     void OnCabbageBonked(BonkParams bp)
     {
+        if (itemHasTriggeredThisFrame)
+        {
+            return;
+        }
+        
         switch (countdownType)
         {
             case CountdownType.numberCabbagesBonked:

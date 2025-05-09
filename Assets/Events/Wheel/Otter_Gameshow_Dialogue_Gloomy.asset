@@ -45,7 +45,7 @@ MonoBehaviour:
       data:
         dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
         dialogueLine: I'm DEAD set on seeing how our next contestant fares on <wave
-          a=.5>THE SPOOK ZONE!!</wave>
+          a=.5>SPIN OR TREAT!!</wave>
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
       data:
         dialogueCharacter: {fileID: 11400000, guid: 7317426f04a106d4b9ff844aa308f6c8, type: 2}
         dialogueLine: And that's it for this afterlife, folks! We'll see you next
-          time, on <wave a=.5>THE SPOOK ZONE!</wave>
+          time, on <wave a=.5>SPIN OR TREAT!!</wave>
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0

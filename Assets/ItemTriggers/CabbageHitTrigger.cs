@@ -48,7 +48,9 @@ public class CabbageHitTrigger : Trigger
         {
             return;
         }
-            
+
+        itemHasTriggeredThisFrame = true;
+        
         hitCounter++;
         if (hitCounter >= everyXHit)
         {

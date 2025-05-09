@@ -13,6 +13,16 @@ public class RandomizeItemTriggerEffect : ItemEffect
         {
             return;
         }
+
+        if (item == owningItem)
+        {
+            return;
+        }
+
+        if (item.itemType != Item.ItemType.Item)
+        {
+            return;
+        }
         
         int rand = Random.Range(0, triggersToChooseFrom.Count);
         Trigger prototype = triggersToChooseFrom[rand];

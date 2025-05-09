@@ -114,6 +114,6 @@ MonoBehaviour:
         numberCopies: 1
         ballLaunchSpeed: 10
         ballLaunchAngleRange: {x: 45, y: 135}
-        multiplyScale: 0.75
-        multiplyBonkValue: 0.75
+        multiplyScale: 1
+        multiplyBonkValue: 2
         destroyOriginalBall: 0

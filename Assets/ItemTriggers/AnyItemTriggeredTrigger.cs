@@ -31,10 +31,14 @@ public class AnyItemTriggeredTrigger : Trigger
 
     void ItemTriggeredListener(Item item)
     {
-        
         if (item == owningItem)
         {
             //prevent infinite loops
+            return;
+        }
+
+        if (itemHasTriggeredThisFrame)
+        {
             return;
         }
 

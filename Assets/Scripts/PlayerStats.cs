@@ -34,7 +34,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public int maxCoins = 99;
     [HideInInspector] public int numberKeys = 0;
     public float startingKeyChance = 0.25f;
-    [HideInInspector]public float keyChance = 0.25f;
+    [HideInInspector]public float keyChance = 0.34f;
     [HideInInspector] public int currentMapLayer = 0;
     public Difficulty currentDifficulty;
 

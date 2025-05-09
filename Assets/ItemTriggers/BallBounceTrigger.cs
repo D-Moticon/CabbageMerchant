@@ -59,6 +59,11 @@ public class BallBounceTrigger : Trigger
 
     void BallCollidedListener(Ball b, Collision2D col)
     {
+        if (itemHasTriggeredThisFrame)
+        {
+            return;
+        }
+        
         switch (bounceType)
         {
             case BounceType.any:
