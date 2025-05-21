@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 677459827504057959}
   - component: {fileID: 4808343336064824297}
   - component: {fileID: 7425156864951568228}
+  - component: {fileID: -7757503589341192750}
   m_Layer: 0
   m_Name: Ragdoll
   m_TagString: Untagged
@@ -421,3 +422,26 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.75
+--- !u!114 &-7757503589341192750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5915053566955056931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7f82739af14924e89aab2e3604f40a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberCollides: 5
+  breakSFX:
+    sfx:
+      Guid:
+        Data1: -1211794237
+        Data2: 1241862876
+        Data3: -1821560144
+        Data4: 966856108
+      Path: event:/RockBreak
+    vol: 0.4
+  breakVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}

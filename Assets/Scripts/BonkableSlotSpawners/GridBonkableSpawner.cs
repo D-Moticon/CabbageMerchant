@@ -43,6 +43,11 @@ public class GridBonkableSpawner : BonkableSlotSpawner
         }
     }
 
+    public override int GetTotalNumberStartingSlots()
+    {
+        return (rows * columns);
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;

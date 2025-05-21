@@ -1,12 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 /// <summary>
-/// Spawns a random item from configured collections in the slot above the owning item, if that slot is empty.
-/// Can optionally spawn the item's upgraded versions based on itemLevel.
+/// Spawns a random item from configured collections in a chosen adjacent slot relative to the owning item.
+/// Can optionally spawn upgraded versions and control which direction/slot to use.
 /// </summary>
 public class CreateRandomItemInSlotEffect : ItemEffect
 {
+    public enum SpawnDirection
+    {
+        Above,
+        Below,
+        Left,
+        Right,
+        FirstOpen
+    }
+
+    [Tooltip("Which adjacent slot to spawn the new item in.")]
+    public SpawnDirection spawnDirection = SpawnDirection.Above;
+
     [Tooltip("Collections of items to choose from.")]
     public List<ItemCollection> itemCollections;
 
@@ -15,6 +28,8 @@ public class CreateRandomItemInSlotEffect : ItemEffect
 
     [Tooltip("Whether to make the spawned item holofoil.")]
     public bool makeHolofoil = false;
+
+    [Tooltip("Whether to destroy the spawned item when the bounce state exits.")]
     public bool destroyOnBounceExited = true;
 
     private Item spawnedItem;
@@ -24,52 +39,85 @@ public class CreateRandomItemInSlotEffect : ItemEffect
 
     public string itemDescription;
 
-    public override void InitializeItemEffect()
+    private void Awake()
     {
         GameStateMachine.ExitingBounceStateAction += BounceStateExitedListener;
     }
 
-    public override void DestroyItemEffect()
+    private void OnDestroy()
     {
         GameStateMachine.ExitingBounceStateAction -= BounceStateExitedListener;
     }
+
+    public override void InitializeItemEffect() { }
+    public override void DestroyItemEffect() { }
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
         if (owningItem == null || owningItem.currentItemSlot == null)
             return;
-
+        
         var slots = Singleton.Instance.itemManager.itemSlots;
         int currentIndex = slots.IndexOf(owningItem.currentItemSlot);
-        if (currentIndex < 0)
+
+        if (spawnDirection != SpawnDirection.FirstOpen)
+        {
+            if (currentIndex < 0)
+                return;
+        }
+
+        // Determine target slot index
+        int targetIndex = -1;
+        int columns = Singleton.Instance.itemManager.columns;
+        switch (spawnDirection)
+        {
+            case SpawnDirection.Above:
+                targetIndex = currentIndex - columns;
+                break;
+            case SpawnDirection.Below:
+                targetIndex = currentIndex + columns;
+                break;
+            case SpawnDirection.Left:
+                if (currentIndex % columns > 0)
+                    targetIndex = currentIndex - 1;
+                break;
+            case SpawnDirection.Right:
+                if (currentIndex % columns < columns - 1)
+                    targetIndex = currentIndex + 1;
+                break;
+            case SpawnDirection.FirstOpen:
+                for (int i = 0; i < slots.Count; i++)
+                {
+                    if (slots[i].currentItem == null)
+                    {
+                        targetIndex = i;
+                        break;
+                    }
+                }
+                break;
+        }
+
+        // Validate
+        if (targetIndex < 0 || targetIndex >= slots.Count)
             return;
 
-        const int columns = 2;
-        int aboveIndex = currentIndex - columns;
-        if (aboveIndex < 0)
+        var targetSlot = slots[targetIndex];
+        if (targetSlot.currentItem != null)
             return;
 
-        var aboveSlot = slots[aboveIndex];
-        if (aboveSlot.currentItem != null)
-            return;
-
-        if (itemCollections == null || itemCollections.Count == 0)
-            return;
-
-        // Flatten all collections into one candidate list
+        // Gather all candidates
         var allCandidates = new List<Item>();
         foreach (var col in itemCollections)
         {
             var items = col.GetAllItems();
-            if (items != null && items.Count > 0)
+            if (items != null)
                 allCandidates.AddRange(items);
         }
         if (allCandidates.Count == 0)
             return;
 
         // Pick a random base item
-        int randomIndex = Random.Range(0, allCandidates.Count);
-        Item baseItem = allCandidates[randomIndex];
+        Item baseItem = allCandidates[Random.Range(0, allCandidates.Count)];
 
         // Climb upgrade chain
         Item selectedItem = baseItem;
@@ -82,41 +130,31 @@ public class CreateRandomItemInSlotEffect : ItemEffect
         }
 
         // Spawn and configure
-        Vector3 spawnPos = aboveSlot.transform.position;
+        Vector3 spawnPos = targetSlot.transform.position;
         Item newItem = Singleton.Instance.itemManager.GenerateItemWithWrapper(selectedItem, spawnPos);
         if (makeHolofoil)
             newItem.SetHolofoil();
         newItem.SetNormalizedPrice(0f);
-        Singleton.Instance.itemManager.AddItemToSlot(newItem, aboveSlot);
+        Singleton.Instance.itemManager.AddItemToSlot(newItem, targetSlot);
 
         spawnedItem = newItem;
         if (spawnVFX != null)
-            spawnVFX.Spawn(spawnedItem.transform.position);
+            spawnVFX.Spawn(newItem.transform.position);
     }
 
     public override string GetDescription()
     {
-        string itemDesc = "item";
-        if (!string.IsNullOrEmpty(itemDescription))
-        {
-            itemDesc = itemDescription;
-        }
-
-        string destroyString = "";
-        
-        if (destroyOnBounceExited)
-        {
-            destroyString = "Destroy when shot ended.";
-        }
-        return $"Spawn a random Level {itemLevel + 1} {itemDesc} in the slot above this one if that slot is empty. {destroyString}";
+        string desc = string.IsNullOrEmpty(itemDescription) ? "item" : itemDescription;
+        string destroyStr = destroyOnBounceExited ? " Destroys when bounce ends." : string.Empty;
+        return $"Spawn a random Level {itemLevel + 1} {desc} in the {spawnDirection} slot if empty.{destroyStr}";
     }
 
     private void BounceStateExitedListener()
     {
-        if (destroyOnBounceExited)
+        if (destroyOnBounceExited && spawnedItem != null)
         {
-            if (spawnedItem != null)
-                spawnedItem.DestroyItem(false, false);
+            spawnedItem.DestroyItem(false, false);
+            spawnedItem = null;
         }
     }
 }

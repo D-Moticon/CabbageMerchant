@@ -30,6 +30,10 @@ public class Weapon_Sprinkler_ItemEffect : ItemEffect
     private static bool releaseOnFireUp = true;
     private EventInstance sprinklerSFXInstance;
 
+    public string spawnedWeaponName;
+    public string projectileName;
+    public string projectileDescription;
+
     public override void TriggerItemEffect(TriggerContext tc)
     {
         // grab all currently active balls
@@ -60,7 +64,7 @@ public class Weapon_Sprinkler_ItemEffect : ItemEffect
     public override string GetDescription()
     {
         string desc =
-            $"Balls turn into sprinklers that spawn sprinkler drops bonking cabbages for 0.5" +
+            $"Balls turn into {spawnedWeaponName}s that spawn {projectileName}s that {projectileDescription}" +
             $"\n Nozzles: {numberObjectsPerSpawn}" +
             $"\n Duration: {sprinklerDuration}s";
         

@@ -79,6 +79,9 @@ public class GameStateMachine : MonoBehaviour
     [HideInInspector]public bool usingTimer = false;
 
     public GameObject floorObject;
+    [HideInInspector]public bool forceEndRound = false;
+    private bool forceRoundFail = false;
+    [FormerlySerializedAs("roundEndMessage")] [HideInInspector]public string roundEndMessageOverride = "";
     
     private void OnEnable()
     {
@@ -166,6 +169,16 @@ public class GameStateMachine : MonoBehaviour
         }
     }
 
+    public int GetNumberActiveCabbages()
+    {
+        return activeCabbages.Count;
+    }
+
+    public void ForceEndRound()
+    {
+        forceEndRound = true;
+    }
+    
     public BonkableSlot GetEmptyBonkableSlot(bool ensureNotOverlappingCabbage = true, float checkRadius = 0.5f)
     {
         List<BonkableSlot> validSlots = 
@@ -219,6 +232,31 @@ public class GameStateMachine : MonoBehaviour
         currentBalls += quantity;
         BallsRemainingUpdatedEvent?.Invoke(currentBalls);
     }
+
+    public void KillAllBalls()
+    {
+        for (int i = activeBalls.Count - 1; i >= 0; i--)
+        {
+            activeBalls[i].KillBall();
+        }
+    }
+
+    public void UpdateActiveCabbages()
+    {
+        for (int i = activeCabbages.Count - 1; i >= 0; i--)
+        {
+            if (!activeCabbages[i].gameObject.activeSelf)
+            {
+                activeCabbages.RemoveAt(i);
+            }
+        }
+    }
+
+    public void ForceRoundFail(string failMessage)
+    {
+        forceRoundFail = true;
+        roundEndMessageOverride = failMessage;
+    }
     
     public class PopulateBoardState : State
     {
@@ -250,8 +288,8 @@ public class GameStateMachine : MonoBehaviour
                 GameSingleton.Instance.SetBiome(GameSingleton.Instance.biomeInfos[0].biome);
             }
             
-            int randVar = Random.Range(0, GameSingleton.Instance.currentBiomeParent.boardVariants.Length);
-            GameObject boardVariant = GameSingleton.Instance.currentBiomeParent.boardVariants[randVar];
+            BiomeParent.BoardVariantInfo boardVariantInfo = GameSingleton.Instance.currentBiomeParent.GetBoardVariant();
+            GameObject boardVariant = boardVariantInfo.boardVariant;
             
             yield return new WaitForSeconds(.75f);
             
@@ -261,6 +299,18 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.activeCabbages.Clear();
 
             BonkableSlotSpawner[] bonkableSlotSpawners = boardVariant.GetComponentsInChildren<BonkableSlotSpawner>();
+            
+            if (GameSingleton.Instance.currentBiomeParent.spawnCabbagesInAllSlots)
+            {
+                int totalSlots = 0;
+                foreach (var bss in bonkableSlotSpawners)
+                {
+                    totalSlots += bss.GetTotalNumberStartingSlots();
+                }
+
+                numPegs = totalSlots;
+            }
+            
             foreach (BonkableSlotSpawner bss in bonkableSlotSpawners)
             {
                 bss.SpawnBonkableSlots();
@@ -297,6 +347,15 @@ public class GameStateMachine : MonoBehaviour
                         .Spawn(keyPos, Quaternion.identity);
                 }
             }
+
+            AwardChaosCabbage acc = boardVariant.GetComponentInChildren<AwardChaosCabbage>();
+            if (acc != null)
+            {
+                if (boardVariantInfo.chaosCabbage != null)
+                {
+                    acc.SetChaosCabbage(boardVariantInfo.chaosCabbage);
+                }
+            }
             
             State newState = new AimingState();
             gameStateMachine.ChangeState(newState);
@@ -305,7 +364,18 @@ public class GameStateMachine : MonoBehaviour
 
     public Cabbage SpawnCabbageInSlot(BonkableSlot bs)
     {
-        Cabbage c = GameSingleton.Instance.currentBiomeParent.cabbagePooledObject.Spawn(bs.transform.position, Quaternion.identity).GetComponent<Cabbage>();
+        PooledObjectData cabbagePrefab = GameSingleton.Instance.currentBiomeParent.cabbagePooledObject;
+        
+        BonkableSlotSpawner bss = bs.GetComponentInParent<BonkableSlotSpawner>();
+        if (bss != null)
+        {
+            if (bss.cabbageOverride != null)
+            {
+                cabbagePrefab = bss.cabbageOverride;
+            }
+        }
+        
+        Cabbage c = cabbagePrefab.Spawn(bs.transform.position, Quaternion.identity).GetComponent<Cabbage>();
         c.transform.parent = bs.transform;
         bs.bonkable = c;
         c.bonkFeel.PlayFeedbacks();
@@ -484,23 +554,22 @@ public class GameStateMachine : MonoBehaviour
 
         public override void UpdateState()
         {
-            if (gameStateMachine.activeCabbages.Count <= 0)
+            gameStateMachine.UpdateActiveCabbages();
+            
+            if (gameStateMachine.GetNumberActiveCabbages() <= 0)
             {
                 State newState = new ScoringState();
                 gameStateMachine.ChangeState(newState);
             }
 
-            if (gameStateMachine.currentRoundScoreOverMult > gameStateMachine.roundGoalMultBeforeStopTryButton || gameStateMachine.activeCabbages.Count == 0)
+            if (gameStateMachine.currentRoundScoreOverMult > gameStateMachine.roundGoalMultBeforeStopTryButton || gameStateMachine.GetNumberActiveCabbages() <= 1)
             {
                 gameStateMachine.stopTryButton.gameObject.SetActive(true);
             }
 
             if (gameStateMachine.stopTry)
             {
-                for (int i = gameStateMachine.activeBalls.Count - 1; i >= 0; i--)
-                {
-                    gameStateMachine.activeBalls[i].KillBall();
-                }
+                gameStateMachine.KillAllBalls();
 
                 gameStateMachine.stopTry = false;
             }
@@ -511,10 +580,7 @@ public class GameStateMachine : MonoBehaviour
                 TimerUpdatedEvent?.Invoke(gameStateMachine.countdownTimer);
                 if (gameStateMachine.countdownTimer <= 0f)
                 {
-                    for (int i = gameStateMachine.activeBalls.Count - 1; i >= 0; i--)
-                    {
-                        gameStateMachine.activeBalls[i].KillBall();
-                    }
+                    gameStateMachine.KillAllBalls();
                 }
             }
             
@@ -528,6 +594,14 @@ public class GameStateMachine : MonoBehaviour
                 }
                 
                 gameStateMachine.ChangeState(newState);
+            }
+
+            if (gameStateMachine.forceEndRound)
+            {
+                gameStateMachine.KillAllBalls();
+                State newState = new ScoringState();
+                gameStateMachine.ChangeState(newState);
+                gameStateMachine.forceEndRound = false;
             }
         }
 
@@ -574,10 +648,18 @@ public class GameStateMachine : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             
-            
-            if (gameStateMachine.currentRoundScore < gameStateMachine.roundGoal)
+            if (gameStateMachine.currentRoundScore < gameStateMachine.roundGoal || gameStateMachine.forceRoundFail)
             {
-                Singleton.Instance.uiManager.ShowNotification("<color=red>Round Goal Missed</color>");
+                if (!String.IsNullOrEmpty(gameStateMachine.roundEndMessageOverride))
+                {
+                    Singleton.Instance.uiManager.ShowNotification(gameStateMachine.roundEndMessageOverride);
+                }
+
+                else
+                {
+                    Singleton.Instance.uiManager.ShowNotification("<color=red>Round Goal Missed</color>");
+                }
+                
                 yield return new WaitForSeconds(1.5f);
                 Singleton.Instance.playerStats.RemoveLife();
                 yield return new WaitForSeconds(1.5f);

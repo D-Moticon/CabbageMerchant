@@ -85,7 +85,14 @@ public class SpawnRBItemEffect : ItemEffect
                 case SpawnLocation.ball:
                     if (tc != null && tc.ball != null)
                     {
-                        pos = tc.point;
+                        if (tc.point != null)
+                        {
+                            pos = tc.point;
+                        }
+                        else
+                        {
+                            pos = tc.ball.transform.position;
+                        }
                     }
                     else
                     {

@@ -25,6 +25,7 @@ public class GraveyardItemsTask : DialogueTask
     public override IEnumerator RunTask(DialogueContext dc)
     {
         // Gather graveyard contents
+        Singleton.Instance.itemGraveyard.RemoveNullItems();
         var graveItems = Singleton.Instance.itemGraveyard.GetGraveyardContents().ToList();
         if (graveItems.Count == 0)
         {

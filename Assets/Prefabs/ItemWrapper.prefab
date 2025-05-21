@@ -20760,6 +20760,7 @@ MonoBehaviour:
   holofoilMaterial: {fileID: 2100000, guid: 6ac5ec1694f2d4a46acb45360a763f2f, type: 2}
   petMaterial: {fileID: 2100000, guid: 9934c98075aabbd49a0c6c77a51dd67a, type: 2}
   ghostMaterial: {fileID: 2100000, guid: 8e802bb553b4edf45ae16e1cb0bc446a, type: 2}
+  mysteriousSprite: {fileID: 21300000, guid: 85b4bb4ffbf1e9449ad07ea804bd1c6f, type: 3}
   item: {fileID: 0}
   triggerFeel: {fileID: 3734253909560782542}
   purchaseVFX: {fileID: 6686050707894789316}

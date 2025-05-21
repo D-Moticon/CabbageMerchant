@@ -6,9 +6,7 @@ public class CircleBonkableSpawner : BonkableSlotSpawner
     public int count = 8;
     public float radius = 2f;
     public float angularSpeed = 30f; // degrees per second
-
-    private float angleOffset = 0f;
-
+    
     private void Start()
     {
         SpawnBonkableSlots();
@@ -16,14 +14,16 @@ public class CircleBonkableSpawner : BonkableSlotSpawner
 
     private void Update()
     {
-        angleOffset += Time.deltaTime * angularSpeed;
+        //Motion should be handled by a cabbage circle mover
+        
+        /*angleOffset += Time.deltaTime * angularSpeed;
         for (int i = 0; i < bonkableSlots.Count; i++)
         {
             float angle = angleOffset + i * 360f / count;
             float rad = angle * Mathf.Deg2Rad;
             Vector3 localPos = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;
             bonkableSlots[i].transform.position = transform.TransformPoint(localPos);
-        }
+        }*/
     }
 
     public override void SpawnBonkableSlots()
@@ -46,6 +46,11 @@ public class CircleBonkableSpawner : BonkableSlotSpawner
             var slot = goObj.AddComponent<BonkableSlot>();
             bonkableSlots.Add(slot);
         }
+    }
+
+    public override int GetTotalNumberStartingSlots()
+    {
+        return count;
     }
 
     private void OnDrawGizmosSelected()

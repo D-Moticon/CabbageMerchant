@@ -33,12 +33,16 @@ public class ItemGraveyard : MonoBehaviour
         graveyard.Add(item);
         if (item.itemWrapper != null)
         {
+            // Set the wrapper's parent to the graveyard object
+            item.itemWrapper.transform.SetParent(this.transform);
             item.itemWrapper.gameObject.SetActive(false);
         }
         else
         {
             item.gameObject.SetActive(false);
+            item.transform.SetParent(this.transform);
         }
+
 
         if (withFX)
         {
@@ -107,5 +111,10 @@ public class ItemGraveyard : MonoBehaviour
     void RunStartedListener(RunManager.RunStartParams rsp)
     {
         ClearGraveyard();
+    }
+    
+    public void RemoveNullItems()
+    {
+        graveyard.RemoveAll(item => item == null || item.itemWrapper == null);
     }
 }

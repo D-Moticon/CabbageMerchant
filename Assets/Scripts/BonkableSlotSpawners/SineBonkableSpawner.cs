@@ -56,6 +56,11 @@ public class SineBonkableSpawner : BonkableSlotSpawner
         }
     }
 
+    public override int GetTotalNumberStartingSlots()
+    {
+        return count;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

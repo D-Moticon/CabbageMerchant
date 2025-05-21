@@ -93,7 +93,7 @@ MonoBehaviour:
         sprinklerSprite: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
         angularSpeed: 300
         fireSpeed: 10
-        spawnsPerSecond: 32
+        spawnsPerSecond: 24
         numberObjectsPerSpawn: 4
         sprinklerDuration: 1
         sprinkerSFX:
@@ -105,6 +105,9 @@ MonoBehaviour:
               Data4: -1564527935
             Path: event:/Flamethrower
           vol: 0.5
+        spawnedWeaponName: flamethrower
+        projectileName: flame
+        projectileDescription: add two stacks of fire on bonk
     - rid: 4405297842159091811
       type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -131,3 +134,6 @@ MonoBehaviour:
               Data4: -1564527935
             Path: event:/Flamethrower
           vol: 0.5
+        spawnedWeaponName: flamethrower
+        projectileName: flame
+        projectileDescription: add two stacks of fire on bonk

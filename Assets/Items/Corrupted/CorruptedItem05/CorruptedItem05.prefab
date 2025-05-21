@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6051403879308298293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3043384611782665641}
+  - component: {fileID: 644620768992481319}
+  m_Layer: 0
+  m_Name: CorruptedItem05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3043384611782665641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051403879308298293}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.01275, y: 0.19056, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &644620768992481319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051403879308298293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: "Miasma:\u0338\u0351\u0300\u0307\u0358\u0310\u034A\u0310\u0357\u034A\u0357\u0352\u032A\u0347\u0324\u035A\u031E\u0355\u0328\u0316\u0339\u0325\u031C\u031E\u032D/\u0335\u030D\u0360\u0350\u0342\u0313\u0312\u034A\u035D\u0314\u0326\u032A\u0322\u033C\u0324\u0319\u0318\u0326\u0331\u033A\u0348\u0327/\u0334\u033E\u0312\u0310\u0302\u0305\u030D\u0326\u032E\u0329\u031C\u0354\u0319\u0325\u0347\u0316\u0349\u0322\u032FTome"
+  itemDescription: "e\u0336\u0351\u0307\u0300\u032A\u032E\u032B\u0328\u0345\u035C\u0355\u0325\u0349\u0322\u0317\u0324m\u0334\u030A\u0357\u030D\u033D\u0306\u034C\u0309\u0349\u0333\u0354\u0329\u0332\u0321\u0356\u0319\u032B\u0355\u0320\u0333b\u0337\u0311\u035D\u0357\u0340\u035D\u0306\u0307\u0343\u0315\u0313\u0300\u033D\u031B\u032D\u0317\u0317\u0320\u0319\u032C\u0349\u031D\u0322\u031C\u0349\u0324o\u0334\u0310\u034B\u030F\u0332\u031F\u0355\u035C\u0329\u035A\u032A\u0359\u0332\u031E\u0348\u031El\u0336\u0358\u030D\u035D\u0357\u031A\u0357\u0314\u0330\u0349\u0355d\u0335\u034C\u031B\u0312\u0343\u0301\u0314\u030E\u0313\u0312\u0357\u0313\u0327\u0348\u0339\u033B\u032D\u035C\u0318\u0339\u0349\u0328\u0332e\u0336\u033D\u034C\u034C\u033E\u0302\u0344\u0351\u0307\u0330\u0345n\u0336\u0314\u0313\u0360\u031A\u0360\u0313\u0351\u0315\u034C\u035D\u0303\u033D\u0312\u0300\u0311\u0349\u0328\u033C\u0320\u0318\u0349\u0320\u033C\u031D\u0324\u0339\u0324\u0327\u0331e\u0335\u0344\u031B\u034B\u0352\u030E\u0344\u0303\u033F\u030C\u032E\u0359\u033C\u031C\u0353\u0330\u035A\u0329\u032E\u0318\u033A\u0354\u032A\u0318\u0348d\u0338\u030E\u030B\u0342\u030F\u0302\u034C\u0310\u0310\u0301\u0360\u0354\u032D
+    \u0338\u034A\u034A\u030F\u0350\u0344\u0340\u033E\u0357\u030D\u0306\u030C\u0351\u033E\u035D\u0339\u033C\u0324\u0359\u0359\u032Ff\u0337\u031A\u0346\u0303\u0309\u0306\u0314\u0309\u031B\u035D\u0354\u0359\u0328\u0355\u0349\u0354\u0333\u035C\u0327\u0320o\u0338\u0351\u0313\u034A\u0303\u035A\u031E\u032D\u032B\u0354\u0319\u0349r\u0335\u031A\u0350\u0341\u031B\u034A\u030D\u0304\u033D\u033D\u034C\u030F\u0310\u0360\u0307\u0315\u0345\u0349\u0320\u034E\u035A\u031C\u0339\u0347\u033A\u0321\u0347t\u0335\u030F\u0327\u032E\u0345\u032A\u033Bu\u0337\u0360\u0304\u034B\u0306\u0343\u0342\u0360\u035D\u034B\u034A\u033E\u0312\u0302\u0357\u0352\u0354\u0332i\u0335\u035D\u035B\u0343\u0309\u0315\u033F\u0309\u035D\u034C\u0312\u0306\u030F\u0309\u0310\u032D\u0359\u035C\u032C\u0319\u0353\u031F\u0345\u0329\u035Ct\u0338\u0342\u0311\u030A\u0342\u0305\u035D\u0356\u034D\u031C\u033C\u0325\u032Fo\u0334\u0307\u0313\u0358\u0307\u034A\u033A\u0339\u031E\u0349\u0326\u031F\u0325\u0332\u032F\u031F\u031Cu\u0335\u0350\u0351\u0346\u030D\u033E\u030F\u033F\u0314\u0307\u0347\u0318s\u0338\u0312\u0342\u0309\u030A\u0360\u035B\u0340\u0322\u0321\u0325\u0320n\u0335\u034A\u0351\u030F\u030A\u030B\u0350\u0309\u0314\u0301\u0312\u0303\u0313\u0308\u035D\u034A\u032F\u0327\u0348e\u0336\u0340\u0324\u032C\u0329\u035A\u0349\u034D\u0345\u0324\u0328\u035C\u034E\u0331\u0330\u0349s\u0335\u033D\u031B\u030D\u0346\u0300\u0357\u030E\u031A\u030A\u034C\u0346\u0360\u0347\u032F\u0320\u0354\u0326\u0356\u0320\u0332\u0349s\u0334\u0302\u0342\u0300\u0351\u0304\u030E\u0358\u0360\u0346\u0352\u030A\u0308\u0313\u030A\u0318\u0333\u0339\u0332\u034E\u034D\u0348\u0325\u0353\u0323\u032A"
+  icon: {fileID: 21300000, guid: d510cb3c12d28514a9e5444facf2df33, type: 3}
+  itemType: 0
+  customMaterial: {fileID: 0}
+  canBeForceTriggered: 1
+  effects: []
+  holofoilEffects: []
+  holofoilEffectDescription: 
+  triggers: []
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 2
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds: []

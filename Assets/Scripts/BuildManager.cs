@@ -31,6 +31,7 @@ public class BuildManager : MonoBehaviour
     public Biome startingBiome;
     public MapBlueprint mapBlueprint;
     public Difficulty startingDifficulty;
+    public int startingReRolls = 1;
 
     public static Action FullGameStartedEvent;
     
@@ -66,6 +67,7 @@ public class BuildManager : MonoBehaviour
                 {
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
                 break;
             case BuildMode.startAtGame:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -81,6 +83,7 @@ public class BuildManager : MonoBehaviour
                 {
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
                 break;
             case BuildMode.startAtShop:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -96,6 +99,7 @@ public class BuildManager : MonoBehaviour
                 {
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
                 break;
             case BuildMode.startAtEvent:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -111,6 +115,7 @@ public class BuildManager : MonoBehaviour
                 {
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
                 break;
             case BuildMode.startAtRestaurant:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -126,6 +131,7 @@ public class BuildManager : MonoBehaviour
                 {
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
                 break;
             case BuildMode.startAtLibrary:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -141,6 +147,7 @@ public class BuildManager : MonoBehaviour
                 {
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
                 break;
             case BuildMode.none:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;

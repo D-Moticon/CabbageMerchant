@@ -28,6 +28,8 @@ public class Singleton : MonoBehaviour
     public DialogueManager dialogueManager;
     public LaunchModifierManager launchModifierManager;
     public OverworldSceneChanger overworldSceneChanger;
+    public TemporaryBonusManager temporaryBonusManager;
+    public ChaosManager chaosManager;
     
     private void OnEnable()
     {

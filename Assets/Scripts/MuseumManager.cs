@@ -34,6 +34,15 @@ public class MuseumManager : MonoBehaviour
     [Tooltip("All pet statues in the museum.")]
     public List<PetStatueInfo> petStatueInfos;
 
+    [System.Serializable]
+    public class ChaosCabbageStatueInfo
+    {
+        public ChaosCabbageSO chaosCabbage;
+        public Renderer statueRenderer;
+    }
+
+    public List<ChaosCabbageStatueInfo> chaosCabbageStatueInfos;
+    
     void Start()
     {
         RefreshMuseum();
@@ -75,6 +84,12 @@ public class MuseumManager : MonoBehaviour
                     Debug.LogWarning($"No material found for pet '{petID}' at difficulty {maxDiff}.");
                 }
             }
+        }
+
+        foreach (var info in chaosCabbageStatueInfos)
+        {
+            bool unlocked = Singleton.Instance.chaosManager.IsChaosCabbageUnlocked(info.chaosCabbage);
+            info.statueRenderer.enabled = unlocked;
         }
     }
 }

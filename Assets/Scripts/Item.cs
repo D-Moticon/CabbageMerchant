@@ -21,6 +21,9 @@ public class Item : MonoBehaviour, IHoverable
         Consumable
     };
     public ItemType itemType;
+    public Material customMaterial;
+    [SerializeReference]
+    public List<MaterialPropertyOverride> materialPropertyOverrides;
     public bool canBeForceTriggered = true;
     [SerializeReference] public List<ItemEffect> effects;
     [SerializeReference] public List<ItemEffect> holofoilEffects;
@@ -57,6 +60,8 @@ public class Item : MonoBehaviour, IHoverable
     //If this item is part of an upgrade merge, remove the upgraded item's triggers and replace with this item's triggers using Helpers.DeepClone
     [HideInInspector] public bool keepTriggerOnUpgrade = false;
 
+    [HideInInspector] public bool isMysterious = false;
+    
     private void Update()
     {
         currentFrameTriggerCount = 0;
@@ -101,6 +106,30 @@ public class Item : MonoBehaviour, IHoverable
         }
 
         GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
+        ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
+    }
+
+    
+
+    protected virtual void OnDisable()
+    {
+        foreach (Trigger t in triggers)
+        {
+            t.RemoveTrigger(this);
+        }
+        
+        foreach (ItemEffect itemEffect in effects)
+        {
+            itemEffect.DestroyItemEffect();
+        }
+        
+        foreach (ItemEffect itemEffect in holofoilEffects)
+        {
+            itemEffect.DestroyItemEffect();
+        }
+        
+        GameStateMachine.EnteringAimStateAction -= EnteringAimStateListener;
+        ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
     }
 
     void InitializeNonHoloEffectsExclusive()
@@ -133,25 +162,7 @@ public class Item : MonoBehaviour, IHoverable
         }
     }
     
-    protected virtual void OnDisable()
-    {
-        foreach (Trigger t in triggers)
-        {
-            t.RemoveTrigger(this);
-        }
-        
-        foreach (ItemEffect itemEffect in effects)
-        {
-            itemEffect.DestroyItemEffect();
-        }
-        
-        foreach (ItemEffect itemEffect in holofoilEffects)
-        {
-            itemEffect.DestroyItemEffect();
-        }
-        
-        GameStateMachine.EnteringAimStateAction -= EnteringAimStateListener;
-    }
+    
 
     public float GetItemPrice()
     {
@@ -256,11 +267,21 @@ public class Item : MonoBehaviour, IHoverable
     
     public virtual string GetTitleText(HoverableModifier hoverableModifier = null)
     {
-         return itemName;
+        if (isMysterious)
+        {
+            return "???";
+        }
+        
+        return itemName;
     }
 
     public virtual string GetDescriptionText(HoverableModifier hoverableModifier = null)
     {
+        if (isMysterious)
+        {
+            return "";
+        }
+        
         if (!string.IsNullOrEmpty(itemDescription))
         {
             return itemDescription;
@@ -366,6 +387,11 @@ public class Item : MonoBehaviour, IHoverable
 
     public string GetRarityText()
     {
+        if (isMysterious)
+        {
+            return "";
+        }
+        
         switch (rarity)
         {
             case Rarity.Common:
@@ -381,6 +407,11 @@ public class Item : MonoBehaviour, IHoverable
 
     public string GetTriggerText()
     {
+        if (isMysterious)
+        {
+            return "";
+        }
+        
         if (triggers.Count == 0)
         {
             return "";
@@ -421,11 +452,21 @@ public class Item : MonoBehaviour, IHoverable
     
     public Sprite GetImage()
     {
+        if (isMysterious)
+        {
+            return (itemWrapper.mysteriousSprite);
+        }
+        
         return icon;
     }
 
     public string GetValueText()
     {
+        if (isMysterious)
+        {
+            return ("");
+        }
+        
         if (itemType == ItemType.Pet)
         {
             return "";
@@ -509,7 +550,10 @@ public class Item : MonoBehaviour, IHoverable
     public void SetNormalizedPrice(float newSellValue)
     {
         normalizedPrice = newSellValue;
-        
+        if (currentItemSlot != null)
+        {
+            currentItemSlot.SetPriceText();
+        }
     }
 
     public void SetExtraText(string text)
@@ -522,5 +566,27 @@ public class Item : MonoBehaviour, IHoverable
         {
             itemWrapper.SetExtraText(text);
         }
+    }
+
+    public void MakeItemMysterious()
+    {
+        isMysterious = true;
+        itemWrapper.SetMysterious();
+    }
+
+    public void EndItemMysterious()
+    {
+        isMysterious = false;
+        itemWrapper.EndMysterious();
+    }
+
+    private void ItemPurchasedListener(Item item)
+    {
+        if (item != this)
+        {
+            return;
+        }
+        
+        EndItemMysterious();
     }
 }

@@ -15,6 +15,11 @@ public class MapIcon : MonoBehaviour, IHoverable
 
     private void OnMouseDown()
     {
+        if (Singleton.Instance.pauseManager.isPaused)
+        {
+            return;
+        }
+        
         MapSingleton.Instance.mapManager.OnMapIconClicked(this);
     }
 

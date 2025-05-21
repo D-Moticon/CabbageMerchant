@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1058200981043239796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6189818460287144027}
+  - component: {fileID: 4659357280513128792}
+  m_Layer: 0
+  m_Name: CorruptedItem03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6189818460287144027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058200981043239796}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.69275, y: 0.77642, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4659357280513128792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058200981043239796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: 'NullReferenceException:'
+  itemDescription: 'using System; using UnityEngine; using System.Collections.Generic;
+    using Random = System.Random; using TMPro;  public class Item : MonoBehaviour,
+    IHoverable      public string itemName;     public string itemDescription;    
+    public Sprite icon;      public enum ItemType              Item,         Perk,        
+    Weapon,         Pet,         Consumable     ;     public ItemType itemType;    
+    public Material customMaterial;     public bool canBeForceTriggered = true;    
+    [SerializeReference] public List<ItemEffect> effects;     [SerializeReference]
+    public List<ItemEffect> holofoilEffects;     public string holofoilEffectDescription;    
+    [SerializeReference] public List<Trigger> triggers;     public float triggerChance
+    = 1f;     public bool hasCooldown = false;     public int limitPerShot = 0;    
+    private int timesTriggeredThisShot = 0;     ShowIf"@hasCooldown == true"    
+    public float cooldownDuration = 1f;     HideInInspector]public float cooldownCounter
+    = 0f;     public Rarity rarity = Rarity.Common;  private void Update             
+    currentFrameTriggerCount = 0;          if (hasCooldown && cooldownCounter > 0)                     
+    if (itemType == ItemType.Weapon)                              cooldownCounter
+    -= (Time.deltaTime * Singleton.Instance.playerStats.weaponCooldownSpeedMult);                          
+    else                              cooldownCounter -= Time.deltaTime;                                            
+    foreach (var trigger in triggers)                      trigger.itemHasTriggeredThisFrame
+    = false;                    // Start is called once before the first execution
+    of Update after the MonoBehaviour is created     protected virtual void OnEnable()             
+    foreach (Trigger t in triggers)                      t.owningItem = this;            
+    t.InitializeTrigger(this);                   if (isHolofoil)                     
+    InitializeHolofoilEffectsExclusive();                   else                     
+    InitializeNonHoloEffectsExclusive();                   GameStateMachine.EnteringAimStateAction
+    += EnteringAimStateListener;     '
+  icon: {fileID: 21300000, guid: 33ceced5b55b1154ea88cd0c39576bab, type: 3}
+  itemType: 0
+  customMaterial: {fileID: 2100000, guid: ccd756db00e25004680e70a77c7ff316, type: 2}
+  canBeForceTriggered: 1
+  effects: []
+  holofoilEffects: []
+  holofoilEffectDescription: 
+  triggers: []
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 2
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  references:
+    version: 2
+    RefIds: []

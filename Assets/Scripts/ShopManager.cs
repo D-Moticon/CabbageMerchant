@@ -38,6 +38,9 @@ public class ShopManager : MonoBehaviour
 
     public delegate void ShopDelegate(ShopManager shop);
     public static event ShopDelegate ShopEnteredEvent;
+
+    public delegate void ShopItemDelegate(Item item);
+    public static ShopItemDelegate ItemSpawnedInShopEvent;
     
     void Start()
     {
@@ -116,6 +119,8 @@ public class ShopManager : MonoBehaviour
             Singleton.Instance.itemManager.AddItemToSlot(itemInstance, slot);
             slot.SetPriceText();
             spawnedItems.Add(itemInstance);
+            
+            ItemSpawnedInShopEvent?.Invoke(itemInstance);
         }
     }
 

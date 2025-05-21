@@ -126,7 +126,6 @@ public class GameHintManager : MonoBehaviour
 
     public void GiveHint(string hint)
     {
-        print(hint);
         // Ensure only one hint coroutine runs at a time
         if (hintCoroutine != null)
             StopCoroutine(hintCoroutine);
@@ -135,7 +134,6 @@ public class GameHintManager : MonoBehaviour
 
     public void QueueHintUntilBouncingDone(string hint)
     {
-        print(hint);
         queuedHint = hint;
     }
 

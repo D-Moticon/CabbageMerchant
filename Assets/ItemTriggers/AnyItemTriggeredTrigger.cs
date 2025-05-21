@@ -41,7 +41,12 @@ public class AnyItemTriggeredTrigger : Trigger
         {
             return;
         }
-
+        
+        if (GameSingleton.Instance == null)
+        {
+            return;
+        }
+        
         if (!(GameSingleton.Instance.gameStateMachine.currentState is GameStateMachine.BouncingState))
         {
             //Prevent triggering from board populated items

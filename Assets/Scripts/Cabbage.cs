@@ -37,17 +37,21 @@ public class Cabbage : MonoBehaviour, IBonkable
     public Material baseMaterial;
 
     [Header("Levels & Hue")]
-    [HideInInspector] public float sizeLevel;
+    public float sizeLevel;
     [HideInInspector] public int colorLevel;
     public int maxSizeLevel = 1000;
     public int maxColorLevel = 100;
     public float huePerLevel = 0.05f;
     public float maxHue = 0.65f;
+    public double startingPoints = 0;
+    public int startingSizeLevel = 0;
 
     [Header("Scale Controls")]
     public float startingScale = 0.5f;
     public float scalePerLevel = 0.2f;
 
+    public bool reverseGrowth = false;
+    
     [FoldoutGroup("Advanced Growth")]
     [EnumToggleButtons]
     public GrowthMode growthMode = GrowthMode.Root;
@@ -122,7 +126,8 @@ public class Cabbage : MonoBehaviour, IBonkable
     private void OnEnable()
     {
         spawnSFX.Play();
-        points = 0;
+        points = startingPoints;
+        sizeLevel = startingSizeLevel;
         bonkMultiplier = baseBonkMultiplier;
     }
 
@@ -145,6 +150,44 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     void CheckForOverlaps()
     {
+        /*// Enforce global merge cooldown to prevent chain reactions
+        if (Time.time - lastGlobalMergeTime < globalMergeCooldown)
+            return;
+
+        if (isHarvesting || isMerging)
+            return;
+
+        var col2d = GetComponent<CircleCollider2D>();
+        float myLossy = Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
+        float myRad = col2d.radius * myLossy;
+
+        var snapshot = new List<Cabbage>(GameSingleton.Instance.gameStateMachine.activeCabbages);
+
+        foreach (var other in snapshot)
+        {
+            if (other == null || other == this || other.isMerging)
+                continue;
+
+            var otherCol = other.GetComponent<CircleCollider2D>();
+            float otherLossy = Mathf.Max(other.transform.lossyScale.x, other.transform.lossyScale.y);
+            float otherRad = otherCol.radius * otherLossy;
+
+            float combined = myRad + otherRad;
+            float dist = (transform.position - other.transform.position).magnitude;
+
+            if (dist <= combined)
+            {
+                //Debug.DrawLine(transform.position, other.transform.position, Color.red, 1f);
+                //Debug.Break();
+
+                // Update global merge cooldown timestamp
+                lastGlobalMergeTime = Time.time;
+
+                Merge(other);
+                return;
+            }
+        }*/
+        
         if (isHarvesting)
         {
             return;
@@ -166,6 +209,11 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public void Bonk(BonkParams bp)
     {
+        if (reverseGrowth)
+        {
+            bp.bonkerPower *= -1;
+        }
+        
         sizeLevel = Mathf.Min(sizeLevel + bp.bonkerPower, maxSizeLevel);
         if (sizeLevel < 0)
         {
@@ -257,7 +305,7 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.layer == wallLayerMask)
+        if (other.gameObject.layer == wallLayerMask && GameSingleton.Instance.gameStateMachine.GetNumberActiveCabbages() > 1)
         {
             Pop(other.GetContact(0).point);
         }

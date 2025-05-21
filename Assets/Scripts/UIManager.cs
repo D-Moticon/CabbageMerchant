@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     public GameObject runOnlyParent;
     public Animator coinGainedAnimator;
     public TypewriterByCharacter coinGainedTypewriter;
+    public Animator chaosCabbageAnimator;
+    public TypewriterByCharacter chaosCabbageTypewriter;
 
     private void OnEnable()
     {
@@ -32,6 +34,7 @@ public class UIManager : MonoBehaviour
         lifeLostAnimator.gameObject.SetActive(false);
         lifeGainedAnimator.gameObject.SetActive(false);
         coinGainedAnimator.gameObject.SetActive(false);
+        chaosCabbageAnimator.gameObject.SetActive(false);
         
         GameStateMachine.BallsRemainingUpdatedEvent += UpdateBallsIndicator;
         PlayerStats.CoinsUpdated += CoinsUpdatedListener;
@@ -43,6 +46,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.MetacurrencyUpdatedEvent += MetacurrencyUpdatedListener;
         RunManager.SceneChangedEvent += SceneChangedListener;
         BuildManager.FullGameStartedEvent += FullGameStartedListener;
+        ChaosManager.ChaosCabbageGetEvent += ChaosCabbageGetListener;
     }
 
     private void OnDisable()
@@ -57,6 +61,7 @@ public class UIManager : MonoBehaviour
         PlayerStats.MetacurrencyUpdatedEvent -= MetacurrencyUpdatedListener;
         RunManager.SceneChangedEvent -= SceneChangedListener;
         BuildManager.FullGameStartedEvent -= FullGameStartedListener;
+        ChaosManager.ChaosCabbageGetEvent -= ChaosCabbageGetListener;
     }
 
 
@@ -187,5 +192,13 @@ public class UIManager : MonoBehaviour
         coinGainedAnimator.gameObject.SetActive(true);
         coinGainedAnimator.Play("LifeGained");
         coinGainedTypewriter.ShowText($"<wave a=.2>+{coinsGained:F0}</wave>");
+    }
+
+    void ChaosCabbageGetListener(ChaosManager.ChaosCabbageGetParams ccgp)
+    {
+        chaosCabbageAnimator.gameObject.SetActive(true);
+        chaosCabbageAnimator.Play("LifeGained");
+        string colorHexString = ColorUtility.ToHtmlStringRGB(ccgp.ccso.color);
+        chaosCabbageTypewriter.ShowText($"<wave a=.2><color=#{colorHexString}>{ccgp.ccso.displayName}</color> collected</wave>");
     }
 }

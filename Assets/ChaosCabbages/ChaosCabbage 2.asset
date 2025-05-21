@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c4ec4fcb50aea47983ebffea7f7789, type: 3}
+  m_Name: ChaosCabbage 2
+  m_EditorClassIdentifier: 
+  displayName: Caution
+  dataName: chaosCab2
+  color: {r: 1, g: 0, b: 0.33131742, a: 1}
+  petDef: {fileID: 11400000, guid: 9b115fac98cff73488ff17f22c5dec0a, type: 2}
+  item: {fileID: 6269720142999503214, guid: 9adb7005522ba3d4da14ff42a86b4e92, type: 3}

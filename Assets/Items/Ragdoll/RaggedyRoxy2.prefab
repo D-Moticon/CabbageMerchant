@@ -48,12 +48,19 @@ MonoBehaviour:
   itemDescription: Summons a ragdoll witch that boops the ball upward
   icon: {fileID: 21300000, guid: 2fe83e233e9f4b54a8d852910cec9bbe, type: 3}
   itemType: 0
+  canBeForceTriggered: 1
   effects:
   - rid: 328109921641955570
   holofoilEffects:
   - rid: 328109986689056894
+  holofoilEffectDescription: (Never breaks)
   triggers:
   - rid: 328109942880338084
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
   normalizedPrice: 1
   sellValueMultiplier: 1
@@ -70,16 +77,21 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
   references:
     version: 2
     RefIds:
     - rid: 328109921641955570
       type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
+        owningItem: {fileID: 0}
         pooledObject: {fileID: 11400000, guid: d037352bd8dee304cbc4853029ebeabe, type: 2}
         objectName: ragdoll witch
-        objectDescription: boops the ball upward
+        objectDescription: boops the ball upward (breaks after 10 boops)
         xRange: {x: -5, y: 5}
         yRange: {x: -4, y: -4}
         quantity: 1
@@ -88,12 +100,16 @@ MonoBehaviour:
       type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
     - rid: 328109986689056894
       type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
+        owningItem: {fileID: 0}
         pooledObject: {fileID: 11400000, guid: 5d6375cce23916842b0e9811075cd01d, type: 2}
         objectName: <rainb>hyper ragdoll witch</rainb>
-        objectDescription: boops the ball upward and moves hyperspeed
+        objectDescription: boops the ball upward and moves hyperspeed (breaks after
+          10 boops)
         xRange: {x: -5, y: 5}
         yRange: {x: -4, y: -4}
         quantity: 1

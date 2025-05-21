@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &642271787261284527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5130468320843213892}
+  - component: {fileID: 2708978274100176599}
+  m_Layer: 0
+  m_Name: Hippo_Item
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5130468320843213892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642271787261284527}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25296, y: 0.0502, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2708978274100176599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642271787261284527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Hilbert
+  itemDescription: Spawn 8 hippo bubbles at the start of the round.  When they are
+    all collected, spawn a random food item in an open slot.
+  icon: {fileID: 21300000, guid: ceb50e0d5ba861545ada7771c98f8067, type: 3}
+  itemType: 3
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 0
+  effects:
+  - rid: 4405298251448451199
+  holofoilEffects: []
+  holofoilEffectDescription: 
+  triggers: []
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 0
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298251448451199
+      type: {class: SpawnPickupsItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        objectToSpawn: {fileID: 11400000, guid: 6255677f374baef468151ad8fe1129a4, type: 2}
+        numberObjects: 8
+        effectsOnAllPickupsCollected:
+        - rid: 4405298251448451200
+    - rid: 4405298251448451200
+      type: {class: CreateRandomItemInSlotEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        spawnDirection: 4
+        itemCollections:
+        - {fileID: 11400000, guid: 0b8e6f329d6e9804287b7392d059b8ab, type: 2}
+        itemLevel: 0
+        makeHolofoil: 0
+        destroyOnBounceExited: 0
+        spawnVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        itemDescription: 

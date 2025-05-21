@@ -58,6 +58,7 @@ MonoBehaviour:
   - rid: 328110044618948964
   triggerChance: 1
   hasCooldown: 1
+  limitPerShot: 0
   cooldownDuration: 10
   cooldownCounter: 0
   rarity: 0
@@ -76,6 +77,7 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 7134043247388526285, guid: 9b1b67224405d5840a9082ae1e42009f, type: 3}
+  requiredPet: {fileID: 0}
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
@@ -103,6 +105,9 @@ MonoBehaviour:
               Data4: 557796519
             Path: event:/SprinklerFast
           vol: 0.5
+        spawnedWeaponName: sprinkler
+        projectileName: water drop
+        projectileDescription: bonk cabbages for 0.5
     - rid: 328110044618948963
       type: {class: Weapon_Sprinkler_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -124,7 +129,11 @@ MonoBehaviour:
               Data4: 557796519
             Path: event:/SprinklerFast
           vol: 0.5
+        spawnedWeaponName: sprinkler
+        projectileName: water drop
+        projectileDescription: bonk cabbages for 0.5
     - rid: 328110044618948964
       type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

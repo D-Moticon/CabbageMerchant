@@ -85,6 +85,8 @@ public class OverworldSceneChanger : MonoBehaviour
         pendingSceneName = null;
         pendingCharacterPosition = null;
         pendingCharacterTargetDelta = null;
+
+        SceneManager.SetActiveScene(scene);
     }
 
     private IEnumerator DelayedSetTarget(OverworldCharacter walker, Vector2 targetPos)

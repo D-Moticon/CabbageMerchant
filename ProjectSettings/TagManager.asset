@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Collidable
+  - BoardBG
   layers:
   - Default
   - TransparentFX

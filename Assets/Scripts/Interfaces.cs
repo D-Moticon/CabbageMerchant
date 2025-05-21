@@ -40,3 +40,8 @@ public interface IBiomeChangeable
 {
     public void SetBiome(Biome biome);
 }
+
+public interface IBPM
+{
+    void OffsetBeat(float offset);
+}

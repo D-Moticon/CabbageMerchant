@@ -76,6 +76,18 @@ public class SaveManager : MonoBehaviour
         SaveToDisk();
     }
 
+    
+    public List<string> GetOwnedChaosCabbageIDs()
+    {
+        return new List<string>(data.ownedChaosCabbageIDs);
+    }
+    
+    public void SetOwnedChaosCabbageIDs(List<string> chaosCabbageIDs)
+    {
+        data.ownedChaosCabbageIDs = new List<string>(chaosCabbageIDs);
+        SaveToDisk();
+    }
+
     /// <summary>
     /// Gets stored metaCurrency value.
     /// </summary>
@@ -133,7 +145,10 @@ public class SaveManager : MonoBehaviour
             .ToList();
     }
 
-    
+    public void RecordChaosCabbageGet(string ccDataName)
+    {
+        
+    }
     
     [Serializable]
     private class SaveData
@@ -143,7 +158,8 @@ public class SaveManager : MonoBehaviour
 
         // track max difficulty beaten per pet
         public List<PetRunRecord> petRecords = new List<PetRunRecord>();
-
+        public List<string> ownedChaosCabbageIDs = new List<string>();
+        
         // story flags...
         public bool seenOverworldIntro;
         public bool wonFirstRun;

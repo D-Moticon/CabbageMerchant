@@ -58,6 +58,7 @@ MonoBehaviour:
   - rid: 328109942880338077
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -69,12 +70,12 @@ MonoBehaviour:
   triggerSFX:
     sfx:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    vol: 0.5
+        Data1: -1690982069
+        Data2: 1104795478
+        Data3: -244981580
+        Data4: -1663259620
+      Path: event:/Crunch
+    vol: 0.4
   upgradedItem: {fileID: 716754708759249075, guid: 8430b1b53682e10408d2439c7b5f81c8, type: 3}
   requiredPet: {fileID: 0}
   isHolofoil: 0

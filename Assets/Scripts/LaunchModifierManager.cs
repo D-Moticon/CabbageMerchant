@@ -22,12 +22,19 @@ public class LaunchModifierManager : MonoBehaviour
     private void OnEnable()
     {
         GameStateMachine.BallFiredEarlyEvent += OnBallFiredEarly;
+        RunManager.RunEndedEvent += RunEndedListener;
         ResetAllModifiers();
     }
 
     private void OnDisable()
     {
         GameStateMachine.BallFiredEarlyEvent -= OnBallFiredEarly;
+        RunManager.RunEndedEvent -= RunEndedListener;
+    }
+
+    void RunEndedListener()
+    {
+        ResetAllModifiers();
     }
 
     void OnBallFiredEarly(Ball ball)

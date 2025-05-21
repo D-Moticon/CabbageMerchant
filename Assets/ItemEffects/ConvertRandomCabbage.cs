@@ -14,7 +14,23 @@ public class ConvertRandomCabbage : ItemEffect
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        var gsm = GameSingleton.Instance.gameStateMachine;
+        GameStateMachine gsm = GameSingleton.Instance.gameStateMachine;
+
+        if (gsm == null)
+        {
+            return;
+        }
+
+        if (GameSingleton.Instance != null)
+        {
+            if (GameSingleton.Instance.currentBiomeParent.preventCabbageConversion)
+            {
+                return;
+            }
+        }
+        
+        
+        
         // only consider slots where a cabbage is present
         List<BonkableSlot> validSlots = gsm.bonkableSlots
             .Where(slot => slot.bonkable != null)

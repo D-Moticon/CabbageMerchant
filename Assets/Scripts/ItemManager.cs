@@ -677,6 +677,11 @@ public class ItemManager : MonoBehaviour
             }
         }
 
+        if (item.customMaterial != null)
+        {
+            iw.spriteRenderer.material = item.customMaterial;
+        }
+
         ItemSpawnedEvent?.Invoke(item);
         
         return item;

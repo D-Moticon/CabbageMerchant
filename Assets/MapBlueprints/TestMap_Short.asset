@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   metacurrencyLayerPeriod: 4
   mapLayers:
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    forceAll: 0
-    newBiome: {fileID: 11400000, guid: da8e77cff1314bf48b639d7e3050b46d, type: 2}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
-    forceAll: 0
-    newBiome: {fileID: 11400000, guid: da8e77cff1314bf48b639d7e3050b46d, type: 2}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    forceAll: 0
-    newBiome: {fileID: 11400000, guid: a83797117384b5246913fa59856de085, type: 2}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    forceAll: 0
-    newBiome: {fileID: 11400000, guid: a83797117384b5246913fa59856de085, type: 2}
+  - possiblePoints: []
+    possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+      weight: 1
+    - mapPoint: {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
+      weight: 1
+    forceAll: 1
+    newBiome: {fileID: 0}
+  - possiblePoints: []
+    possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+      weight: 1
+    - mapPoint: {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
+      weight: 1
+    forceAll: 1
+    newBiome: {fileID: 0}

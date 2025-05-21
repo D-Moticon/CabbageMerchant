@@ -1,11 +1,8 @@
 using UnityEngine;
 using System.Linq;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
-/// <summary>
-/// Effect that moves side walls closer to center over time with a lerp.
-/// </summary>
 public class MoveWallsEffect : ItemEffect
 {
     [Tooltip("Horizontal distance each wall moves towards center")]
@@ -14,12 +11,9 @@ public class MoveWallsEffect : ItemEffect
     [Tooltip("Duration of the move in seconds")]
     public float moveDuration = 1f;
 
-    /// <summary>
-    /// Trigger the effect: gather walls and start the lerp coroutine.
-    /// </summary>
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        // Find all side walls (layer=Wall, x offset > threshold)
+        // 1) find your side walls
         var walls = GameSingleton.Instance.transform.parent
             .GetComponentsInChildren<BoxCollider2D>()
             .Where(x => x.gameObject.layer == LayerMask.NameToLayer("Wall")
@@ -27,44 +21,79 @@ public class MoveWallsEffect : ItemEffect
             .Select(x => x.transform)
             .ToList();
 
-        // Start the move coroutine on a MonoBehaviour
-        var runner = GameSingleton.Instance.gameStateMachine;
-        runner.StartCoroutine(MoveWallsCoroutine(walls));
+        // 2) find all tiled-board-background sprite renderers under GameSingleton
+        var bgRenderers = GameSingleton.Instance.transform.parent
+            .GetComponentsInChildren<SpriteRenderer>(true)
+            .Where(sr => sr.CompareTag("BoardBG") && sr.drawMode == SpriteDrawMode.Tiled)
+            .ToList();
+
+        // hand both lists into the coroutine
+        GameSingleton.Instance.gameStateMachine
+            .StartCoroutine(MoveWallsCoroutine(walls, bgRenderers));
     }
 
-    /// <summary>
-    /// Coroutine that smoothly moves each wall transform
-    /// towards center by wallMoveDistance over moveDuration.
-    /// </summary>
-    private IEnumerator MoveWallsCoroutine(List<Transform> walls)
-    {
-        // Cache original positions and target positions
+    private IEnumerator MoveWallsCoroutine(
+        List<Transform> walls,
+        List<SpriteRenderer> bgRenderers
+    ) {
+        // cache original wall positions & compute their targets
         var originals = new Vector3[walls.Count];
         var targets   = new Vector3[walls.Count];
         for (int i = 0; i < walls.Count; i++)
         {
-            var t = walls[i];
-            originals[i] = t.position;
-            float dir    = t.position.x > 0 ? -1f : 1f;
-            targets[i]   = t.position + Vector3.right * wallMoveDistance * dir;
+            originals[i] = walls[i].position;
+            float dir = walls[i].position.x > 0 ? -1f : 1f;
+            targets[i] = originals[i] + Vector3.right * wallMoveDistance * dir;
         }
+
+        // cache each BG’s original size (before transform scale)
+        var originalBgSizes = new Vector2[bgRenderers.Count];
+        for (int i = 0; i < bgRenderers.Count; i++)
+            originalBgSizes[i] = bgRenderers[i].size;
 
         float elapsed = 0f;
         while (elapsed < moveDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / moveDuration);
+
+            // move walls
             for (int i = 0; i < walls.Count; i++)
-            {
                 walls[i].position = Vector3.Lerp(originals[i], targets[i], t);
+
+            // compute the new board width between the two outermost walls
+            float minX = walls.Min(w => w.position.x);
+            float maxX = walls.Max(w => w.position.x);
+            float boardWidth = maxX - minX;
+
+            // resize each tiled background so that:
+            // (spriteRenderer.size.x * transform.localScale.x) == boardWidth
+            for (int i = 0; i < bgRenderers.Count; i++)
+            {
+                var sr = bgRenderers[i];
+                float scaleX = sr.transform.localScale.x;
+                sr.size = new Vector2(boardWidth / scaleX,
+                                      originalBgSizes[i].y);
             }
+
             yield return null;
         }
 
-        // ensure final alignment
+        // final snap to target positions
         for (int i = 0; i < walls.Count; i++)
-        {
             walls[i].position = targets[i];
+
+        // final background resize (same logic as above)
+        float finalMinX = walls.Min(w => w.position.x);
+        float finalMaxX = walls.Max(w => w.position.x);
+        float finalWidth = finalMaxX - finalMinX;
+
+        for (int i = 0; i < bgRenderers.Count; i++)
+        {
+            var sr = bgRenderers[i];
+            float scaleX = sr.transform.localScale.x;
+            sr.size = new Vector2(finalWidth / scaleX,
+                                  originalBgSizes[i].y);
         }
     }
 

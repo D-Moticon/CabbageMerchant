@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Egg
-  itemDescription: Hatch into a random item
+  itemDescription: What will it hatch into?
   icon: {fileID: 21300000, guid: 0b6c4c89ab67c9d4e96f1efab4d312e3, type: 3}
   itemType: 0
   canBeForceTriggered: 0
@@ -58,6 +58,7 @@ MonoBehaviour:
   - rid: 328110359655481509
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -122,5 +123,5 @@ MonoBehaviour:
       data:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0
-        startingCountdown: 10
+        startingCountdown: 5000
         countdownType: 1

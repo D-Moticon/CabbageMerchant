@@ -11,6 +11,7 @@ public class ItemWrapper : MonoBehaviour
     public Material holofoilMaterial;
     public Material petMaterial;
     public Material ghostMaterial;
+    public Sprite mysteriousSprite;
     [HideInInspector]public Item item;
     public MMF_Player triggerFeel;
     public ParticleSystem purchaseVFX;
@@ -71,6 +72,8 @@ public class ItemWrapper : MonoBehaviour
         {
             spriteRenderer.material = petMaterial;
         }
+        
+        ApplyMaterialPropertyOverrides();
     }
     
     void ItemPurchasedListener(Item purchasedItem)
@@ -110,5 +113,33 @@ public class ItemWrapper : MonoBehaviour
         {
             extraTextFeel.PlayFeedbacks();
         }
+    }
+
+    public void SetMysterious()
+    {
+        spriteRenderer.sprite = mysteriousSprite;
+    }
+
+    public void EndMysterious()
+    {
+        spriteRenderer.sprite = item.icon;
+        if (item.customMaterial != null)
+        {
+            spriteRenderer.material = item.customMaterial;
+        }
+    }
+    
+    private void ApplyMaterialPropertyOverrides()
+    {
+        if (item.materialPropertyOverrides == null || item.materialPropertyOverrides.Count == 0)
+            return;
+
+        var block = new MaterialPropertyBlock();
+        spriteRenderer.GetPropertyBlock(block);
+
+        foreach (var ov in item.materialPropertyOverrides)
+            ov.ApplyTo(block);
+
+        spriteRenderer.SetPropertyBlock(block);
     }
 }

@@ -27,3 +27,7 @@ MonoBehaviour:
     enabled: 1
   - item: {fileID: 4699808747838188015, guid: c4e9e5feb28aa864d800aa9785a05497, type: 3}
     enabled: 1
+  - item: {fileID: 979534098987691107, guid: 74d90b128176edb47aab6666b4138087, type: 3}
+    enabled: 1
+  - item: {fileID: 6049161352963312092, guid: a6236276171501841a3f51df6ca2ea28, type: 3}
+    enabled: 1

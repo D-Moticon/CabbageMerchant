@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67cfe54e0aa0769409739d9312cea050, type: 3}
+  m_Name: ChaosCabbageCollection
+  m_EditorClassIdentifier: 
+  chaosCabbages:
+  - {fileID: 11400000, guid: 21357765d03ca474c9730aff82dbb16b, type: 2}
+  - {fileID: 11400000, guid: 5358cc19cfba9c94895c92bc65545347, type: 2}
+  - {fileID: 11400000, guid: 61279a6b6b6d8d3439c5f944ac432b75, type: 2}
+  - {fileID: 11400000, guid: b8e92aff5fa57614b82fa0d2c4976096, type: 2}
+  - {fileID: 11400000, guid: ee278d74c32239a40a778c4b7e29dd4f, type: 2}
