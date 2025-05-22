@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15cddc50af84940997e3976db43ad1, type: 3}
+  m_Name: Dapper
+  m_EditorClassIdentifier: 
+  displayName: Dapper
+  dataName: dapper
+  description: 
+  unlockedByDefault: 0
+  cost: 25
+  requirements:
+  - rid: 4405298251448451363
+  dialogueSprite: {fileID: 21300000, guid: 745b60c487518ca40871ca8bdf829e25, type: 3}
+  upSprite: {fileID: -8869425228891887486, guid: 7badb2c9d7ee3da43b3aaa584ae18ce9, type: 3}
+  downSprite: {fileID: 0, guid: 7badb2c9d7ee3da43b3aaa584ae18ce9, type: 3}
+  leftSprite: {fileID: 1533568424197285155, guid: 7badb2c9d7ee3da43b3aaa584ae18ce9, type: 3}
+  rightSprite: {fileID: -1675004861000841606, guid: 7badb2c9d7ee3da43b3aaa584ae18ce9, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298251448451363
+      type: {class: RunBeatenWithPetRequirement, ns: , asm: Assembly-CSharp}
+      data:
+        requiredPet: {fileID: 11400000, guid: dac7e2e455fbb794b8a7818ed384a95d, type: 2}
+        minDifficultyLevel: 2

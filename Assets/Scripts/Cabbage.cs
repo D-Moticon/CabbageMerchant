@@ -214,7 +214,7 @@ public class Cabbage : MonoBehaviour, IBonkable
             bp.bonkerPower *= -1;
         }
         
-        sizeLevel = Mathf.Min(sizeLevel + bp.bonkerPower, maxSizeLevel);
+        sizeLevel = Mathf.Min(sizeLevel + (float)bp.bonkerPower, maxSizeLevel);
         if (sizeLevel < 0)
         {
             sizeLevel = 0;
@@ -224,11 +224,11 @@ public class Cabbage : MonoBehaviour, IBonkable
         // VFX and feedback
         if (!bp.overrideSFX)
         {
-            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * bp.bonkerPower);
+            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * (float)bp.bonkerPower);
         }
 
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
-        vfx.transform.localScale = new Vector3(1f+bp.bonkerPower*0.1f, 1f+bp.bonkerPower*0.1f, 1f);
+        vfx.transform.localScale = new Vector3(1f+(float)bp.bonkerPower*0.1f, 1f+(float)bp.bonkerPower*0.1f, 1f);
 
         PlayBonkFX();
 

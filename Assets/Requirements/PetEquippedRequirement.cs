@@ -13,4 +13,9 @@ public class PetEquippedRequirement : Requirement
 
         return false;
     }
+
+    public override string GetRequirementDescription()
+    {
+        return $"{pet.displayName} equipped";
+    }
 }

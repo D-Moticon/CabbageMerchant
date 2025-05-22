@@ -27,7 +27,10 @@ public class UIManager : MonoBehaviour
     public TypewriterByCharacter coinGainedTypewriter;
     public Animator chaosCabbageAnimator;
     public TypewriterByCharacter chaosCabbageTypewriter;
-
+    public SpriteRenderer chaosCabbageSprite;
+    public Animator metacurrencyGainedAnimator;
+    public TypewriterByCharacter metacurrencyGainedTypewriter;
+    
     private void OnEnable()
     {
         notificationText.alpha = 0f;
@@ -193,12 +196,20 @@ public class UIManager : MonoBehaviour
         coinGainedAnimator.Play("LifeGained");
         coinGainedTypewriter.ShowText($"<wave a=.2>+{coinsGained:F0}</wave>");
     }
+    
+    public void DisplayMetacurrencyGainedAnimation(int metacurrencyGained)
+    {
+        metacurrencyGainedAnimator.gameObject.SetActive(true);
+        metacurrencyGainedAnimator.Play("LifeGained");
+        metacurrencyGainedTypewriter.ShowText($"<wave a=.2>+{metacurrencyGained:F0}</wave>");
+    }
 
     void ChaosCabbageGetListener(ChaosManager.ChaosCabbageGetParams ccgp)
     {
         chaosCabbageAnimator.gameObject.SetActive(true);
-        chaosCabbageAnimator.Play("LifeGained");
+        chaosCabbageSprite.sprite = ccgp.ccso.item.icon;
+        chaosCabbageAnimator.Play("ChaosCabbageGained");
         string colorHexString = ColorUtility.ToHtmlStringRGB(ccgp.ccso.color);
-        chaosCabbageTypewriter.ShowText($"<wave a=.2><color=#{colorHexString}>{ccgp.ccso.displayName}</color> collected</wave>");
+        chaosCabbageTypewriter.ShowText($"<wave a=.2><color=#{colorHexString}>Chaos Cabbage of {ccgp.ccso.displayName}</color> collected</wave>");
     }
 }

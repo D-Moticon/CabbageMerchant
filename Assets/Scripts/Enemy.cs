@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour, IBonkable
 
     public void Bonk(BonkParams bp)
     {
-        hp -= bp.bonkerPower;
+        hp -= (float)bp.bonkerPower;
         
         if (hpText != null)
         {

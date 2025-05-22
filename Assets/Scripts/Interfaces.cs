@@ -20,7 +20,7 @@ public interface IBonkable
 
 public class BonkParams
 {
-    public float bonkerPower;
+    public double bonkerPower;
     public Vector2 collisionPos;
     public Vector2 normal = default;
     public Ball ball = null;
@@ -29,6 +29,7 @@ public class BonkParams
     public IBonkable bonkable;
     public double totalBonkValueGained;
     public bool overrideSFX = false;
+    public Item causingItem;
 }
 
 public interface IKillable

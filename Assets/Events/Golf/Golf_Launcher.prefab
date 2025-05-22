@@ -14684,6 +14684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2715517849077988683}
   - component: {fileID: 2364245266954451131}
+  - component: {fileID: 8423840369266143277}
   m_Layer: 0
   m_Name: CabbageGirlTopDown_2
   m_TagString: Untagged
@@ -14761,6 +14762,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8423840369266143277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332782028599069878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eb2f129fbfe61e4cb352d072fb67294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 2364245266954451131}
+  spriteDir: 3
 --- !u!1 &6240659525753709970
 GameObject:
   m_ObjectHideFlags: 0

@@ -108,6 +108,18 @@ public class RunManager : MonoBehaviour
             }
         }
         
+        //Special Rules
+        if (mapPoint != null)
+        {
+            if (mapPoint.specialGameRules != null)
+            {
+                foreach (var sgr in mapPoint.specialGameRules)
+                {
+                    Singleton.Instance.specialRuleManager.AddSpecialGameRule(sgr);
+                }
+            }
+        }
+
         // 1) Load the new scene additively.
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)
@@ -230,6 +242,7 @@ public class RunManager : MonoBehaviour
                 }
             }
         }
+
         
         // 8) Teleport the NavMeshAgent back to a known spawn point
         var walker = currentSceneParent.gameObject.GetComponentInChildren<OverworldCharacter>();

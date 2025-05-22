@@ -11,4 +11,6 @@ public class MapPoint : ScriptableObject
     public Biome biome;
     [SerializeReference]
     public List<MapPointExtra> mapPointExtras = new List<MapPointExtra>();
+    [SerializeReference]
+    public List<SpecialGameRule> specialGameRules = new List<SpecialGameRule>();
 }

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f218a86a4fbff4696488536f396cff, type: 3}
+  m_Name: BonkMarker
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6502355000176729978, guid: 5db3af4ac729b934094207c17e9f426a, type: 3}

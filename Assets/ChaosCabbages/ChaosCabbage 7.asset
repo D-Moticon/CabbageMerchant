@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c4ec4fcb50aea47983ebffea7f7789, type: 3}
+  m_Name: ChaosCabbage 7
+  m_EditorClassIdentifier: 
+  displayName: Chaos Cabbage of the Cosmos
+  dataName: chaosCab6
+  color: {r: 0, g: 1, b: 0.12997723, a: 1}
+  petDef: {fileID: 11400000, guid: ef98f2dbecc0f0548bdb2746c93d93c4, type: 2}
+  item: {fileID: 0}
+  cabbageGetDialogue: {fileID: 0}

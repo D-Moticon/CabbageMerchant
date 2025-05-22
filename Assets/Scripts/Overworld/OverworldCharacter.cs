@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,15 +9,24 @@ public class OverworldCharacter : MonoBehaviour
     [Tooltip("Movement speed in world units per second")]    public float speed = 5f;
     [Tooltip("How close to the target before we consider ourselves arrived")] public float stoppingDistance = 0.1f;
 
+    public bool isPlayer = false;
+    
     [Header("Direction Sprites")]
-    public Sprite upSprite;
-    public Sprite downSprite;
-    public Sprite leftSprite;
-    public Sprite rightSprite;
-
+    Skin currentSkin;
     private NavMeshAgent agent;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+
+    private void OnEnable()
+    {
+        SkinManager.SkinEquippedEvent += SkinEquippedListener;
+        
+    }
+
+    private void OnDisable()
+    {
+        SkinManager.SkinEquippedEvent -= SkinEquippedListener;
+    }
 
     void Awake()
     {
@@ -28,8 +38,24 @@ public class OverworldCharacter : MonoBehaviour
 
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (isPlayer)
+        {
+            SetSkin(Singleton.Instance.skinManager.currentSkin);
+        }
     }
 
+    private void SkinEquippedListener(Skin s)
+    {
+        SetSkin(s);
+    }
+    
+    public void SetSkin(Skin s)
+    {
+        currentSkin = s;
+        spriteRenderer.sprite = currentSkin.downSprite;
+    }
+    
     void Update()
     {
         if (PauseManager.IsPaused())
@@ -45,7 +71,7 @@ public class OverworldCharacter : MonoBehaviour
             Vector2 target2D = input.mousePosWorldSpace;
             SetTargetPosition(target2D);
         }
-
+        
         if (!agent.pathPending)
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
@@ -65,6 +91,11 @@ public class OverworldCharacter : MonoBehaviour
         }
     }
 
+    public void ForceStop()
+    {
+        SetTargetPosition(this.transform.position);
+    }
+    
     public void SetTargetPosition(Vector2 pos)
     {
         agent.isStopped = false;
@@ -77,9 +108,10 @@ public class OverworldCharacter : MonoBehaviour
         if (dir == Vector2.zero) return;
         float ax = Mathf.Abs(dir.x);
         float ay = Mathf.Abs(dir.y);
+        
         if (ax > ay)
-            spriteRenderer.sprite = dir.x > 0 ? rightSprite : leftSprite;
+            spriteRenderer.sprite = dir.x > 0 ? currentSkin.rightSprite : currentSkin.leftSprite;
         else
-            spriteRenderer.sprite = dir.y > 0 ? upSprite : downSprite;
+            spriteRenderer.sprite = dir.y > 0 ? currentSkin.upSprite : currentSkin.downSprite;
     }
 }

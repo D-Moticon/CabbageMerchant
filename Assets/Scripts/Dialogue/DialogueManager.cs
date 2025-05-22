@@ -39,6 +39,11 @@ public class DialogueManager : MonoBehaviour
         Singleton.Instance.pauseManager.SetPaused(false);
         dialogueBox.HideDialogueBox();
         yield return new WaitForSeconds(0.5f);
+        /*Task fadeTask = new Task(dialogueBox.FadeOutDialogueBox(0.35f));
+        while (fadeTask.Running)
+        {
+            yield return null;
+        }*/
         dialogueBox.gameObject.SetActive(false);
         
     }

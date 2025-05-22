@@ -11,4 +11,9 @@ public class AnyPetEquippedRequirement : Requirement
 
         return false;
     }
+
+    public override string GetRequirementDescription()
+    {
+        return ("Any pet equipped");
+    }
 }

@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: ChaosCabbageCollection
   m_EditorClassIdentifier: 
   chaosCabbages:
+  - {fileID: 11400000, guid: 914b497ef85fdbe42afdeaefb41260c5, type: 2}
   - {fileID: 11400000, guid: 21357765d03ca474c9730aff82dbb16b, type: 2}
   - {fileID: 11400000, guid: 5358cc19cfba9c94895c92bc65545347, type: 2}
   - {fileID: 11400000, guid: 61279a6b6b6d8d3439c5f944ac432b75, type: 2}
   - {fileID: 11400000, guid: b8e92aff5fa57614b82fa0d2c4976096, type: 2}
   - {fileID: 11400000, guid: ee278d74c32239a40a778c4b7e29dd4f, type: 2}
+  - {fileID: 11400000, guid: 7191f412dadd38d44b183869858cc9ae, type: 2}
+  - {fileID: 11400000, guid: 268eb7bee28f8cf4c91b567652d7fabc, type: 2}
+  - {fileID: 11400000, guid: ff569b61ce73bbd42a4764e0393c5a4c, type: 2}

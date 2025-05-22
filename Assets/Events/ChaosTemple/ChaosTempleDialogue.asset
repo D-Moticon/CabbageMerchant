@@ -1,0 +1,248 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: ChaosTempleDialogue
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 4405298251448451383
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298251448451383
+      type: {class: ChaosTempleDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        introSequence:
+          dialogueTasks:
+          - rid: 4405298251448451385
+          - rid: 4405298251448451386
+          - rid: 4405298251448451396
+          - rid: 4405298251448451397
+        easyDifficultyLine:
+          dialogueTasks:
+          - rid: 4405298251448451388
+          - rid: 4405298251448451389
+        mediumDifficultyLine:
+          dialogueTasks:
+          - rid: 4405298251448451399
+        hardDifficultyLine:
+          dialogueTasks:
+          - rid: 4405298251448451404
+        worthyOfChaosCabbageTask:
+          dialogueTasks:
+          - rid: 4405298251448451402
+          - rid: 4405298251448451405
+          - rid: 4405298251448451406
+          - rid: 4405298251448451407
+        noPetToChooseLine:
+          dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+          dialogueLine: Without a companion to help you decide, I suppose this will
+            do.
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+          overrideSprite: {fileID: 0}
+        petChoseLine:
+          dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+          dialogueLine: It looks like it wasn't yours to choose after all.
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+          overrideSprite: {fileID: 0}
+        postCCAddLine:
+          dialogueTasks:
+          - rid: 4405298251448451410
+          - rid: 4405298251448451411
+        farewellLine:
+          dialogueTasks:
+          - rid: 4405298251448451412
+          - rid: 4405298251448451413
+    - rid: 4405298251448451385
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: You enter the temple.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451386
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: You've done well, acolyte of cabbages.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451388
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: However, my greatest secrets are reserved for those who have
+          chosen a more difficult path.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451389
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: I'm sure you understand.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451396
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: For your part, I shall reward you.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451397
+      type: {class: AddMetacurrencyTask, ns: , asm: Assembly-CSharp}
+      data:
+        metacurrencyEasy: 30
+        metacurrencyMedium: 60
+        metacurrencyHard: 100
+    - rid: 4405298251448451399
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: You have chosen a more difficult path to get here, and now
+          I know you are worthy.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451402
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: The priestess leads you to a chamber full of bizarre, otherworldly
+          cabbages.
+        hideCharacterName: 1
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 0
+        overrideSprite: {fileID: 21300000, guid: 46f2ee69062a42441bb19255ac9b8277, type: 3}
+    - rid: 4405298251448451404
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: You have chosen the most difficult path to get here, and now
+          I know you are worthy.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451405
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: These are the Chaos Cabbages.  Each one presents you with a
+          unique challenge to overcome.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 21300000, guid: 46f2ee69062a42441bb19255ac9b8277, type: 3}
+    - rid: 4405298251448451406
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: But which one to give you?
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 21300000, guid: 46f2ee69062a42441bb19255ac9b8277, type: 3}
+    - rid: 4405298251448451407
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: '?'
+        hideCharacterName: 1
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 21300000, guid: 46f2ee69062a42441bb19255ac9b8277, type: 3}
+    - rid: 4405298251448451410
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: Completing a run with this equipped will unlock various rewards
+          in town.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451411
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: Equip it from the run start panel.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451412
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: I trust I will see you again soon.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451413
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
+        dialogueLine: Farewell.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}

@@ -18,6 +18,11 @@ MonoBehaviour:
   mapIcon: {fileID: 21300000, guid: 486e69d8799c741409ecff025871c570, type: 3}
   biome: {fileID: 11400000, guid: 8e8d5fd2c611f5b499ba1a680c1cb26f, type: 2}
   mapPointExtras: []
+  specialGameRules:
+  - rid: 4405298251448451293
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4405298251448451293
+      type: {class: NoRoundGoalRule, ns: , asm: Assembly-CSharp}
+      data: 

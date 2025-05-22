@@ -14,462 +14,420 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   metacurrencyLayerPeriod: 4
   mapLayers:
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 11400000, guid: e7b2961264174f34abc5a72fb16ae726, type: 2}
-  - possiblePoints:
-    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
-    - {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
-    - {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: cfffcbf5c3be8d94dba839e829e9437c, type: 2}
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: cfffcbf5c3be8d94dba839e829e9437c, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    - {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
-    - {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 769a07faf3ba9db4799c46844dccc89d, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 769a07faf3ba9db4799c46844dccc89d, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
-    - {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
-    - {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
-    - {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    - {fileID: 11400000, guid: cfffcbf5c3be8d94dba839e829e9437c, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: cfffcbf5c3be8d94dba839e829e9437c, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 769a07faf3ba9db4799c46844dccc89d, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 769a07faf3ba9db4799c46844dccc89d, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
-    - {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-    - {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
-    - {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 20b2cee207225684fa86857ead02fae9, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 311d750972a271f4e80a6568e51a2224, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 11400000, guid: a83797117384b5246913fa59856de085, type: 2}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
-    - {fileID: 11400000, guid: 7109135fb85695f49b3410818a5db692, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 7109135fb85695f49b3410818a5db692, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 82def2bf5c705a949a0c8b1b6e00bff7, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 82def2bf5c705a949a0c8b1b6e00bff7, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
-    - {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    - {fileID: 11400000, guid: 82def2bf5c705a949a0c8b1b6e00bff7, type: 2}
-    - {fileID: 11400000, guid: 7109135fb85695f49b3410818a5db692, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 82def2bf5c705a949a0c8b1b6e00bff7, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 7109135fb85695f49b3410818a5db692, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    - {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
-    - {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
-    - mapPoint: {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
-      weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 7109135fb85695f49b3410818a5db692, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 7109135fb85695f49b3410818a5db692, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 82def2bf5c705a949a0c8b1b6e00bff7, type: 2}
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 82def2bf5c705a949a0c8b1b6e00bff7, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
-    - {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
-    - {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 11400000, guid: da8e77cff1314bf48b639d7e3050b46d, type: 2}
-  - possiblePoints:
-    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
-    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
-    - {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
-    - {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
-    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    - {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
-    - {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 78269399ee262754995963f596e5bf38, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
-    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
-    - {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    - {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
-    - mapPoint: {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
-      weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
-    - {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
-    - {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
-    - {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 107987ad02f95394b8d4483e911912c9, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: af49db2e2a411394985c753fbe0234ae, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: 8d6febbe090c80d4d9a627b095642116, type: 2}
       weight: 1
+      requirements: []
     - mapPoint: {fileID: 11400000, guid: d0383eaf817acbc45bfcfbbae431a95b, type: 2}
       weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints:
-    - {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
-    possiblePointInfos:
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: 20d9526d830143f44ab8e0b1b5da1277, type: 2}
       weight: 1
+      requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
+  - possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 7ca0a503f4fa96f4c80ee653ce338df7, type: 2}
+      weight: 1
+      requirements: []
+    forceAll: 0
+    newBiome: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

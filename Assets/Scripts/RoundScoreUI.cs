@@ -40,7 +40,15 @@ public class RoundScoreUI : MonoBehaviour
 
     void RoundGoalUpdated(double newGoal)
     {
-        roundGoalText.text = Helpers.FormatWithSuffix(newGoal);
+        if (newGoal > 0)
+        {
+            roundGoalText.text = Helpers.FormatWithSuffix(newGoal);
+        }
+
+        else
+        {
+            roundGoalText.text = "---";
+        }
     }
 
     void RoundScoreUpdated(double newScore)

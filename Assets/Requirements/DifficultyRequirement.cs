@@ -16,4 +16,9 @@ public class DifficultyRequirement : Requirement
 
         return false;
     }
+
+    public override string GetRequirementDescription()
+    {
+        return "";
+    }
 }

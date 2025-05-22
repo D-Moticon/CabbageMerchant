@@ -8,4 +8,6 @@ public class ChaosCabbageSO : ScriptableObject
     public Color color = Color.white;
     public PetDefinition petDef;
     public Item item;
+
+    public Dialogue cabbageGetDialogue;
 }

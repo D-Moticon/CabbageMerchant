@@ -30,5 +30,7 @@ public class MapCharacter : MonoBehaviour
         {
             petParent.SetActive(false);
         }
+
+        sr.sprite = Singleton.Instance.skinManager.currentSkin.upSprite;
     }
 }

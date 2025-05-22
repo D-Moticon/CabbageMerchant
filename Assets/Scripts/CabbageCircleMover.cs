@@ -105,4 +105,5 @@ public class CabbageCircleMover : MonoBehaviour
             RegisteredTime = Time.time
         };
     }
+
 }

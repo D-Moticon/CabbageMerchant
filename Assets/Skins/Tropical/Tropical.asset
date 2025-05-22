@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15cddc50af84940997e3976db43ad1, type: 3}
+  m_Name: Tropical
+  m_EditorClassIdentifier: 
+  displayName: Aloha
+  dataName: tropical
+  description: 
+  unlockedByDefault: 0
+  cost: 25
+  requirements:
+  - rid: 4405298251448451360
+  dialogueSprite: {fileID: 21300000, guid: e4f8bc9d286f6b14f9a906eda3ac90a7, type: 3}
+  upSprite: {fileID: -4071024686733607820, guid: 76ac0ba859bab6540a72c294124823ec, type: 3}
+  downSprite: {fileID: 0, guid: 76ac0ba859bab6540a72c294124823ec, type: 3}
+  leftSprite: {fileID: 8233821757805061959, guid: 76ac0ba859bab6540a72c294124823ec, type: 3}
+  rightSprite: {fileID: 4527868781339570975, guid: 76ac0ba859bab6540a72c294124823ec, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298251448451360
+      type: {class: RunBeatenOnDifficultyRequirement, ns: , asm: Assembly-CSharp}
+      data:
+        minDifficultyLevel: 1

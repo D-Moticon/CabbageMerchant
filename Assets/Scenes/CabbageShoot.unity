@@ -179,8 +179,9 @@ GameObject:
   m_Component:
   - component: {fileID: 53158366}
   - component: {fileID: 53158367}
+  - component: {fileID: 53158368}
   m_Layer: 0
-  m_Name: CabbageGirl01
+  m_Name: CharacterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,6 +257,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &53158368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53158365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7320196be7964284ca6353d4732a893c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 53158367}
 --- !u!1 &121761488
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,8 +769,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cabbagePooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
-  boardVariants:
-  - {fileID: 282068993}
   boardVariantInfos:
   - boardVariant: {fileID: 282068993}
     chaosCabbage: {fileID: 0}
@@ -860,7 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510dc2401efb3fe40b2f4021d462c9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angularSpeed: 100
+  angularSpeed: 80
 --- !u!1 &545903303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,8 +1186,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cabbagePooledObject: {fileID: 11400000, guid: eb0ae1fd333cfd242956a2bfd402d237, type: 2}
-  boardVariants:
-  - {fileID: 121761488}
   boardVariantInfos:
   - boardVariant: {fileID: 121761488}
     chaosCabbage: {fileID: 0}
@@ -1686,8 +1696,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cabbagePooledObject: {fileID: 11400000, guid: d87175572d0d11047839fca376549fb7, type: 2}
-  boardVariants:
-  - {fileID: 681040732}
   boardVariantInfos:
   - boardVariant: {fileID: 681040732}
     chaosCabbage: {fileID: 11400000, guid: 21357765d03ca474c9730aff82dbb16b, type: 2}
@@ -2391,8 +2399,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cabbagePooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
-  boardVariants:
-  - {fileID: 1282984169}
   boardVariantInfos:
   - boardVariant: {fileID: 1282984169}
     chaosCabbage: {fileID: 0}
@@ -4367,6 +4373,15 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: 406e3ec84fbf9cc4792cd5d5742a28a5, type: 2}
     initialQuantity: 30
     maxQuantity: 30
+  - objectData: {fileID: 11400000, guid: 30d9545384e69ce4c9c6ba73f278ad97, type: 2}
+    initialQuantity: 50
+    maxQuantity: 50
+  - objectData: {fileID: 11400000, guid: dcfbbbd937fa5364dadd13706ac0ff11, type: 2}
+    initialQuantity: 50
+    maxQuantity: 50
+  - objectData: {fileID: 11400000, guid: 4ab0a359b2b89344a92c084fe21cbd66, type: 2}
+    initialQuantity: 10
+    maxQuantity: 10
 --- !u!1 &2548950145100132322
 GameObject:
   m_ObjectHideFlags: 0
@@ -4430,6 +4445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7445374803619073299}
   - component: {fileID: 3386497041286872259}
+  - component: {fileID: 7445374803619073300}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -6067,6 +6083,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1287590208885132278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7445374803619073300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2704869233980320061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eb2f129fbfe61e4cb352d072fb67294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3386497041286872259}
+  spriteDir: 1
 --- !u!1 &7710796278397951692
 GameObject:
   m_ObjectHideFlags: 0

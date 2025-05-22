@@ -44,7 +44,8 @@ public class GameStateMachine : MonoBehaviour
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
     
     [HideInInspector] public List<BonkableSlot> bonkableSlots = new List<BonkableSlot>();
-    
+
+    public static Action PreBoardPopulateAction;
     public static Action BoardFinishedPopulatingAction;
     public static Action EnteringAimStateAction;
     public static Action ExitingAimStateAction;
@@ -52,6 +53,9 @@ public class GameStateMachine : MonoBehaviour
     public static Action ExitingBounceStateAction;
     public static Action EnteringScoringAction;
     public static Action ExitingScoringAction;
+
+    public delegate void GSMDelegate(GameStateMachine gsm);
+    public static GSMDelegate GSM_Enabled_Event;
 
     public delegate void IntDelegate(int ballsRemaining);
     public static IntDelegate BallsRemainingUpdatedEvent;
@@ -83,11 +87,16 @@ public class GameStateMachine : MonoBehaviour
     private bool forceRoundFail = false;
     [FormerlySerializedAs("roundEndMessage")] [HideInInspector]public string roundEndMessageOverride = "";
     
+    private bool noRoundGoal = false;
+    private ChaosCabbageSO chaosCabbageToAward;
+    
     private void OnEnable()
     {
         Cabbage.CabbageMergedEvent += CabbageMergedListener;
         Ball.BallEnabledEvent += BallEnabledListener;
         Ball.BallDisabledEvent += BallDisabledListener;
+        
+        GSM_Enabled_Event?.Invoke(this);
     }
 
     private void OnDisable()
@@ -97,7 +106,7 @@ public class GameStateMachine : MonoBehaviour
         Ball.BallDisabledEvent -= BallDisabledListener;
         Physics2D.gravity = new Vector2(0f,-9.81f);
     }
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -257,6 +266,155 @@ public class GameStateMachine : MonoBehaviour
         forceRoundFail = true;
         roundEndMessageOverride = failMessage;
     }
+
+    public Cabbage SpawnCabbageInSlot(BonkableSlot bs)
+    {
+        PooledObjectData cabbagePrefab = GameSingleton.Instance.currentBiomeParent.cabbagePooledObject;
+        
+        BonkableSlotSpawner bss = bs.GetComponentInParent<BonkableSlotSpawner>();
+        if (bss != null)
+        {
+            if (bss.cabbageOverride != null)
+            {
+                cabbagePrefab = bss.cabbageOverride;
+            }
+        }
+        
+        Cabbage c = cabbagePrefab.Spawn(bs.transform.position, Quaternion.identity).GetComponent<Cabbage>();
+        c.transform.parent = bs.transform;
+        bs.bonkable = c;
+        c.bonkFeel.PlayFeedbacks();
+
+        float goldRand = Random.Range(0f, 1f);
+        if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
+        {
+            c.SetVariant(CabbageVariantType.golden);
+        }
+                
+        activeCabbages.Add(c);
+        return c;
+    }
+
+    public void SetRoundGoal()
+    {
+        int mapLayer = Singleton.Instance.playerStats.currentMapLayer;
+        roundGoal = Singleton.Instance.playerStats.currentDifficulty.GetRoundGoal(mapLayer);
+
+        if (noRoundGoal)
+        {
+            roundGoal = 0;
+        }
+        
+        RoundGoalUpdatedEvent?.Invoke(roundGoal);
+    }
+
+    public void SetNoRoundGoal()
+    {
+        noRoundGoal = true;
+    }
+
+    public void ResetRoundScore()
+    {
+        currentRoundScore = 0;
+        currentRoundScoreOverMult = 0;
+        roundScoreOverMultRounded = 0;
+        RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
+    }
+    
+    public void UpdateRoundScore()
+    {
+        currentRoundScore = 0;
+        for (int i = 0; i < activeCabbages.Count; i++)
+        {
+            currentRoundScore += activeCabbages[i].points;
+        }
+
+        currentRoundScore = Math.Ceiling(currentRoundScore);
+        currentRoundScoreOverMult = currentRoundScore / roundGoal;
+        if (roundGoal < 1 || double.IsNaN(currentRoundScoreOverMult))
+        {
+            currentRoundScoreOverMult = 0;
+        }
+
+        double newOverRounded = Math.Floor(currentRoundScoreOverMult);
+        
+        if (newOverRounded > roundScoreOverMultRounded)
+        {
+            roundScoreOverMultRounded = Math.Floor(currentRoundScoreOverMult);
+            RoundGoalHit();
+        }
+        
+        roundScoreOverMultRounded = Math.Floor(currentRoundScoreOverMult);
+        RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
+    }
+
+    void RoundGoalHit()
+    {
+        //Singleton.Instance.playerStats.AddCoins(coinsPerRoundGoal);
+        RoundGoalOverHitEvent?.Invoke(roundScoreOverMultRounded);
+    }
+
+    public Ball GetRandomActiveBall()
+    {
+        if (activeBalls.Count == 0)
+        {
+            return null;
+        }
+        int rand = Random.Range(0, activeBalls.Count);
+        if (activeBalls[rand] != null)
+        {
+            return activeBalls[rand];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    public Cabbage GetRandomActiveCabbage()
+    {
+        if (activeCabbages.Count == 0)
+        {
+            return null;
+        }
+        int rand = Random.Range(0, activeCabbages.Count);
+        if (activeCabbages[rand] != null)
+        {
+            return activeCabbages[rand];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void StopTry()
+    {
+        stopTry = true;
+    }
+    
+    void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
+    {
+        for(int i = 0; i < bonkableSlots.Count; i++)
+        {
+            if (bonkableSlots[i].bonkable as Object == cmp.oldCabbageA as Object || bonkableSlots[i].bonkable as Object == cmp.oldCabbageB as Object)
+            {
+                bonkableSlots[i].bonkable = null;
+            }
+        }
+    }
+
+    public void CollectChaosCabbage(ChaosCabbageSO ccso)
+    {
+        chaosCabbageToAward = ccso;
+        ChaosCabbageCollectState newState = new ChaosCabbageCollectState();
+        ChangeState(newState);
+    }
+    
+    
+    //-------------------------------STATES--------------------------------------
+    
+    
     
     public class PopulateBoardState : State
     {
@@ -280,6 +438,8 @@ public class GameStateMachine : MonoBehaviour
 
         IEnumerator PopulateBoard()
         {
+            PreBoardPopulateAction?.Invoke();
+            
             gameStateMachine.ResetRoundScore();
             gameStateMachine.SetRoundGoal();
 
@@ -361,134 +521,7 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.ChangeState(newState);
         }
     }
-
-    public Cabbage SpawnCabbageInSlot(BonkableSlot bs)
-    {
-        PooledObjectData cabbagePrefab = GameSingleton.Instance.currentBiomeParent.cabbagePooledObject;
-        
-        BonkableSlotSpawner bss = bs.GetComponentInParent<BonkableSlotSpawner>();
-        if (bss != null)
-        {
-            if (bss.cabbageOverride != null)
-            {
-                cabbagePrefab = bss.cabbageOverride;
-            }
-        }
-        
-        Cabbage c = cabbagePrefab.Spawn(bs.transform.position, Quaternion.identity).GetComponent<Cabbage>();
-        c.transform.parent = bs.transform;
-        bs.bonkable = c;
-        c.bonkFeel.PlayFeedbacks();
-
-        float goldRand = Random.Range(0f, 1f);
-        if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
-        {
-            c.SetVariant(CabbageVariantType.golden);
-        }
-                
-        activeCabbages.Add(c);
-        return c;
-    }
-
-    public void SetRoundGoal()
-    {
-        int mapLayer = Singleton.Instance.playerStats.currentMapLayer;
-        roundGoal = Singleton.Instance.playerStats.currentDifficulty.GetRoundGoal(mapLayer);
-
-        RoundGoalUpdatedEvent?.Invoke(roundGoal);
-    }
-
-
-    public void ResetRoundScore()
-    {
-        currentRoundScore = 0;
-        currentRoundScoreOverMult = 0;
-        roundScoreOverMultRounded = 0;
-        RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
-    }
     
-    public void UpdateRoundScore()
-    {
-        currentRoundScore = 0;
-        for (int i = 0; i < activeCabbages.Count; i++)
-        {
-            currentRoundScore += activeCabbages[i].points;
-        }
-
-        currentRoundScore = Math.Ceiling(currentRoundScore);
-        currentRoundScoreOverMult = currentRoundScore / roundGoal;
-        if (double.IsNaN(currentRoundScoreOverMult))
-        {
-            currentRoundScoreOverMult = 0;
-        }
-
-        double newOverRounded = Math.Floor(currentRoundScoreOverMult);
-        
-        if (newOverRounded > roundScoreOverMultRounded)
-        {
-            roundScoreOverMultRounded = Math.Floor(currentRoundScoreOverMult);
-            RoundGoalHit();
-        }
-        
-        roundScoreOverMultRounded = Math.Floor(currentRoundScoreOverMult);
-        RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
-    }
-
-    void RoundGoalHit()
-    {
-        //Singleton.Instance.playerStats.AddCoins(coinsPerRoundGoal);
-        RoundGoalOverHitEvent?.Invoke(roundScoreOverMultRounded);
-    }
-
-    public Ball GetRandomActiveBall()
-    {
-        if (activeBalls.Count == 0)
-        {
-            return null;
-        }
-        int rand = Random.Range(0, activeBalls.Count);
-        if (activeBalls[rand] != null)
-        {
-            return activeBalls[rand];
-        }
-        else
-        {
-            return null;
-        }
-    }
-    
-    public Cabbage GetRandomActiveCabbage()
-    {
-        if (activeCabbages.Count == 0)
-        {
-            return null;
-        }
-        int rand = Random.Range(0, activeCabbages.Count);
-        if (activeCabbages[rand] != null)
-        {
-            return activeCabbages[rand];
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public void StopTry()
-    {
-        stopTry = true;
-    }
-    
-    void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
-    {
-        for(int i = 0; i < bonkableSlots.Count; i++)
-        {
-            if (bonkableSlots[i].bonkable as Object == cmp.oldCabbageA as Object || bonkableSlots[i].bonkable as Object == cmp.oldCabbageB as Object)
-            {
-                bonkableSlots[i].bonkable = null;
-            }
-        }
-    }
     
     public class AimingState : State
     {
@@ -710,6 +743,62 @@ public class GameStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
             
+            ExitState();
+        }
+    }
+
+    public class ChaosCabbageCollectState : State
+    {
+        public override void EnterState()
+        {
+            EnteringScoringAction?.Invoke();
+            gameStateMachine.StartCoroutine(ChaosCabbageGetRoutine());
+        }
+
+        public override void UpdateState()
+        {
+            
+        }
+
+        public override void ExitState()
+        {
+            Physics2D.gravity = new Vector2(0f,-9.81f);
+            ExitingScoringAction?.Invoke();
+            Singleton.Instance.runManager.GoToMap();
+        }
+
+        IEnumerator ChaosCabbageGetRoutine()
+        {
+            gameStateMachine.KillAllBalls();
+            List<Cabbage> cabbages = gameStateMachine.activeCabbages;
+            
+            for (int i = 0; i < cabbages.Count; i++)
+            {
+                if (!cabbages[i].gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+                
+                cabbages[i].PlayPopVFX();
+                cabbages[i].PlayScoringSFX();
+                
+                Color col = Color.white;
+                Singleton.Instance.floaterManager.SpawnFloater(
+                    cabbages[i].scoreFloater,
+                    Helpers.FormatWithSuffix(cabbages[i].points),
+                    cabbages[i].transform.position,
+                    col,
+                    cabbages[i].transform.localScale.x);
+                //cabbages[i].gameObject.SetActive(false);
+                cabbages[i].Harvest();
+                yield return new WaitForSeconds(0.05f);
+            }
+            
+            Task t = new Task(Singleton.Instance.chaosManager.CollectChaosCabbageTask(gameStateMachine.chaosCabbageToAward));
+            while (t.Running)
+            {
+                yield return null;
+            }
             ExitState();
         }
     }

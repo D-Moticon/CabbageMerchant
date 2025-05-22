@@ -64,7 +64,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8144390680285276046}
@@ -107,10 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   stoppingDistance: 0.1
-  upSprite: {fileID: 486694070, guid: 85d0895b7288b3c48a1141b2446f4c9b, type: 3}
-  downSprite: {fileID: 1043884124, guid: 85d0895b7288b3c48a1141b2446f4c9b, type: 3}
-  leftSprite: {fileID: 256152194, guid: 85d0895b7288b3c48a1141b2446f4c9b, type: 3}
-  rightSprite: {fileID: -1328484173, guid: 85d0895b7288b3c48a1141b2446f4c9b, type: 3}
+  isPlayer: 0
 --- !u!58 &6540543812492450910
 CircleCollider2D:
   m_ObjectHideFlags: 0

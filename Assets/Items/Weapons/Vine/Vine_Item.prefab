@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5740742603089324719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5877368012204142660}
+  - component: {fileID: 6026109753955848301}
+  m_Layer: 0
+  m_Name: Vine_Item
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5877368012204142660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740742603089324719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.40175, y: -0.34814, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6026109753955848301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740742603089324719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Vine
+  itemDescription: 
+  icon: {fileID: 21300000, guid: a7cb3d7c343882d43b29270f9b61a4c8, type: 3}
+  itemType: 2
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 0
+  effects:
+  - rid: 4405298251448451473
+  holofoilEffects:
+  - rid: 4405298251448451526
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 4405298251448451474
+  triggerChance: 1
+  hasCooldown: 1
+  limitPerShot: 0
+  cooldownDuration: 10
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 1
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 6026109753955848301, guid: d3dc5588c3d7b9b4da69ed01f44a99e8, type: 3}
+  requiredPet: {fileID: 0}
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298251448451473
+      type: {class: Weapon_Vine_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        vinePooledObject: {fileID: 11400000, guid: 4ab0a359b2b89344a92c084fe21cbd66, type: 2}
+        vineDrawingDuration: 1
+        vineDuration: 3
+        vineBallBonkValueAdd: 0.2
+        makeRainbow: 0
+    - rid: 4405298251448451474
+      type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 4405298251448451526
+      type: {class: Weapon_Vine_ItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        vinePooledObject: {fileID: 11400000, guid: 4ab0a359b2b89344a92c084fe21cbd66, type: 2}
+        vineDrawingDuration: 1
+        vineDuration: 3
+        vineBallBonkValueAdd: 0.4
+        makeRainbow: 1

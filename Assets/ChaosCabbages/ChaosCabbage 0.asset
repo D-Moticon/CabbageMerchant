@@ -17,3 +17,4 @@ MonoBehaviour:
   color: {r: 1, g: 0.8741453, b: 0, a: 1}
   petDef: {fileID: 11400000, guid: 81d07125e8e07eb48af1c40390c7d798, type: 2}
   item: {fileID: 2759414844551155604, guid: 66edd183422825b4990fcd9a3cb20766, type: 3}
+  cabbageGetDialogue: {fileID: 11400000, guid: 8b2e2161fe3c0394492ccaa57e790b72, type: 2}

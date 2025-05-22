@@ -27,7 +27,6 @@ public class AwardChaosCabbage : MonoBehaviour
 
         if (cabbage.points <= 0.001)
         {
-            Singleton.Instance.chaosManager.CollectChaosCabbageFromDef(chaosCabbage);
             destroySFX.Play();
             if (destroyVFX != null)
             {
@@ -36,7 +35,7 @@ public class AwardChaosCabbage : MonoBehaviour
             cabbage.Remove();
             if (GameSingleton.Instance != null)
             {
-                GameSingleton.Instance.gameStateMachine.ForceEndRound();
+                GameSingleton.Instance.gameStateMachine.CollectChaosCabbage(chaosCabbage);
             }
         }
     }

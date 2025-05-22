@@ -15,6 +15,7 @@ public class Ball : MonoBehaviour
     public Vector2Int bonkValueRangeForMat = new Vector2Int(1, 10);
     public Vector2 bonkValueMatPropRange = new Vector2(0f, 1f);
     public SFXInfo bonkValueUpSFX;
+    public Color bonkValueUpFloaterColor = Color.green;
     public PooledObjectData bonkValueUpVFX;
     public FloaterReference bonkValueUpFloater;
     public PooledObjectData pooledObjectRef;
@@ -150,9 +151,9 @@ public class Ball : MonoBehaviour
         SetBonkValueMatProp();
         bonkValueUpSFX.Play();
         bonkValueUpVFX.Spawn(this.transform.position);
-        if (bonkValueAdd > 0.1f)
+        if (bonkValueAdd > 0.09f)
         {
-            bonkValueUpFloater.Spawn("Ball Upgraded!", this.transform.position, Color.white);
+            bonkValueUpFloater.Spawn($"+{bonkValueAdd:F1}", this.transform.position, bonkValueUpFloaterColor, 0.75f);
         }
     }
 

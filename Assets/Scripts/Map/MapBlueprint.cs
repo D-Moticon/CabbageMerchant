@@ -14,8 +14,6 @@ public class MapBlueprint : ScriptableObject
     [System.Serializable]
     public class MapLayer
     {
-        [Tooltip("Legacy list of points. Used only for initial data import.")]
-        public List<MapPoint> possiblePoints;
         [Tooltip("Weighted list of points used at runtime.")]
         public List<MapPointInfo> possiblePointInfos;
         public bool forceAll = false;
@@ -47,13 +45,13 @@ public class MapBlueprint : ScriptableObject
 
             layer.possiblePointInfos.Clear();
 
-            if (layer.possiblePoints != null)
+            /*if (layer.possiblePoints != null)
             {
                 foreach (var mp in layer.possiblePoints)
                 {
                     layer.possiblePointInfos.Add(new MapPointInfo { mapPoint = mp, weight = 1f });
                 }
-            }
+            }*/
         }
 
 #if UNITY_EDITOR

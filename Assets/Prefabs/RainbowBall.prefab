@@ -5028,8 +5028,9 @@ MonoBehaviour:
         Data4: -1835527944
       Path: event:/BallUpgrade
     vol: 0.4
+  bonkValueUpFloaterColor: {r: 0, g: 1, b: 0, a: 1}
   bonkValueUpVFX: {fileID: 11400000, guid: 42e8069a7f5d6b84aaf7f4fc29b0f8ca, type: 2}
-  bonkValueUpFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
+  bonkValueUpFloater: {fileID: 11400000, guid: 184b250b48c41a24391b8f5f623bd8b1, type: 2}
   pooledObjectRef: {fileID: 11400000, guid: 331c3846e820e1f418e6649830f6f63f, type: 2}
   wallBonkSFX:
     sfx:

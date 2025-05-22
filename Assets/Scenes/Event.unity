@@ -221,6 +221,11 @@ MonoBehaviour:
     - dialogue: {fileID: 11400000, guid: 27580845006ada246b54aa9265d0c14e, type: 2}
       isEnabled: 1
       solo: 0
+  - biome: {fileID: 11400000, guid: 473343f0daf57024e852f144fa0e1d6e, type: 2}
+    dialoguesToChooseFrom:
+    - dialogue: {fileID: 11400000, guid: d9dccd53bee820b4bbd1aa6d6842957b, type: 2}
+      isEnabled: 1
+      solo: 0
   ignoreBiomeForTesting: 0
 --- !u!4 &1277117104
 Transform:

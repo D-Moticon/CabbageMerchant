@@ -48,6 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floaterText: {fileID: 8515812006502112469}
   feedbackPlayer: {fileID: 7803617124713837136}
+  spriteRenderer: {fileID: 0}
+  normalMaterial: {fileID: 0}
+  holofoilMaterial: {fileID: 0}
 --- !u!1 &4095406733558231935
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,7 +684,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8515812006502112469
 MonoBehaviour:

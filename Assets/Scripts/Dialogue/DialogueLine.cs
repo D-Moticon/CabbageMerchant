@@ -14,6 +14,7 @@ public class DialogueLine : DialogueTask
     [FoldoutGroup("Extras")] public float extraWaitTime = 0f;
     [FoldoutGroup("Extras")] public bool centerText = false;
     [FoldoutGroup("Extras")] public bool playSFX = true;
+    [FoldoutGroup("Extras")] public Sprite overrideSprite;
 
     public override IEnumerator RunTask(DialogueContext dc)
     {
@@ -26,9 +27,13 @@ public class DialogueLine : DialogueTask
         {
             dc.dialogueBox.dialogueTextAnimator.TMProComponent.alignment = TextAlignmentOptions.TopLeft;
         }
-        
-        
-        if (dialogueCharacter != null)
+
+        if (overrideSprite != null)
+        {
+            dc.dialogueBox.characterImage.enabled = true;
+            dc.dialogueBox.SetCharacterImage(overrideSprite);
+        }
+        else if (dialogueCharacter != null)
         {
             dc.dialogueBox.characterImage.enabled = true;
             dc.dialogueBox.SetCharacterImage(dialogueCharacter.sprite);
@@ -63,6 +68,7 @@ public class DialogueLine : DialogueTask
         if (dialogueCharacter != null && playSFX)
         {
             dc.dialogueBox.characterTalkPlayer.PlayFeedbacks();
+            
             if (dialogueLine.Length < 20)
             {
                 dialogueCharacter.speakingSFX_Short.Play();
@@ -77,6 +83,11 @@ public class DialogueLine : DialogueTask
             {
                 dialogueCharacter.speakingSFX_Long.Play();
             }
+        }
+        
+        else if (overrideSprite != null && playSFX)
+        {
+            dc.dialogueBox.characterTalkPlayer.PlayFeedbacks();
         }
         
         if (waitForSkipInput)

@@ -771,11 +771,11 @@ MonoBehaviour:
   destroySFX:
     sfx:
       Guid:
-        Data1: 574424390
-        Data2: 1248014479
-        Data3: 1563707037
-        Data4: 1839914815
-      Path: event:/ChaosCabbageGet
+        Data1: -1476104036
+        Data2: 1211650560
+        Data3: -234332282
+        Data4: -1194282694
+      Path: event:/CabbagePop
     vol: 0.5
 --- !u!1 &6990387290127211447
 GameObject:

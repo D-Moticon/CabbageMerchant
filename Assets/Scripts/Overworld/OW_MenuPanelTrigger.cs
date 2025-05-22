@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class OW_PetShopTrigger : MonoBehaviour
+public class OW_MenuPanelTrigger : MonoBehaviour
 {
     public string menuPanelName;
 
@@ -12,6 +12,13 @@ public class OW_PetShopTrigger : MonoBehaviour
         {
             return;
         }
+
+        if (!owc.isPlayer)
+        {
+            return;
+        }
+        
+        owc.ForceStop();
         Singleton.Instance.menuManager.ShowPanel(menuPanelName);
     }
 }

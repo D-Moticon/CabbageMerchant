@@ -30,6 +30,8 @@ public class Singleton : MonoBehaviour
     public OverworldSceneChanger overworldSceneChanger;
     public TemporaryBonusManager temporaryBonusManager;
     public ChaosManager chaosManager;
+    public SpecialRuleManager specialRuleManager;
+    public SkinManager skinManager;
     
     private void OnEnable()
     {
@@ -47,6 +49,16 @@ public class Singleton : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            
+        }
+        
+        if (buildManager.buildMode == BuildManager.BuildMode.release)
+        {
+            return;
+        }
+        
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Break();

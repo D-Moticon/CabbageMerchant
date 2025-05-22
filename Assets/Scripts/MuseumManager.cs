@@ -57,11 +57,8 @@ public class MuseumManager : MonoBehaviour
 
         foreach (var info in petStatueInfos)
         {
-            // Determine pet ID (assuming PetDefinition has a unique identifier)
-            string petID = info.petDefinition.dataName;
-
             // Get the max difficulty beaten for this pet
-            int maxDiff = save.GetPetMaxDifficulty(petID);
+            int maxDiff = save.GetPetMaxDifficulty(info.petDefinition);
 
             // Unlock statue if beaten at least on easiest difficulty (> 0)
             bool unlocked = maxDiff > 0;
@@ -81,7 +78,7 @@ public class MuseumManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"No material found for pet '{petID}' at difficulty {maxDiff}.");
+                    Debug.LogWarning($"No material found for pet '{info.petDefinition.dataName}' at difficulty {maxDiff}.");
                 }
             }
         }

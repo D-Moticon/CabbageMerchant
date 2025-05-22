@@ -14,19 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   metacurrencyLayerPeriod: 4
   mapLayers:
-  - possiblePoints: []
-    possiblePointInfos:
-    - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+  - possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 7ca0a503f4fa96f4c80ee653ce338df7, type: 2}
       weight: 1
-    - mapPoint: {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
-      weight: 1
+      requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
-  - possiblePoints: []
-    possiblePointInfos:
-    - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
-      weight: 1
-    - mapPoint: {fileID: 11400000, guid: 0e7478b04d155e64c85b080aa854798d, type: 2}
-      weight: 1
-    forceAll: 1
-    newBiome: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

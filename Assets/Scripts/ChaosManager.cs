@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 
 public class ChaosManager : MonoBehaviour
 {
     public ChaosCabbageCollection chaosCabbageCollection;
     public List<ChaosCabbageSO> ownedChaosCabbages;
-    private List<ChaosCabbageSO> equippedChaosCabbages = new List<ChaosCabbageSO>();
+    public List<ChaosCabbageSO> equippedChaosCabbages = new List<ChaosCabbageSO>();
 
+    public Dialogue chaosCabbageCollectedInstructions;
+    
     public class ChaosCabbageGetParams
     {
         public ChaosCabbageSO ccso;
@@ -34,13 +37,27 @@ public class ChaosManager : MonoBehaviour
         LoadOwnedCCsFromSave();
     }
 
-    public void CollectChaosCabbageFromDef(ChaosCabbageSO ccso)
+    private void Update()
     {
-        CollectChaosCabbage(ccso);
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            StartCoroutine(CollectChaosCabbageTask(chaosCabbageCollection.chaosCabbages[0]));
+        }
     }
 
     public ChaosCabbageSO GetChaosCabbageFromPetDef(PetDefinition pd)
     {
+        if (pd == null)
+        {
+            for(int i = 0; i < chaosCabbageCollection.chaosCabbages.Count; i++)
+            {
+                if (chaosCabbageCollection.chaosCabbages[i].petDef == null)
+                {
+                    return chaosCabbageCollection.chaosCabbages[i];
+                }
+            } 
+        }
+        
         for(int i = 0; i < chaosCabbageCollection.chaosCabbages.Count; i++)
         {
             if (chaosCabbageCollection.chaosCabbages[i].petDef == pd)
@@ -52,7 +69,28 @@ public class ChaosManager : MonoBehaviour
         return null;
     }
 
-    void CollectChaosCabbage(ChaosCabbageSO ccso)
+    public IEnumerator CollectChaosCabbageTask(ChaosCabbageSO ccso)
+    {
+        AddChaosCabbageToSaveFile(ccso);
+
+        Dialogue d = ccso.cabbageGetDialogue;
+
+        yield return new WaitForSeconds(3f);
+        
+        Task dialogueTask = new Task(Singleton.Instance.dialogueManager.DialogueTaskRoutine(d));
+        while (dialogueTask.Running)
+        {
+            yield return null;
+        }
+        
+        Task instructionsTask = new Task(Singleton.Instance.dialogueManager.DialogueTaskRoutine(chaosCabbageCollectedInstructions));
+        while (instructionsTask.Running)
+        {
+            yield return null;
+        }
+    }
+
+    public void AddChaosCabbageToSaveFile(ChaosCabbageSO ccso)
     {
         ChaosCabbageGetParams ccgp = new ChaosCabbageGetParams();
         ccgp.ccso = ccso;
@@ -90,7 +128,6 @@ public class ChaosManager : MonoBehaviour
     {
         foreach (var cc in equippedChaosCabbages)
         {
-            print(cc.displayName);
             Singleton.Instance.itemManager.AddPerkFromPrefab(cc.item);
         }
         
@@ -133,6 +170,9 @@ public class ChaosManager : MonoBehaviour
             equippedChaosCabbages.Remove(ccso);
         }
     }
-    
-    
+
+    public List<ChaosCabbageSO> GetEquippedChaosCabbages()
+    {
+        return equippedChaosCabbages;
+    }
 }
