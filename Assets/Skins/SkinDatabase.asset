@@ -18,9 +18,9 @@ MonoBehaviour:
   - skin: {fileID: 11400000, guid: b164640c7e836be4a84d1170fe8c7d0d, type: 2}
   - skin: {fileID: 11400000, guid: 438ce60586ce51a4a9bf6edc1074ef88, type: 2}
   - skin: {fileID: 11400000, guid: 239705fe8455a5e44a84bee9bb03020d, type: 2}
+  - skin: {fileID: 11400000, guid: 13446e36c2602a84fa33844e5ce981a4, type: 2}
   - skin: {fileID: 11400000, guid: d7dc295f6fc7f4b4da14ef47d4ce61b8, type: 2}
   - skin: {fileID: 11400000, guid: a217915230ffbca40ac38eba2fb8564c, type: 2}
-  - skin: {fileID: 11400000, guid: 13446e36c2602a84fa33844e5ce981a4, type: 2}
   - skin: {fileID: 11400000, guid: 4339721fc0702ff4697ecb5bf9cf7342, type: 2}
   - skin: {fileID: 11400000, guid: 877997438d1cba343b8d635ecaf60eb3, type: 2}
   - skin: {fileID: 11400000, guid: 14d33bfb32f61b6478979cb19bd8e907, type: 2}

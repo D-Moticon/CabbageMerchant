@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Chasms
-  itemDescription: Walls move further apart at the start of the round
+  itemDescription: Walls move further apart and become angled at the start of the
+    round
   icon: {fileID: 21300000, guid: b450f8d374ffd094e82988868c386d7a, type: 3}
   itemType: 1
   customMaterial: {fileID: 0}
@@ -91,7 +92,8 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        wallMoveDistance: -1
+        wallMoveDistanceRange: {x: -0.5, y: -1}
+        wallRotationRange: {x: -15, y: 15}
         moveDuration: 1
     - rid: 4405298169201819754
       type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}

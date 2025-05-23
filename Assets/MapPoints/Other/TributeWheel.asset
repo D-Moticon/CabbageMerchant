@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c9ae5648f09964cbf72d0cef60df35, type: 3}
+  m_Name: TributeWheel
+  m_EditorClassIdentifier: 
+  sceneName: Event
+  displayName: Date with Fate
+  description: A <chaos>Chaos Cabbage</chaos> has caused this encounter.
+  mapIcon: {fileID: 21300000, guid: 2c629ceb2749c1b42b73add5b4f9fc87, type: 3}
+  biome: {fileID: 0}
+  mapPointExtras: []
+  specialGameRules: []
+  specificDialogue: {fileID: 11400000, guid: 6a16cbf6a91f55b49a22d701a35043bb, type: 2}
+  references:
+    version: 2
+    RefIds: []

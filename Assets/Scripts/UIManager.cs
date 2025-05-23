@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     public GameObject runOnlyParent;
     public Animator coinGainedAnimator;
     public TypewriterByCharacter coinGainedTypewriter;
+    public Animator coinLostAnimator;
+    public TypewriterByCharacter coinLostTypewriter;
     public Animator chaosCabbageAnimator;
     public TypewriterByCharacter chaosCabbageTypewriter;
     public SpriteRenderer chaosCabbageSprite;
@@ -37,7 +39,9 @@ public class UIManager : MonoBehaviour
         lifeLostAnimator.gameObject.SetActive(false);
         lifeGainedAnimator.gameObject.SetActive(false);
         coinGainedAnimator.gameObject.SetActive(false);
+        coinLostAnimator.gameObject.SetActive(false);
         chaosCabbageAnimator.gameObject.SetActive(false);
+        metacurrencyGainedAnimator.gameObject.SetActive(false);
         
         GameStateMachine.BallsRemainingUpdatedEvent += UpdateBallsIndicator;
         PlayerStats.CoinsUpdated += CoinsUpdatedListener;
@@ -192,9 +196,19 @@ public class UIManager : MonoBehaviour
 
     public void DisplayCoinsGainedAnimation(double coinsGained)
     {
-        coinGainedAnimator.gameObject.SetActive(true);
-        coinGainedAnimator.Play("LifeGained");
-        coinGainedTypewriter.ShowText($"<wave a=.2>+{coinsGained:F0}</wave>");
+        if (coinsGained > 0)
+        {
+            coinGainedAnimator.gameObject.SetActive(true);
+            coinGainedAnimator.Play("LifeGained");
+            coinGainedTypewriter.ShowText($"<wave a=.2>+{coinsGained:F0}</wave>");
+        }
+
+        else
+        {
+            coinLostAnimator.gameObject.SetActive(true);
+            coinLostAnimator.Play("LifeLost");
+            coinLostTypewriter.ShowText($"<wave a=.2>{coinsGained:F0}</wave>");
+        }
     }
     
     public void DisplayMetacurrencyGainedAnimation(int metacurrencyGained)

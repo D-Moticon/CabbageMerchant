@@ -13,4 +13,5 @@ public class MapPoint : ScriptableObject
     public List<MapPointExtra> mapPointExtras = new List<MapPointExtra>();
     [SerializeReference]
     public List<SpecialGameRule> specialGameRules = new List<SpecialGameRule>();
+    public Dialogue specificDialogue;
 }

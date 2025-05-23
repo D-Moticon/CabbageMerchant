@@ -118,6 +118,9 @@ public class RunManager : MonoBehaviour
                     Singleton.Instance.specialRuleManager.AddSpecialGameRule(sgr);
                 }
             }
+            
+            //Specific Dialogue
+            Singleton.Instance.dialogueManager.SetNextSpecificDialogue(mapPoint.specificDialogue);
         }
 
         // 1) Load the new scene additively.

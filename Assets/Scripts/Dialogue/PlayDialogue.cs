@@ -56,7 +56,7 @@ public class PlayDialogue : MonoBehaviour
         Dialogue specificDialogue = Singleton.Instance.dialogueManager.nextSpecificDialogue;
         if (specificDialogue != null)
         {
-            Task specT = new Task(specificDialogue.PlayDialogue(dc));
+            Task specT = new Task(PlaySpecificDialogueTask(dc));
             specificDialogue = null;
         }
         else
@@ -64,6 +64,16 @@ public class PlayDialogue : MonoBehaviour
             Task t = new Task(PlayDialogueTask(dc));
         }
         
+    }
+
+    IEnumerator PlaySpecificDialogueTask(DialogueContext dc)
+    {
+        Task dialogueTask = new Task(Singleton.Instance.dialogueManager.nextSpecificDialogue.PlayDialogue(dc));
+        
+        while (dialogueTask.Running)
+            yield return null;
+
+        Singleton.Instance.runManager.GoToMap();
     }
 
     private IEnumerator PlayDialogueTask(DialogueContext dc)

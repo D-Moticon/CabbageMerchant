@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultKabumi_Dark
   m_EditorClassIdentifier: 
   displayName: Kabumi
-  dataName: kabumiDark
+  dataName: defaultDark
   description: 
   unlockedByDefault: 1
   cost: 25

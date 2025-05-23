@@ -5,7 +5,9 @@ public class BankruptDialogueTask : DialogueTask
 {
     public override IEnumerator RunTask(DialogueContext dc)
     {
-        Singleton.Instance.playerStats.AddCoins(-Singleton.Instance.playerStats.coins);
+        int coinAmount = -(int)Singleton.Instance.playerStats.coins;
+        Singleton.Instance.playerStats.AddCoins(coinAmount);
+        Singleton.Instance.uiManager.DisplayCoinsGainedAnimation(coinAmount);
         yield return new WaitForSeconds(1f);
     }
 }

@@ -20,6 +20,9 @@ public class MapGenerator : MonoBehaviour
     public delegate void MapEvent(Map m, MapBlueprint mbp);
     public static event MapEvent MapGeneratedEvent;
 
+    public delegate void InsertLayersDelegate(List<MapInsertedLayers> insertedLayers);
+    public static InsertLayersDelegate CollectInsertedLayersEvent;
+
     /// <summary>
     /// Creates a new Map from mapBlueprint as a child of this generator,
     /// clearing any existing map. Spawns pickups between every icon connection
@@ -38,8 +41,34 @@ public class MapGenerator : MonoBehaviour
         Map newMap = Instantiate(mapPrefab, transform);
         newMap.transform.localPosition = Vector3.zero;
 
+        var finalBlueprintLayers = new List<MapBlueprint.MapLayer>();
+        var baseBlueprintLayers  = mapBlueprint.mapLayers;
+
+        List<MapInsertedLayers> insertedLayers = new List<MapInsertedLayers>();
+        CollectInsertedLayersEvent?.Invoke(insertedLayers);
+        
+        for (int i = 0; i < baseBlueprintLayers.Count; i++)
+        {
+            // always add the next “real” layer
+            finalBlueprintLayers.Add(baseBlueprintLayers[i]);
+
+            // now see if any insert-spec fires here
+            if (insertedLayers != null)
+            {
+                // layer numbers are 1-based for readability
+                int layerNumber = i + 1;
+                foreach (var insLayer in insertedLayers)
+                {
+                    if (insLayer.everyXLayer > 0 && layerNumber % insLayer.everyXLayer == 0)
+                    {
+                        finalBlueprintLayers.Add(insLayer.layer);
+                    }
+                }
+            }
+        }
+        
         // Build each layer
-        foreach (var blueprintLayer in mapBlueprint.mapLayers)
+        foreach (var blueprintLayer in finalBlueprintLayers)
         {
             // Filter infos by requirements
             var validInfos = blueprintLayer.possiblePointInfos?

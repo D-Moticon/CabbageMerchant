@@ -177,7 +177,7 @@ public class SaveManager : MonoBehaviour
     private class SaveData
     {
         public List<string> ownedPetIDs = new List<string>();
-        public List<string> ownedSkinIDs = new List<string> { "default", "default_M" };
+        public List<string> ownedSkinIDs = new List<string> { "default", "default_M", "defaultDark"};
         public List<string> ownedChaosCabbageIDs = new List<string>();
         public int metaCurrency = 0;
 
