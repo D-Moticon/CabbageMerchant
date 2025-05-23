@@ -65,6 +65,11 @@ public class OverworldCharacter : MonoBehaviour
             return;
         }
 
+        if (agent.enabled == false)
+        {
+            return;
+        }
+
         var input = Singleton.Instance.playerInputManager;
         if (input.fireDown)
         {

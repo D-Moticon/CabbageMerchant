@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 675693062711180304}
   - component: {fileID: 2759414844551155604}
   m_Layer: 0
-  m_Name: ChaosCabbage_Collection
+  m_Name: ChaosCabbage_Fate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,20 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Collection
-  itemDescription: Spawn 3 Chaos Bubbles at the start of every round.  If the round
-    is over without collecting all bubbles, lose a life.
-  icon: {fileID: 21300000, guid: b799c28f6bc50b648ac908711ae13537, type: 3}
+  itemName: Fate
+  itemDescription: 
+  icon: {fileID: 21300000, guid: a5b5d4587d9289f4b833c6fbbed958a2, type: 3}
   itemType: 1
   customMaterial: {fileID: 0}
   materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
-  - rid: 4405298251448451215
+  - rid: 4405298309054857377
   holofoilEffects: []
   holofoilEffectDescription: 
-  triggers:
-  - rid: 4405298169201819754
+  triggers: []
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
@@ -87,24 +85,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4405298169201819754
-      type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
-        itemHasTriggeredThisFrame: 0
-    - rid: 4405298251448451215
-      type: {class: SpawnPickupsItemEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4405298309054857377
+      type: {class: InsertMapLayersItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        triggerMode: 1
-        objectToSpawn: {fileID: 11400000, guid: 406e3ec84fbf9cc4792cd5d5742a28a5, type: 2}
-        numberObjects: 3
-        effectsOnCondition:
-        - rid: 4405298251448451219
-    - rid: 4405298251448451219
-      type: {class: ForceRoundFailEffect, ns: , asm: Assembly-CSharp}
-      data:
-        chance: 1
-        owningItem: {fileID: 0}
-        roundFailMessage: <color=orange>Chaos Bubbles Missed</color>
+        mapInsertedLayers:
+          layer:
+            possiblePointInfos:
+            - mapPoint: {fileID: 11400000, guid: 6644409b9a480df4dbada5e8a540c819, type: 2}
+              weight: 1
+              requirements: []
+            forceAll: 0
+            newBiome: {fileID: 0}
+          everyXLayer: 6
+        layerDescription: an envoy of fate.

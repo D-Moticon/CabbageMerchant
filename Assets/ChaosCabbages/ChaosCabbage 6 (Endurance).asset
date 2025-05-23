@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90c4ec4fcb50aea47983ebffea7f7789, type: 3}
-  m_Name: ChaosCabbage 3 (Chasms)
+  m_Name: ChaosCabbage 6 (Endurance)
   m_EditorClassIdentifier: 
-  displayName: Chasms
-  dataName: chaosCab3
-  color: {r: 0.48595762, g: 0, b: 1, a: 1}
-  petDef: {fileID: 11400000, guid: f4a4a363411785c4881772686530f533, type: 2}
-  item: {fileID: 2759414844551155604, guid: 1a08dfde6e4c0ef4cb80726d8c788c33, type: 3}
+  displayName: Endurance
+  dataName: chaosCab6
+  color: {r: 0, g: 0.66946507, b: 1, a: 1}
+  petDef: {fileID: 11400000, guid: dac7e2e455fbb794b8a7818ed384a95d, type: 2}
+  item: {fileID: 4830414276545103310, guid: 126c4d91187775941b05abfc598f2634, type: 3}
+  cabbageGetDialogue: {fileID: 0}

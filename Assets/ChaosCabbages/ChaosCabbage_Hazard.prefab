@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2852673021897157528
+--- !u!1 &8579316480915339185
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,54 +8,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 675693062711180304}
-  - component: {fileID: 2759414844551155604}
+  - component: {fileID: 8974133690386062498}
+  - component: {fileID: 6269720142999503214}
   m_Layer: 0
-  m_Name: ChaosCabbage_Chance
+  m_Name: ChaosCabbage_Hazard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &675693062711180304
+--- !u!4 &8974133690386062498
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2852673021897157528}
+  m_GameObject: {fileID: 8579316480915339185}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25196, y: -0.31137, z: 0}
+  m_LocalPosition: {x: -0.23898, y: 2.18899, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2759414844551155604
+--- !u!114 &6269720142999503214
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2852673021897157528}
+  m_GameObject: {fileID: 8579316480915339185}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Chance
+  itemName: Hazard
   itemDescription: 
-  icon: {fileID: 21300000, guid: a5b5d4587d9289f4b833c6fbbed958a2, type: 3}
+  icon: {fileID: 21300000, guid: 2cd1fa017f0abed439254dc56e497e61, type: 3}
   itemType: 1
   customMaterial: {fileID: 0}
   materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
-  - rid: 4405298309054857377
+  - rid: 4405298251448451189
   holofoilEffects: []
   holofoilEffectDescription: 
-  triggers: []
+  triggers:
+  - rid: 4405298251448451190
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
@@ -85,18 +86,15 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4405298309054857377
-      type: {class: InsertMapLayersItemEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4405298251448451189
+      type: {class: ConvertRandomCabbage, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        mapInsertedLayers:
-          layer:
-            possiblePointInfos:
-            - mapPoint: {fileID: 11400000, guid: 6644409b9a480df4dbada5e8a540c819, type: 2}
-              weight: 1
-              requirements: []
-            forceAll: 0
-            newBiome: {fileID: 0}
-          everyXLayer: 6
-        layerDescription: an envoy of fate.
+        replacementObject: {fileID: 11400000, guid: e839aea02fd7bfe4bbfdcb3cafc0d2d2, type: 2}
+        objectDescriptionString: a spiky cabbage that destroys balls
+    - rid: 4405298251448451190
+      type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

@@ -41,6 +41,38 @@ public class MoveWallsEffect : ItemEffect
     )
     {
         int count = walls.Count;
+        
+        //XXXX
+        
+        int bgCount = bgRenderers.Count;
+        var fillMeshes = new Mesh[bgCount];
+
+        for (int i = 0; i < bgCount; i++)
+        {
+            var sr = bgRenderers[i];
+            sr.enabled = false; // hide the old sprite
+
+            // make a new mesh‐object
+            var go = new GameObject($"BGFill_{i}");
+            go.transform.SetParent(sr.transform.parent, false);
+
+            // match its sorting
+            var sg = go.AddComponent<UnityEngine.Rendering.SortingGroup>();
+            sg.sortingLayerID = sr.sortingLayerID;
+            sg.sortingOrder   = sr.sortingOrder - 1;
+
+            // copy material
+            var mr = go.AddComponent<MeshRenderer>();
+            mr.sharedMaterial = sr.sharedMaterial;
+
+            // mesh filter
+            var mf = go.AddComponent<MeshFilter>();
+            var mesh = new Mesh();
+            mf.mesh = mesh;
+            fillMeshes[i] = mesh;
+        }
+        
+        //XXXX
 
         // cache originals
         var originals    = new Vector3[count];
@@ -109,6 +141,40 @@ public class MoveWallsEffect : ItemEffect
                     originalBgSizes[i].y
                 );
             }
+            
+            
+            //XXXX
+            
+            // find the two outer walls
+            var left  = walls.OrderBy(w => w.position.x).First();
+            var right = walls.OrderByDescending(w => w.position.x).First();
+
+            // grab their colliders so we know height
+            var colL = left .GetComponent<BoxCollider2D>();
+            var colR = right.GetComponent<BoxCollider2D>();
+
+            // four local‐space points on each wall
+            Vector2 localBL = colL.offset + new Vector2(0, -colL.size.y/2);
+            Vector2 localTL = colL.offset + new Vector2(0,  colL.size.y/2);
+            Vector2 localTR = colR.offset + new Vector2(0,  colR.size.y/2);
+            Vector2 localBR = colR.offset + new Vector2(0, -colR.size.y/2);
+
+            // transform them into world‐space
+            Vector3 bottomLeft  = left .TransformPoint(localBL);
+            Vector3 topLeft     = left .TransformPoint(localTL);
+            Vector3 topRight    = right.TransformPoint(localTR);
+            Vector3 bottomRight = right.TransformPoint(localBR);
+
+            // build a quad
+            foreach (var mesh in fillMeshes)
+            {
+                mesh.vertices  = new [] { bottomLeft, topLeft, topRight, bottomRight };
+                mesh.triangles = new [] { 0,1,2, 0,2,3 };
+                mesh.uv        = new [] { Vector2.zero, Vector2.up, Vector2.one, Vector2.right };
+                mesh.RecalculateBounds();
+            }
+            
+            //XXXX
 
             yield return null;
         }

@@ -218,6 +218,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OverworldCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 6491685368515375064, guid: 96944506874aabb4aa712b40bea020d0, type: 3}
+      propertyPath: isPlayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6880837237665249986, guid: 96944506874aabb4aa712b40bea020d0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

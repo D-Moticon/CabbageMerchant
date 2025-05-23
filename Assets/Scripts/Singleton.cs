@@ -32,6 +32,7 @@ public class Singleton : MonoBehaviour
     public ChaosManager chaosManager;
     public SpecialRuleManager specialRuleManager;
     public SkinManager skinManager;
+    public SurvivalManager survivalManager;
     
     private void OnEnable()
     {

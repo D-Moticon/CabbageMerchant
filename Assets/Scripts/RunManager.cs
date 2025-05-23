@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
+using UnityEngine.AI;
 
 public class RunManager : MonoBehaviour
 {
@@ -56,11 +57,13 @@ public class RunManager : MonoBehaviour
         public double totalBonkValue;
         public PetDefinition petDefinition;
         public Difficulty difficulty;
+        public string customEndString;
     }
     
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
+    public static event RunStartDelegate RunStartEventLate;
     
     public delegate void RunEndDelegate(RunCompleteParams rep);
     public static event RunEndDelegate RunFinishedEvent;
@@ -137,6 +140,12 @@ public class RunManager : MonoBehaviour
         }
 
         GameObject newSceneParent = FindSceneParent(newScene);
+
+        NavMeshAgent[] navMeshAgents = newSceneParent.GetComponentsInChildren<NavMeshAgent>();
+        foreach (var nma in navMeshAgents)
+        {
+            nma.enabled = false;
+        }
         
         if (newSceneName == mapSceneName && newSceneParent != null)
         {
@@ -233,6 +242,12 @@ public class RunManager : MonoBehaviour
         currentSceneName   = newSceneName;
         currentSceneParent = newSceneParent;
         SceneManager.SetActiveScene(newScene);
+        
+        //NavMeshAgents
+        foreach (var nma in navMeshAgents)
+        {
+            nma.enabled = true;
+        }
         
         //Map Point Extras
         if (mapPoint != null)
@@ -447,6 +462,7 @@ public class RunManager : MonoBehaviour
         
         ChangeBiome(startingBiome);
         GoToSceneExclusive(startScene);
+        RunStartEventLate?.Invoke(rsp);
     }
 
     public void GoToSceneExclusive(string sceneName)
@@ -510,9 +526,10 @@ public class RunManager : MonoBehaviour
         SceneManager.SetActiveScene(sc);
     }
     
-    public void FinishRun(bool success)
+    public void FinishRun(bool success, string customEndString = "")
     {
         //This displays the run complete screen
+        GoToMap();
         Singleton.Instance.menuManager.ShowPanel("RunEnd");
         RunCompleteParams rcp = new RunCompleteParams();
         rcp.success = success;
@@ -520,6 +537,7 @@ public class RunManager : MonoBehaviour
         rcp.runTime = Singleton.Instance.playerStats.totalRunTime;
         rcp.petDefinition = Singleton.Instance.petManager.currentPet;
         rcp.difficulty = Singleton.Instance.playerStats.currentDifficulty;
+        rcp.customEndString = customEndString;
         
         RunFinishedEvent?.Invoke(rcp);
     }

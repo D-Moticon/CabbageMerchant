@@ -35,14 +35,22 @@ public class RunEndPanel : MenuPanel
 
     void RunFinishedListener(RunManager.RunCompleteParams rep)
     {
-        if (rep.success)
+        if (!string.IsNullOrEmpty(rep.customEndString))
         {
-            runResultTypewriter.ShowText(runSuccessfulText);
+            runResultTypewriter.ShowText(rep.customEndString);
         }
 
         else
         {
-            runResultTypewriter.ShowText(runFailedText);
+            if (rep.success)
+            {
+                runResultTypewriter.ShowText(runSuccessfulText);
+            }
+
+            else
+            {
+                runResultTypewriter.ShowText(runFailedText);
+            }
         }
         
         ShowRunStats();

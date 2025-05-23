@@ -46,6 +46,7 @@ public class Item : MonoBehaviour, IHoverable
     public SFXInfo triggerSFX;
     public Item upgradedItem;
     public PetDefinition requiredPet;
+    public bool survivalModeOnly = false;
     [HideInInspector] public bool isHolofoil = false;
 
     public delegate void ItemDelegate(Item item);

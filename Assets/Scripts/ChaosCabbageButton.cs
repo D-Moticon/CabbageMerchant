@@ -24,6 +24,7 @@ public class ChaosCabbageButton : MonoBehaviour, IHoverable
     public Image image;
     public SFXInfo equipSFX;
     public PooledObjectData equipVFX;
+    public SFXInfo unequipSFX;
     public MMF_Player equipFeel;
 
     public enum State
@@ -107,6 +108,8 @@ public class ChaosCabbageButton : MonoBehaviour, IHoverable
         ApplyUnequippedMaterial();
         state = State.unequipped;
 
+        unequipSFX.Play();
+        
         Singleton.Instance.chaosManager.UnequipChaosCabbage(chaosCabbage);
     }
 
@@ -147,6 +150,14 @@ public class ChaosCabbageButton : MonoBehaviour, IHoverable
             return chaosCabbage.item.GetDescriptionText();
         }
 
+        else
+        {
+            if (chaosCabbage.petDef != null)
+            {
+                return ($"<color=red>Unlock by completing a run on Medium or Hard with {chaosCabbage.petDef.displayName}</color>");
+            }
+        }
+        
         return "";
     }
 

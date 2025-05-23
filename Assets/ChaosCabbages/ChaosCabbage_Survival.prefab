@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 675693062711180304}
   - component: {fileID: 2759414844551155604}
   m_Layer: 0
-  m_Name: ChaosCabbage_Concealment
+  m_Name: ChaosCabbage_Survival
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,21 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Concealment
-  itemDescription: All shop items are unknown until bought.  All shop items cost
-    5 coins.
-  icon: {fileID: 21300000, guid: 3f525046ef0655b4b96408126ffd4b4f, type: 3}
+  itemName: Survival
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 0f734641a5f03bd4fa988f9fc7c4a1e3, type: 3}
   itemType: 1
   customMaterial: {fileID: 0}
   materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
-  - rid: 4405298169201819732
-  - rid: 4405298169201819740
+  - rid: 4405298309054857430
   holofoilEffects: []
   holofoilEffectDescription: 
   triggers:
-  - rid: 4405298169201819736
+  - rid: 4405298309054857429
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
@@ -88,20 +86,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4405298169201819732
-      type: {class: MakeItemMysteriousEffect, ns: , asm: Assembly-CSharp}
-      data:
-        chance: 1
-        owningItem: {fileID: 0}
-    - rid: 4405298169201819736
-      type: {class: ItemSpawnedInShopTrigger, ns: , asm: Assembly-CSharp}
+    - rid: 4405298309054857429
+      type: {class: RunStartedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0
-    - rid: 4405298169201819740
-      type: {class: SetItemNormalizedPriceEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4405298309054857430
+      type: {class: SurvivalModeItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        normalizedPrice: 0.5
-        dontEffectFreeItems: 1

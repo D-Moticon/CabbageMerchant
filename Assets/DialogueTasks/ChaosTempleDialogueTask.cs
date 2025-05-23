@@ -28,6 +28,7 @@ public class ChaosTempleDialogueTask : DialogueTask
         IEnumerator difficultyRoutine = null;
 
         int difficulty = Singleton.Instance.playerStats.currentDifficulty.difficultyLevel;
+        PetDefinition currentPet = Singleton.Instance.petManager.currentPet;
         
         switch (difficulty)
         {
@@ -48,38 +49,38 @@ public class ChaosTempleDialogueTask : DialogueTask
         Task difficultyTask = new Task(difficultyRoutine);
         while (difficultyTask.Running) yield return null;
         
-        if (difficulty == 0)
+        if (difficulty <= 1)
         {
             Task fareWellTask = new Task(farewellLine.RunTask(dc));
             while (fareWellTask.Running) yield return null;
             yield break;
         }
 
+        
+        else if (Singleton.Instance.chaosManager.GetChaosCabbageFromPetDef(currentPet) == null)
+        {
+            Task noPetToChooseTask = new Task(noPetToChooseLine.RunTask(dc));
+            while (noPetToChooseTask.Running) yield return null;
+            Task fareWellTask = new Task(farewellLine.RunTask(dc));
+            while (fareWellTask.Running) yield return null;
+            yield break;
+        }
+ 
         else
         {
             Task worthyOfCCTask = new Task(worthyOfChaosCabbageTask.RunTask(dc));
             while (worthyOfCCTask.Running) yield return null;
+            
+            DialogueLine petChoosesLine = new DialogueLine();
+            petChoosesLine.dialogueLine = $"{currentPet.displayName} is playing with one of the Chaos Cabbages!";
+            petChoosesLine.overrideSprite = currentPet.itemPrefab.icon;
+            petChoosesLine.playSFX = true;
 
-            PetDefinition currentPet = Singleton.Instance.petManager.currentPet;
-            if (currentPet != null)
-            {
-                DialogueLine petChoosesLine = new DialogueLine();
-                petChoosesLine.dialogueLine = $"{currentPet.displayName} is playing with one of the Chaos Cabbages!";
-                petChoosesLine.overrideSprite = currentPet.itemPrefab.icon;
-                petChoosesLine.playSFX = true;
+            Task petChoosesTask = new Task(petChoosesLine.RunTask(dc));
+            while (petChoosesTask.Running) yield return null;
 
-                Task petChoosesTask = new Task(petChoosesLine.RunTask(dc));
-                while (petChoosesTask.Running) yield return null;
-
-                Task petChoseTask = new Task(petChoseLine.RunTask(dc));
-                while (petChoseTask.Running) yield return null;
-            }
-
-            else
-            {
-                Task noPetToChooseTask = new Task(noPetToChooseLine.RunTask(dc));
-                while (noPetToChooseTask.Running) yield return null;
-            }
+            Task petChoseTask = new Task(petChoseLine.RunTask(dc));
+            while (petChoseTask.Running) yield return null;
 
             ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
             

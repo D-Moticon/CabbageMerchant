@@ -44,8 +44,8 @@ MonoBehaviour:
           - rid: 4405298251448451407
         noPetToChooseLine:
           dialogueCharacter: {fileID: 11400000, guid: 6d0f41d5cb505664c916bccdd959005a, type: 2}
-          dialogueLine: Without a companion to help you decide, I suppose this will
-            do.
+          dialogueLine: However, without a companion, the choice would be too difficult...
+            Yes, come back with a companion of some sort.
           hideCharacterName: 0
           waitForSkipInput: 1
           extraWaitTime: 0

@@ -30,6 +30,7 @@ public class SkinManager : MonoBehaviour
     {
         currentSkin = skin;
         SkinEquippedEvent?.Invoke(skin);
+        Singleton.Instance.saveManager.SetLastEquippedSkinID(skin.dataName);
     }
 
     public void PurchaseSkin(Skin skin)
@@ -58,7 +59,9 @@ public class SkinManager : MonoBehaviour
             if (skinInfo != null)
                 ownedSkins.Add(skinInfo.skin);
         }
-        // Re-apply the current pet state
-        EquipSkin(currentSkin);
+        
+        string lastID = save.GetLastEquippedSkinID();
+        var toEquip = ownedSkins.FirstOrDefault(s => s.dataName == lastID) ?? defaultSkin;
+        EquipSkin(toEquip);
     }
 }

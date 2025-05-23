@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90c4ec4fcb50aea47983ebffea7f7789, type: 3}
-  m_Name: ChaosCabbage 1 (Collection)
+  m_Name: ChaosCabbage 4 (Hazard)
   m_EditorClassIdentifier: 
-  displayName: Collection
-  dataName: chaosCab1
-  color: {r: 1, g: 0.32455224, b: 0, a: 1}
-  petDef: {fileID: 11400000, guid: df204f4cefcd34c4bb8d43ec55aa3a75, type: 2}
-  item: {fileID: 2759414844551155604, guid: 847220544df03a644ba69b6af5168de3, type: 3}
+  displayName: Hazard
+  dataName: chaosCab4
+  color: {r: 1, g: 0.06119465, b: 0, a: 1}
+  petDef: {fileID: 11400000, guid: 9ad6e6b3df25b95469aa982eccfe5cb6, type: 2}
+  item: {fileID: 6269720142999503214, guid: 9adb7005522ba3d4da14ff42a86b4e92, type: 3}
+  cabbageGetDialogue: {fileID: 0}

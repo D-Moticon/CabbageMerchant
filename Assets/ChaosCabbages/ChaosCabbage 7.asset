@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChaosCabbage 7
   m_EditorClassIdentifier: 
   displayName: Chaos Cabbage of the Cosmos
-  dataName: chaosCab6
+  dataName: chaosCab7
   color: {r: 0, g: 1, b: 0.12997723, a: 1}
   petDef: {fileID: 11400000, guid: ef98f2dbecc0f0548bdb2746c93d93c4, type: 2}
   item: {fileID: 0}

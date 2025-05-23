@@ -80,6 +80,7 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
@@ -92,7 +93,7 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        wallMoveDistanceRange: {x: -0.5, y: -1}
+        wallMoveDistanceRange: {x: -0.3, y: -0.7}
         wallRotationRange: {x: -15, y: 15}
         moveDuration: 1
     - rid: 4405298169201819754

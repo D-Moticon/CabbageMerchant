@@ -140,6 +140,13 @@ public class SaveManager : MonoBehaviour
         var records = data.runRecords.Where(r => r.petID == petDef.dataName);
         return records.Any() ? records.Max(r => r.difficultyLevel) : 0;
     }
+    
+    public string GetLastEquippedSkinID() => data.lastEquippedSkinID;
+    public void SetLastEquippedSkinID(string skinID)
+    {
+        data.lastEquippedSkinID = skinID;
+        SaveToDisk();
+    }
 
     //=== Story Flags ===
     public bool HasSeenOverworldIntro()   => data.seenOverworldIntro;
@@ -178,6 +185,7 @@ public class SaveManager : MonoBehaviour
     {
         public List<string> ownedPetIDs = new List<string>();
         public List<string> ownedSkinIDs = new List<string> { "default", "default_M", "defaultDark"};
+        public string lastEquippedSkinID = "";
         public List<string> ownedChaosCabbageIDs = new List<string>();
         public int metaCurrency = 0;
 

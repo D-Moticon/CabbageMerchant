@@ -29,6 +29,7 @@ public class ItemCollection : ScriptableObject
         {
             if (!info.enabled) continue;
             if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) continue;
+            if (info.item.survivalModeOnly == true && !Singleton.Instance.survivalManager.survivalModeOn) continue;
             if (info.item.rarity == rarity)
                 matchingItems.Add(info.item);
         }
