@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: TributeWheelDialogue
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 4405298251448451548
+  - rid: 4405298309054857359
+  - rid: 4405298309054857361
+  - rid: 4405298251448451550
+  - rid: 4405298309054857367
+  - rid: 4405298309054857366
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298251448451548
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: a840d0bb43185124d91b78463d574067, type: 2}
+        dialogueLine: Fate has come to twist your tale.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298251448451550
+      type: {class: TributeWheelTask, ns: , asm: Assembly-CSharp}
+      data:
+        wheelSpinnerPrefab: {fileID: 8051944666810893412, guid: f923ca6df80a59741a0d9573ad002ab5, type: 3}
+        positiveSliceIndexes: 010000000300000005000000
+        weightPerCoinAdded: 0.5
+        wheelYOffset: 2
+        payVFX: {fileID: 11400000, guid: 799cb0841284ede45b1092736ac4a3a1, type: 2}
+        paySFX:
+          sfx:
+            Guid:
+              Data1: -1150991800
+              Data2: 1292723475
+              Data3: 390400699
+              Data4: -502872529
+            Path: event:/CoinKaching
+          vol: 0.5
+    - rid: 4405298309054857359
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: a840d0bb43185124d91b78463d574067, type: 2}
+        dialogueLine: But a tribute may tip the scale.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857361
+      type: {class: FadeCharacterTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 0.5
+    - rid: 4405298309054857366
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: a840d0bb43185124d91b78463d574067, type: 2}
+        dialogueLine: Until our paths cross again.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857367
+      type: {class: FadeCharacterTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 1
+        duration: 0.5

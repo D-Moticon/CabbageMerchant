@@ -13,6 +13,7 @@ public class BuildManager : MonoBehaviour
         startAtGame,
         startAtShop,
         startAtEvent,
+        startAtSpecificEvent,
         startAtRestaurant,
         startAtLibrary,
         none
@@ -32,6 +33,7 @@ public class BuildManager : MonoBehaviour
     public MapBlueprint mapBlueprint;
     public Difficulty startingDifficulty;
     public int startingReRolls = 1;
+    public Dialogue startingSpecificDialogue;
 
     public static Action FullGameStartedEvent;
     
@@ -103,6 +105,23 @@ public class BuildManager : MonoBehaviour
                 break;
             case BuildMode.startAtEvent:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.runManager.StartNewRun("Event");
+                Singleton.Instance.menuManager.HideAll();
+                PopulateStartingItems();
+                Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
+                break;
+            case BuildMode.startAtSpecificEvent:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.dialogueManager.nextSpecificDialogue = startingSpecificDialogue;
                 Singleton.Instance.runManager.StartNewRun("Event");
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();

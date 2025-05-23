@@ -6,7 +6,8 @@ using System.Collections;
 public class DialogueManager : MonoBehaviour
 {
     public DialogueBox dialogueBox;
-
+    [HideInInspector] public Dialogue nextSpecificDialogue; //Set this before changing scene to Event_Specific and this dialogue will play
+    
     private void Awake()
     {
         dialogueBox.HideDialogueBox();
@@ -46,5 +47,10 @@ public class DialogueManager : MonoBehaviour
         }*/
         dialogueBox.gameObject.SetActive(false);
         
+    }
+    
+    public void SetNextSpecificDialogue(Dialogue d)
+    {
+        nextSpecificDialogue = d;
     }
 }

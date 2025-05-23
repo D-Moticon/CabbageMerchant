@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using TMPro;
 using Random = UnityEngine.Random;
+using UnityEngine.Rendering;
 
 [Serializable]
 public class WheelSegment
 {
     [Tooltip("Label to display and return on land")] public string label;
     [Tooltip("Color for this segment's text and delimiter line")] public Color color = Color.white;
+    [Tooltip("Background fill color for this slice.")] public Color backgroundColor = Color.clear;
+    [Tooltip("Relative weight of this segment (proportional slice size)")] public float weight = 1f;
     public string textPrefix = "";
     [SerializeReference]
     public DialogueTask taskOnWin;
@@ -38,6 +40,8 @@ public class WheelSpinner : MonoBehaviour
     public List<WheelSegment> segments = new List<WheelSegment>();
 
     [Header("Visual Prefabs")]
+    [Tooltip("Material used to draw the slice backgrounds.")]
+    public Material sliceMaterial;
     [Tooltip("Prefab of a LineRenderer to draw segment delimiters")]
     public LineRenderer segmentLinePrefab;
     [Tooltip("Prefab of a TMP_Text for segment labels")]
@@ -67,8 +71,9 @@ public class WheelSpinner : MonoBehaviour
     public PooledObjectData holofoilVFX;
     public SFXInfo holofoilSFX;
 
-    // internal slice size
-    private float _sliceSize;
+    // slice angles (degrees) and cumulative
+    private float[] _sliceAngles;
+    private float[] _cumAngles;
     // track spawned visuals for cleanup
     private readonly List<GameObject> _generated = new List<GameObject>();
 
@@ -78,12 +83,40 @@ public class WheelSpinner : MonoBehaviour
         if (segments.Count < 1)
             Debug.LogWarning("WheelSpinner: No segments defined!");
 
-        _sliceSize = 360f / segments.Count;
+        CalculateSlices();
         BuildWheelVisuals();
     }
 
+    public void AddWeightToSegment(int index, float additionalWeight)
+    {
+        if (index < 0 || index >= segments.Count)
+        {
+            Debug.LogWarning($"WheelSpinner: Invalid segment index {index}");
+            return;
+        }
+        segments[index].weight += additionalWeight;
+        CalculateSlices();
+        BuildWheelVisuals();
+    }
+    
+    private void CalculateSlices()
+    {
+        float total = segments.Sum(s => s.weight);
+        int n = segments.Count;
+        _sliceAngles = new float[n];
+        _cumAngles = new float[n];
+        float acc = 0f;
+        for (int i = 0; i < n; i++)
+        {
+            float angle = (total > 0f) ? (segments[i].weight / total) * 360f : 360f / n;
+            _sliceAngles[i] = angle;
+            acc += angle;
+            _cumAngles[i] = acc;
+        }
+    }
+
     /// <summary>
-    /// Instantiates line delimiters and labels around the wheel.
+    /// Instantiates line delimiters and labels around the wheel based on weights.
     /// </summary>
     public void BuildWheelVisuals()
     {
@@ -92,10 +125,27 @@ public class WheelSpinner : MonoBehaviour
             Destroy(go);
         _generated.Clear();
 
+        float startAngle = 0f;
         for (int i = 0; i < segments.Count; i++)
         {
             var seg = segments[i];
-            float angle = i * _sliceSize;
+            float slice = _sliceAngles[i];
+            float angle = startAngle;
+
+            // --- background slice ---
+            if (sliceMaterial != null)
+            {
+                var bg = new GameObject($"SliceBG_{i}");
+                bg.transform.SetParent(wheelTransform, false);
+                var mf = bg.AddComponent<MeshFilter>();
+                var mr = bg.AddComponent<MeshRenderer>();
+                var sg = bg.AddComponent<SortingGroup>();
+                sg.sortingOrder = -8;
+                mr.material = sliceMaterial;
+                mr.material.color = seg.backgroundColor;
+                mf.mesh = CreateSectorMesh(angle, slice, wheelRadius);
+                _generated.Add(bg);
+            }
 
             // --- delimiter line ---
             if (segmentLinePrefab != null)
@@ -104,12 +154,10 @@ public class WheelSpinner : MonoBehaviour
                 lineGo.transform.localPosition = Vector3.zero;
                 var lr = lineGo.GetComponent<LineRenderer>();
                 lr.startColor = lr.endColor = lineColor;
-
                 Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.right;
                 lr.positionCount = 2;
-                lr.SetPosition(0, dir*lineInnerPointDist);
-                lr.SetPosition(1, dir * (wheelRadius-lineOuterPointDist));
-
+                lr.SetPosition(0, dir * lineInnerPointDist);
+                lr.SetPosition(1, dir * (wheelRadius - lineOuterPointDist));
                 _generated.Add(lineGo);
             }
 
@@ -117,42 +165,97 @@ public class WheelSpinner : MonoBehaviour
             if (segmentTextPrefab != null)
             {
                 var txtGo = Instantiate(segmentTextPrefab.gameObject, wheelTransform);
-                txtGo.transform.localScale = new Vector3(1f/wheelTransform.localScale.x, 1f/wheelTransform.localScale.y, 1f);
+                txtGo.transform.localScale = new Vector3(1f / wheelTransform.localScale.x,
+                    1f / wheelTransform.localScale.y, 1f);
                 var txt = txtGo.GetComponent<TMP_Text>();
                 txt.text = seg.textPrefix + seg.label;
                 txt.color = seg.color;
 
-                // position at mid‑slice radius * 0.6
-                float midAngle = angle + _sliceSize * 0.5f;
-                Vector3 dir    = Quaternion.Euler(0, 0, midAngle) * Vector3.right;
+                float midAngle = angle + slice * 0.5f;
+                Vector3 dir = Quaternion.Euler(0, 0, midAngle) * Vector3.right;
                 txtGo.transform.localPosition = dir * wheelRadius * 0.6f;
-
-                // ensure upright text
                 txtGo.transform.rotation = Helpers.Vector2ToRotation(dir);
-
                 _generated.Add(txtGo);
             }
+
+            startAngle += slice;
         }
     }
 
+    private int PickWeightedSegmentIndex()
+    {
+        float total = segments.Sum(s => s.weight);
+        float r = Random.Range(0f, total);
+        float acc = 0f;
+        for (int i = 0; i < segments.Count; i++)
+        {
+            acc += segments[i].weight;
+            if (r <= acc)
+                return i;
+        }
+        return segments.Count - 1; // fallback
+    }
+    
+    private int GetCurrentSegmentIndex()
+    {
+        // 1) Direction from wheel center to arrow tip in world space
+        Vector3 dir = (arrowTransform.position - wheelTransform.position).normalized;
+
+        // 2) Angle of that vector in world-space degrees [0…360)
+        float pointerAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        if (pointerAngle < 0f) pointerAngle += 360f;
+
+        // 3) How much the wheel itself has rotated (also [0…360))
+        float wheelAngle = wheelTransform.eulerAngles.z % 360f;
+        if (wheelAngle < 0f) wheelAngle += 360f;
+
+        // 4) Angle into the wheel’s coordinate system
+        float angleInWheel = pointerAngle - wheelAngle;
+        if (angleInWheel < 0f) angleInWheel += 360f;
+
+        // 5) Find which cumulative slice boundary it falls under
+        for (int i = 0; i < _cumAngles.Length; i++)
+        {
+            if (angleInWheel <= _cumAngles[i])
+                return i;
+        }
+        return _cumAngles.Length - 1;
+    }
+    
     /// <summary>
     /// Spin the wheel: picks a random target rotation and animates.
     /// </summary>
-
-
     public IEnumerator SpinRoutine(DialogueContext dc)
     {
-        float extra   = UnityEngine.Random.Range(minExtraTurns, maxExtraTurns) * 360f;
-        float offset  = UnityEngine.Random.Range(0f, 360f);
-        float fromZ  = wheelTransform.eulerAngles.z;
-        float toZ    = fromZ + extra + offset;
+        // 1) pick your prize by weight up front
+        int selectedIndex = PickWeightedSegmentIndex();
+
+        // 2) figure out that slice’s mid-angle (in wheel-local degrees)
+        float sliceStart = (selectedIndex == 0)
+            ? 0f
+            : _cumAngles[selectedIndex - 1];
+        float sliceAngle = _sliceAngles[selectedIndex];
+        float midAngle = sliceStart + sliceAngle * 0.5f;
+
+        // 3) compute where the arrow “points” in wheel-local space
+        //    (assumes arrowTransform is a child of wheelTransform)
+        Vector3 localArrowPos = arrowTransform.localPosition;
+        float pointerAngle = Mathf.Atan2(localArrowPos.y, localArrowPos.x) * Mathf.Rad2Deg;
+        if (pointerAngle < 0f) pointerAngle += 360f;
+
+        // 4) spin so that midAngle ends up under pointerAngle
+        float fromZ = wheelTransform.eulerAngles.z;
+        float extraRot = Random.Range(minExtraTurns, maxExtraTurns) * 360f;
+        float toZ = fromZ + extraRot + (midAngle - pointerAngle);
+
+        // play SFX
         wheelSpinSFX.Play(spinDuration);
-        
+
+        // 5) animate your spin exactly as before, just replacing `toZ`
         float elapsed = 0f;
-        float prevZ   = fromZ;
+        float prevZ = fromZ;
         float arrowPhase = 0f;
         float prevPhase01 = 0f;
-        
         while (elapsed < spinDuration)
         {
             float dt = Time.deltaTime;
@@ -160,212 +263,86 @@ public class WheelSpinner : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / spinDuration);
             float mix = ease.Evaluate(t);
             float z = Mathf.Lerp(toZ, fromZ, mix);
-
             wheelTransform.eulerAngles = new Vector3(0, 0, z);
 
+            // arrow “click” feedback
             float deltaZ = Mathf.DeltaAngle(prevZ, z);
             float wheelSpeed = deltaZ / dt;
             prevZ = z;
-
             arrowPhase += wheelSpeed * arrowSpeedMultiplier * dt;
             float phase01 = (arrowPhase % 360f) / 360f;
-
-            // play tick when wrapping from near 1 back to 0
-            if (phase01 < prevPhase01)
-            {
-                wheelClickSFX.Play();
-            }
+            if (phase01 < prevPhase01) wheelClickSFX.Play();
             prevPhase01 = phase01;
 
-            float arrowEval = arrowOscillationCurve.Evaluate(phase01);
-            float arrowAngle = Mathf.Lerp(-arrowMaxAngle, arrowMaxAngle, arrowEval);
-
             if (arrowTransform != null)
+            {
+                float eval = arrowOscillationCurve.Evaluate(phase01);
+                float arrowAngle = Mathf.Lerp(-arrowMaxAngle, arrowMaxAngle, eval);
                 arrowTransform.localEulerAngles = new Vector3(0, 0, 270f + arrowAngle);
+            }
 
             yield return null;
         }
 
-        float arrowResetDuration = 0.1f;
-        
-        // after spin, reset arrow using oscillation curve over arrowResetDuration
+        // 6) reset arrow as before…
         if (arrowTransform != null)
         {
-            float initialPhase = (arrowPhase % 360f) / 360f;
-            float elapsedReset = 0f;
-            while (elapsedReset < arrowResetDuration)
+            float initPhase = (arrowPhase % 360f) / 360f;
+            float resetTime = 0.1f;
+            float e2 = 0f;
+            while (e2 < resetTime)
             {
-                elapsedReset += Time.deltaTime;
-                float rt = Mathf.Clamp01(elapsedReset / arrowResetDuration);
-                // reverse phase: go from initialPhase down to 0
-                float phase = Mathf.Lerp(initialPhase, 0f, rt);
+                e2 += Time.deltaTime;
+                float rt = Mathf.Clamp01(e2 / resetTime);
+                float phase = Mathf.Lerp(initPhase, 0f, rt);
                 float eval = arrowOscillationCurve.Evaluate(phase);
                 float arrowAngle = Mathf.Lerp(-arrowMaxAngle, arrowMaxAngle, eval);
                 arrowTransform.localEulerAngles = new Vector3(0, 0, 270f + arrowAngle);
                 yield return null;
             }
-            // ensure centered
             arrowTransform.localEulerAngles = new Vector3(0, 0, 270f);
             wheelClickSFX.Play();
         }
 
-        // normalize
-        float wheelAngle = wheelTransform.eulerAngles.z % 360f;
-        if (wheelAngle < 0) wheelAngle += 360f;
-        // arrow points down (world angle = 270°)
-        float prizeAngle = 0f;
-        float diff = prizeAngle - wheelAngle;
-        diff = (diff % 360f + 360f) % 360f;
-        int index = Mathf.FloorToInt(diff / _sliceSize);
-        index = Mathf.Clamp(index, 0, segments.Count - 1);
+        // 7) now we already know our winner index
+        int index = GetCurrentSegmentIndex();
 
-        Task fadeTask = new Task(fadeInDialogueTask.RunTask(dc));
-        while (fadeTask.Running)
-        {
-            yield return null;
-        }
-        
+        // 8) and run your dialogue & prize logic exactly as before:
+        var fadeTask = new Task(fadeInDialogueTask.RunTask(dc));
+        while (fadeTask.Running) yield return null;
+
         if (segments[index].taskOnWin != null)
         {
-            Task winTask = new Task(segments[index].taskOnWin.RunTask(dc));
-            while (winTask.Running)
-            {
-                yield return null;
-            }
+            var winTask = new Task(segments[index].taskOnWin.RunTask(dc));
+            while (winTask.Running) yield return null;
         }
-
-        Task prizeTask = null;
-        
-        
-        switch (index)
-        {
-            case 0:
-                prizeTask = new Task(BankruptTask());
-                break;
-            case 1:
-                prizeTask = new Task(MoneyTask(15));
-                break;
-            case 2:
-                prizeTask = new Task(DestroyARandomItemTask());
-                break;
-            case 3:
-                prizeTask = new Task(MakeARandomItemHolofoilTask());
-                break;
-            case 4:
-                prizeTask = new Task(AddLifeTask());
-                break;
-            case 5:
-                prizeTask = new Task(GiveRandomItemTask(dc));
-                break;
-            default:
-                break;
-        }
-        
-        while (prizeTask.Running)
-        {
-            yield return null;
-        }
-    }
-
-    IEnumerator BankruptTask()
-    {
-        Singleton.Instance.playerStats.AddCoins(-Singleton.Instance.playerStats.coins);
-        losingSFX.Play();
-
-        yield return new WaitForSeconds(1f);
     }
     
-    IEnumerator MoneyTask(int coinAmount)
+    private Mesh CreateSectorMesh(float startAngleDeg, float angleDeg, float radius, int steps = 8)
     {
-        Singleton.Instance.playerStats.AddCoins(coinAmount);
-        Singleton.Instance.uiManager.DisplayCoinsGainedAnimation(coinAmount);
-        Singleton.Instance.itemManager.sellSFX.Play();
-        Singleton.Instance.itemManager.sellVFX.transform.position =
-            Singleton.Instance.uiManager.coinsText.transform.position;
-        Singleton.Instance.itemManager.sellVFX.Play();
+        Mesh m = new Mesh();
+        var verts = new List<Vector3> { Vector3.zero };
+        var tris  = new List<int>();
 
-        yield return new WaitForSeconds(1f);
-    }
-    
-    IEnumerator DestroyARandomItemTask()
-    {
-        List<Item> items = Singleton.Instance.itemManager.GetItemsInInventory();
-
-        if (items == null || items.Count == 0)
+        // sample around the arc
+        for (int i = 0; i <= steps; i++)
         {
-            yield return new WaitForSeconds(1f);
-            yield break;
-        }
-        
-        int rand = Random.Range(0, items.Count);
-        Item itemToDestroy = items[rand];
-        if(itemToDestroy != null)
-        {
-            Singleton.Instance.itemManager.DestroyItem(itemToDestroy, true);
-        }
-        losingSFX.Play();
-
-        yield return new WaitForSeconds(1f);
-    }
-
-    IEnumerator MakeARandomItemHolofoilTask()
-    {
-        List<Item> items = Singleton.Instance.itemManager.GetItemsInInventory();
-
-        if (items == null || items.Count == 0)
-        {
-            yield return new WaitForSeconds(1f);
-            yield break;
-        }
-        
-        int rand = Random.Range(0, items.Count);
-        Item itemToHolofoil = items[rand];
-        if(itemToHolofoil != null)
-        {
-            itemToHolofoil.SetHolofoil();
-            holofoilVFX.Spawn(itemToHolofoil.transform.position);
-            holofoilSFX.Play();
-        }
-        winningSFX.Play();
-
-        yield return new WaitForSeconds(1f);
-    }
-
-    IEnumerator GiveRandomItemTask(DialogueContext dc)
-    {
-        List<Item> items = randomItemCollection.GetItemsByRarity(Rarity.Rare);
-        int rand = Random.Range(0, items.Count);
-        Item itemPrefab = items[rand];
-
-        if (itemPrefab != null)
-        {
-            ItemSlot itemSlot = GameObject.Instantiate(Singleton.Instance.itemManager.itemSlotPrefab);
-            itemSlot.transform.parent = dc.dialogueBox.itemSlotParent;
-            itemSlot.transform.localPosition = new Vector3(0f,0f,0f);
-            itemSlot.isEventSlot = true;
-            
-            Item item = Singleton.Instance.itemManager.GenerateItemWithWrapper(itemPrefab);
-            Singleton.Instance.itemManager.AddItemToSlot(item, itemSlot);
-            
-            Task itemMadeTask = new Task(randomItemLine.RunTask(dc));
-            while (itemMadeTask.Running)
+            float t = (float)i / steps;
+            float a = startAngleDeg + angleDeg * t;
+            float rad = Mathf.Deg2Rad * a;
+            verts.Add(new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * radius);
+            if (i > 0)
             {
-                yield return null;
+                // triangle: center, last, new
+                tris.Add(0);
+                tris.Add(i);
+                tris.Add(i+1);
             }
-            
-            if (itemSlot.currentItem != null)
-            {
-                Singleton.Instance.itemManager.MoveItemToEmptyInventorySlot(item, 0.25f);
-                yield return new WaitForSeconds(0.5f);
-            }
-            
-            Destroy(itemSlot.gameObject);
         }
-    }
 
-    IEnumerator AddLifeTask()
-    {
-        Singleton.Instance.playerStats.AddLife(1);
-        yield return new WaitForSeconds(1f);
+        m.SetVertices(verts);
+        m.SetTriangles(tris, 0);
+        m.RecalculateBounds();
+        return m;
     }
 }

@@ -162,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -5
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 97e2265227bcf2e41a9621e8479de7eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -253,34 +253,47 @@ MonoBehaviour:
   segments:
   - label: Bankrupt
     color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    weight: 1
     textPrefix: 
     taskOnWin:
-      rid: 328110079628279979
+      rid: 4405298309054857336
   - label: Money
     color: {r: 0, g: 0.5660378, b: 0.21053784, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+    weight: 1
     textPrefix: 
     taskOnWin:
-      rid: 328110079628279980
+      rid: 4405298309054857339
   - label: Destroy An Item
     color: {r: 1, g: 0, b: 0.027672768, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    weight: 1
     textPrefix: 
     taskOnWin:
-      rid: 328110079628279981
+      rid: 4405298309054857342
   - label: Holofoil
     color: {r: 1, g: 1, b: 1, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+    weight: 1
     textPrefix: <rainb>
     taskOnWin:
-      rid: 328110079628279982
+      rid: 4405298309054857345
   - label: Extra Life
     color: {r: 0.956295, g: 0, b: 1, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    weight: 1
     textPrefix: 
     taskOnWin:
-      rid: 328110079628279984
+      rid: 4405298309054857348
   - label: Random Rare Item
     color: {r: 0, g: 0.48655844, b: 1, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+    weight: 1
     textPrefix: 
     taskOnWin:
-      rid: 328110079628279985
+      rid: 4405298309054857351
+  sliceMaterial: {fileID: 2100000, guid: 6de4c00056d8c9c4dbf8ea0153524b6e, type: 2}
   segmentLinePrefab: {fileID: 3422493199594171358, guid: d1162cc668633754790f44dae8616d9c, type: 3}
   segmentTextPrefab: {fileID: 1150032712923322707, guid: a3234790e590e70419107d9ac89931cd, type: 3}
   lineColor: {r: 0.4433962, g: 0.3040843, b: 0.27816838, a: 1}
@@ -331,6 +344,7 @@ MonoBehaviour:
     extraWaitTime: 0
     centerText: 0
     playSFX: 1
+    overrideSprite: {fileID: 0}
   fadeInDialogueTask:
     rid: 328110079628280038
   wheelSpinSFX:
@@ -382,7 +396,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 328110079628279979
+    - rid: 328110079628280038
+      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 1
+        duration: 1
+    - rid: 4405298309054857336
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 4405298309054857337
+        - rid: 4405298309054857338
+    - rid: 4405298309054857337
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 0}
@@ -392,7 +417,17 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110079628279980
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857338
+      type: {class: BankruptDialogueTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4405298309054857339
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 4405298309054857340
+        - rid: 4405298309054857341
+    - rid: 4405298309054857340
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 0}
@@ -402,7 +437,18 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110079628279981
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857341
+      type: {class: AddCoinsDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        coinAmount: 15
+    - rid: 4405298309054857342
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 4405298309054857343
+        - rid: 4405298309054857344
+    - rid: 4405298309054857343
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 0}
@@ -412,27 +458,67 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110079628279982
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857344
+      type: {class: DestroyRandomItemDialogueTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4405298309054857345
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 4405298309054857346
+        - rid: 4405298309054857347
+    - rid: 4405298309054857346
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 0}
-        dialogueLine: What a spin!! We've got a big winner here!
+        dialogueLine: Ooooh, shiny!
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110079628279984
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857347
+      type: {class: MakeRandomItemHolofoilTask, ns: , asm: Assembly-CSharp}
+      data:
+        holofoilVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        holofoilSFX:
+          sfx:
+            Guid:
+              Data1: -388259375
+              Data2: 1081402945
+              Data3: -420787289
+              Data4: 939684103
+            Path: event:/Score1
+          vol: 0.5
+    - rid: 4405298309054857348
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 4405298309054857349
+        - rid: 4405298309054857350
+    - rid: 4405298309054857349
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 0}
-        dialogueLine: A huge spin from our contestant!
+        dialogueLine: Do you believe in second chances? What a spin!
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110079628279985
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857350
+      type: {class: AddLifeDialogueTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4405298309054857351
+      type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueTasks:
+        - rid: 4405298309054857352
+        - rid: 4405298309054857353
+    - rid: 4405298309054857352
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 0}
@@ -442,11 +528,21 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
-    - rid: 328110079628280038
-      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+        overrideSprite: {fileID: 0}
+    - rid: 4405298309054857353
+      type: {class: GiveRandomItemDialogueTask, ns: , asm: Assembly-CSharp}
       data:
-        fadeType: 1
-        duration: 1
+        randomItemCollection: {fileID: 11400000, guid: 1d0beb4a926cbde4ba869bfc29f6bb78, type: 2}
+        rarity: 1
+        randomItemLine:
+          dialogueCharacter: {fileID: 0}
+          dialogueLine: Wow! I've never seen anything like it!
+          hideCharacterName: 0
+          waitForSkipInput: 1
+          extraWaitTime: 0
+          centerText: 0
+          playSFX: 1
+          overrideSprite: {fileID: 0}
 --- !u!1 &6943074570050128287
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,7 +52,18 @@ public class PlayDialogue : MonoBehaviour
     {
         dialogueBox.HideDialogueBox();
         DialogueContext dc = new DialogueContext { dialogueBox = dialogueBox };
-        Task t = new Task(PlayDialogueTask(dc));
+
+        Dialogue specificDialogue = Singleton.Instance.dialogueManager.nextSpecificDialogue;
+        if (specificDialogue != null)
+        {
+            Task specT = new Task(specificDialogue.PlayDialogue(dc));
+            specificDialogue = null;
+        }
+        else
+        {
+            Task t = new Task(PlayDialogueTask(dc));
+        }
+        
     }
 
     private IEnumerator PlayDialogueTask(DialogueContext dc)
