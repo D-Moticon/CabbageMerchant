@@ -896,12 +896,15 @@ MonoBehaviour:
   maxColorLevel: 100
   huePerLevel: 0.1
   maxHue: 0.65
+  startingPoints: 0
+  startingSizeLevel: 0
   startingScale: 0.75
   scalePerLevel: 0.22
+  reverseGrowth: 0
   growthMode: 2
   logBase: 2
   logMultiplier: 1
-  rootExponent: 0.52
+  rootExponent: 0.5
   isMerging: 0
   isStolen: 0
   baseBonkMultiplier: 1

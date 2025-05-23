@@ -19,13 +19,40 @@ public class BonkMarker : MonoBehaviour
     private void OnEnable()
     {
         Cabbage.CabbageBonkedEvent += CabbageBonkedListener;
+        Cabbage.CabbageMergedEvent += CabbageMergedListener;
+        Cabbage.CabbagePoppedEvent += CabbagePoppedListener;
+        
         GameStateMachine.ExitingScoringAction += ExitingScoringListener;
     }
 
     private void OnDisable()
     {
         Cabbage.CabbageBonkedEvent -= CabbageBonkedListener;
+        Cabbage.CabbageMergedEvent -= CabbageMergedListener;
+        Cabbage.CabbagePoppedEvent -= CabbagePoppedListener;
         GameStateMachine.ExitingScoringAction -= ExitingScoringListener;
+    }
+
+    private void Update()
+    {
+        if (owningCabbage != null)
+        {
+            transform.position = owningCabbage.transform.position;
+            transform.localScale = owningCabbage.transform.localScale;
+            
+            if (!owningCabbage.gameObject.activeInHierarchy)
+            {
+                owningCabbage = null;
+                GameSingleton.Instance.objectPoolManager.ReturnToPool(thisPooledObject, this.gameObject);
+            }
+        }
+
+        
+
+        else
+        {
+            GameSingleton.Instance.objectPoolManager.ReturnToPool(thisPooledObject, this.gameObject);
+        }
     }
 
     public static BonkMarker MarkCabbage(Cabbage c, double bValue, Item item)
@@ -37,8 +64,9 @@ public class BonkMarker : MonoBehaviour
     
     void InitializeOnCabbage(Cabbage c, double bValue, Item item)
     {
-        this.transform.parent = c.transform;
-        this.transform.localScale = Vector3.one;
+        //this.transform.parent = c.transform;
+        this.transform.position = c.transform.position;
+        this.transform.localScale = c.transform.localScale;
         bonkValue = bValue;
         owningCabbage = c;
         owningItem = item;
@@ -53,7 +81,7 @@ public class BonkMarker : MonoBehaviour
             return;
         }
         
-        if (bp.ball == null)
+        if (bp.ball == null && !bp.forceMarkBonk)
         {
             return;
         }
@@ -86,4 +114,34 @@ public class BonkMarker : MonoBehaviour
     {
         GameSingleton.Instance.objectPoolManager.ReturnToPool(thisPooledObject, this.gameObject);
     }
+
+    void TransferMark(Cabbage newCabbage)
+    {
+        MarkCabbage(newCabbage, bonkValue, owningItem);
+        GameSingleton.Instance.objectPoolManager.ReturnToPool(thisPooledObject, this.gameObject);
+    }
+    
+    private void CabbageMergedListener(Cabbage.CabbageMergedParams cpp)
+    {
+        if (cpp.oldCabbageA == owningCabbage || cpp.oldCabbageB == owningCabbage)
+        {
+            TransferMark(cpp.newCabbage);
+        }
+    }
+    
+    private void CabbagePoppedListener(Cabbage.CabbagePoppedParams cpp)
+    {
+        if (cpp.c != owningCabbage)
+        {
+            return;
+        }
+
+        Cabbage c = GameSingleton.Instance.gameStateMachine.GetRandomActiveCabbage();
+        if (c != null)
+        {
+            TransferMark(c);
+        }
+        
+    }
+
 }

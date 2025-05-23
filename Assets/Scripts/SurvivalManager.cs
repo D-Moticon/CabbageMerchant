@@ -101,7 +101,9 @@ public class SurvivalManager : MonoBehaviour
             return;
         }
         
-        if (item.itemType != Item.ItemType.Consumable)
+        if (item.itemType != Item.ItemType.Consumable
+            && item.itemName != "Kebab"
+            && item.itemName != "Egg")
         {
             return;
         }

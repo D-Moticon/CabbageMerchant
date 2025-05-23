@@ -63,7 +63,7 @@ public class RunManager : MonoBehaviour
     public delegate void RunStartDelegate(RunStartParams rsp);
 
     public static event RunStartDelegate RunStartEvent;
-    public static event RunStartDelegate RunStartEventLate;
+    public static RunStartDelegate RunStartEventLate;
     
     public delegate void RunEndDelegate(RunCompleteParams rep);
     public static event RunEndDelegate RunFinishedEvent;

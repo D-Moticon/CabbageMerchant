@@ -30,6 +30,7 @@ public class BonkParams
     public double totalBonkValueGained;
     public bool overrideSFX = false;
     public Item causingItem;
+    public bool forceMarkBonk = false;
 }
 
 public interface IKillable

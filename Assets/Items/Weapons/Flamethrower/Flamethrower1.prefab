@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: c9c8d4a2423993444ab9312227b4d90a, type: 3}
   itemType: 2
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
   - rid: 4405297842159091810
@@ -78,9 +80,11 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 7460267200795436996, guid: 8895417cf0437da47b49e161959e8b54, type: 3}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
   references:
     version: 2
     RefIds:
@@ -93,7 +97,7 @@ MonoBehaviour:
         sprinklerSprite: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
         angularSpeed: 300
         fireSpeed: 10
-        spawnsPerSecond: 6
+        spawnsPerSecond: 12
         numberObjectsPerSpawn: 4
         sprinklerDuration: 1
         sprinkerSFX:
@@ -107,7 +111,7 @@ MonoBehaviour:
           vol: 0.5
         spawnedWeaponName: flamethrower
         projectileName: flame
-        projectileDescription: add two stacks of fire on bonk
+        projectileDescription: add one stack of fire on bonk
     - rid: 4405297842159091811
       type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -122,7 +126,7 @@ MonoBehaviour:
         sprinklerSprite: {fileID: 11400000, guid: afd67e493b7b80c46aaa7f20a11456c3, type: 2}
         angularSpeed: 300
         fireSpeed: 10
-        spawnsPerSecond: 12
+        spawnsPerSecond: 24
         numberObjectsPerSpawn: 4
         sprinklerDuration: 1
         sprinkerSFX:

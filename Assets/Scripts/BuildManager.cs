@@ -70,6 +70,9 @@ public class BuildManager : MonoBehaviour
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
                 Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
+                //Need this for survival cabbage to work
+                RunManager.RunStartParams rsp = new RunManager.RunStartParams();
+                RunManager.RunStartEventLate?.Invoke(rsp);
                 break;
             case BuildMode.startAtGame:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;

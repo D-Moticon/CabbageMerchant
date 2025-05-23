@@ -39,6 +39,7 @@ public class GameStateMachine : MonoBehaviour
     public float secondsBeforeStopTryButton = 15f;
     public float roundGoalMultBeforeStopTryButton = 50f;
     public static int coinsPerRoundGoal = 3;
+    private double pointsBankedFromWallPoppedCabbages = 0;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
@@ -187,6 +188,11 @@ public class GameStateMachine : MonoBehaviour
     {
         forceEndRound = true;
     }
+
+    public void BankPoints(double pts)
+    {
+        pointsBankedFromWallPoppedCabbages += pts;
+    }
     
     public BonkableSlot GetEmptyBonkableSlot(bool ensureNotOverlappingCabbage = true, float checkRadius = 0.5f)
     {
@@ -329,6 +335,8 @@ public class GameStateMachine : MonoBehaviour
             currentRoundScore += activeCabbages[i].points;
         }
 
+        currentRoundScore += pointsBankedFromWallPoppedCabbages;
+        
         currentRoundScore = Math.Ceiling(currentRoundScore);
         currentRoundScoreOverMult = currentRoundScore / roundGoal;
         if (roundGoal < 1 || double.IsNaN(currentRoundScoreOverMult))

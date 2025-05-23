@@ -768,7 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0ba62e054524e45b1a3f1fe64cf3d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabbagePooledObject: {fileID: 11400000, guid: fd0c453c0f4b558418f9bf3abfa9e397, type: 2}
+  cabbagePooledObject: {fileID: 11400000, guid: 5a00dd598f8dd0c45ba41cf0e5c6c310, type: 2}
   boardVariantInfos:
   - boardVariant: {fileID: 282068993}
     chaosCabbage: {fileID: 0}
@@ -4223,6 +4223,9 @@ MonoBehaviour:
   - objectData: {fileID: 11400000, guid: eb0ae1fd333cfd242956a2bfd402d237, type: 2}
     initialQuantity: 50
     maxQuantity: 50
+  - objectData: {fileID: 11400000, guid: 5a00dd598f8dd0c45ba41cf0e5c6c310, type: 2}
+    initialQuantity: 50
+    maxQuantity: 50
   - objectData: {fileID: 11400000, guid: d87175572d0d11047839fca376549fb7, type: 2}
     initialQuantity: 50
     maxQuantity: 50
@@ -4362,8 +4365,8 @@ MonoBehaviour:
     initialQuantity: 100
     maxQuantity: 200
   - objectData: {fileID: 11400000, guid: 8881d5d6d961e274faa431ccab4222e6, type: 2}
-    initialQuantity: 300
-    maxQuantity: 500
+    initialQuantity: 600
+    maxQuantity: 1000
   - objectData: {fileID: 11400000, guid: 205482d331ab4454fa0cde3f1ed80899, type: 2}
     initialQuantity: 100
     maxQuantity: 100

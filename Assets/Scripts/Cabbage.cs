@@ -121,6 +121,17 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public static event CabbageMergedDelegate CabbageMergedEvent;
     public static event CabbageMergedDelegate CabbageMergedEventPreDestroy;
+
+    public class CabbagePoppedParams
+    {
+        public Cabbage c;
+    }
+
+    public delegate void CabbagePoppedDelegate(CabbagePoppedParams cpp);
+    public static event CabbagePoppedDelegate CabbagePoppedEvent;
+
+    public delegate void CabbageEvent(Cabbage c);
+    
     bool isHarvesting = false;
     
     private void OnEnable()
@@ -274,11 +285,24 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public void Pop(Vector2 collisionPos)
     {
+        CabbagePoppedParams cpp = new CabbagePoppedParams();
+        cpp.c = this;
+        CabbagePoppedEvent?.Invoke(cpp);
+        
         Color col = Color.white;
         PlayPopVFX();
         popSFX.Play();
         gameObject.SetActive(false);
 
+        if (GameSingleton.Instance != null)
+        {
+            GameSingleton.Instance.gameStateMachine.BankPoints(points);
+        }
+
+
+        
+        
+        
         //OLD
         /*rb.bodyType = RigidbodyType2D.Dynamic;
         popVFX.Spawn(collisionPos, Quaternion.identity);
@@ -305,7 +329,9 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.layer == wallLayerMask && GameSingleton.Instance.gameStateMachine.GetNumberActiveCabbages() > 1)
+        if (other.gameObject.layer == wallLayerMask
+            && other.gameObject.GetComponent<Vine>() == null
+            && GameSingleton.Instance.gameStateMachine.GetNumberActiveCabbages() > 1)
         {
             Pop(other.GetContact(0).point);
         }

@@ -13,6 +13,7 @@ public class GiveRandomItemDialogueTask : DialogueTask
         if (pool.Count == 0) { yield break; }
         var prefab = pool[Random.Range(0, pool.Count)];
         var slot = GameObject.Instantiate(Singleton.Instance.itemManager.itemSlotPrefab, dc.dialogueBox.itemSlotParent);
+        slot.transform.localPosition = Vector2.zero;
         slot.isEventSlot = true;
         var item = Singleton.Instance.itemManager.GenerateItemWithWrapper(prefab);
         Singleton.Instance.itemManager.AddItemToSlot(item, slot);
