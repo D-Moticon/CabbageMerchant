@@ -45,21 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Endurance
-  itemDescription: 10% chance to destroy a random item when ball is fired
+  itemDescription: Items only last 15 turns (turn counts down each time ball is fired)
   icon: {fileID: 21300000, guid: 0675c8b22159df74ea86a383dda6c611, type: 3}
   itemType: 1
   customMaterial: {fileID: 0}
   materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
-  - rid: 4405298251448451175
+  - rid: 4405298346403037300
   holofoilEffects: []
   holofoilEffectDescription: 
   triggers:
-  - rid: 4405298251448451176
+  - rid: 4405298346403037302
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
+  isTemporary: 0
+  numberShotsBeforeDestroy: 1
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 2
@@ -79,6 +81,7 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
@@ -86,13 +89,16 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4405298251448451175
-      type: {class: DestroyRandomItemEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4405298346403037300
+      type: {class: MakeItemTemporaryEffect, ns: , asm: Assembly-CSharp}
       data:
-        chance: 0.1
+        chance: 1
         owningItem: {fileID: 0}
-    - rid: 4405298251448451176
-      type: {class: BallFiredTrigger, ns: , asm: Assembly-CSharp}
+        numberTurnsBeforeDestroy: 15
+    - rid: 4405298346403037302
+      type: {class: ItemSpawnedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0
+        normalItemOnly: 0
+        allowedTypes: 4

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15cddc50af84940997e3976db43ad1, type: 3}
+  m_Name: Azura
+  m_EditorClassIdentifier: 
+  displayName: Azura
+  dataName: azura
+  description: 
+  unlockedByDefault: 0
+  cost: 25
+  requirements:
+  - rid: 4405298346403037279
+  dialogueSprite: {fileID: 21300000, guid: c31c7df13c7bfc24b80e9a0de5b6c3c1, type: 3}
+  upSprite: {fileID: 1895026263, guid: ad1367764dd9fa14b822f0927b014b80, type: 3}
+  downSprite: {fileID: -1777344631, guid: ad1367764dd9fa14b822f0927b014b80, type: 3}
+  leftSprite: {fileID: -1401946161, guid: ad1367764dd9fa14b822f0927b014b80, type: 3}
+  rightSprite: {fileID: -574676704, guid: ad1367764dd9fa14b822f0927b014b80, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298346403037279
+      type: {class: RunBeatenWithPetRequirement, ns: , asm: Assembly-CSharp}
+      data:
+        requiredPet: {fileID: 11400000, guid: 9ad6e6b3df25b95469aa982eccfe5cb6, type: 2}
+        minDifficultyLevel: 0

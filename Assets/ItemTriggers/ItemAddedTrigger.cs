@@ -25,10 +25,14 @@ public class ItemAddedTrigger : Trigger
         {
             return;
         }
+
+        TriggerContext tc = new TriggerContext();
+        tc.itemA = purchasedItem;
+        
         if (purchasedItem == owningItem)
         {
             alreadyAdded = true;
-            owningItem.TryTriggerItem();
+            owningItem.TryTriggerItem(tc);
         }
         
     }

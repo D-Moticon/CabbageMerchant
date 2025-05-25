@@ -12,6 +12,9 @@ public class ItemCollection : ScriptableObject
 
         [Tooltip("Enable or disable this entry.")]
         public bool enabled = true;
+
+        [Tooltip("Weight for random selection.")]
+        public float weight = 1f;
     }
 
     [Tooltip("All potential items and their filters.")]

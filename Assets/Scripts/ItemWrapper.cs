@@ -142,4 +142,16 @@ public class ItemWrapper : MonoBehaviour
 
         spriteRenderer.SetPropertyBlock(block);
     }
+
+    public void InitializeItemTemporary()
+    {
+        extraText.enabled = true;
+        extraText.text = item.numberShotsBeforeDestroy.ToString();
+    }
+
+    public void UpdateTemporaryCountdown(int numShots)
+    {
+        extraText.text = numShots.ToString();
+        extraTextFeel.PlayFeedbacks();
+    }
 }

@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 6657484460092934261}
   - component: {fileID: 1146001687455286387}
   - component: {fileID: 8740005450740077978}
+  - component: {fileID: 4028826259242616530}
   m_Layer: 6
   m_Name: FireworkBit
   m_TagString: Untagged
@@ -323,8 +324,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonkValue: 1
   killOnBonk: 1
+  killOnWallCollide: 0
   bonksBeforeKill: 0
   treatAsBall: 0
+  vfxOnBonk: {fileID: 0}
+  sfxOnBonk:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  vfxOnKill: {fileID: 0}
+  sfxOnKill:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  popFloater: 0
+  floaterColor: {r: 1, g: 1, b: 1, a: 1}
+  baseMat: {fileID: 0}
+  rainbowMat: {fileID: 0}
 --- !u!50 &6657484460092934261
 Rigidbody2D:
   serializedVersion: 5
@@ -378,3 +404,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deactivateIfBelowYBounds: 1
+--- !u!114 &4028826259242616530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3963774061669442795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0827c2b6ba929408e35bd646bfcdf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 4

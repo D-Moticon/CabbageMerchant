@@ -48,7 +48,9 @@ MonoBehaviour:
   itemDescription: What will it hatch into?
   icon: {fileID: 21300000, guid: 0b6c4c89ab67c9d4e96f1efab4d312e3, type: 3}
   itemType: 0
-  canBeForceTriggered: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
   effects:
   - rid: 328110359655481504
   holofoilEffects:
@@ -58,7 +60,7 @@ MonoBehaviour:
   - rid: 328110359655481509
   triggerChance: 1
   hasCooldown: 0
-  limitPerShot: 0
+  limitPerShot: 1
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -78,9 +80,11 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
   references:
     version: 2
     RefIds:

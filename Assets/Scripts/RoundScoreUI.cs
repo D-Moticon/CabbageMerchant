@@ -20,6 +20,10 @@ public class RoundScoreUI : MonoBehaviour
     public float flashDuration = 0.5f;
     private float flashCounter = 0f;
     private double oldScore = 0;
+    public FadeObject tickLine;
+    public MMF_Player tickLineFeel;
+    public Vector2 inputTickPowerRange = new Vector2(0, 1000);
+    public Vector2 outputTickPowerRange = new Vector2(1f, 10f);
 
     private void OnEnable()
     {
@@ -71,6 +75,13 @@ public class RoundScoreUI : MonoBehaviour
         if (newScore > oldScore)
         {
             roundScoreFeel.PlayFeedbacks();
+            
+            double scoreChange = newScore - oldScore;
+            float tickPower = Helpers.RemapClamped((float)scoreChange, inputTickPowerRange.x, inputTickPowerRange.y,
+                outputTickPowerRange.x, outputTickPowerRange.y);
+            tickLine.properties[0].materialFloatStartValue = tickPower;
+            tickLine.FadeForward();
+            tickLineFeel.PlayFeedbacks();
         }
         
         double sliderVal = roundScoreMult % 1;
@@ -88,7 +99,7 @@ public class RoundScoreUI : MonoBehaviour
         
         roundScoreSlider.value = (float)sliderVal;
         roundScoreMultText.text = $"{Helpers.FormatWithSuffix(Math.Floor(roundScoreMult))}<size=5>x";
-
+        
         oldScore = newScore;
     }
 

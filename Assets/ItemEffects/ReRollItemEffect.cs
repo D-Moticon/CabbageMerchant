@@ -8,7 +8,6 @@ public class ReRollItemEffect : ItemEffect
     
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        print("REROLLFX");
         Singleton.Instance.playerStats.IncreaseReRolls(extraReRolls);
         Singleton.Instance.playerStats.ReduceReRollCost(reRollCostReduce);
         Singleton.Instance.playerStats.AddAllHolofoilRollChance(allHoloChanceAdd);

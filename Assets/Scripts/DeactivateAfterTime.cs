@@ -5,7 +5,7 @@ using System.Collections;
 /// Deactivates the GameObject after a specified lifetime.
 /// When enabled, starts a timer and deactivates itself when time is up.
 /// </summary>
-[RequireComponent(typeof(Collider2D))]
+
 public class DeactivateAfterTime : MonoBehaviour
 {
     [Tooltip("Time in seconds before deactivation")] 

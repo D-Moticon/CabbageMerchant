@@ -33,11 +33,13 @@ public class SpawnAndSpinObjectsInArray : ItemEffect
 
         else
         {
-            Ball b = tc.ball;
-            if (b == null) return;
-            GameSingleton.Instance.gameStateMachine.StartCoroutine(SpawnAndSpinCoroutine(b));
+            if (tc != null)
+            {
+                Ball b = tc.ball;
+                if (b == null) return;
+                GameSingleton.Instance.gameStateMachine.StartCoroutine(SpawnAndSpinCoroutine(b));
+            }
         }
-        
     }
 
     private IEnumerator SpawnAndSpinCoroutine(Ball ball)

@@ -134,8 +134,6 @@ public class Map : MonoBehaviour
                 sign.SetSignTextFromBiome(biomes[idx]);
             }
         }
-
-        Debug.Log($"Map Initialized: Layers={numLayers}, IconAreaHeight={iconAreaHeight}, BG Height={bgHeight}");
     }
 
     /// <summary>

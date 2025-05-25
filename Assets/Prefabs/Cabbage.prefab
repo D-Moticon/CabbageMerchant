@@ -1336,8 +1336,11 @@ MonoBehaviour:
   maxColorLevel: 100
   huePerLevel: 0.1
   maxHue: 0.65
+  startingPoints: 0
+  startingSizeLevel: 0
   startingScale: 0.75
   scalePerLevel: 0.22
+  reverseGrowth: 0
   growthMode: 2
   logBase: 2
   logMultiplier: 1
@@ -1408,9 +1411,9 @@ MonoBehaviour:
     screenShakeIntensity: 2
   variantInfos:
   - variantType: 1
-    cabbageVariantPrefab: {fileID: 4773969002426643059, guid: d0957df6d35631b4787ff23cfbc396b2, type: 3}
+    cabbageVariantPooledObject: {fileID: 11400000, guid: feaa3d8507d8478499ded4eeae644bb2, type: 2}
   - variantType: 2
-    cabbageVariantPrefab: {fileID: 6639290188826528234, guid: a00b34af2cdfefb4baaa1f2ebae7b203, type: 3}
+    cabbageVariantPooledObject: {fileID: 11400000, guid: e8e2fa7bad7340d4188e8946ceeef5ee, type: 2}
   currentVariant: {fileID: 0}
   currentVariantType: 0
 --- !u!114 &4296465345979103945

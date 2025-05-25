@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd886e23da54a44f895ed40eb220dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 6913123985793018573}
+  col: {fileID: 7874891180667656607}
+  sr: {fileID: 875305494668281143}
   stacksToAdd: 1
   vfx: {fileID: 11400000, guid: 205482d331ab4454fa0cde3f1ed80899, type: 2}
   sfx:

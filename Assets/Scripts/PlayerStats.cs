@@ -18,8 +18,8 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float holofoilChance = 0.005f;
     public float startingGoldenCabbageChance = 0.01f;
     [HideInInspector] public float goldenCabbageChance = 0.01f;
-    public float startingGoldenCabbageValue = 1f;
-    [HideInInspector] public float goldenCabbageValue = 1f;
+    public float startingGoldenCabbageValue = 3f;
+    [HideInInspector] public float goldenCabbageValue = 3f;
     [HideInInspector] public float shopDiscountMult = 1f;
     [HideInInspector] public float shopRarityMult = 1f;
     public int startingShopReRolls = 1;

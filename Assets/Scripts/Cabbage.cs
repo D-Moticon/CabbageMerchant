@@ -101,7 +101,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     public class VariantInfo
     {
         public CabbageVariantType variantType;
-        public CabbageVariant cabbageVariantPrefab;
+        [FormerlySerializedAs("cabbageVariantPrefab")] public PooledObjectData cabbageVariantPooledObject;
     }
 
     public List<VariantInfo> variantInfos;
@@ -499,17 +499,17 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public void SetVariant(CabbageVariantType cvt)
     {
-        CabbageVariant variantPrefab = null;
+        PooledObjectData variantPooledObject = null;
 
         for (int i = 0; i < variantInfos.Count; i++)
         {
             if (variantInfos[i].variantType == cvt)
             {
-                variantPrefab = variantInfos[i].cabbageVariantPrefab;
+                variantPooledObject = variantInfos[i].cabbageVariantPooledObject;
             }
         }
         
-        if (variantPrefab == null)
+        if (variantPooledObject == null)
         {
             print($"No prefab found for {cvt})");
             return;
@@ -520,8 +520,8 @@ public class Cabbage : MonoBehaviour, IBonkable
             currentVariant.RemoveVariant();
             currentVariant = null;
         }
-
-        CabbageVariant variant = Instantiate(variantPrefab, transform);
+        
+        CabbageVariant variant = variantPooledObject.Spawn(this.transform.position).GetComponent<CabbageVariant>();
         variant.transform.localPosition = Vector3.zero;
         currentVariant = variant;
         currentVariantType = cvt;

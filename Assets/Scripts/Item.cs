@@ -32,6 +32,10 @@ public class Item : MonoBehaviour, IHoverable
     public float triggerChance = 1f;
     public bool hasCooldown = false;
     public int limitPerShot = 0;
+    public bool isTemporary = false;
+    [ShowIf("@isTemporary == true")]
+    public int numberShotsBeforeDestroy = 1;
+    private int temporaryCountdown = 1;
     private int timesTriggeredThisShot = 0;
     [ShowIf("@hasCooldown == true")]
     public float cooldownDuration = 1f;
@@ -108,9 +112,8 @@ public class Item : MonoBehaviour, IHoverable
 
         GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
         ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
+        GameStateMachine.BallFiredEvent += BallFiredListener;
     }
-
-    
 
     protected virtual void OnDisable()
     {
@@ -131,8 +134,25 @@ public class Item : MonoBehaviour, IHoverable
         
         GameStateMachine.EnteringAimStateAction -= EnteringAimStateListener;
         ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
+        GameStateMachine.BallFiredEvent -= BallFiredListener;
     }
 
+    public void InitializeItemAfterWrapperCreated()
+    {
+        if (isTemporary)
+        {
+            MakeTemporary(numberShotsBeforeDestroy);
+        }
+    }
+    
+    public void MakeTemporary(int numShots)
+    {
+        numberShotsBeforeDestroy = numShots;
+        temporaryCountdown = numShots;
+        isTemporary = true;
+        itemWrapper.InitializeItemTemporary();
+    }
+    
     void InitializeNonHoloEffectsExclusive()
     {
         foreach (ItemEffect itemEffect in effects)
@@ -337,6 +357,11 @@ public class Item : MonoBehaviour, IHoverable
             {
                 s += $" (Limit {limitPerShot} use per shot)";
             }
+
+            if (isTemporary)
+            {
+                s += ("\n" + $"Item is destroyed after {numberShotsBeforeDestroy} shots");
+            }
             
             return s;
         }
@@ -534,10 +559,19 @@ public class Item : MonoBehaviour, IHoverable
     {
         if (sendToGraveyard)
         {
+            if (currentItemSlot != null)
+            {
+                currentItemSlot.currentItem = null;
+            }
+            
             Singleton.Instance.itemGraveyard.AddToGraveyard(this, withFX);
         }
         else
         {
+            if (currentItemSlot != null)
+            {
+                currentItemSlot.currentItem = null;
+            }
             itemWrapper.DestroyItem(withFX);
         }
     }
@@ -589,5 +623,21 @@ public class Item : MonoBehaviour, IHoverable
         }
         
         EndItemMysterious();
+    }
+    
+    private void BallFiredListener(Ball b)
+    {
+        if (!isTemporary)
+        {
+            return;
+        }
+
+        temporaryCountdown--;
+        itemWrapper.UpdateTemporaryCountdown(temporaryCountdown);
+        
+        if (temporaryCountdown <= 0)
+        {
+            DestroyItem(true, true);
+        }
     }
 }

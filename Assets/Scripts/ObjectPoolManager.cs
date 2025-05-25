@@ -94,6 +94,11 @@ public class ObjectPoolManager : MonoBehaviour
             }
         }
 
+        if (obj == null)
+        {
+            print($"Tried to spawn {objectData.name} pooled object but failed");
+        }
+        
         // position & activate
         obj.transform.SetParent(transform);
         obj.transform.position = position;

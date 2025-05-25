@@ -113,7 +113,31 @@ public class ShopManager : MonoBehaviour
             if (validItems.Count == 0)
                 continue;
 
-            Item itemPrefab = validItems[Random.Range(0, validItems.Count)];
+            // Select an item based on its weight in the collection
+            float totalItemWeight = 0f;
+            foreach (var candidate in validItems)
+            {
+                var info = itemCollection.items.Find(i => i.item == candidate);
+                totalItemWeight += (info != null ? info.weight : 1f);
+            }
+
+            float randomItemVal = Random.value * totalItemWeight;
+            float accumulated = 0f;
+            Item itemPrefab = null;
+            foreach (var candidate in validItems)
+            {
+                var info = itemCollection.items.Find(i => i.item == candidate);
+                float w = (info != null ? info.weight : 1f);
+                accumulated += w;
+                if (randomItemVal <= accumulated)
+                {
+                    itemPrefab = candidate;
+                    break;
+                }
+            }
+            if (itemPrefab == null)
+                itemPrefab = validItems[validItems.Count - 1];
+
             Item itemInstance = Singleton.Instance.itemManager.GenerateItemWithWrapper(itemPrefab, Vector2.zero, transform);
             itemInstance.purchasable = true;
             Singleton.Instance.itemManager.AddItemToSlot(itemInstance, slot);

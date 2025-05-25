@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15cddc50af84940997e3976db43ad1, type: 3}
+  m_Name: Pink
+  m_EditorClassIdentifier: 
+  displayName: Pink
+  dataName: pink
+  description: 
+  unlockedByDefault: 0
+  cost: 25
+  requirements:
+  - rid: 4405298346403037280
+  dialogueSprite: {fileID: 21300000, guid: 181c5a6fe16ad3945a4ae74ad05e0e8b, type: 3}
+  upSprite: {fileID: -337701394, guid: be8a8bc351ac91040928f6d31d1f5a87, type: 3}
+  downSprite: {fileID: 849436714, guid: be8a8bc351ac91040928f6d31d1f5a87, type: 3}
+  leftSprite: {fileID: 579279024, guid: be8a8bc351ac91040928f6d31d1f5a87, type: 3}
+  rightSprite: {fileID: -1247922782, guid: be8a8bc351ac91040928f6d31d1f5a87, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298346403037280
+      type: {class: RunBeatenWithPetRequirement, ns: , asm: Assembly-CSharp}
+      data:
+        requiredPet: {fileID: 11400000, guid: ef98f2dbecc0f0548bdb2746c93d93c4, type: 2}
+        minDifficultyLevel: 2

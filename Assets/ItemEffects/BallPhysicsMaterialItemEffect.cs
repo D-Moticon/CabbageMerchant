@@ -6,6 +6,11 @@ public class BallPhysicsMaterialItemEffect : ItemEffect
     
     public override void TriggerItemEffect(TriggerContext tc)
     {
+        if (tc == null)
+        {
+            return;
+        }
+        
         Ball b = tc.ball;
         if (b == null)
         {

@@ -19,13 +19,16 @@ public class IncreaseBallSizeEffect : ItemEffect
 
         else
         {
-            Ball b = tc.ball;
-            if (b == null)
+            if (tc != null)
             {
-                return;
-            }
+                Ball b = tc.ball;
+                if (b == null)
+                {
+                    return;
+                }
 
-            IncreaseBallSize(b);
+                IncreaseBallSize(b);
+            }
         }
         
     }

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class SetOnFireOnCollide : MonoBehaviour
 {
+    public Rigidbody2D rb;
+    public Collider2D col;
+    public SpriteRenderer sr;
     public int stacksToAdd = 3;
     public PooledObjectData vfx;
     public SFXInfo sfx;
@@ -17,6 +20,20 @@ public class SetOnFireOnCollide : MonoBehaviour
         SetOnFire(other, this.transform.position);
     }
 
+    public void Despawn()
+    {
+        // 1) hide visuals
+        sr.enabled = false;
+
+        // 2) stop physics & disable collisions
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;         // stops physics simulation
+        //col.enabled = false;   // turns off collision callbacks
+
+        // 3) (optional) move it out of the way
+        transform.position = Singleton.Instance.offScreenPosition;
+    }
+    
     void SetOnFire(Collider2D other, Vector2 pos)
     {
         IBonkable bonkable = other.GetComponent<IBonkable>();
@@ -37,6 +54,9 @@ public class SetOnFireOnCollide : MonoBehaviour
 
         sfx.Play();
         
-        this.gameObject.SetActive(false);
+        //Rather than setting inactive, using this custom Despawn method.
+        //Activating and deactivating caused huge lag spikes with many balls.  This is much better
+        //this.gameObject.SetActive(false);
+        Despawn();
     }
 }

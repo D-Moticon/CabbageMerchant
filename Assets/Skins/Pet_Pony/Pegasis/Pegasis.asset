@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15cddc50af84940997e3976db43ad1, type: 3}
+  m_Name: Pegasis
+  m_EditorClassIdentifier: 
+  displayName: Pegasis
+  dataName: pegasis
+  description: 
+  unlockedByDefault: 0
+  cost: 25
+  requirements:
+  - rid: 4405298346403037278
+  dialogueSprite: {fileID: 21300000, guid: e20d1ff0950781a408c8ed4399ed777d, type: 3}
+  upSprite: {fileID: 1157834283, guid: 20f1fbadc46113c49a5807bff3b580ad, type: 3}
+  downSprite: {fileID: -1057989751, guid: 20f1fbadc46113c49a5807bff3b580ad, type: 3}
+  leftSprite: {fileID: -700846045, guid: 20f1fbadc46113c49a5807bff3b580ad, type: 3}
+  rightSprite: {fileID: 716253305, guid: 20f1fbadc46113c49a5807bff3b580ad, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298346403037278
+      type: {class: RunBeatenWithPetRequirement, ns: , asm: Assembly-CSharp}
+      data:
+        requiredPet: {fileID: 11400000, guid: 9b115fac98cff73488ff17f22c5dec0a, type: 2}
+        minDifficultyLevel: 2

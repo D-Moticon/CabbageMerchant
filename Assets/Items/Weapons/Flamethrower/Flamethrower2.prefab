@@ -61,6 +61,8 @@ MonoBehaviour:
   triggerChance: 1
   hasCooldown: 1
   limitPerShot: 0
+  isTemporary: 0
+  numberShotsBeforeDestroy: 1
   cooldownDuration: 10
   cooldownCounter: 0
   rarity: 0

@@ -5,6 +5,7 @@ public class Singleton : MonoBehaviour
 {
     public static Singleton Instance { get; private set; }
 
+    public Vector2 offScreenPosition = new Vector2(-50f, -50f);
     public PlayerInputManager playerInputManager;
     public FloaterManager floaterManager;
     public AudioManager audioManager;

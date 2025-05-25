@@ -469,8 +469,6 @@ public class ItemManager : MonoBehaviour
     {
         if (dragged.itemName == inSlot.itemName && dragged.upgradedItem != null)
         {
-            Debug.Log("Merging items into upgraded item!");
-
             // 1) figure out holofoil & upgrade‐flag state up front
             bool isHolofoil = inSlot.isHolofoil || dragged.isHolofoil;
             bool keep       = dragged.keepTriggerOnUpgrade || inSlot.keepTriggerOnUpgrade;
@@ -667,6 +665,8 @@ public class ItemManager : MonoBehaviour
         iw.item = item;
         item.itemWrapper = iw;
         iw.InitializeItemWrapper(item);
+        
+        item.InitializeItemAfterWrapperCreated();
 
         if (item.holofoilEffects != null && item.holofoilEffects.Count > 0)
         {

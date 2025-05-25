@@ -10,6 +10,7 @@ public class BonkMarker : MonoBehaviour
     public TMP_Text bonkValueText;
     public SFXInfo bonkSFX;
     public PooledObjectData bonkVFX;
+    public PooledObjectData bonkMarkerVFX;
 
     public delegate void MarkBonkDelegate(BonkParams bp);
     public static MarkBonkDelegate MarkedCabbageBonkedEvent;
@@ -38,7 +39,7 @@ public class BonkMarker : MonoBehaviour
         if (owningCabbage != null)
         {
             transform.position = owningCabbage.transform.position;
-            transform.localScale = owningCabbage.transform.localScale;
+            //transform.localScale = owningCabbage.transform.localScale;
             
             if (!owningCabbage.gameObject.activeInHierarchy)
             {
@@ -66,7 +67,7 @@ public class BonkMarker : MonoBehaviour
     {
         //this.transform.parent = c.transform;
         this.transform.position = c.transform.position;
-        this.transform.localScale = c.transform.localScale;
+        //this.transform.localScale = c.transform.localScale;
         bonkValue = bValue;
         owningCabbage = c;
         owningItem = item;
@@ -104,6 +105,12 @@ public class BonkMarker : MonoBehaviour
         if (bonkVFX != null)
         {
             bonkVFX.Spawn(this.transform.position);
+        }
+
+        if (bonkMarkerVFX != null)
+        {
+            GameObject bvfx = bonkMarkerVFX.Spawn(this.transform.position);
+            bvfx.transform.localScale = this.transform.localScale;
         }
 
         bonkSFX.Play(this.transform.position);

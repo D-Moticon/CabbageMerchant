@@ -153,7 +153,7 @@ public class Ball : MonoBehaviour
         bonkValueUpVFX.Spawn(this.transform.position);
         if (bonkValueAdd > 0.09f)
         {
-            bonkValueUpFloater.Spawn($"+{bonkValueAdd:F1}", this.transform.position, bonkValueUpFloaterColor, 0.75f);
+            bonkValueUpFloater.Spawn($"+{bonkValueAdd:F1}", rb.position, bonkValueUpFloaterColor, 0.75f);
         }
     }
 

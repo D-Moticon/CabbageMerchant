@@ -30,6 +30,6 @@ public abstract class CabbageVariant : MonoBehaviour
 
     public virtual void RemoveVariant()
     {
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 }

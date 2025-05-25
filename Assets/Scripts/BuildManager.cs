@@ -19,6 +19,7 @@ public class BuildManager : MonoBehaviour
         none
     }
 
+    public string version;
     public BuildMode buildMode;
 
     [Header("TESTING: These are not used for builds")]
@@ -44,6 +45,7 @@ public class BuildManager : MonoBehaviour
         switch (buildMode)
         {
             case BuildMode.release:
+                Debug.Log($"Super Cabbage Kabumi Version: {version}");
                 FullGameStartedEvent?.Invoke();
                 break;
             case BuildMode.releaseTest:
