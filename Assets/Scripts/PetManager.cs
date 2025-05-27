@@ -62,13 +62,17 @@ public class PetManager : MonoBehaviour
         List<string> savedIds = save.GetOwnedPetIDs();
         ownedPets.Clear();
 
+        bool demo = Singleton.Instance.buildManager.IsDemoMode();
+
         foreach (string id in savedIds)
         {
             var def = petDatabase.allPets.Find(p => p.dataName == id);
-            if (def != null)
+            // **skip full-game-only pets in demo** (i.e. InDemo==false)
+            if (def != null && (demo ? def.InDemo : true))
                 ownedPets.Add(def);
         }
-        // Re-apply the current pet state
+
+        // enforce demo rules on the current pet
         SetCurrentPet(currentPet);
     }
 
@@ -104,18 +108,22 @@ public class PetManager : MonoBehaviour
     /// </summary>
     public void SetCurrentPet(PetDefinition def)
     {
+        bool demo = Singleton.Instance.buildManager.IsDemoMode();
+
+        // **if this pet is full-game-only and we're in demo, clear selection**
+        if (def != null && demo && !def.InDemo)
+            def = null;
+
         currentPet = def;
 
-        // Update overworld behaviors
+        // update overworld behavior
         foreach (var pet in overworldPets)
         {
-            if (pet.def == def)
-                pet.SetFollow();
-            else
-                pet.SetWander();
+            if (pet.def == def) pet.SetFollow();
+            else               pet.SetWander();
         }
 
-        // Spawn VFX and play SFX at the selected pet's position
+        // VFX/SFX
         var selected = overworldPets.FirstOrDefault(p => p.def == def);
         if (selected != null)
         {
@@ -123,7 +131,6 @@ public class PetManager : MonoBehaviour
             petSelectedSFX.Play();
         }
 
-        // Notify listeners
         OwnedPetsChangedEvent?.Invoke(ownedPets);
     }
 

@@ -15,9 +15,17 @@ MonoBehaviour:
   items:
   - item: {fileID: 987615755453735997, guid: a84fc9cefed0f7e479f54e2efde83338, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 4022108771543111050, guid: 3aa0137a43647864189236cd40b9baaf, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 0
   - item: {fileID: 8023229544316868468, guid: 97f4efb3fcdd8b44a8ca898fc4e2f933, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 0
   - item: {fileID: 2326779694842750914, guid: b19fbadac69128540934c343e0aea420, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 0

@@ -9,7 +9,7 @@ public class DemoOnlyObjects : MonoBehaviour
     
     private void OnEnable()
     {
-        if (Singleton.Instance.buildManager.buildMode != BuildManager.BuildMode.demo)
+        if (!Singleton.Instance.buildManager.IsDemoMode())
         {
             foreach (GameObject go in demoObjects)
             {

@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PetDefinition", menuName = "Pets/PetDefinition")]
 public class PetDefinition : ScriptableObject
 {
+    public bool InDemo = false;
     public string displayName;
     public string dataName;
     public Item itemPrefab;

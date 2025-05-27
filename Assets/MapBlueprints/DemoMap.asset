@@ -173,6 +173,12 @@ MonoBehaviour:
       requirements: []
     forceAll: 0
     newBiome: {fileID: 0}
+  - possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 47277f798ef804f45be99514d1224ebb, type: 2}
+      weight: 1
+      requirements: []
+    forceAll: 0
+    newBiome: {fileID: 0}
   references:
     version: 2
     RefIds: []

@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: DemoEndDialogue
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 4405298395666710650
+  - rid: 4405298395666710651
+  - rid: 4405298395666710652
+  - rid: 4405298395666710653
+  - rid: 4405298395666710654
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298395666710650
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: b5d8499134d48f64681844d80ce31716, type: 2}
+        dialogueLine: Heya!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298395666710651
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: b5d8499134d48f64681844d80ce31716, type: 2}
+        dialogueLine: Not to make things awkward, but...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298395666710652
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: b5d8499134d48f64681844d80ce31716, type: 2}
+        dialogueLine: I kinda have to stop ya there, this being the demo and all...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298395666710653
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: b5d8499134d48f64681844d80ce31716, type: 2}
+        dialogueLine: Have you thought about getting the real thing? I mean, assuming
+          it's out yet or whatever.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298395666710654
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: b5d8499134d48f64681844d80ce31716, type: 2}
+        dialogueLine: No pressure, though! Anyways, let's take you back to town!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}

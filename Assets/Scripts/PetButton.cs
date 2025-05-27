@@ -10,31 +10,35 @@ using TMPro;
 [RequireComponent(typeof(Button))]
 public class PetButton : MonoBehaviour, IHoverable
 {
-    [Tooltip("Reference to the pet definition this button represents")] 
+    [Tooltip("Reference to the pet definition this button represents")]
     public PetDefinition petDefinition;
 
-    [Tooltip("UI Text for pet name")] 
+    [Tooltip("UI Text for pet name")]
     public TMP_Text nameText;
-    [Tooltip("UI Text for cost or owned state")] 
+    [Tooltip("UI Text for cost or owned state")]
     public TMP_Text costText;
-    [Tooltip("UI Image for pet icon")] 
+    [Tooltip("UI Image for pet icon")]
     public Image iconImage;
-    [Tooltip("Visual indicator when this pet is currently selected")] 
+    [Tooltip("Visual indicator when this pet is currently selected")]
     public Image selectedImage;
 
+    [Tooltip("Sprite to show when unowned")]
     public Sprite unownedSprite;
 
-    [Tooltip("Button component")] 
-    public Button button;
+    [Header("Demo Mode")]
+    [Tooltip("Indicator GameObject to enable when this pet is full-game-only in demo")]
+    public GameObject demoOnlyIndicator;
 
+    private Button button;
     public Color unOwnedColor = Color.black;
-    public Color ownedColor = Color.white;
+    public Color ownedColor   = Color.white;
 
     void Awake()
     {
-        if (button == null)
-            button = GetComponent<Button>();
+        button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
+        if (demoOnlyIndicator != null)
+            demoOnlyIndicator.SetActive(false);
     }
 
     void OnDestroy()
@@ -44,27 +48,66 @@ public class PetButton : MonoBehaviour, IHoverable
 
     public void Start()
     {
-        // initialize UI
-        if (nameText != null)
-            nameText.text = petDefinition.displayName;
-        if (iconImage != null)
-            iconImage.sprite = petDefinition.downSprite;
+        if (nameText  != null) nameText.text   = petDefinition.displayName;
+        if (iconImage != null) iconImage.sprite = petDefinition.downSprite;
         UpdateState();
     }
 
-    void OnClick()
+    public void UpdateState()
     {
         var ps = Singleton.Instance.playerStats;
         var pm = Singleton.Instance.petManager;
+        bool owned      = pm.ownedPets.Contains(petDefinition);
+        bool active     = pm.currentPet == petDefinition;
+        bool demo       = Singleton.Instance.buildManager.IsDemoMode();
+        bool fullOnly   = !petDefinition.InDemo;  // now full-game-only
 
+        // cost text
+        if (costText != null)
+        {
+            if (owned) costText.text = "Owned";
+            else if (ps.metaCurrency >= petDefinition.cost)
+                costText.text = $"<sprite index=0/>{petDefinition.cost}";
+            else
+                costText.text = $"<sprite index=0/><color=red>{petDefinition.cost}</color>";
+        }
+
+        // icon tint & selection highlight
+        if (iconImage     != null) iconImage.color     = owned ? ownedColor : unOwnedColor;
+        if (selectedImage != null) selectedImage.enabled = active;
+
+        // base interactability
+        button.interactable = owned || ps.metaCurrency >= petDefinition.cost;
+
+        // ** demo-mode override: block full-game-only pets **
+        if (demo && fullOnly)
+        {
+            button.interactable = false;
+            if (demoOnlyIndicator != null)
+                demoOnlyIndicator.SetActive(true);
+        }
+        else if (demoOnlyIndicator != null)
+        {
+            demoOnlyIndicator.SetActive(false);
+        }
+    }
+
+    private void OnClick()
+    {
+        // block clicks for full-game-only pets in demo
+        if (Singleton.Instance.buildManager.IsDemoMode() && !petDefinition.InDemo)
+            return;
+
+        var ps = Singleton.Instance.playerStats;
+        var pm = Singleton.Instance.petManager;
         bool owned = pm.ownedPets.Contains(petDefinition);
+
         if (!owned)
         {
-            // attempt purchase
             if (ps.metaCurrency < petDefinition.cost)
             {
-                Singleton.Instance.floaterManager.SpawnInfoFloater(
-                    "Can't afford!", transform.position, Color.red);
+                Singleton.Instance.floaterManager
+                    .SpawnInfoFloater("Can't afford!", transform.position, Color.red);
                 return;
             }
             ps.AddMetacurrency(-petDefinition.cost);
@@ -72,58 +115,11 @@ public class PetButton : MonoBehaviour, IHoverable
         }
         else
         {
-            // equip
             pm.SetCurrentPet(petDefinition);
         }
+
         UpdateState();
         Singleton.Instance.toolTip.ForceToolTipUpdate();
-    }
-
-    /// <summary>
-    /// Update visual state based on ownership and current selection.
-    /// </summary>
-    public void UpdateState()
-    {
-        var ps = Singleton.Instance.playerStats;
-        var pm = Singleton.Instance.petManager;
-
-        bool owned = pm.ownedPets.Contains(petDefinition);
-        bool active = pm.currentPet == petDefinition;
-
-        // cost text
-        if (costText != null)
-        {
-            if (owned)
-            {
-                costText.text = "Owned";
-            }
-
-            else
-            {
-                if (ps.metaCurrency >= petDefinition.cost)
-                {
-                    costText.text = $"<sprite index=0/>{petDefinition.cost.ToString()}";
-                }
-
-                else
-                {
-                    costText.text = $"<sprite index=0/><color=red>{petDefinition.cost.ToString()}</color>";
-                }
-            }
-        }
-
-        // icon transparency
-        if (iconImage != null)
-        {
-            iconImage.color = owned? ownedColor : unOwnedColor;
-        }
-
-        // selected indicator
-        if (selectedImage != null)
-            selectedImage.enabled = active;
-
-        // button interactable
-        button.interactable = owned || (ps.metaCurrency >= petDefinition.cost);
     }
 
     //=============== IHoverable ===============

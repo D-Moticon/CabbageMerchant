@@ -111,10 +111,13 @@ public class ChaosManager : MonoBehaviour
         List<string> savedIds = save.GetOwnedChaosCabbageIDs();
         ownedChaosCabbages.Clear();
 
+        bool demo = Singleton.Instance.buildManager.IsDemoMode();
+
         foreach (string id in savedIds)
         {
             var def = chaosCabbageCollection.chaosCabbages.Find(c => c.dataName == id);
-            if (def != null)
+            // **skip full-only in demo**
+            if (def != null && (demo ? def.InDemo : true))
                 ownedChaosCabbages.Add(def);
         }
     }
@@ -155,10 +158,12 @@ public class ChaosManager : MonoBehaviour
 
     public void EquipChaosCabbage(ChaosCabbageSO ccso)
     {
-        if (equippedChaosCabbages.Contains(ccso))
-        {
+        // **block equipping full-only in demo**
+        if (Singleton.Instance.buildManager.IsDemoMode() && !ccso.InDemo)
             return;
-        }
+
+        if (equippedChaosCabbages.Contains(ccso))
+            return;
         
         equippedChaosCabbages.Add(ccso);
     }

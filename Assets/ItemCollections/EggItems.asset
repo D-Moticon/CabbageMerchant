@@ -15,5 +15,9 @@ MonoBehaviour:
   items:
   - item: {fileID: 4976234513493738422, guid: 3394484a3f052a94b915bbbe4dcf2c02, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 1837386530270481218, guid: e732a9a4f7a032047a4d0aebbfad80a6, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1

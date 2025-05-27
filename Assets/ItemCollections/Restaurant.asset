@@ -15,19 +15,37 @@ MonoBehaviour:
   items:
   - item: {fileID: 184268871305067490, guid: c4c5981a2a6c84147bd35baa2480283a, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 8424034213123109053, guid: e78df97a251bc914da54d5d4b771286f, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 8802626050805496807, guid: 0c7ec88391f9ca442adfdc9fc6aa2967, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 4425644436300913835, guid: c4662c324578f7b4ca901bb14c7708d3, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 1108301202013457258, guid: fd576e3f6f3822144ae4cccf650aa5da, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 3384270542583930400, guid: fe5823e2c56bf0844ba67089fd034acb, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 4699808747838188015, guid: c4e9e5feb28aa864d800aa9785a05497, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 1
   - item: {fileID: 979534098987691107, guid: 74d90b128176edb47aab6666b4138087, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 0
   - item: {fileID: 6049161352963312092, guid: a6236276171501841a3f51df6ca2ea28, type: 3}
     enabled: 1
+    weight: 1
+    InDemo: 0

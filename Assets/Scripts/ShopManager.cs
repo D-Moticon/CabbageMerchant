@@ -1,7 +1,7 @@
+// ShopManager.cs
 using System;
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class ShopManager : MonoBehaviour
@@ -12,10 +12,10 @@ public class ShopManager : MonoBehaviour
     public bool onlyBuyOne = false;
     public GameObject onlyBuyOneIndicator;
     public bool noDupes = true;
-    [FormerlySerializedAs("lockItems")] public bool lockSlots = false;
+    public bool lockSlots = false;
 
     public ItemCollection itemCollection;
-    [HideInInspector]public List<Item> spawnedItems = new List<Item>();
+    [HideInInspector] public List<Item> spawnedItems = new List<Item>();
 
     [System.Serializable]
     public class RarityWeight
@@ -25,7 +25,6 @@ public class ShopManager : MonoBehaviour
     }
 
     public List<RarityWeight> rarityWeights;
-
     private List<ItemSlot> createdSlots = new List<ItemSlot>();
 
     [Header("ReRoll Settings")]
@@ -67,17 +66,12 @@ public class ShopManager : MonoBehaviour
     void CreateItemSlots()
     {
         createdSlots.Clear();
-        for (int i = 0; i < itemSlotTransforms.Count; i++)
+        foreach (var t in itemSlotTransforms)
         {
-            ItemSlot newSlot = Instantiate(itemSlotPrefab, itemSlotTransforms[i].position, 
-                                           Quaternion.identity, itemSlotTransforms[i]);
-            createdSlots.Add(newSlot);
-            newSlot.SetPriceText();
-
-            if (lockSlots)
-            {
-                newSlot.LockSlot();
-            }
+            var slot = Instantiate(itemSlotPrefab, t.position, Quaternion.identity, t);
+            slot.SetPriceText();
+            if (lockSlots) slot.LockSlot();
+            createdSlots.Add(slot);
         }
     }
 
@@ -85,23 +79,27 @@ public class ShopManager : MonoBehaviour
     {
         int numItems = Mathf.Min(baseNumberItems, itemSlotTransforms.Count);
         spawnedItems.Clear();
-        
+
         for (int i = 0; i < numItems; i++)
         {
-            ItemSlot slot = createdSlots[i];
-            Rarity rarityToCheck = GetWeightedRandomRarity();
+            var slot = createdSlots[i];
+            var rarityToCheck = GetWeightedRandomRarity();
 
-            List<Item> validItems = itemCollection.GetItemsByRarity(rarityToCheck);
+            // fetch only enabled + demo-allowed + pet + survival filtered items:
+            var validItems = itemCollection.GetItemsByRarity(rarityToCheck);
+
+            // fallback rarity down if none at this tier
             while (validItems.Count == 0 && rarityToCheck > 0)
             {
                 rarityToCheck--;
                 validItems = itemCollection.GetItemsByRarity(rarityToCheck);
             }
 
+            // remove duplicates if needed
             if (noDupes)
             {
-                validItems = validItems.FindAll(candidate =>
-                    spawnedItems.TrueForAll(spawned => spawned.itemName != candidate.itemName));
+                validItems = validItems.FindAll(cand =>
+                    spawnedItems.TrueForAll(spawned => spawned.itemName != cand.itemName));
 
                 while (validItems.Count == 0 && rarityToCheck > 0)
                 {
@@ -110,55 +108,50 @@ public class ShopManager : MonoBehaviour
                 }
             }
 
-            if (validItems.Count == 0)
+            if (validItems.Count == 0) 
                 continue;
 
-            // Select an item based on its weight in the collection
-            float totalItemWeight = 0f;
-            foreach (var candidate in validItems)
+            // pick one by weight
+            float totalWeight = 0f;
+            foreach (var cand in validItems)
             {
-                var info = itemCollection.items.Find(i => i.item == candidate);
-                totalItemWeight += (info != null ? info.weight : 1f);
+                var info = itemCollection.items.Find(ii => ii.item == cand);
+                totalWeight += (info != null ? info.weight : 1f);
             }
 
-            float randomItemVal = Random.value * totalItemWeight;
-            float accumulated = 0f;
-            Item itemPrefab = null;
-            foreach (var candidate in validItems)
+            float pick = Random.value * totalWeight;
+            float acc = 0f;
+            Item chosen = null;
+            foreach (var cand in validItems)
             {
-                var info = itemCollection.items.Find(i => i.item == candidate);
+                var info = itemCollection.items.Find(ii => ii.item == cand);
                 float w = (info != null ? info.weight : 1f);
-                accumulated += w;
-                if (randomItemVal <= accumulated)
+                acc += w;
+                if (pick <= acc)
                 {
-                    itemPrefab = candidate;
+                    chosen = cand;
                     break;
                 }
             }
-            if (itemPrefab == null)
-                itemPrefab = validItems[validItems.Count - 1];
+            if (chosen == null)
+                chosen = validItems[validItems.Count - 1];
 
-            Item itemInstance = Singleton.Instance.itemManager.GenerateItemWithWrapper(itemPrefab, Vector2.zero, transform);
-            itemInstance.purchasable = true;
-            Singleton.Instance.itemManager.AddItemToSlot(itemInstance, slot);
+            // spawn it
+            var inst = Singleton.Instance.itemManager
+                        .GenerateItemWithWrapper(chosen, Vector2.zero, transform);
+            inst.purchasable = true;
+            Singleton.Instance.itemManager.AddItemToSlot(inst, slot);
             slot.SetPriceText();
-            spawnedItems.Add(itemInstance);
-            
-            ItemSpawnedInShopEvent?.Invoke(itemInstance);
+            spawnedItems.Add(inst);
+
+            ItemSpawnedInShopEvent?.Invoke(inst);
         }
     }
 
     public void ReRoll()
     {
-        if (rerollsRemaining <= 0)
-        {
+        if (rerollsRemaining <= 0 || Singleton.Instance.playerStats.coins < Singleton.Instance.playerStats.reRollCost)
             return;
-        }
-        
-        if (Singleton.Instance.playerStats.coins < Singleton.Instance.playerStats.reRollCost)
-        {
-            return;
-        }
 
         rerollsRemaining--;
         rerollSFX?.Play();
@@ -167,87 +160,71 @@ public class ShopManager : MonoBehaviour
         {
             if (slot.currentItem)
             {
-                if (rerollVFX != null)
-                    rerollVFX.Spawn(slot.transform.position);
-
+                rerollVFX?.Spawn(slot.transform.position);
                 if (slot.currentItem.itemWrapper)
                     Destroy(slot.currentItem.itemWrapper.gameObject);
-
                 slot.currentItem = null;
             }
         }
 
         PopulateItems();
-
-        float allHoloRand = Random.Range(0f, 1f);
-        if (allHoloRand < Singleton.Instance.playerStats.allHolofoilRollChance)
+        if (Random.value < Singleton.Instance.playerStats.allHolofoilRollChance)
         {
-            foreach (Item item in spawnedItems)
-            {
-                item.SetHolofoil();
-            }
+            foreach (var it in spawnedItems) it.SetHolofoil();
         }
-        
+
         Singleton.Instance.playerStats.AddCoins(-Singleton.Instance.playerStats.reRollCost);
         ShopRerolledEvent?.Invoke(rerollsRemaining);
     }
 
     private Rarity GetWeightedRandomRarity()
     {
-        float totalWeight = 0f;
-        float rarityMultiplier = Singleton.Instance.playerStats.shopRarityMult;
-        List<float> modifiedWeights = new List<float>();
+        float total = 0f;
+        float mult = Singleton.Instance.playerStats.shopRarityMult;
+        var mods = new List<float>();
 
         foreach (var rw in rarityWeights)
         {
-            float modWeight = (rw.rarity != Rarity.Common) ? rw.weight * rarityMultiplier : rw.weight;
-            modifiedWeights.Add(modWeight);
-            totalWeight += modWeight;
+            float w = (rw.rarity != Rarity.Common) 
+                      ? rw.weight * mult 
+                      : rw.weight;
+            mods.Add(w);
+            total += w;
         }
 
-        float randomVal = Random.value * totalWeight;
-
-        for (int i = 0; i < rarityWeights.Count; i++)
+        float pick = Random.value * total;
+        for (int i = 0; i < mods.Count; i++)
         {
-            if (randomVal < modifiedWeights[i])
+            if (pick < mods[i])
                 return rarityWeights[i].rarity;
-
-            randomVal -= modifiedWeights[i];
+            pick -= mods[i];
         }
-
         return rarityWeights[^1].rarity;
     }
 
-    void ItemPurchasedListener(Item itemPurchased)
+    private void ItemPurchasedListener(Item purchased)
     {
-        if (onlyBuyOne)
+        if (!onlyBuyOne) return;
+
+        foreach (var it in spawnedItems)
         {
-            foreach (var item in spawnedItems)
+            if (it != purchased)
             {
-                if (item != itemPurchased)
-                {
-                    item.currentItemSlot.HidePriceText();
-                    item.DestroyItem(true);
-                }
+                it.currentItemSlot.HidePriceText();
+                it.DestroyItem(true);
             }
         }
     }
 
     public void LeaveShop()
     {
-        if (Singleton.Instance.pauseManager.isPaused)
-        {
-            return;
-        }
+        if (Singleton.Instance.pauseManager.isPaused) return;
         Singleton.Instance.runManager.GoToMap();
     }
 
     public void DisableOnlyBuyOne()
     {
         onlyBuyOne = false;
-        if (onlyBuyOneIndicator != null)
-        {
-            onlyBuyOneIndicator.SetActive(false);
-        }
+        onlyBuyOneIndicator?.SetActive(false);
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
   m_Name: Nat
   m_EditorClassIdentifier: 
+  InDemo: 1
   displayName: Nat
   dataName: cat
   itemPrefab: {fileID: 7589841050348396428, guid: aa2c5cbb845c4f44ebb9c67243274300, type: 3}

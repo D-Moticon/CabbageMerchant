@@ -4,9 +4,14 @@ using UnityEngine.UI;
 
 public class AppearanceShopPanel : MenuPanel
 {
-    [Tooltip("Parent RectTransform for button grid")] public RectTransform gridParent;
-    [Tooltip("Prefab for PetButton")] public SkinButton skinButtonPrefab;
-    [Tooltip("ScriptableObject containing all PetDefinitions")] public SkinDatabase skinDatabase;
+    [Tooltip("Parent RectTransform for button grid")]
+    public RectTransform gridParent;
+
+    [Tooltip("Prefab for SkinButton")]
+    public SkinButton skinButtonPrefab;
+
+    [Tooltip("Database of all skins")]
+    public SkinDatabase skinDatabase;
 
     private List<SkinButton> buttons = new List<SkinButton>();
 
@@ -15,9 +20,6 @@ public class AppearanceShopPanel : MenuPanel
         PopulateGrid();
     }
 
-    /// <summary>
-    /// Creates a PetButton for each definition in the database.
-    /// </summary>
     public void PopulateGrid()
     {
         // clear old
@@ -31,14 +33,22 @@ public class AppearanceShopPanel : MenuPanel
             var btn = Instantiate(skinButtonPrefab, gridParent);
             btn.skin = skinInfo.skin;
             btn.name = skinInfo.skin.displayName + "Button";
-            btn.Start(); // manually initialize UI
+
+            // remember its demo-only flag
+            btn.notInDemo = !skinInfo.InDemo;
+
+            btn.Start(); // initialize UI
+
+            // if we're in demo mode and this skin is restricted, gray it out
+            if (Singleton.Instance.buildManager.IsDemoMode() && !skinInfo.InDemo)
+                btn.SetToDemoRestricted();
+
             buttons.Add(btn);
         }
     }
 
     void Update()
     {
-        // refresh state for each button
         foreach (var btn in buttons)
             btn.UpdateState();
     }

@@ -7,7 +7,6 @@ public class BuildManager : MonoBehaviour
     public enum BuildMode
     {
         release,
-        demo,
         releaseTest,
         startAtOverworld,
         startRunAtMap,
@@ -21,6 +20,7 @@ public class BuildManager : MonoBehaviour
     }
 
     public string version;
+    public bool demo;
     public BuildMode buildMode;
     
     [Header("DEMO")]
@@ -46,15 +46,23 @@ public class BuildManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (demo)
+        {
+            Singleton.Instance.runManager.startingMapBlueprint = startingMapBlueprint_DEMO;
+        }
+        
         switch (buildMode)
         {
             case BuildMode.release:
-                Debug.Log($"Super Cabbage Kabumi Version: {version}");
-                FullGameStartedEvent?.Invoke();
-                break;
-            case BuildMode.demo:
-                Debug.Log($"Super Cabbage Kabumi Demo Version: {version}");
-                Singleton.Instance.runManager.startingMapBlueprint = startingMapBlueprint_DEMO;
+                if (demo)
+                {
+                    Debug.Log($"Super Cabbage Kabumi Demo Version: {version}");
+                }
+                else
+                {
+                    Debug.Log($"Super Cabbage Kabumi Version: {version}");
+                }
+                
                 FullGameStartedEvent?.Invoke();
                 break;
             case BuildMode.releaseTest:
@@ -202,12 +210,7 @@ public class BuildManager : MonoBehaviour
 
     public bool IsDemoMode()
     {
-        if (buildMode == BuildMode.demo)
-        {
-            return true;
-        }
-
-        return false;
+        return demo;
     }
     
     void PopulateStartingItems()

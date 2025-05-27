@@ -10,4 +10,5 @@ public class ChaosCabbageSO : ScriptableObject
     public Item item;
 
     public Dialogue cabbageGetDialogue;
+    public bool InDemo = false;
 }

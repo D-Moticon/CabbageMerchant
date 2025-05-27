@@ -18,3 +18,4 @@ MonoBehaviour:
   petDef: {fileID: 0}
   item: {fileID: 2759414844551155604, guid: 66edd183422825b4990fcd9a3cb20766, type: 3}
   cabbageGetDialogue: {fileID: 11400000, guid: 8b2e2161fe3c0394492ccaa57e790b72, type: 2}
+  InDemo: 0

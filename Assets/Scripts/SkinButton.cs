@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -11,7 +12,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class SkinButton : MonoBehaviour, IHoverable
 {
-    [Tooltip("Reference to the skin definition this button represents.")]
+    [Tooltip("Which Skin asset this button represents")]
     public Skin skin;
 
     [Header("UI References")]
@@ -26,6 +27,13 @@ public class SkinButton : MonoBehaviour, IHoverable
     public Color unOwnedColor = Color.grey;
     public Color ownedColor = Color.white;
 
+    [Header("Demo Mode")]
+    [Tooltip("Indicator GameObject to enable when this skin is demo-only")]
+    public GameObject demoOnlyIndicator;
+
+    [FormerlySerializedAs("isDemoRestricted")] [HideInInspector]
+    public bool notInDemo = false;
+
     private Button _button;
 
     public PooledObjectData equipVFX;
@@ -35,6 +43,8 @@ public class SkinButton : MonoBehaviour, IHoverable
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnClick);
+        if (demoOnlyIndicator != null)
+            demoOnlyIndicator.SetActive(false);
     }
 
     void OnDestroy()
@@ -44,7 +54,6 @@ public class SkinButton : MonoBehaviour, IHoverable
 
     public void Start()
     {
-        // initialize UI text and icon
         if (nameText != null && skin != null)
             nameText.text = skin.displayName;
         if (iconImage != null && skin != null)
@@ -53,14 +62,11 @@ public class SkinButton : MonoBehaviour, IHoverable
         UpdateState();
     }
 
-    /// <summary>
-    /// Updates visuals and interactability based on ownership and requirements.
-    /// </summary>
     public void UpdateState()
     {
-        if (skin == null)
-            return;
+        if (skin == null) return;
 
+        bool demoMode = Singleton.Instance.buildManager.IsDemoMode();
         var ps = Singleton.Instance.playerStats;
         var sm = Singleton.Instance.skinManager;
         bool owned = sm.ownedSkins.Contains(skin);
@@ -80,26 +86,45 @@ public class SkinButton : MonoBehaviour, IHoverable
             }
         }
 
-        // icon transparency
+        // icon tint
         if (iconImage != null)
             iconImage.color = owned ? ownedColor : unOwnedColor;
 
-        // selected indicator
+        // selected highlight
         if (selectedImage != null)
             selectedImage.enabled = owned && sm.currentSkin == skin;
 
-        // button interactable
+        // base interactability
         _button.interactable = owned || requirementsMet;
+
+        // ** demo-only override **
+        if (demoMode && notInDemo)
+        {
+            SetToDemoRestricted();
+        }
+        else if (demoOnlyIndicator != null)
+        {
+            demoOnlyIndicator.SetActive(false);
+        }
     }
 
-    /// <summary>
-    /// Click handler: purchase or equip.
-    /// </summary>
+    public void SetToDemoRestricted()
+    {
+        if (_button == null)
+            _button = GetComponent<Button>();
+
+        _button.interactable = false;
+
+        if (demoOnlyIndicator != null)
+            demoOnlyIndicator.SetActive(true);
+    }
+
     private void OnClick()
     {
-        if (skin == null)
+        // swallow any clicks if demo-only
+        if (Singleton.Instance.buildManager.IsDemoMode() && notInDemo)
             return;
-        
+
         var ps = Singleton.Instance.playerStats;
         var sm = Singleton.Instance.skinManager;
         bool owned = sm.ownedSkins.Contains(skin);
@@ -109,7 +134,6 @@ public class SkinButton : MonoBehaviour, IHoverable
         {
             if (!requirementsMet)
             {
-                // insufficient requirements
                 Singleton.Instance.floaterManager.SpawnInfoFloater(
                     "Requirements not met!", transform.position, requirementsUnmetColor);
                 return;
@@ -120,18 +144,12 @@ public class SkinButton : MonoBehaviour, IHoverable
                     "Can't afford!", transform.position, Color.red);
                 return;
             }
-            // perform purchase
             ps.AddMetacurrency(-skin.cost);
             sm.PurchaseSkin(skin);
         }
         else
         {
-            // equip
-            if (equipVFX != null)
-            {
-                equipVFX.Spawn(this.transform.position);
-            }
-
+            if (equipVFX != null) equipVFX.Spawn(transform.position);
             equipSFX.Play();
             sm.EquipSkin(skin);
         }

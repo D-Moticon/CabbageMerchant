@@ -1,3 +1,4 @@
+// ItemCollection.cs
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -15,24 +16,39 @@ public class ItemCollection : ScriptableObject
 
         [Tooltip("Weight for random selection.")]
         public float weight = 1f;
+
+        [Tooltip("If true, this item appears in both demo and full builds; if false, full-game only.")]
+        public bool InDemo = false;
     }
 
     [Tooltip("All potential items and their filters.")]
     public List<ItemInfo> items;
 
     /// <summary>
-    /// Returns a list of items that match the given rarity and any pet requirements.
+    /// Returns a list of items that match the given rarity and any pet/survival requirements,
+    /// and excludes full-only items in demo mode.
     /// </summary>
     public List<Item> GetItemsByRarity(Rarity rarity)
     {
         var matchingItems = new List<Item>();
+        bool demo = Singleton.Instance.buildManager.IsDemoMode();
         var equippedPet = Singleton.Instance.petManager.currentPet;
 
         foreach (var info in items)
         {
-            if (!info.enabled) continue;
-            if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) continue;
-            if (info.item.survivalModeOnly == true && !Singleton.Instance.survivalManager.survivalModeOn) continue;
+            if (!info.enabled) 
+                continue;
+
+            // demo builds only get InDemo==true items
+            if (demo && !info.InDemo) 
+                continue;
+
+            if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) 
+                continue;
+
+            if (info.item.survivalModeOnly && !Singleton.Instance.survivalManager.survivalModeOn) 
+                continue;
+
             if (info.item.rarity == rarity)
                 matchingItems.Add(info.item);
         }
@@ -40,24 +56,34 @@ public class ItemCollection : ScriptableObject
     }
 
     /// <summary>
-    /// Returns all items that meet the enabled and pet requirements.
+    /// Returns all items that meet the enabled and pet requirements,
+    /// and excludes full-only items in demo mode.
     /// </summary>
     public List<Item> GetAllItems()
     {
         var matchingItems = new List<Item>();
+        bool demo = Singleton.Instance.buildManager.IsDemoMode();
         var equippedPet = Singleton.Instance.petManager.currentPet;
 
         foreach (var info in items)
         {
-            if (!info.enabled) continue;
-            if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) continue;
+            if (!info.enabled) 
+                continue;
+
+            if (demo && !info.InDemo) 
+                continue;
+
+            if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) 
+                continue;
+
             matchingItems.Add(info.item);
         }
         return matchingItems;
     }
 
     /// <summary>
-    /// Returns a single random enabled item (uniform distribution).
+    /// Returns a single random enabled item (uniform distribution),
+    /// respecting demo/full rules.
     /// </summary>
     public Item GetRandomItem()
     {
@@ -68,20 +94,18 @@ public class ItemCollection : ScriptableObject
     }
 
     /// <summary>
-    /// Returns a single random item, weighted by rarity.
-    /// Uses static weights: Common = 1, Rare = 0.5, Legendary = 0.1.
+    /// Returns a single random item, weighted by rarity,
+    /// respecting demo/full rules.
     /// </summary>
     public Item GetRandomItemRarityWeighted()
     {
         var all = GetAllItems();
         if (all == null || all.Count == 0) return null;
 
-        // Static weights per rarity
         const float commonWeight    = 1f;
         const float rareWeight      = 0.1f;
         const float legendaryWeight = 0.05f;
 
-        // Calculate total weight
         float total = 0f;
         foreach (var itm in all)
         {
@@ -93,11 +117,9 @@ public class ItemCollection : ScriptableObject
             }
         }
 
-        // Roll a value in [0, total)
         float r = Random.value * total;
         float acc = 0f;
 
-        // Find the item whose weight range covers r
         foreach (var itm in all)
         {
             switch (itm.rarity)
@@ -110,7 +132,6 @@ public class ItemCollection : ScriptableObject
                 return itm;
         }
 
-        // Safety fallback
         return all[all.Count - 1];
     }
 }

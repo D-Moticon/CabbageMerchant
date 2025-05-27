@@ -26,6 +26,7 @@ public class ChaosCabbageButton : MonoBehaviour, IHoverable
     public PooledObjectData equipVFX;
     public SFXInfo unequipSFX;
     public MMF_Player equipFeel;
+    public GameObject demoOnlyIndicator;
 
     public enum State
     {
@@ -67,6 +68,7 @@ public class ChaosCabbageButton : MonoBehaviour, IHoverable
     private void OnEnable()
     {
         ApplyInitialState();
+        if (demoOnlyIndicator != null) demoOnlyIndicator.SetActive(false);
     }
 
     public void ApplyInitialState()
@@ -76,13 +78,23 @@ public class ChaosCabbageButton : MonoBehaviour, IHoverable
 
         bool unlocked = Singleton.Instance.chaosManager.IsChaosCabbageUnlocked(chaosCabbage);
         bool equipped = unlocked && Singleton.Instance.chaosManager.IsChaosCabbageEquipped(chaosCabbage);
+        
+        bool demo = Singleton.Instance.buildManager.IsDemoMode();
+        if (demo && !chaosCabbage.InDemo) unlocked = false;
 
         if (!unlocked)
+        {
             SetCabbageUnowned();
+            if (demo && !chaosCabbage.InDemo && demoOnlyIndicator != null) demoOnlyIndicator.SetActive(true);
+        }
         else if (equipped)
+        {
             SetCabbageEquipped();
+        }
         else
+        {
             SetCabbageUnequipped();
+        }
     }
 
     private void SetCabbageEquipped()

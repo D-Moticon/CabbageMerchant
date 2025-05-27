@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
   m_Name: Sloth
   m_EditorClassIdentifier: 
+  InDemo: 1
   displayName: Roth
   dataName: sloth
   itemPrefab: {fileID: 7787833553558055281, guid: 3c274cf5e1dc36246bfb6fdbed9a8c71, type: 3}
