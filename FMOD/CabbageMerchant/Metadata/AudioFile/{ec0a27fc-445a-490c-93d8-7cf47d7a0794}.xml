@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{ec0a27fc-445a-490c-93d8-7cf47d7a0794}">
+		<property name="assetPath">
+			<value>SFX/PaperFold.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.6201814058956916</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{10f3be65-4092-4627-94db-b5cd34dae883}</destination>
+		</relationship>
+	</object>
+</objects>

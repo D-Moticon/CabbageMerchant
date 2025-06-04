@@ -4934,6 +4934,7 @@ GameObject:
   - component: {fileID: 9181602578612770828}
   - component: {fileID: 6765957369355577911}
   - component: {fileID: 3275427222628005970}
+  - component: {fileID: 4391580829409274838}
   m_Layer: 6
   m_Name: RainbowBall
   m_TagString: Untagged
@@ -5099,6 +5100,18 @@ MonoBehaviour:
       Path: event:/Grind
     vol: 0.3
   grindBonker: {fileID: 1761082372882059770}
+--- !u!114 &4391580829409274838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2202965702105314799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d967f47bcd7e504d940d8bf60558366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3042391551663647294
 GameObject:
   m_ObjectHideFlags: 0

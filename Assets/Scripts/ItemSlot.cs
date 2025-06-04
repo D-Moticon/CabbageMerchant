@@ -7,6 +7,7 @@ public class ItemSlot : MonoBehaviour
 {
     public int slotNumber = 0;
     public Item currentItem;
+    public SpriteRenderer frameSpriteRenderer;
     public GameObject priceTextParent;
     public TMP_Text priceText;
     public bool isEventSlot = false;
@@ -18,6 +19,16 @@ public class ItemSlot : MonoBehaviour
     public PooledObjectData unlockVFX;
     public SFXInfo unlockSFX;
     public TMP_Text slotNumberText;
+
+    [Header("Freezing")]
+    public Color frozenFrameColor = Color.red;
+    private Color originalFrameColor;
+    [HideInInspector]public bool isFrozen = false;
+    public GameObject frozenGameObject;
+    public PooledObjectData frozenVFX;
+    public SFXInfo frozenSFX;
+    public PooledObjectData unfrozenVFX;
+    public SFXInfo unfrozenSFX;
     
 
     public enum AllowedTypes
@@ -44,6 +55,12 @@ public class ItemSlot : MonoBehaviour
         {
             UnLockSlot(false);
         }
+
+        if (frameSpriteRenderer != null)
+        {
+            originalFrameColor = frameSpriteRenderer.color;
+        }
+        
     }
 
     private void OnDisable()
@@ -160,5 +177,31 @@ public class ItemSlot : MonoBehaviour
             slotNumberText.gameObject.SetActive(true);
             slotNumberText.text = (newSlotNumber+1).ToString();
         }
+    }
+
+    public void FreezeSlot()
+    {
+        isFrozen = true;
+        frozenGameObject.SetActive(true);
+        if (frozenVFX != null)
+        {
+            frozenVFX.Spawn(this.transform.position);
+        }
+
+        frozenSFX.Play();
+        frameSpriteRenderer.color = frozenFrameColor;
+    }
+
+    public void UnFreezeSlot()
+    {
+        isFrozen = false;
+        frozenGameObject.SetActive(false);
+        if (unfrozenVFX != null)
+        {
+            unfrozenVFX.Spawn(this.transform.position);
+        }
+
+        unfrozenSFX.Play();
+        frameSpriteRenderer.color = originalFrameColor;
     }
 }

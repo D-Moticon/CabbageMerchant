@@ -31,7 +31,7 @@ public class SkinManager : MonoBehaviour
         if (Singleton.Instance.buildManager.IsDemoMode())
         {
             var info = skinDatabase.skinInfos.FirstOrDefault(si => si.skin == skin);
-            if (info != null && info.InDemo)
+            if (info != null && !info.InDemo)
                 skin = defaultSkin;
         }
 

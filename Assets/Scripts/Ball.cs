@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
     public PooledObjectData bonkValueUpVFX;
     public FloaterReference bonkValueUpFloater;
     public PooledObjectData pooledObjectRef;
+    private Vector2 prePauseVelocity;
     
     public class BallHitBonkableParams
     {

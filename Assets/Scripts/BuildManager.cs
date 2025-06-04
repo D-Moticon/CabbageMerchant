@@ -20,10 +20,9 @@ public class BuildManager : MonoBehaviour
     }
 
     public string version;
-    public bool demo;
     public BuildMode buildMode;
     
-    [Header("DEMO")]
+    [Header("DEMO: MAKE SURE TO ADD SCRIPTING DEFINE SYMBOL DEMO IN PLAYER SETTINGS ")]
     public MapBlueprint startingMapBlueprint_DEMO;
     
     [Header("TESTING: These are not used for builds")]
@@ -39,22 +38,25 @@ public class BuildManager : MonoBehaviour
     public Difficulty startingDifficulty;
     public int startingReRolls = 1;
     public Dialogue startingSpecificDialogue;
-
+    public Boss testBoss;
+    
     public static Action FullGameStartedEvent;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (demo)
-        {
-            Singleton.Instance.runManager.startingMapBlueprint = startingMapBlueprint_DEMO;
-        }
+        bool isDemo = false;
+        
+        #if DEMO
+                Singleton.Instance.runManager.startingMapBlueprint = startingMapBlueprint_DEMO;
+                isDemo = true;
+        #endif
         
         switch (buildMode)
         {
             case BuildMode.release:
-                if (demo)
+                if(isDemo)
                 {
                     Debug.Log($"Super Cabbage Kabumi Demo Version: {version}");
                 }
@@ -108,6 +110,10 @@ public class BuildManager : MonoBehaviour
                     Singleton.Instance.itemManager.UnLockAllInventorySlots();
                 }
                 Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
+                if (testBoss != null)
+                {
+                    Singleton.Instance.bossFightManager.SetBossFight(testBoss);
+                }
                 break;
             case BuildMode.startAtShop:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
@@ -210,7 +216,11 @@ public class BuildManager : MonoBehaviour
 
     public bool IsDemoMode()
     {
-        return demo;
+        #if DEMO
+                return true;
+        #else
+                return false;
+        #endif
     }
     
     void PopulateStartingItems()

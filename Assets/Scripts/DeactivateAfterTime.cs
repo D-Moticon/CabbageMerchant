@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
@@ -10,27 +11,27 @@ public class DeactivateAfterTime : MonoBehaviour
 {
     [Tooltip("Time in seconds before deactivation")] 
     public float lifetime = 3f;
-
+    private float lifetimeCountdown;
+    
     private Coroutine deactivateRoutine;
 
     void OnEnable()
     {
-        // start or restart the deactivation timer
-        if (deactivateRoutine != null)
-            StopCoroutine(deactivateRoutine);
-        deactivateRoutine = StartCoroutine(DeactivateCoroutine());
+        lifetimeCountdown = lifetime;
     }
 
-    void OnDisable()
+    private void Update()
     {
-        // ensure coroutine is stopped if object disabled
-        if (deactivateRoutine != null)
-            StopCoroutine(deactivateRoutine);
+        if (Singleton.Instance.pauseManager.isPaused)
+        {
+            return;
+        }
+
+        lifetimeCountdown -= Time.deltaTime;
+        if (lifetimeCountdown <= 0f)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
-    private IEnumerator DeactivateCoroutine()
-    {
-        yield return new WaitForSeconds(lifetime);
-        gameObject.SetActive(false);
-    }
 }

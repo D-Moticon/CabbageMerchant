@@ -9,6 +9,7 @@ public class AddBallThisRoundEffect : ItemEffect
         {
             return;
         }
+
         GameSingleton.Instance.gameStateMachine.AddExtraBall(quantity);
     }
 

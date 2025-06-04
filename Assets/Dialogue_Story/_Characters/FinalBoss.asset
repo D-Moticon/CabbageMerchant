@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eedea71e5475d7c48ba3e5bea7da7f16, type: 3}
-  m_Name: Otter_Gameshow
+  m_Name: FinalBoss
   m_EditorClassIdentifier: 
-  displayName: Otto Spinoza
-  sprite: {fileID: 21300000, guid: f1542d7441c022a418884d954a0a8ed9, type: 3}
+  displayName: Final Bossguy
+  sprite: {fileID: 21300000, guid: 6df69f1fef95bd144835746687d3e45f, type: 3}
   speakingSFX_Short:
     sfx:
       Guid:
@@ -41,3 +41,7 @@ MonoBehaviour:
         Data4: 144567218
       Path: event:/TypingLong
     vol: 0.5
+  upSprite: {fileID: 0}
+  downSprite: {fileID: 0}
+  leftSprite: {fileID: 0}
+  rightSprite: {fileID: 0}

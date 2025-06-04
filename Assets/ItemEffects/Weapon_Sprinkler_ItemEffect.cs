@@ -83,6 +83,11 @@ public class Weapon_Sprinkler_ItemEffect : ItemEffect
 
         while (elapsed < sprinklerDuration)
         {
+            while (Singleton.Instance.pauseManager.isPaused)
+            {
+                yield return null;
+            }
+            
             // stop on fire release
             if (releaseOnFireUp)
             {

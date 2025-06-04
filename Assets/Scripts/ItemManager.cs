@@ -694,6 +694,10 @@ public class ItemManager : MonoBehaviour
         item.itemWrapper.transform.position = itemSlot.transform.position;
         item.itemWrapper.transform.SetParent(itemSlot.transform);
         itemSlot.PlayItemAddedToSlotFX();
+        if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
+        {
+            Debug.Log($"{item.itemName} added to slot {itemSlot.slotNumber}");
+        }
     }
     
     private void SwapItemsBetweenSlots(ItemSlot fromSlot, ItemSlot toSlot)
@@ -1085,5 +1089,58 @@ public class ItemManager : MonoBehaviour
     void RevertSellButtonLabel()
     {
         sellCollider.GetComponentInChildren<TMPro.TMP_Text>().text = "Sell";
+    }
+
+    public void UpgradeItem(Item item)
+    {
+        if (item.upgradedItem == null)
+        {
+            return;
+        }
+        
+        ItemSlot slot = item.currentItemSlot;
+        
+        bool keep = item.keepTriggerOnUpgrade;
+        List<Trigger> triggersToCopy = null;
+        if (keep)
+        {
+            triggersToCopy = item.triggers;
+        }
+        
+        Item upgraded = GenerateItemWithWrapper(item.upgradedItem);
+        if (item.isHolofoil) upgraded.SetHolofoil();
+        if (slot != null)
+        {
+            AddItemToSlot(upgraded, slot);
+            ItemAddedToSlotEvent?.Invoke(upgraded, slot);
+            slot.SetPriceText();
+        }
+
+        // 4) if we’re carrying over triggers, deep‐clone & init them
+        if (keep && triggersToCopy != null)
+        {
+            foreach (Trigger t in upgraded.triggers)
+            {
+                t.RemoveTrigger(upgraded);
+            }
+            upgraded.triggers = new List<Trigger>();
+            foreach (var trig in triggersToCopy)
+            {
+                // deep‐clone the trigger instance
+                var clone = Helpers.DeepClone(trig);
+                clone.owningItem = upgraded;
+                clone.InitializeTrigger(upgraded);
+                upgraded.triggers.Add(clone);
+            }
+            // carry the flag forward
+            upgraded.keepTriggerOnUpgrade = true;
+        }
+
+        if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
+        {
+            Debug.Log($"{item.itemName} upgraded to {upgraded.itemName}");
+        }
+        
+        item.DestroyItem(false,false);
     }
 }

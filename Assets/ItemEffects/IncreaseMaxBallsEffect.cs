@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class AddExtraBallItemEffect : ItemEffect
+public class IncreaseMaxBallsEffect : ItemEffect
 {
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        Singleton.Instance.playerStats.AddExtraBall();
+        Singleton.Instance.playerStats.IncreaseMaxBalls();
     }
 
     public override string GetDescription()
     {
-        return ("Gain 1 extra ball");
+        return ("Max Balls +1");
     }
 }

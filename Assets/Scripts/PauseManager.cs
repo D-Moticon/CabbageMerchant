@@ -17,7 +17,9 @@ public class PauseManager : MonoBehaviour
     /// <summary>
     /// Fired whenever pause state changes: true=paused, false=unpaused.
     /// </summary>
-    public event Action<bool> OnPauseStateChanged;
+    public static event Action GamePausedEvent;
+
+    public static event Action GameUnPausedEvent;
 
     /// <summary>
     /// Pause or unpause the game. Unpause is delayed by one frame to avoid input bleed-through.
@@ -37,7 +39,7 @@ public class PauseManager : MonoBehaviour
         {
             // Immediate pause
             isPaused = true;
-            OnPauseStateChanged?.Invoke(true);
+            GamePausedEvent?.Invoke();
         }
     }
 
@@ -62,7 +64,7 @@ public class PauseManager : MonoBehaviour
         // Wait exactly one frame
         yield return null;
         isPaused = false;
-        OnPauseStateChanged?.Invoke(false);
+        GameUnPausedEvent?.Invoke();
     }
 
     private void Update()

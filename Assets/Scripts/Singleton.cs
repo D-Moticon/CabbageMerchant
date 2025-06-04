@@ -34,6 +34,7 @@ public class Singleton : MonoBehaviour
     public SpecialRuleManager specialRuleManager;
     public SkinManager skinManager;
     public SurvivalManager survivalManager;
+    public BossFightManager bossFightManager;
     
     private void OnEnable()
     {

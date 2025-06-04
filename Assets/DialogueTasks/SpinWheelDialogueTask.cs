@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpinWheelDialogueTask : DialogueTask
 {
     public WheelSpinner wheelSpinnerPrefab;
+    public bool destroyAfter = false;
 
     public override IEnumerator RunTask(DialogueContext dc)
     {
@@ -16,6 +17,11 @@ public class SpinWheelDialogueTask : DialogueTask
         while (spinTask.Running)
         {
             yield return null;
+        }
+
+        if (destroyAfter)
+        {
+            GameObject.Destroy(wheelSpinner.gameObject);
         }
     }
 }

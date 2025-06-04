@@ -1,0 +1,418 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4994201972867994854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1943124086919829578}
+  - component: {fileID: 7593399075830888660}
+  m_Layer: 0
+  m_Name: Origami
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1943124086919829578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994201972867994854}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.86285, y: -0.45466, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7593399075830888660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994201972867994854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Origami
+  itemDescription: 
+  icon: {fileID: 21300000, guid: c41d7fcd086a2a5439a2555cba5f952b, type: 3}
+  itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 0
+  effects:
+  - rid: 6680767952996532312
+  holofoilEffects:
+  - rid: 6680767977426518135
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 6680767977426518115
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 0
+  numberShotsBeforeDestroy: 1
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 2
+  normalizedPrice: 1.7
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6680767952996532312
+      type: {class: EffectChangeOnSlotChange, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        changeSFX:
+          sfx:
+            Guid:
+              Data1: -766349630
+              Data2: 1104635133
+              Data3: 1145073830
+              Data4: -508109294
+            Path: event:/PaperFold
+          vol: 0.5
+        effectInfos:
+        - rid: 6680767952996532314
+        - rid: 6680767952996532318
+        - rid: 6680767952996532321
+        - rid: 6680767952996532332
+        - rid: 6680767952996532341
+        - rid: 6680767977426518126
+        - rid: 6680767977426518128
+        - rid: 6680767977426518131
+    - rid: 6680767952996532314
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 0126ba45183904b46857e410abcb1a2b, type: 3}
+        itemEffect:
+          rid: 6680767952996532316
+        trigger:
+          rid: 6680767952996532317
+    - rid: 6680767952996532316
+      type: {class: SellValueEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        sellValueIncrease: 1
+    - rid: 6680767952996532317
+      type: {class: BallFiredTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 6680767952996532318
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 23f11b23d2aa1c1449792766f0afc047, type: 3}
+        itemEffect:
+          rid: 6680767952996532326
+        trigger:
+          rid: -2
+    - rid: 6680767952996532321
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 901d1a601dfc817428b8045466dfad98, type: 3}
+        itemEffect:
+          rid: 6680767977426518125
+        trigger:
+          rid: 6680767952996532330
+    - rid: 6680767952996532326
+      type: {class: GoldenCabbageValueEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        valueMult: 2
+    - rid: 6680767952996532330
+      type: {class: BounceStateExitedWithFewCabbagesBonked, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+        cabbagesBonkedThresholdExclusive: 3
+    - rid: 6680767952996532332
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 6d4525164991d2b43a5da14d0cc5acf4, type: 3}
+        itemEffect:
+          rid: 6680767952996532338
+        trigger:
+          rid: -2
+    - rid: 6680767952996532338
+      type: {class: IncreaseKeyValueEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        keyValueIncrease: 1
+    - rid: 6680767952996532341
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: c06d475838cc419498a54eb3b4984def, type: 3}
+        itemEffect:
+          rid: 6680767952996532343
+        trigger:
+          rid: -2
+    - rid: 6680767952996532343
+      type: {class: PreventItemDestructionEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 0.5
+        owningItem: {fileID: 0}
+    - rid: 6680767977426518115
+      type: {class: EffectChangeOnSlotTriggerDescription, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 6680767977426518125
+      type: {class: AddBallThisRoundEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 0.5
+        owningItem: {fileID: 0}
+        quantity: 1
+    - rid: 6680767977426518126
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 114d740d9b6bc364c8135553b8e34e2f, type: 3}
+        itemEffect:
+          rid: 6680767977426518127
+        trigger:
+          rid: -2
+    - rid: 6680767977426518127
+      type: {class: ShopItemLevelEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+    - rid: 6680767977426518128
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 60198182a0556ed44ac21c58ba887df3, type: 3}
+        itemEffect:
+          rid: 6680767977426518130
+        trigger:
+          rid: -2
+    - rid: 6680767977426518130
+      type: {class: ShopItemsDiscountAndTemporaryEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        priceMult: 0.5
+        tempNumber: 10
+    - rid: 6680767977426518131
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 98a2d49a639a92c42900dbd7c47c7481, type: 3}
+        itemEffect:
+          rid: 6680767977426518133
+        trigger:
+          rid: 6680767977426518134
+    - rid: 6680767977426518133
+      type: {class: MakeRandomItemHolofoilEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 0.01
+        owningItem: {fileID: 0}
+        holoVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        holoSFX:
+          sfx:
+            Guid:
+              Data1: -221431454
+              Data2: 1325979112
+              Data3: 1410731961
+              Data4: 2027769841
+            Path: event:/CabbageScore5
+          vol: 0.5
+    - rid: 6680767977426518134
+      type: {class: BallFiredTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 6680767977426518135
+      type: {class: EffectChangeOnSlotChange, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        changeSFX:
+          sfx:
+            Guid:
+              Data1: -766349630
+              Data2: 1104635133
+              Data3: 1145073830
+              Data4: -508109294
+            Path: event:/PaperFold
+          vol: 0.5
+        effectInfos:
+        - rid: 6680767977426518136
+        - rid: 6680767977426518137
+        - rid: 6680767977426518138
+        - rid: 6680767977426518139
+        - rid: 6680767977426518140
+        - rid: 6680767977426518141
+        - rid: 6680767977426518142
+        - rid: 6680767977426518143
+    - rid: 6680767977426518136
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 0126ba45183904b46857e410abcb1a2b, type: 3}
+        itemEffect:
+          rid: 6680767977426518144
+        trigger:
+          rid: 6680767977426518145
+    - rid: 6680767977426518137
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 23f11b23d2aa1c1449792766f0afc047, type: 3}
+        itemEffect:
+          rid: 6680767977426518146
+        trigger:
+          rid: -2
+    - rid: 6680767977426518138
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 901d1a601dfc817428b8045466dfad98, type: 3}
+        itemEffect:
+          rid: 6680767977426518147
+        trigger:
+          rid: 6680767977426518148
+    - rid: 6680767977426518139
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 6d4525164991d2b43a5da14d0cc5acf4, type: 3}
+        itemEffect:
+          rid: 6680767977426518149
+        trigger:
+          rid: -2
+    - rid: 6680767977426518140
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: c06d475838cc419498a54eb3b4984def, type: 3}
+        itemEffect:
+          rid: 6680767977426518150
+        trigger:
+          rid: -2
+    - rid: 6680767977426518141
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 114d740d9b6bc364c8135553b8e34e2f, type: 3}
+        itemEffect:
+          rid: 6680767977426518151
+        trigger:
+          rid: -2
+    - rid: 6680767977426518142
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 60198182a0556ed44ac21c58ba887df3, type: 3}
+        itemEffect:
+          rid: 6680767977426518152
+        trigger:
+          rid: -2
+    - rid: 6680767977426518143
+      type: {class: EffectChangeOnSlotChange/EffectInfo, ns: , asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 98a2d49a639a92c42900dbd7c47c7481, type: 3}
+        itemEffect:
+          rid: 6680767977426518153
+        trigger:
+          rid: 6680767977426518154
+    - rid: 6680767977426518144
+      type: {class: SellValueEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        sellValueIncrease: 1.5
+    - rid: 6680767977426518145
+      type: {class: BallFiredTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 6680767977426518146
+      type: {class: GoldenCabbageValueEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        valueMult: 3
+    - rid: 6680767977426518147
+      type: {class: AddBallThisRoundEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 0.75
+        owningItem: {fileID: 0}
+        quantity: 1
+    - rid: 6680767977426518148
+      type: {class: BounceStateExitedWithFewCabbagesBonked, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+        cabbagesBonkedThresholdExclusive: 3
+    - rid: 6680767977426518149
+      type: {class: IncreaseKeyValueEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        keyValueIncrease: 2
+    - rid: 6680767977426518150
+      type: {class: PreventItemDestructionEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 0.75
+        owningItem: {fileID: 0}
+    - rid: 6680767977426518151
+      type: {class: ShopItemLevelEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+    - rid: 6680767977426518152
+      type: {class: ShopItemsDiscountAndTemporaryEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        priceMult: 0.5
+        tempNumber: 15
+    - rid: 6680767977426518153
+      type: {class: MakeRandomItemHolofoilEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 0.02
+        owningItem: {fileID: 0}
+        holoVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        holoSFX:
+          sfx:
+            Guid:
+              Data1: -221431454
+              Data2: 1325979112
+              Data3: 1410731961
+              Data4: 2027769841
+            Path: event:/CabbageScore5
+          vol: 0.5
+    - rid: 6680767977426518154
+      type: {class: BallFiredTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

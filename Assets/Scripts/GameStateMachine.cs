@@ -52,8 +52,10 @@ public class GameStateMachine : MonoBehaviour
     public static Action ExitingAimStateAction;
     public static Action EnteringBounceStateAction;
     public static Action ExitingBounceStateAction;
+    public static Action ExitingBounceStateEarlyAction;
     public static Action EnteringScoringAction;
     public static Action ExitingScoringAction;
+    public static IntDelegate ExtraBallGainedAction;
 
     public delegate void GSMDelegate(GameStateMachine gsm);
     public static GSMDelegate GSM_Enabled_Event;
@@ -111,6 +113,13 @@ public class GameStateMachine : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (Singleton.Instance.bossFightManager.isBossFight)
+        {
+            Singleton.Instance.bossFightManager.gsm = this;
+            Singleton.Instance.bossFightManager.StartBossFight();
+            return;
+        }
+        
         State startState = new PopulateBoardState();
         ChangeState(startState);
     }
@@ -126,7 +135,7 @@ public class GameStateMachine : MonoBehaviour
         UpdateRoundScore();
     }
 
-    void ChangeState(State newState)
+    public void ChangeState(State newState)
     {
         if (currentState != null)
         {
@@ -246,6 +255,11 @@ public class GameStateMachine : MonoBehaviour
     {
         currentBalls += quantity;
         BallsRemainingUpdatedEvent?.Invoke(currentBalls);
+        if (quantity > 0)
+        {
+            ExtraBallGainedAction?.Invoke(quantity);
+        }
+        
     }
 
     public void KillAllBalls()
@@ -303,6 +317,13 @@ public class GameStateMachine : MonoBehaviour
 
     public void SetRoundGoal()
     {
+        if (Singleton.Instance.bossFightManager.isBossFight)
+        {
+            // BossFightManager already set roundGoal to the current phase’s health.
+            RoundGoalUpdatedEvent?.Invoke(roundGoal);
+            return;
+        }
+        
         int mapLayer = Singleton.Instance.playerStats.currentMapLayer;
         roundGoal = Singleton.Instance.playerStats.currentDifficulty.GetRoundGoal(mapLayer);
 
@@ -428,7 +449,7 @@ public class GameStateMachine : MonoBehaviour
     {
         public override void EnterState()
         {
-            gameStateMachine.currentBalls = Singleton.Instance.playerStats.currentBalls;
+            gameStateMachine.currentBalls = Singleton.Instance.playerStats.maxBalls;
             gameStateMachine.StartCoroutine(PopulateBoard());
             BallsRemainingUpdatedEvent?.Invoke(gameStateMachine.currentBalls);
             gameStateMachine.stopTryButton.SetActive(false);
@@ -485,9 +506,16 @@ public class GameStateMachine : MonoBehaviour
                 gameStateMachine.bonkableSlots.AddRange(bss.bonkableSlots);
             }
 
+            gameStateMachine.bonkableSlots.RemoveAll(x => x == null);
             List<BonkableSlot> slotsToPopulate = Helpers.GetUniqueRandomEntries(gameStateMachine.bonkableSlots, numPegs);
             for (int i = 0; i < slotsToPopulate.Count; i++)
             {
+                if (slotsToPopulate[i] == null)
+                {
+                    Debug.LogError($"[PopulateBoard] BonkableSlotSpawner produced a null slot in its bonkableSlots list.");
+                    continue;
+                }
+                
                 gameStateMachine.SpawnCabbageInSlot(slotsToPopulate[i]);
                 yield return new WaitForSeconds(0.05f);
             }
@@ -529,7 +557,11 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.ChangeState(newState);
         }
     }
-    
+
+    public IEnumerator PopulateBoardWith(BoardPopulateInfo bpi)
+    {
+        yield break;
+    }
     
     public class AimingState : State
     {
@@ -629,6 +661,8 @@ public class GameStateMachine : MonoBehaviour
             {
                 State newState = new AimingState();
 
+                ExitingBounceStateEarlyAction?.Invoke();
+                
                 if (gameStateMachine.currentBalls <= 0)
                 {
                     newState = new ScoringState();
@@ -658,7 +692,17 @@ public class GameStateMachine : MonoBehaviour
 
         IEnumerator StopTryButtonShowRoutine()
         {
-            yield return new WaitForSeconds(gameStateMachine.secondsBeforeStopTryButton);
+            float elapsedTime = 0f;
+            while (elapsedTime < gameStateMachine.secondsBeforeStopTryButton)
+            {
+                if (Singleton.Instance.pauseManager.isPaused)
+                {
+                    yield return null;
+                }
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            
             gameStateMachine.stopTryButton.SetActive(true);
         }
     }

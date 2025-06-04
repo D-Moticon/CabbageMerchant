@@ -64,6 +64,11 @@ public class Weapon_LeafBlower_ItemEffect : ItemEffect
 
         while (elapsed < effectDuration)
         {
+            while (Singleton.Instance.pauseManager.isPaused)
+            {
+                yield return null;
+            }
+            
             if (Singleton.Instance.playerInputManager.weaponFireUp)
             {
                 if (elapsed < 0.2f)

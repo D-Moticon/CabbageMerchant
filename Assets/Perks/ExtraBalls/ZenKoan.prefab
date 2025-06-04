@@ -45,14 +45,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Zen Koan
-  itemDescription: Gain 1 Extra Ball
+  itemDescription: Max Balls +1
   icon: {fileID: 21300000, guid: 476141dd10bf1e84e84c285810df4e2b, type: 3}
   itemType: 1
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
   effects:
-  - rid: 328109942880338122
+  - rid: 6680767977426518124
   holofoilEffects: []
+  holofoilEffectDescription: 
   triggers:
   - rid: 328109942880338123
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 2
   normalizedPrice: 0
   sellValueMultiplier: 1
@@ -69,14 +81,22 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
   references:
     version: 2
     RefIds:
-    - rid: 328109942880338122
-      type: {class: AddExtraBallItemEffect, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 328109942880338123
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 6680767977426518124
+      type: {class: IncreaseMaxBallsEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
         owningItem: {fileID: 0}

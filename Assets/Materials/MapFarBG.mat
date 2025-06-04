@@ -8,15 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MapFarBG
-  m_Shader: {fileID: 4800000, guid: da8efd605fdd20949a21be6242000625, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1c051a93177e998438b323986433be99, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ENABLEDIRECTIONALALPHAFADE_ON
-  - _SHADERFADING_NONE
-  - _SHADERSPACE_OBJECT
-  - _TEXTURELAYER1SHEETTOGGLE_ON
-  - _TEXTURELAYER2SHEETTOGGLE_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -325,6 +320,7 @@ Material:
     - _EnchantedRainbowToggle: 0
     - _EnchantedReduce: 0
     - _EnvironmentReflections: 1
+    - _FadeDistance: 10
     - _FadingFade: 1
     - _FadingNoiseFactor: 0.2
     - _FadingWidth: 1.13
@@ -416,6 +412,7 @@ Material:
     - _PoisonNoiseBrightness: 2
     - _PoisonRecolorFactor: 0.5
     - _PoisonShiftSpeed: 0.2
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _RainbowBrightness: 2
     - _RainbowContrast: 1
@@ -710,3 +707,16 @@ Material:
     - _WorldTilingScale: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &118991593044142772
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9

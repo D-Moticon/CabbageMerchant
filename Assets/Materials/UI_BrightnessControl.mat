@@ -133,7 +133,7 @@ Material:
     - _BakedMaterial: 0
     - _BlackTintFade: 1
     - _BlackTintPower: 4
-    - _Brightness: 13.082714
+    - _Brightness: 1
     - _BurnEdgeNoiseFactor: 0.5
     - _BurnFade: 1
     - _BurnInsideContrast: 2

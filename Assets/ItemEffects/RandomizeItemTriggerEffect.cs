@@ -23,6 +23,11 @@ public class RandomizeItemTriggerEffect : ItemEffect
         {
             return;
         }
+
+        if (!item.allowTriggerRandomization)
+        {
+            return;
+        }
         
         int rand = Random.Range(0, triggersToChooseFrom.Count);
         Trigger prototype = triggersToChooseFrom[rand];

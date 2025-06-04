@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4915812102369811127}
   - component: {fileID: 9030935387976208431}
   - component: {fileID: -7915991085959012490}
+  - component: {fileID: 149493534408051236}
   m_Layer: 6
   m_Name: QuinoaProjectile
   m_TagString: Untagged
@@ -182,6 +183,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 2
+--- !u!114 &149493534408051236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670828935716225107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d967f47bcd7e504d940d8bf60558366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3072691465983154010
 GameObject:
   m_ObjectHideFlags: 0

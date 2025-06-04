@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     public SpriteRenderer chaosCabbageSprite;
     public Animator metacurrencyGainedAnimator;
     public TypewriterByCharacter metacurrencyGainedTypewriter;
+    public Animator extraBallGainedAnimator;
+    public TypewriterByCharacter extraBallGainedTypewriter;
     
     private void OnEnable()
     {
@@ -54,6 +56,7 @@ public class UIManager : MonoBehaviour
         RunManager.SceneChangedEvent += SceneChangedListener;
         BuildManager.FullGameStartedEvent += FullGameStartedListener;
         ChaosManager.ChaosCabbageGetEvent += ChaosCabbageGetListener;
+        GameStateMachine.ExtraBallGainedAction += BallGainedListener;
     }
 
     private void OnDisable()
@@ -69,6 +72,7 @@ public class UIManager : MonoBehaviour
         RunManager.SceneChangedEvent -= SceneChangedListener;
         BuildManager.FullGameStartedEvent -= FullGameStartedListener;
         ChaosManager.ChaosCabbageGetEvent -= ChaosCabbageGetListener;
+        GameStateMachine.ExtraBallGainedAction -= BallGainedListener;
     }
 
 
@@ -225,5 +229,12 @@ public class UIManager : MonoBehaviour
         chaosCabbageAnimator.Play("ChaosCabbageGained");
         string colorHexString = ColorUtility.ToHtmlStringRGB(ccgp.ccso.color);
         chaosCabbageTypewriter.ShowText($"<wave a=.2><color=#{colorHexString}>Chaos Cabbage of {ccgp.ccso.displayName}</color> collected</wave>");
+    }
+    
+    private void BallGainedListener(int ballsGained)
+    {
+        extraBallGainedAnimator.gameObject.SetActive(true);
+        extraBallGainedAnimator.Play("LifeGained");
+        extraBallGainedTypewriter.ShowText($"<wave a=.2>+{ballsGained}</wave>");
     }
 }

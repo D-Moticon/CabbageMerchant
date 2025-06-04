@@ -117,6 +117,7 @@ public class BallRailController : MonoBehaviour
     void Update()
     {
         if (!grinding) return;
+        if (Singleton.Instance.pauseManager.isPaused) return;
 
         // Prepare for multi‐raycast
         Vector2 velDir        = rb.linearVelocity.normalized;

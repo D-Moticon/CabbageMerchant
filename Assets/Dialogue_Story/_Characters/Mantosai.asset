@@ -41,7 +41,7 @@ MonoBehaviour:
         Data4: 144567218
       Path: event:/TypingLong
     vol: 0.5
-  upSprite: {fileID: 0}
-  downSprite: {fileID: 0}
-  leftSprite: {fileID: 0}
-  rightSprite: {fileID: 0}
+  upSprite: {fileID: 1303897238, guid: fa72270959abf8541821a3b1ef2a4f8b, type: 3}
+  downSprite: {fileID: -1796378923, guid: fa72270959abf8541821a3b1ef2a4f8b, type: 3}
+  leftSprite: {fileID: -1635116283, guid: fa72270959abf8541821a3b1ef2a4f8b, type: 3}
+  rightSprite: {fileID: -326472838, guid: fa72270959abf8541821a3b1ef2a4f8b, type: 3}

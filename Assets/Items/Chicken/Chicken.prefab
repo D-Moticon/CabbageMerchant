@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: eb434771a94c9274fbf327b83cbb0344, type: 3}
   itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 1
   effects:
   - rid: 328110359655481510
@@ -59,6 +61,8 @@ MonoBehaviour:
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
+  isTemporary: 0
+  numberShotsBeforeDestroy: 1
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -78,9 +82,11 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
   references:
     version: 2
     RefIds:
@@ -92,7 +98,7 @@ MonoBehaviour:
         ballPooledObject: {fileID: 0}
         ballName: small ball
         ballDescription: bonk for x0.5 value of original
-        numberCopies: 5
+        numberCopies: 3
         ballLaunchSpeed: 15
         ballLaunchAngleRange: {x: 45, y: 135}
         multiplyScale: 0.5
@@ -106,7 +112,7 @@ MonoBehaviour:
         ballPooledObject: {fileID: 0}
         ballName: small ball
         ballDescription: bonk for x0.5 value of original
-        numberCopies: 10
+        numberCopies: 6
         ballLaunchSpeed: 15
         ballLaunchAngleRange: {x: 45, y: 135}
         multiplyScale: 0.5

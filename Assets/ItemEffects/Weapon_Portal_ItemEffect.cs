@@ -60,6 +60,11 @@ public class Weapon_Portal_ItemEffect : ItemEffect
         float screenMidY = Camera.main.transform.position.y;
         while (elapsed < effectDuration)
         {
+            while (Singleton.Instance.pauseManager.isPaused)
+            {
+                yield return null;
+            }
+            
             // update X from mouse
             float mouseX = Singleton.Instance.playerInputManager.mousePosWorldSpace.x;
             // set top and bottom

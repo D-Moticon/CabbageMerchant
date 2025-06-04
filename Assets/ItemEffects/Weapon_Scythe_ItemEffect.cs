@@ -85,6 +85,11 @@ public class Weapon_Scythe_ItemEffect : ItemEffect
         float timer = 0f;
         while (timer < effectDuration && !Singleton.Instance.playerInputManager.weaponFireUp)
         {
+            while (Singleton.Instance.pauseManager.isPaused)
+            {
+                yield return null;
+            }
+            
             // Recalculate the vector from the ball to the anchor.
             Vector2 diff = anchorPos - (Vector2)ball.transform.position;
             // Compute the angle so that the scythe always points toward the anchor.

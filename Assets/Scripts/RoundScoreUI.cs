@@ -4,9 +4,11 @@ using TMPro;
 using UnityEngine.UI;
 using MoreMountains.Feedbacks;
 using System.Collections;
+using System.Linq;
 
 public class RoundScoreUI : MonoBehaviour
 {
+    public TMP_Text roundGoalHeaderText;
     public TMP_Text roundScoreText;
     public MMF_Player roundScoreFeel;
     public TMP_Text roundGoalText;
@@ -24,6 +26,22 @@ public class RoundScoreUI : MonoBehaviour
     public MMF_Player tickLineFeel;
     public Vector2 inputTickPowerRange = new Vector2(0, 1000);
     public Vector2 outputTickPowerRange = new Vector2(1f, 10f);
+    
+    [Header("Boss Mode UI")]    
+    public Sprite bossFillSprite;
+    public Color bossFillColor;
+    public Color tickLineBossColor = Color.red;
+    public Image bossSpriteImage;
+    private bool isBossMode = false;
+
+    private void Awake()
+    {
+        isBossMode = Singleton.Instance.bossFightManager.isBossFight;
+        if (isBossMode)
+        {
+            SetupBossMode();
+        }
+    }
 
     private void OnEnable()
     {
@@ -42,6 +60,40 @@ public class RoundScoreUI : MonoBehaviour
         GameStateMachine.RoundGoalOverHitEvent -= RoundGoalHitListener;
     }
 
+    private void SetupBossMode()
+    {
+        roundGoalHeaderText.text = "Boss Health";
+        
+        // 1) Swap slider fill sprite
+        if (bossFillSprite != null && roundScoreSlider.fillRect != null)
+        {
+            var fillImage = roundScoreSlider.fillRect.GetComponent<Image>();
+            if (fillImage != null)
+            {
+                fillImage.sprite = bossFillSprite;
+                fillImage.type = Image.Type.Sliced;
+                fillImage.color = bossFillColor;
+            }
+        }
+
+        // 2) Change tick line color
+        var tickLineImage = tickLine.GetComponent<Image>();
+        if (tickLineImage != null)
+        {
+            tickLineImage.color = tickLineBossColor;
+        }
+
+        // 3) Spawn phase markers along the bar
+        var bossDef = Singleton.Instance.bossFightManager.boss;
+
+        // 4) Display boss sprite
+        if (bossSpriteImage != null && bossDef != null)
+        {
+            bossSpriteImage.sprite = bossDef.bossSprite;
+            bossSpriteImage.gameObject.SetActive(true);
+        }
+    }
+    
     void RoundGoalUpdated(double newGoal)
     {
         if (newGoal > 0)
@@ -55,13 +107,50 @@ public class RoundScoreUI : MonoBehaviour
         }
     }
 
-    void RoundScoreUpdated(double newScore)
+    private void RoundScoreUpdated(double newScore)
     {
+        if (isBossMode)
+        {
+            // Boss mode: countdown current phase health
+            double max = GameSingleton.Instance.gameStateMachine.roundGoal;
+            float remainingFrac = max > 0 ? 1f - (float)(newScore / max) : 0f;
+            roundScoreSlider.value = remainingFrac;
+
+            // show remaining health
+            roundScoreText.text = Helpers.FormatWithSuffix(Math.Ceiling(max - newScore));
+
+            // trigger tick line & feedback on damage
+            if (newScore > oldScore)
+            {
+                roundScoreFeel.PlayFeedbacks();
+                double diff = newScore - oldScore;
+                float power = Helpers.RemapClamped((float)diff,
+                    inputTickPowerRange.x, inputTickPowerRange.y,
+                    outputTickPowerRange.x, outputTickPowerRange.y);
+                tickLine.properties[0].materialFloatStartValue = power;
+                tickLine.FadeForward();
+                tickLineFeel.PlayFeedbacks();
+
+                // flash full bar briefly
+                isFlashing = true;
+                flashCounter = flashDuration;
+            }
+
+            // percent health remaining
+            int percent = Mathf.CeilToInt(remainingFrac * 100f);
+            roundScoreMultText.text = $"{percent}%";
+
+            oldScore = newScore;
+            return;
+        }
+
+        // Normal scoring...
         if (GameSingleton.Instance.gameStateMachine.roundGoal < 1)
         {
             roundScoreMultText.text = $"0<size=5>x";
             roundScoreSlider.value = 0;
         }
+
         roundScoreText.text = Helpers.FormatWithSuffix(newScore);
         double roundScoreMult = GameSingleton.Instance.gameStateMachine.currentRoundScoreOverMult;
 
@@ -75,31 +164,25 @@ public class RoundScoreUI : MonoBehaviour
         if (newScore > oldScore)
         {
             roundScoreFeel.PlayFeedbacks();
-            
-            double scoreChange = newScore - oldScore;
-            float tickPower = Helpers.RemapClamped((float)scoreChange, inputTickPowerRange.x, inputTickPowerRange.y,
+            double diff = newScore - oldScore;
+            float power = Helpers.RemapClamped((float)diff,
+                inputTickPowerRange.x, inputTickPowerRange.y,
                 outputTickPowerRange.x, outputTickPowerRange.y);
-            tickLine.properties[0].materialFloatStartValue = tickPower;
+            tickLine.properties[0].materialFloatStartValue = power;
             tickLine.FadeForward();
             tickLineFeel.PlayFeedbacks();
         }
-        
+
         double sliderVal = roundScoreMult % 1;
-        
-        //Give a slight delay before jumping back down to zero so user can see the flash
         if (isFlashing)
         {
             flashCounter -= Time.deltaTime;
-            if (flashCounter <= 0f)
-            {
-                isFlashing = false;
-            }
+            if (flashCounter <= 0f) isFlashing = false;
             sliderVal = 1;
         }
-        
+
         roundScoreSlider.value = (float)sliderVal;
         roundScoreMultText.text = $"{Helpers.FormatWithSuffix(Math.Floor(roundScoreMult))}<size=5>x";
-        
         oldScore = newScore;
     }
 

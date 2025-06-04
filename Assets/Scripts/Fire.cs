@@ -53,6 +53,11 @@ public class Fire : MonoBehaviour
         {
             return;
         }
+
+        if (Singleton.Instance.pauseManager.isPaused)
+        {
+            return;
+        }
         
         stackTimer -= Time.deltaTime;
         if (stackTimer <= 0)

@@ -14,4 +14,5 @@ public class MapPoint : ScriptableObject
     [SerializeReference]
     public List<SpecialGameRule> specialGameRules = new List<SpecialGameRule>();
     public Dialogue specificDialogue;
+    public Boss boss;
 }

@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: FB_Otto
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 4405298487544512607
+  - rid: 6680767977426518163
+  - rid: 4405298491252801642
+  - rid: 4405298491252801644
+  - rid: 4405298487544512609
+  - rid: 4405298513874780268
+  - rid: 4405298513874780269
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298487544512607
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: A final boss fight? Sounds like good TV to me!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298487544512609
+      type: {class: SpinWheelDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        wheelSpinnerPrefab: {fileID: 3112246484142189688, guid: 54020d9d8d9c13b4cb2bab0ec82cfb14, type: 3}
+        destroyAfter: 1
+    - rid: 4405298491252801642
+      type: {class: FadeDialogueBoxTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 1
+    - rid: 4405298491252801644
+      type: {class: FadeCharacterTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 0
+        duration: 0.01
+    - rid: 4405298513874780268
+      type: {class: FadeCharacterTask, ns: , asm: Assembly-CSharp}
+      data:
+        fadeType: 1
+        duration: 1
+    - rid: 4405298513874780269
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 9c9d1976ed3441e42bd4f42b7e582884, type: 2}
+        dialogueLine: Can our hero pull it off? We're about to find out!!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680767977426518163
+      type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToUnfreeze: 1

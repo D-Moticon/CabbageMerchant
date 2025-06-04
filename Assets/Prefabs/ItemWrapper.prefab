@@ -20788,6 +20788,16 @@ MonoBehaviour:
   cooldownSlider: {fileID: 4258896499678113829}
   extraText: {fileID: 9047537791075057737}
   extraTextFeel: {fileID: 7497872176305029978}
+  destroyVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+  destroySFX:
+    sfx:
+      Guid:
+        Data1: -1211794237
+        Data2: 1241862876
+        Data3: -1821560144
+        Data4: 966856108
+      Path: event:/RockBreak
+    vol: 0.5
 --- !u!61 &405462924174352419
 BoxCollider2D:
   m_ObjectHideFlags: 0

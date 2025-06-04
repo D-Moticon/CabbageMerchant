@@ -39,18 +39,15 @@ public class CreateRandomItemInSlotEffect : ItemEffect
 
     public string itemDescription;
 
-    private void Awake()
+    public override void InitializeItemEffect()
     {
         GameStateMachine.ExitingBounceStateAction += BounceStateExitedListener;
     }
 
-    private void OnDestroy()
+    public override void DestroyItemEffect()
     {
         GameStateMachine.ExitingBounceStateAction -= BounceStateExitedListener;
     }
-
-    public override void InitializeItemEffect() { }
-    public override void DestroyItemEffect() { }
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
@@ -115,9 +112,22 @@ public class CreateRandomItemInSlotEffect : ItemEffect
         }
         if (allCandidates.Count == 0)
             return;
+        
+        
+        bool survivalOn = Singleton.Instance.survivalManager.survivalModeOn;
+        var filteredCandidates = new List<Item>();
+        foreach (var itm in allCandidates)
+        {
+            if (itm.survivalModeOnly && !survivalOn)
+                continue;
+            filteredCandidates.Add(itm);
+        }
+        if (filteredCandidates.Count == 0)
+            return;
+        
 
         // Pick a random base item
-        Item baseItem = allCandidates[Random.Range(0, allCandidates.Count)];
+        Item baseItem = filteredCandidates[Random.Range(0, filteredCandidates.Count)];
 
         // Climb upgrade chain
         Item selectedItem = baseItem;
@@ -153,7 +163,7 @@ public class CreateRandomItemInSlotEffect : ItemEffect
     {
         if (destroyOnBounceExited && spawnedItem != null)
         {
-            spawnedItem.DestroyItem(false, false);
+            spawnedItem.DestroyItem(true, false);
             spawnedItem = null;
         }
     }

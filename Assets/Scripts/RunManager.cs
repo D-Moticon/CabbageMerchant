@@ -32,6 +32,8 @@ public class RunManager : MonoBehaviour
 
     [HideInInspector]public string currentSceneName;
     private GameObject currentSceneParent;
+    private Coroutine slideSceneRoutine = null;
+    private bool isSliding = false;
 
     private Scene mapScene;
     private GameObject mapSceneParent;
@@ -40,6 +42,7 @@ public class RunManager : MonoBehaviour
     [HideInInspector] public int currentmapLayer;
     public Biome startingBiome;
     public Biome currentBiome;
+    [HideInInspector]public MapPoint currentMapPoint;
 
     public delegate void BiomeDelegate(Biome biome);
 
@@ -81,10 +84,29 @@ public class RunManager : MonoBehaviour
 
     public void GoToScene(string sceneName, MapPoint mapPoint = null)
     {
+        Debug.Log($"Going to scene {sceneName}");
+        currentMapPoint = mapPoint;
         SceneChangedEvent?.Invoke(sceneName);
-        StartCoroutine(SlideToScene(sceneName, mapPoint));
+        
+        //This branch is to prevent overlapping scene slides from causing unpredicatable behavior
+        if (isSliding)
+        {
+            StartCoroutine(WaitThenSlide(sceneName, mapPoint));
+        }
+        else
+        {
+            slideSceneRoutine = StartCoroutine(SlideToScene(sceneName, mapPoint));
+        }
     }
 
+    private IEnumerator WaitThenSlide(string sceneName, MapPoint mapPoint)
+    {
+        while (isSliding)
+            yield return null;
+
+        slideSceneRoutine = StartCoroutine(SlideToScene(sceneName, mapPoint));
+    }
+    
     /// <summary>
     /// Loads a normal scene (Game, Shop, etc.) additively,
     /// slides the old scene out and slides the new scene into place,
@@ -96,10 +118,12 @@ public class RunManager : MonoBehaviour
         if (newSceneName == currentSceneName)
             yield break;
 
+        isSliding = true;
+        
         // Special check: if the old scene is the map, we won't unload it - just hide it.
         bool oldSceneIsMap = (currentSceneName == mapSceneName);
 
-        //Biome
+        //Biome and Boss
         if (mapPoint != null)
         {
             if (mapPoint.biome != null)
@@ -109,6 +133,8 @@ public class RunManager : MonoBehaviour
                     ChangeBiome(mapPoint.biome);
                 }
             }
+            
+            Singleton.Instance.bossFightManager.SetBossFight(mapPoint.boss);
         }
         
         //Special Rules
@@ -136,11 +162,15 @@ public class RunManager : MonoBehaviour
         if (!newScene.IsValid())
         {
             Debug.LogError($"Scene '{newSceneName}' not valid or not found. Check name/spelling.");
+            isSliding = false;
             yield break;
         }
 
         GameObject newSceneParent = FindSceneParent(newScene);
 
+        if (newSceneParent == null)
+            Debug.LogError($"[RunManager] FindSceneParent returned null for scene '{newSceneName}'. parentObjectName='{parentObjectName}'");
+        
         NavMeshAgent[] navMeshAgents = newSceneParent.GetComponentsInChildren<NavMeshAgent>();
         foreach (var nma in navMeshAgents)
         {
@@ -161,6 +191,7 @@ public class RunManager : MonoBehaviour
             yield return HideOrUnloadOldScene(oldSceneIsMap);
             currentSceneName   = newSceneName;
             currentSceneParent = null;
+            isSliding = false;
             yield break;
         }
 
@@ -280,6 +311,8 @@ public class RunManager : MonoBehaviour
             // Clear any leftover path
             agent.ResetPath();
         }
+        
+        isSliding = false;
     }
 
     public void ChangeBiome(Biome newBiome)
@@ -535,6 +568,12 @@ public class RunManager : MonoBehaviour
         rcp.success = success;
         rcp.totalBonkValue = Singleton.Instance.playerStats.totalBonkValueThisRun;
         rcp.runTime = Singleton.Instance.playerStats.totalRunTime;
+
+        if (Singleton.Instance.buildManager.IsDemoMode())
+        {
+            rcp.runTime = 9999999999;
+        }
+        
         rcp.petDefinition = Singleton.Instance.petManager.currentPet;
         rcp.difficulty = Singleton.Instance.playerStats.currentDifficulty;
         rcp.customEndString = customEndString;

@@ -57,6 +57,11 @@ public class Weapon_Rocket_ItemEffect : ItemEffect
         float elapsedTime = 0f;
         while (elapsedTime < duration && !Singleton.Instance.playerInputManager.weaponFireUp)
         {
+            while (Singleton.Instance.pauseManager.isPaused)
+            {
+                yield return null;
+            }
+            
             ball.rb.AddForce(boostForce*Vector2.up);
             if (ball.rb.linearVelocity.y > maxYVel)
             {

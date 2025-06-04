@@ -23,6 +23,8 @@ public class ItemWrapper : MonoBehaviour
     public Slider cooldownSlider;
     public TMP_Text extraText;
     public MMF_Player extraTextFeel;
+    public PooledObjectData destroyVFX;
+    public SFXInfo destroySFX;
     
     private void OnEnable()
     {
@@ -98,6 +100,12 @@ public class ItemWrapper : MonoBehaviour
 
     public void DestroyItem(bool withFX = false)
     {
+        if (withFX)
+        {
+            if (destroyVFX != null) destroyVFX.Spawn(this.transform.position);
+            destroySFX.Play();
+        }
+
         Destroy(this.gameObject);
     }
 
@@ -127,6 +135,11 @@ public class ItemWrapper : MonoBehaviour
         {
             spriteRenderer.material = item.customMaterial;
         }
+    }
+    
+    public void SetSprite(Sprite s)
+    {
+        spriteRenderer.sprite = s;
     }
     
     private void ApplyMaterialPropertyOverrides()

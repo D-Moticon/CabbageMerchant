@@ -235,7 +235,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         // VFX and feedback
         if (!bp.overrideSFX)
         {
-            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * (float)bp.bonkerPower);
+            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * (float)Math.Abs(bp.bonkerPower));
         }
 
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);

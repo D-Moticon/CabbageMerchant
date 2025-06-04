@@ -10,6 +10,9 @@ public class ItemGraveyard : MonoBehaviour
     // All items currently in the graveyard (deactivated)
     private readonly List<Item> graveyard = new List<Item>();
 
+    public delegate void ItemDelegate(Item item);
+    public static event ItemDelegate ItemAddedToGraveyardEvent;
+
     private void OnEnable()
     {
         RunManager.RunStartEvent += RunStartedListener;
@@ -49,6 +52,8 @@ public class ItemGraveyard : MonoBehaviour
             Singleton.Instance.itemManager.itemDestroyVFX.Spawn(item.gameObject.transform.position);
             Singleton.Instance.itemManager.itemDestroySFX.Play();
         }
+        
+        ItemAddedToGraveyardEvent?.Invoke(item);
     }
 
     /// <summary>

@@ -125,7 +125,21 @@ public class SpawnRBItemEffect : ItemEffect
             
             float scaRand = Random.Range(scaleRange.x, scaleRange.y);
             
-            Rigidbody2D rb = objectToSpawn.Spawn(pos + normal * surfaceOffset).GetComponent<Rigidbody2D>();
+            GameObject spawnedGO = objectToSpawn.Spawn(pos + normal * surfaceOffset);
+            if (spawnedGO == null)
+            {
+                Debug.LogError($"[SpawnRBItemEffect] objectToSpawn.Spawn(...) returned null for {objectToSpawn.name}");
+                continue;
+            }
+
+            Rigidbody2D rb = spawnedGO.GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                Debug.LogError($"[SpawnRBItemEffect] The prefab '{spawnedGO.name}' has no Rigidbody2D component on it.");
+                spawnedGO.SetActive(false);
+                continue;
+            }
+            
             rb.position = pos + normal * surfaceOffset;
             rb.transform.localScale = new Vector3(scaRand, scaRand, 1f);
             

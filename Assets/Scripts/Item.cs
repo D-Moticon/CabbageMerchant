@@ -33,6 +33,7 @@ public class Item : MonoBehaviour, IHoverable
     public bool hasCooldown = false;
     public int limitPerShot = 0;
     public bool isTemporary = false;
+    public bool allowTriggerRandomization = true;
     [ShowIf("@isTemporary == true")]
     public int numberShotsBeforeDestroy = 1;
     private int temporaryCountdown = 1;
@@ -45,7 +46,7 @@ public class Item : MonoBehaviour, IHoverable
     public static float globalItemPriceMult = 10f;
     [HideInInspector] public float sellValueMultiplier = 1.0f;
     [HideInInspector] public ItemSlot currentItemSlot;
-    [HideInInspector] public ItemWrapper itemWrapper;
+    public ItemWrapper itemWrapper;
     [HideInInspector] public bool purchasable = false;
     public SFXInfo triggerSFX;
     public Item upgradedItem;
@@ -66,10 +67,26 @@ public class Item : MonoBehaviour, IHoverable
     [HideInInspector] public bool keepTriggerOnUpgrade = false;
 
     [HideInInspector] public bool isMysterious = false;
+
+    public class DestroyItemParams
+    {
+        public Item item;
+        public bool stopDestroy = false;
+    }
+
+    public delegate void DestroyItemDelegate(DestroyItemParams dip);
+
+    public static event DestroyItemDelegate DestroyItemPreEvent;
+    
     
     private void Update()
     {
         currentFrameTriggerCount = 0;
+
+        if (Singleton.Instance.pauseManager.isPaused)
+        {
+            return;
+        }
 
         if (hasCooldown && cooldownCounter > 0)
         {
@@ -137,6 +154,15 @@ public class Item : MonoBehaviour, IHoverable
         GameStateMachine.BallFiredEvent -= BallFiredListener;
     }
 
+    public void SetIcon(Sprite newIcon)
+    {
+        icon = newIcon;
+        if (itemWrapper != null)
+        {
+            itemWrapper.SetSprite(newIcon);
+        }
+    }
+    
     public void InitializeItemAfterWrapperCreated()
     {
         if (isTemporary)
@@ -200,6 +226,14 @@ public class Item : MonoBehaviour, IHoverable
     
     public virtual void TryTriggerItem(TriggerContext tc = null)
     {
+        if (currentItemSlot != null)
+        {
+            if (currentItemSlot.isFrozen)
+            {
+                return;
+            }
+        }
+        
         if (currentFrameTriggerCount > triggerPerFrameLimit)
         {
             return;
@@ -231,6 +265,7 @@ public class Item : MonoBehaviour, IHoverable
     {
         if (itemWrapper == null)
         {
+            Debug.Log($"D: {itemName} item wrapper is null");
             itemWrapper = GetComponentInParent<ItemWrapper>();
         }
 
@@ -302,10 +337,22 @@ public class Item : MonoBehaviour, IHoverable
         {
             return "";
         }
+
+        string s = "";
+
+        if (currentItemSlot != null)
+        {
+            if (currentItemSlot.isFrozen)
+            {
+                s += $"<color=red>Item slot frozen. This item will not trigger.</color>";
+                s += "\n";
+            }
+        }
         
         if (!string.IsNullOrEmpty(itemDescription))
         {
-            return itemDescription;
+            s += itemDescription;
+            return s;
         }
 
         else
@@ -328,8 +375,6 @@ public class Item : MonoBehaviour, IHoverable
             {
                 effectsToUse = effects;
             }
-            
-            string s = "";
 
             if (triggerChance < 0.999f)
             {
@@ -535,9 +580,18 @@ public class Item : MonoBehaviour, IHoverable
 
     public void RandomizeTriggers()
     {
+        if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
+        {
+            Debug.Log($"Randomized {itemName} triggers:");
+        }
+
         foreach (var trigger in triggers)
         {
             trigger.RandomizeTrigger();
+            if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
+            {
+                Debug.Log($"-{trigger.GetTriggerDescription()}");
+            }
         }
     }
 
@@ -557,6 +611,16 @@ public class Item : MonoBehaviour, IHoverable
 
     public void DestroyItem(bool withFX = false, bool sendToGraveyard = false)
     {
+        //Before destroying, we see if anything wants to prevent the destruction
+        DestroyItemParams dip = new DestroyItemParams();
+        dip.item = this;
+        dip.stopDestroy = false;
+        DestroyItemPreEvent?.Invoke(dip);
+        if (dip.stopDestroy)
+        {
+            return;
+        }
+        
         if (sendToGraveyard)
         {
             if (currentItemSlot != null)
@@ -585,6 +649,15 @@ public class Item : MonoBehaviour, IHoverable
     public void SetNormalizedPrice(float newSellValue)
     {
         normalizedPrice = newSellValue;
+        if (currentItemSlot != null)
+        {
+            currentItemSlot.SetPriceText();
+        }
+    }
+
+    public void MultiplyNormalizedPrice(float mult)
+    {
+        normalizedPrice *= mult;
         if (currentItemSlot != null)
         {
             currentItemSlot.SetPriceText();
@@ -639,5 +712,15 @@ public class Item : MonoBehaviour, IHoverable
         {
             DestroyItem(true, true);
         }
+    }
+
+    public Item GetHighestUpgradedItem()
+    {
+        Item current = this;
+        while (current.upgradedItem != null)
+        {
+            current = current.upgradedItem;
+        }
+        return current;
     }
 }

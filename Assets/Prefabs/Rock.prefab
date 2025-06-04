@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 137557637981709264}
   - component: {fileID: 2706425227666226250}
   - component: {fileID: 468419193048735717}
+  - component: {fileID: 2727530505713757232}
   m_Layer: 6
   m_Name: Rock
   m_TagString: Untagged
@@ -236,7 +237,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonkValue: 2
   killOnBonk: 1
+  killOnWallCollide: 0
   bonksBeforeKill: 0
+  treatAsBall: 0
+  vfxOnBonk: {fileID: 0}
+  sfxOnBonk:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  vfxOnKill: {fileID: 0}
+  sfxOnKill:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  popFloater: 0
+  floaterColor: {r: 1, g: 1, b: 1, a: 1}
+  baseMat: {fileID: 0}
+  rainbowMat: {fileID: 0}
 --- !u!50 &137557637981709264
 Rigidbody2D:
   serializedVersion: 5
@@ -290,6 +317,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deactivateIfBelowYBounds: 1
+--- !u!114 &2727530505713757232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550047579240337315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d967f47bcd7e504d940d8bf60558366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7732032300158108262
 GameObject:
   m_ObjectHideFlags: 0

@@ -239,6 +239,7 @@ MonoBehaviour:
   col: {fileID: 6998213637591527866}
   sr: {fileID: 2037989327554710936}
   tr: {fileID: 2201212893438065904}
+  baseBonkValue: 1
   bonkValue: 1
   bonkValueText: {fileID: 1178075956342878836}
   bonkValueMaterialProp: _AddHueFade
@@ -253,8 +254,10 @@ MonoBehaviour:
         Data4: -1835527944
       Path: event:/BallUpgrade
     vol: 0.4
+  bonkValueUpFloaterColor: {r: 0, g: 1, b: 0, a: 1}
   bonkValueUpVFX: {fileID: 11400000, guid: 42e8069a7f5d6b84aaf7f4fc29b0f8ca, type: 2}
   bonkValueUpFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
+  pooledObjectRef: {fileID: 0}
   wallBonkSFX:
     sfx:
       Guid:

@@ -42,8 +42,7 @@ public class ConvertRandomCabbage : ItemEffect
         int rand = Random.Range(0, validSlots.Count);
         BonkableSlot bs = validSlots[rand];
         bs.bonkable.Remove();
-
-        // spawn the yarn ball at the cabbage position
+        
         Vector3 spawnPos = bs.transform.position;
         IBonkable newBonk = replacementObject.Spawn(spawnPos, Quaternion.identity).GetComponent<IBonkable>();
         bs.bonkable = newBonk;

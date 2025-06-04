@@ -4849,6 +4849,7 @@ GameObject:
   - component: {fileID: 506490923396703899}
   - component: {fileID: 7435079397661168389}
   - component: {fileID: 4397932945761720244}
+  - component: {fileID: 1790287409338529871}
   m_Layer: 6
   m_Name: Ball
   m_TagString: Untagged
@@ -5046,6 +5047,18 @@ MonoBehaviour:
       Path: event:/Grind
     vol: 0.3
   grindBonker: {fileID: 8986862046599258555}
+--- !u!114 &1790287409338529871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597044578796613092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d967f47bcd7e504d940d8bf60558366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5651665140069759836
 GameObject:
   m_ObjectHideFlags: 0

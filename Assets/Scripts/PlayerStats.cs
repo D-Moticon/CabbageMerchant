@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]public RunStats currentRunStats;
     
     public int startingBalls = 3;
-    [HideInInspector]public int currentBalls = 3;
+    [FormerlySerializedAs("currentBalls")] [HideInInspector]public int maxBalls = 3;
     [HideInInspector] public int extraStartingCabbages = 0;
     
     [HideInInspector]public double coins;
@@ -22,6 +22,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float goldenCabbageValue = 3f;
     [HideInInspector] public float shopDiscountMult = 1f;
     [HideInInspector] public float shopRarityMult = 1f;
+    [HideInInspector] public int keyValue = 1;
     public int startingShopReRolls = 1;
     [HideInInspector] public int shopReRolls = 1;
     public double startingReRollCost = 5;
@@ -84,11 +85,12 @@ public class PlayerStats : MonoBehaviour
         coins = startingCoins;
         CoinsUpdated?.Invoke(coins);
         
-        currentBalls = startingBalls;
+        maxBalls = startingBalls;
         extraStartingCabbages = 0;
         holofoilChance = startingHolofoilChance;
         goldenCabbageChance = startingGoldenCabbageChance;
         goldenCabbageValue = startingGoldenCabbageValue;
+        keyValue = 1;
         shopDiscountMult = 1f;
         shopRarityMult = 1f;
         shopReRolls = startingShopReRolls;
@@ -131,13 +133,14 @@ public class PlayerStats : MonoBehaviour
         CoinsUpdated?.Invoke(coins);
     }
     
-    public void AddExtraBall()
+    public void IncreaseMaxBalls()
     {
-        currentBalls++;
-        if (currentBalls > 5)
+        maxBalls++;
+        if (maxBalls > 5)
         {
-            currentBalls = 5;
+            maxBalls = 5;
         }
+        
     }
 
     public void AddExtraStartingCabbage()
@@ -218,7 +221,7 @@ public class PlayerStats : MonoBehaviour
 
     public void AddKey(int amount)
     {
-        numberKeys += amount;
+        numberKeys += amount*keyValue;
         KeysUpdatedEvent?.Invoke(numberKeys);
     }
 
