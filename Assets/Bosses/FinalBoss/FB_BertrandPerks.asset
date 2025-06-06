@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46edb8a9969644419bdcaad9103a7b0, type: 3}
+  m_Name: FB_BertrandPerks
+  m_EditorClassIdentifier: 
+  items:
+  - item: {fileID: 3630672680188598941, guid: 5b4cdce72f8093a4c8239c568f65b8dd, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0
+  - item: {fileID: 2847046353225979279, guid: 387b4914971082e4b94fd5181c598dbd, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0

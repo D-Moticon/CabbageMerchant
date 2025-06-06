@@ -131,8 +131,6 @@ public class GameStateMachine : MonoBehaviour
         {
             currentState.UpdateState();
         }
-        
-        UpdateRoundScore();
     }
 
     public void ChangeState(State newState)
@@ -457,7 +455,7 @@ public class GameStateMachine : MonoBehaviour
 
         public override void UpdateState()
         {
-            
+            gameStateMachine.UpdateRoundScore();
         }
 
         public override void ExitState()
@@ -563,6 +561,11 @@ public class GameStateMachine : MonoBehaviour
         yield break;
     }
     
+    public void ClearBoardOfGlobalObjects()
+    {
+        Singleton.Instance.objectPoolManager.DespawnAll(Singleton.Instance.itemManager.keyPooledObject);
+    }
+    
     public class AimingState : State
     {
         public override void EnterState()
@@ -601,6 +604,8 @@ public class GameStateMachine : MonoBehaviour
                 BallFiredEarlyEvent?.Invoke(b);
                 BallFiredEvent?.Invoke(b);
             }
+            
+            gameStateMachine.UpdateRoundScore();
         }
 
         public override void ExitState()
@@ -678,6 +683,8 @@ public class GameStateMachine : MonoBehaviour
                 gameStateMachine.ChangeState(newState);
                 gameStateMachine.forceEndRound = false;
             }
+            
+            gameStateMachine.UpdateRoundScore();
         }
 
         public override void ExitState()
@@ -706,12 +713,12 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.stopTryButton.SetActive(true);
         }
     }
-
+    
     public class ScoringState : State
     {
         public override void EnterState()
         {
-            Singleton.Instance.objectPoolManager.DespawnAll(Singleton.Instance.itemManager.keyPooledObject);
+            gameStateMachine.ClearBoardOfGlobalObjects();
             gameStateMachine.stopTryButton.SetActive(false);
             EnteringScoringAction?.Invoke();
             gameStateMachine.StartCoroutine(ScoringRoutine());

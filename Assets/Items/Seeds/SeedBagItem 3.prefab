@@ -48,14 +48,22 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 7d13f4b3fbb538a4bb07d1b67b8b7b79, type: 3}
   itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
   effects:
   - rid: 328110031350005869
   holofoilEffects:
   - rid: 328110031350005881
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110031350005870
-  triggerChance: 0.75
+  triggerChance: 0.9
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 1
@@ -74,8 +82,12 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
   references:
     version: 2
     RefIds:
@@ -86,6 +98,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         ensureNoCabbageOverlap: 1
         overlapCheckRadius: 0.5
+        quantity: 1
         specialVariants: 
         specialVariantChance: 0.5
         tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}
@@ -105,6 +118,7 @@ MonoBehaviour:
       type: {class: CabbageMergedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         quantity: 1
     - rid: 328110031350005881
       type: {class: SpawnCabbageEffect, ns: , asm: Assembly-CSharp}
@@ -113,6 +127,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         ensureNoCabbageOverlap: 1
         overlapCheckRadius: 0.5
+        quantity: 1
         specialVariants: 02000000
         specialVariantChance: 0.5
         tracer: {fileID: 11400000, guid: bbc53fd29f590ef43b85b56f17f23729, type: 2}

@@ -39,7 +39,8 @@ public class RoundScoreUI : MonoBehaviour
         isBossMode = Singleton.Instance.bossFightManager.isBossFight;
         if (isBossMode)
         {
-            SetupBossMode();
+            BossFightManager.BossPhaseParams bpp = new BossFightManager.BossPhaseParams();
+            SetupBossMode(bpp);
         }
     }
 
@@ -49,7 +50,7 @@ public class RoundScoreUI : MonoBehaviour
         GameStateMachine.RoundScoreUpdatedEvent += RoundScoreUpdated;
         GameStateMachine.BoardFinishedPopulatingAction += BoardPopulatedListener;
         GameStateMachine.RoundGoalOverHitEvent += RoundGoalHitListener;
-
+        BossFightManager.bossPhaseStartedEvent += SetupBossMode;
     }
 
     private void OnDisable()
@@ -58,9 +59,10 @@ public class RoundScoreUI : MonoBehaviour
         GameStateMachine.RoundScoreUpdatedEvent -= RoundScoreUpdated;
         GameStateMachine.BoardFinishedPopulatingAction -= BoardPopulatedListener;
         GameStateMachine.RoundGoalOverHitEvent -= RoundGoalHitListener;
+        BossFightManager.bossPhaseStartedEvent -= SetupBossMode;
     }
 
-    private void SetupBossMode()
+    private void SetupBossMode(BossFightManager.BossPhaseParams bpp)
     {
         roundGoalHeaderText.text = "Boss Health";
         
@@ -117,7 +119,8 @@ public class RoundScoreUI : MonoBehaviour
             roundScoreSlider.value = remainingFrac;
 
             // show remaining health
-            roundScoreText.text = Helpers.FormatWithSuffix(Math.Ceiling(max - newScore));
+            double bosshealth = Math.Max(Math.Ceiling(max - newScore), 0);
+            roundScoreText.text = Helpers.FormatWithSuffix(bosshealth);
 
             // trigger tick line & feedback on damage
             if (newScore > oldScore)

@@ -90,7 +90,7 @@ public class DialogueTaskOnCabbageBonk : MonoBehaviour
 
     void StartDialogue()
     {
-        Singleton.Instance.dialogueManager.PlayDialogue(dialogue, true);
+        Singleton.Instance.dialogueManager.QueueDialogue(dialogue, true);
         characterParent.SetActive(false);
         bubbleParent.SetActive(false);
         if (popVFX != null) popVFX.Spawn(this.transform.position);

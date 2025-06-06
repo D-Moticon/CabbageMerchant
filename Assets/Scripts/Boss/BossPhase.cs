@@ -23,4 +23,6 @@ public class BossPhase
     public List<DialogueTask> postBoardPopulateTasks;
     [SerializeReference]
     public List<DialogueTask> postBounceStateExitedTasks;
+    [SerializeReference]
+    public List<DialogueTask> postPhaseBeatTasks;
 }

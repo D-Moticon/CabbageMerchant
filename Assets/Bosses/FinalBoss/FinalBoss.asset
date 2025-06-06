@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b7907e807c1bd4eae98a1072c963b3, type: 3}
+  m_Name: FinalBoss
+  m_EditorClassIdentifier: 
+  bossName: Babbage Green
+  bossSprite: {fileID: 21300000, guid: 519da38f96da8154fa33fdbfbd790264, type: 3}
+  phases:
+  - difficultyInfos:
+    - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
+      totalHealth: 1000
+    - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
+      totalHealth: 10000
+    - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
+      totalHealth: 1000000
+    preBoardPopulateTasks:
+    - rid: 4405298468862034010
+    postBoardPopulateTasks: []
+    postBounceStateExitedTasks: []
+    postBossBeatTasks:
+    - rid: 6680768019274137679
+  - difficultyInfos:
+    - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
+      totalHealth: 1000
+    - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
+      totalHealth: 10000
+    - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
+      totalHealth: 100000
+    preBoardPopulateTasks:
+    - rid: 4405298468862034011
+    - rid: 4405298468862034017
+    postBoardPopulateTasks: []
+    postBounceStateExitedTasks: []
+    postBossBeatTasks: []
+  - difficultyInfos:
+    - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
+      totalHealth: 1000
+    - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
+      totalHealth: 10000
+    - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
+      totalHealth: 100000
+    preBoardPopulateTasks:
+    - rid: 4405298487544512602
+    - rid: 4405298487544512604
+    - rid: 4405298487544512603
+    postBoardPopulateTasks:
+    - rid: 4405298487544512623
+    - rid: 6680767977426518162
+    postBounceStateExitedTasks: []
+    postBossBeatTasks: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405298468862034010
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: Let's have a fun boss fight!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298468862034011
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: It's time to take you down a peg!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298468862034017
+      type: {class: FreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToFreeze: 3
+    - rid: 4405298487544512602
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: <shake>ENOUGH!!</shake> This ends now!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298487544512603
+      type: {class: FreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToFreeze: 7
+    - rid: 4405298487544512604
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: Let's see you beat me without your precious items!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 4405298487544512623
+      type: {class: ConvertToDialogueCabbagesTask, ns: , asm: Assembly-CSharp}
+      data:
+        replacerCabbage: {fileID: 11400000, guid: a161bbf4974ef2f43a190b399771a921, type: 2}
+        quantity: 4
+        difficultyInfos:
+        - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
+          bonksToPop: 5
+        - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
+          bonksToPop: 10
+        - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
+          bonksToPop: 50
+        replaceVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+        replaceSFX:
+          sfx:
+            Guid:
+              Data1: -1516327129
+              Data2: 1278429651
+              Data3: 465009556
+              Data4: -1884801215
+            Path: event:/Mystical
+          vol: 0.5
+        delayBetween: 0.25
+        dialogues:
+        - dialogue: {fileID: 11400000, guid: 7f7a9fca9741bd74cb112524009cc9b4, type: 2}
+          icon: {fileID: -583815378, guid: 3e59482b971f7c942b74dfd232f72a7f, type: 3}
+        - dialogue: {fileID: 11400000, guid: 1476bc87968eaba4abaaf7b6e8ceff05, type: 2}
+          icon: {fileID: 1143637574, guid: 955974db2d838ba43b62cbc28af9522f, type: 3}
+        - dialogue: {fileID: 11400000, guid: c15bdfc301bea234cbb24383f1c7b290, type: 2}
+          icon: {fileID: 862923687, guid: 1effa5ffe1b6c764090ba8c1c16775b1, type: 3}
+        - dialogue: {fileID: 11400000, guid: 8c0a3070cbfb34941831862718aa2d1b, type: 2}
+          icon: {fileID: 1386006704, guid: ba8f9db04105a0942ba798cbdc472e20, type: 3}
+    - rid: 6680767977426518162
+      type: {class: AddBallsDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        ballsToAdd: 3
+    - rid: 6680768019274137679
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: Meow?
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FinalBoss
   m_EditorClassIdentifier: 
   displayName: Final Bossguy
-  sprite: {fileID: 21300000, guid: 6df69f1fef95bd144835746687d3e45f, type: 3}
+  sprite: {fileID: 21300000, guid: 519da38f96da8154fa33fdbfbd790264, type: 3}
   speakingSFX_Short:
     sfx:
       Guid:
