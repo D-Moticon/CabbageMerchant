@@ -274,8 +274,17 @@ public class Cabbage : MonoBehaviour, IBonkable
         if (GameSingleton.Instance != null)
         {
             GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(this);
+            GameSingleton.Instance.objectPoolManager.ReturnToPool(pooledObjectReference, this.gameObject);
         }
+        
         gameObject.SetActive(false);
+    }
+
+    public void FullReset()
+    {
+        points = 0;
+        sizeLevel = startingSizeLevel;
+        bonkMultiplier = baseBonkMultiplier;
     }
 
     public GameObject GetGameObject()

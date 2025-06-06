@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CircleBonkableSpawner : BonkableSlotSpawner
 {
@@ -29,7 +30,16 @@ public class CircleBonkableSpawner : BonkableSlotSpawner
     public override void SpawnBonkableSlots()
     {
         foreach (var slot in bonkableSlots)
-            if (slot != null) Destroy(slot.gameObject);
+            if (slot != null)
+            {
+                foreach (Transform childT in slot.transform)
+                {
+                    childT.gameObject.SetActive(false);
+                    childT.gameObject.transform.SetParent(transform.parent);
+                }
+                
+                Destroy(slot.gameObject);
+            }
         bonkableSlots.Clear();
 
         for (int i = 0; i < count; i++)

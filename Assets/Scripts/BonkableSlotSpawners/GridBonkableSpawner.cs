@@ -17,7 +17,16 @@ public class GridBonkableSpawner : BonkableSlotSpawner
     {
         // Clear existing slots
         foreach (var slot in bonkableSlots)
-            if (slot != null) Destroy(slot.gameObject);
+            if (slot != null)
+            {
+                foreach (Transform childT in slot.transform)
+                {
+                    childT.gameObject.SetActive(false);
+                    childT.gameObject.transform.SetParent(transform.parent);
+                }
+                
+                Destroy(slot.gameObject);
+            }
         bonkableSlots.Clear();
 
         float totalW = (columns - 1) * spacing.x;

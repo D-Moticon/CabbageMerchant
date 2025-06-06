@@ -116,6 +116,7 @@ public class ObjectPoolManager : MonoBehaviour
         if (!poolDictionary.TryGetValue(objectData, out var data))
         {
             Destroy(obj);
+            print($"Pool doesn't contain object reference, destroying {obj}");
             return;
         }
 

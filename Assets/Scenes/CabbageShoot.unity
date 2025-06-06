@@ -7490,8 +7490,8 @@ MonoBehaviour:
   tickLineFeel: {fileID: 115317567}
   inputTickPowerRange: {x: 1, y: 1000}
   outputTickPowerRange: {x: 20, y: 100}
-  bossFillSprite: {fileID: 21300000, guid: c0c96194f26c3ad48894a8f410129020, type: 3}
-  bossFillColor: {r: 0.15, g: 0, b: 0, a: 1}
+  bossFillSprite: {fileID: 21300000, guid: d5ae8144c498b014da3c50afafec010b, type: 3}
+  bossFillColor: {r: 0.28, g: 0.28, b: 0.28, a: 1}
   tickLineBossColor: {r: 1, g: 0.291, b: 0.291, a: 1}
   bossSpriteImage: {fileID: 544653642}
 --- !u!114 &8216027807804948922
