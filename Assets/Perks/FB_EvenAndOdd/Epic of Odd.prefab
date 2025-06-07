@@ -64,6 +64,7 @@ MonoBehaviour:
   isTemporary: 0
   allowTriggerRandomization: 1
   numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 2
@@ -88,6 +89,7 @@ MonoBehaviour:
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -131,4 +133,4 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0
         slotsForTrigger: 00000000020000000400000006000000
-        quantity: 10
+        quantity: 5

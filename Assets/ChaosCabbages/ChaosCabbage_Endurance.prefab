@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Endurance
-  itemDescription: Items only last 15 turns (turn counts down each time ball is fired)
+  itemDescription: Items only last 16 turns (turn counts down each time ball is fired)
   icon: {fileID: 21300000, guid: 0675c8b22159df74ea86a383dda6c611, type: 3}
   itemType: 1
   customMaterial: {fileID: 0}
@@ -61,7 +61,9 @@ MonoBehaviour:
   hasCooldown: 0
   limitPerShot: 0
   isTemporary: 0
+  allowTriggerRandomization: 1
   numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 2
@@ -86,6 +88,7 @@ MonoBehaviour:
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -94,7 +97,7 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        numberTurnsBeforeDestroy: 15
+        numberTurnsBeforeDestroy: 16
     - rid: 4405298346403037302
       type: {class: ItemSpawnedTrigger, ns: , asm: Assembly-CSharp}
       data:

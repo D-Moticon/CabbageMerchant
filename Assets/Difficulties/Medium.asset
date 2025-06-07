@@ -17,7 +17,10 @@ MonoBehaviour:
   firstRoundGoal: 10
   referenceFirstRoundGoal: 10
   referenceFunctionPieces:
-  - rid: 328110304141508613
+  - rid: 6680768056204460032
+  - rid: 6680768056204460033
+  - rid: 6680768056204460034
+  - rid: 6680768056204460035
   metacurrencyBase: 0.15
   metacurrencyPower: 1.05
   maxMetaCurrencyPerLayer: 5
@@ -29,12 +32,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 328110304141508613
-      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
-      data:
-        firstLayer: 0
-        baseValue: 1.4
-        exponent: 2.1
     - rid: 328110304141508614
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
@@ -45,17 +42,41 @@ MonoBehaviour:
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 7
-        baseValue: 20.3
+        baseValue: 15
         exponent: 1
     - rid: 328110304141508616
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 15
-        baseValue: 147.2
-        exponent: 1
+        baseValue: 36
+        exponent: 1.46
     - rid: 328110304141508617
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 30
-        baseValue: 134.56
+        baseValue: 136
+        exponent: 1.51
+    - rid: 6680768056204460032
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 0
+        baseValue: 3.75
+        exponent: 1
+    - rid: 6680768056204460033
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 7
+        baseValue: 15
+        exponent: 1
+    - rid: 6680768056204460034
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 15
+        baseValue: 130
+        exponent: 1
+    - rid: 6680768056204460035
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 30
+        baseValue: 136
         exponent: 1.51

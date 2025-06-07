@@ -96,7 +96,9 @@ public class ObjectPoolManager : MonoBehaviour
 
         if (obj == null)
         {
-            print($"Tried to spawn {objectData.name} pooled object but failed");
+            obj = Instantiate(objectData.prefab, transform);
+            data.all.Add(obj);
+            print($"Tried to spawn {objectData.name} pooled object but failed.  Creating new object to prevent null reference");
         }
         
         // position & activate

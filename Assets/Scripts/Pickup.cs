@@ -24,6 +24,10 @@ public class Pickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
         // If we hit a cabbage, resolve overlap
         var cabbage = other.GetComponent<Cabbage>();
         if (cabbage != null)

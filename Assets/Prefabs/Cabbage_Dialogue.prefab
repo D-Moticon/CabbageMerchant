@@ -172,7 +172,7 @@ MonoBehaviour:
   growthMode: 2
   logBase: 2
   logMultiplier: 1
-  rootExponent: 0.3
+  rootExponent: 0.37
   isMerging: 0
   isStolen: 0
   baseBonkMultiplier: 1
@@ -280,15 +280,15 @@ MonoBehaviour:
   bubbleParent: {fileID: 7189913766097892237}
   characterSpriteRenderer: {fileID: 5752031090107586812}
   bonkCountdownFeel: {fileID: 5245498766652061902}
-  popVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
+  popVFX: {fileID: 11400000, guid: 92cd6676791361f47b884242977f4a27, type: 2}
   popSFX:
     sfx:
       Guid:
-        Data1: -221431454
-        Data2: 1325979112
-        Data3: 1410731961
-        Data4: 2027769841
-      Path: event:/CabbageScore5
+        Data1: -1591101026
+        Data2: 1153708904
+        Data3: 2086098601
+        Data4: -1470913859
+      Path: event:/BossSplode
     vol: 0.5
 --- !u!1 &898534318194681676
 GameObject:
@@ -516,8 +516,8 @@ MonoBehaviour:
   - rid: 328109895874511141
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2
@@ -923,8 +923,8 @@ MonoBehaviour:
   - rid: 328109895874511141
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2
@@ -1330,8 +1330,8 @@ MonoBehaviour:
   - rid: 328109895874511219
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2
@@ -1413,7 +1413,7 @@ MonoBehaviour:
         TargetRenderer: {fileID: 7505542541405356408}
         ExtraTargetRenderers: []
         MaterialID: 0
-        PropertyID: _Brightness
+        PropertyName: _Brightness
         PropertyType: 1
         NewColor: {r: 1, g: 0, b: 0, a: 1}
         NewFloat: 20
@@ -1987,8 +1987,8 @@ MonoBehaviour:
   - rid: 328109895874511141
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2

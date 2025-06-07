@@ -60,6 +60,10 @@ MonoBehaviour:
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -79,10 +83,12 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -91,20 +97,7 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
+        triggerMode: 0
         objectToSpawn: {fileID: 11400000, guid: 6255677f374baef468151ad8fe1129a4, type: 2}
-        numberObjects: 8
-        effectsOnAllPickupsCollected:
-        - rid: 4405298251448451200
-    - rid: 4405298251448451200
-      type: {class: CreateRandomItemInSlotEffect, ns: , asm: Assembly-CSharp}
-      data:
-        chance: 1
-        owningItem: {fileID: 0}
-        spawnDirection: 4
-        itemCollections:
-        - {fileID: 11400000, guid: 0b8e6f329d6e9804287b7392d059b8ab, type: 2}
-        itemLevel: 0
-        makeHolofoil: 0
-        destroyOnBounceExited: 0
-        spawnVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
-        itemDescription: 
+        numberObjects: 6
+        effectsOnCondition: []

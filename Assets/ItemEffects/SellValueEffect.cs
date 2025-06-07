@@ -12,4 +12,10 @@ public class SellValueEffect : ItemEffect
     {
         return ($"Increase sell value by {sellValueIncrease:F0}");
     }
+
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        sellValueIncrease = Random.Range(1, 3);
+    }
 }

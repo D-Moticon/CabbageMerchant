@@ -35,6 +35,12 @@ public class SpawnCabbageEffect : ItemEffect
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
+        if (GameSingleton.Instance.gameStateMachine.currentState is GameStateMachine.ScoringState
+            || GameSingleton.Instance.gameStateMachine.currentState is BossFightManager.BossPhaseBeatenState)
+        {
+            return;
+        }
+        
         for (int i = 0; i < Mathf.Max(1, quantity); i++)
         {
             BonkableSlot bs = GameSingleton.Instance.gameStateMachine

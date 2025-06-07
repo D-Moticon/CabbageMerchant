@@ -694,6 +694,14 @@ public class ItemManager : MonoBehaviour
         item.itemWrapper.transform.position = itemSlot.transform.position;
         item.itemWrapper.transform.SetParent(itemSlot.transform);
         itemSlot.PlayItemAddedToSlotFX();
+        if (itemSlot.isFrozen)
+        {
+            item.FreezeItem();
+        }
+        else
+        {
+            item.UnFreezeItem();
+        }
         if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
         {
             Debug.Log($"{item.itemName} added to slot {itemSlot.slotNumber}");
@@ -1091,11 +1099,11 @@ public class ItemManager : MonoBehaviour
         sellCollider.GetComponentInChildren<TMPro.TMP_Text>().text = "Sell";
     }
 
-    public void UpgradeItem(Item item)
+    public Item UpgradeItem(Item item)
     {
         if (item.upgradedItem == null)
         {
-            return;
+            return null;
         }
         
         ItemSlot slot = item.currentItemSlot;
@@ -1109,11 +1117,17 @@ public class ItemManager : MonoBehaviour
         
         Item upgraded = GenerateItemWithWrapper(item.upgradedItem);
         if (item.isHolofoil) upgraded.SetHolofoil();
+        if (item.purchasable) upgraded.purchasable = true;
+        if(item.isMysterious) upgraded.MakeItemMysterious();
+        
+        item.DestroyItem(false,false);
+        
         if (slot != null)
         {
             AddItemToSlot(upgraded, slot);
             ItemAddedToSlotEvent?.Invoke(upgraded, slot);
             slot.SetPriceText();
+            
         }
 
         // 4) if we’re carrying over triggers, deep‐clone & init them
@@ -1141,6 +1155,6 @@ public class ItemManager : MonoBehaviour
             Debug.Log($"{item.itemName} upgraded to {upgraded.itemName}");
         }
         
-        item.DestroyItem(false,false);
+        return upgraded;
     }
 }

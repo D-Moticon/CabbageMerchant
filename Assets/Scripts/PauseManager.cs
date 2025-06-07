@@ -29,6 +29,7 @@ public class PauseManager : MonoBehaviour
         if (isPaused == paused)
             return;
         
+        //print($"paused: {paused}");
         
         if (!paused)
         {

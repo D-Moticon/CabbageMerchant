@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5da15513-9fb3-409e-a712-8a5af7bd6b66}">
+		<property name="assetPath">
+			<value>SFX/BossSplode2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3138775510204082</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{10f3be65-4092-4627-94db-b5cd34dae883}</destination>
+		</relationship>
+	</object>
+</objects>

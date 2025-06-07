@@ -63,7 +63,9 @@ MonoBehaviour:
   hasCooldown: 0
   limitPerShot: 0
   isTemporary: 0
+  allowTriggerRandomization: 1
   numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -88,6 +90,7 @@ MonoBehaviour:
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -97,14 +100,14 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         initialBonkValue: 3
-        scoreIncreaseOnMarkHit: 1
+        scoreIncreaseOnMarkHit: 3
     - rid: 4405298251448451451
       type: {class: MarkCabbageItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
         initialBonkValue: 3
-        scoreIncreaseOnMarkHit: 2
+        scoreIncreaseOnMarkHit: 6
     - rid: 4405298251448451452
       type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
       data:

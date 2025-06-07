@@ -190,6 +190,11 @@ public class ItemSlot : MonoBehaviour
 
         frozenSFX.Play();
         frameSpriteRenderer.color = frozenFrameColor;
+
+        if (currentItem != null)
+        {
+           currentItem.FreezeItem();
+        }
     }
 
     public void UnFreezeSlot()
@@ -203,5 +208,10 @@ public class ItemSlot : MonoBehaviour
 
         unfrozenSFX.Play();
         frameSpriteRenderer.color = originalFrameColor;
+        
+        if (currentItem != null)
+        {
+            currentItem.UnFreezeItem();
+        }
     }
 }

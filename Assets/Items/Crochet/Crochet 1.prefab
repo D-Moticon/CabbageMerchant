@@ -62,6 +62,10 @@ MonoBehaviour:
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -81,10 +85,12 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 1474441340320521796, guid: 0f15569e612884e4a811d5dd139e0813, type: 3}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -93,15 +99,15 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        initialBonkValue: 6
-        scoreIncreaseOnMarkHit: 2
+        initialBonkValue: 10
+        scoreIncreaseOnMarkHit: 10
     - rid: 4405298251448451451
       type: {class: MarkCabbageItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        initialBonkValue: 10
-        scoreIncreaseOnMarkHit: 5
+        initialBonkValue: 15
+        scoreIncreaseOnMarkHit: 25
     - rid: 4405298251448451452
       type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -112,3 +118,4 @@ MonoBehaviour:
       data:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0
+        onlyMarksGeneratedByOwningItem: 1

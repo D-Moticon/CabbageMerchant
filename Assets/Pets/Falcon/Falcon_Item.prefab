@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 5bf36741eacf27f4291e97dfcadd2020, type: 3}
   itemType: 3
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
   - rid: 328110291126059108
@@ -57,9 +59,14 @@ MonoBehaviour:
   holofoilEffects: []
   holofoilEffectDescription: 
   triggers:
-  - rid: 328110291126059117
+  - rid: 6680768040027291801
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -78,9 +85,13 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -101,13 +112,14 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         timerDuration: 5
-    - rid: 328110291126059117
-      type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        owningItem: {fileID: 0}
     - rid: 328110291126059123
       type: {class: SetLauncherSpeed, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
         newSpeed: 20
+    - rid: 6680768040027291801
+      type: {class: GameStateMachineStartedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

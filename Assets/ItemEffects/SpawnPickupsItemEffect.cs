@@ -28,6 +28,7 @@ public class SpawnPickupsItemEffect : ItemEffect
 
     public override void InitializeItemEffect()
     {
+        GameStateMachine.PreBoardPopulateAction += ClearPickups;
         GameStateMachine.BoardFinishedPopulatingAction += SpawnPickups;
         GameStateMachine.ExitingBounceStateAction += OnBounceStateExited;
         Pickup.pickupCollectedEvent += PickupCollectedListener;
@@ -41,12 +42,30 @@ public class SpawnPickupsItemEffect : ItemEffect
 
     public override void DestroyItemEffect()
     {
+        GameStateMachine.PreBoardPopulateAction -= ClearPickups;
         GameStateMachine.BoardFinishedPopulatingAction -= SpawnPickups;
         GameStateMachine.ExitingBounceStateAction -= OnBounceStateExited;
         Pickup.pickupCollectedEvent -= PickupCollectedListener;
 
         foreach (var eff in effectsOnCondition)
             eff.DestroyItemEffect();
+    }
+
+    private void ClearPickups()
+    {
+        effectsTriggered = false;
+        if (GameSingleton.Instance == null || objectToSpawn == null)
+            return;
+
+        if (spawnedPickups != null)
+        {
+            foreach (GameObject p in spawnedPickups)
+            {
+                p.gameObject.SetActive(false);
+            }
+            spawnedPickups.Clear();
+        }
+        
     }
 
     private void SpawnPickups()

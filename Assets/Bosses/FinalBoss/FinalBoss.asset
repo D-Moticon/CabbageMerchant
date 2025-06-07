@@ -13,50 +13,89 @@ MonoBehaviour:
   m_Name: FinalBoss
   m_EditorClassIdentifier: 
   bossName: Babbage Green
-  bossSprite: {fileID: 21300000, guid: 519da38f96da8154fa33fdbfbd790264, type: 3}
+  bossSprite: {fileID: 21300000, guid: c13cbb86975747b47bc03ead731ace4d, type: 3}
+  bossMusic:
+    Guid:
+      Data1: 1710030446
+      Data2: 1151621553
+      Data3: 1700625819
+      Data4: -1447552349
+    Path: event:/Music/FinalBoss
+  bossAfterMusic:
+    Guid:
+      Data1: 1815889344
+      Data2: 1160058521
+      Data3: -169872732
+      Data4: -589422593
+    Path: event:/Music/AfterBoss
   phases:
-  - difficultyInfos:
+  - musicPhase: 0
+    difficultyInfos:
     - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
-      totalHealth: 1000
+      totalHealth: 1500
     - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
-      totalHealth: 10000
+      totalHealth: 35000
     - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
       totalHealth: 1000000
     preBoardPopulateTasks:
+    - rid: 6680768040027291732
     - rid: 4405298468862034010
+    - rid: 6680768040027291755
     postBoardPopulateTasks: []
     postBounceStateExitedTasks: []
-    postBossBeatTasks:
-    - rid: 6680768019274137679
-  - difficultyInfos:
+    postPhaseBeatEarlyTasks:
+    - rid: 6680768040027291749
+    postPhaseBeatTasks: []
+  - musicPhase: 0
+    difficultyInfos:
     - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
       totalHealth: 1000
     - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
-      totalHealth: 10000
+      totalHealth: 15000
     - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
-      totalHealth: 100000
+      totalHealth: 35000
     preBoardPopulateTasks:
     - rid: 4405298468862034011
     - rid: 4405298468862034017
-    postBoardPopulateTasks: []
+    - rid: 6680768040027291753
+    - rid: 6680768040027291754
+    postBoardPopulateTasks:
+    - rid: 6680768040027291727
     postBounceStateExitedTasks: []
-    postBossBeatTasks: []
-  - difficultyInfos:
+    postPhaseBeatEarlyTasks:
+    - rid: 6680768040027291750
+    postPhaseBeatTasks: []
+  - musicPhase: 1
+    difficultyInfos:
     - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
       totalHealth: 1000
     - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
-      totalHealth: 10000
+      totalHealth: 40000
     - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
-      totalHealth: 100000
+      totalHealth: 1000000
     preBoardPopulateTasks:
+    - rid: 6680768040027291730
     - rid: 4405298487544512602
     - rid: 4405298487544512604
     - rid: 4405298487544512603
     postBoardPopulateTasks:
     - rid: 4405298487544512623
+    - rid: 6680768040027291731
     - rid: 6680767977426518162
     postBounceStateExitedTasks: []
-    postBossBeatTasks: []
+    postPhaseBeatEarlyTasks:
+    - rid: 6680768040027291751
+    postPhaseBeatTasks:
+    - rid: 6680768040027291733
+  postBeatTasks:
+  - rid: 6680768040027291771
+  - rid: 6680768040027291772
+  - rid: 6680768040027291773
+  - rid: 6680768040027291774
+  - rid: 6680768040027291775
+  - rid: 6680768040027291776
+  - rid: 6680768040027291777
+  - rid: 6680768040027291778
   references:
     version: 2
     RefIds:
@@ -64,7 +103,8 @@ MonoBehaviour:
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
-        dialogueLine: Let's have a fun boss fight!
+        dialogueLine: <wiggle a=.2>Mwahahahaha!!! </wiggle> I've summoned the <fire>Cabbage
+          Patch of Ancient Annihilation! </fire>
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0
@@ -75,7 +115,8 @@ MonoBehaviour:
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
-        dialogueLine: It's time to take you down a peg!
+        dialogueLine: <wiggle a=.4>PATHETIC!</wiggle> You shall not stand in my way,
+          Cabbage Merchant!
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0
@@ -147,12 +188,163 @@ MonoBehaviour:
     - rid: 6680767977426518162
       type: {class: AddBallsDialogueTask, ns: , asm: Assembly-CSharp}
       data:
-        ballsToAdd: 3
-    - rid: 6680768019274137679
+        ballsToAdd: 4
+    - rid: 6680768040027291727
+      type: {class: AddBallsDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        ballsToAdd: 1
+    - rid: 6680768040027291730
+      type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToUnfreeze: 8
+    - rid: 6680768040027291731
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Looks like everyone's counting on you, kid.  Here, take these!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291732
+      type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToUnfreeze: 8
+    - rid: 6680768040027291733
+      type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToUnfreeze: 8
+    - rid: 6680768040027291749
+      type: {class: BossStrikeTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 6680768040027291750
+      type: {class: BossStrikeTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 6680768040027291751
+      type: {class: BossStrikeTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 6680768040027291753
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Heh, so you made it here after all.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291754
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: That jerk's disabled some of your slots, better make sure nothing
+          important's in them!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291755
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
         dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
-        dialogueLine: Meow?
+        dialogueLine: And Cabbage City shall become my fertilizer!!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291771
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: <wiggle a=0.2>Nooooooo....</wiggle> Not my <fire>Cabbage Patch
+          of Ancient Annihilation.... </fire>
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291772
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: You've bested me this time, Cabbage Merchant.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291773
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 476083d02255cb34a9fbf25b651a089c, type: 2}
+        dialogueLine: But just like you, I will be back...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291774
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Heh, they always say that.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291775
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: I couldn't believe my eyes out there, kid.  Your cabbage popping
+          numbers are one in a million.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291776
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Maybe they'll even let you into the <chaos>Chaos Temple</chaos>
+          with skills like that.
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291777
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: <wave a=0.5>Hahahaha</wave>, well we can dream at least!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768040027291778
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 35af9e5b905d04041ba79a2c6c537033, type: 2}
+        dialogueLine: Thanks for showing me how it's done, kid.  I've clearly gotta
+          go hone my skills to get on your level.  Til next time, Ciao!
         hideCharacterName: 0
         waitForSkipInput: 1
         extraWaitTime: 0

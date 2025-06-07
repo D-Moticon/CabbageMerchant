@@ -33,6 +33,8 @@ public class BuildManager : MonoBehaviour
     public bool unlockAllSlots = false;
     public List<Item> startingItems = new List<Item>();
     public List<Item> startingPerks = new List<Item>();
+    public bool randomizeAllPowers = false;
+    public bool randomizeAllTriggers = false;
     public Biome startingBiome;
     public MapBlueprint mapBlueprint;
     public Difficulty startingDifficulty;
@@ -210,8 +212,23 @@ public class BuildManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        
+
+        if (buildMode != BuildMode.release && buildMode != BuildMode.releaseTest)
+        {
+            List<Item> items = Singleton.Instance.itemManager.GetNormalItems();
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (randomizeAllPowers)
+                {
+                    items[i].RandomizeEffectPowers();
+                }
+
+                if (randomizeAllTriggers)
+                {
+                    items[i].RandomizeTriggers();
+                }
+            }
+        }
     }
 
     public bool IsDemoMode()

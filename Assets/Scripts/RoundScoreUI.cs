@@ -122,11 +122,12 @@ public class RoundScoreUI : MonoBehaviour
             double bosshealth = Math.Max(Math.Ceiling(max - newScore), 0);
             roundScoreText.text = Helpers.FormatWithSuffix(bosshealth);
 
+            double diff = Math.Abs(newScore - oldScore);
+            
             // trigger tick line & feedback on damage
-            if (newScore > oldScore)
+            if (diff > 0.5)
             {
                 roundScoreFeel.PlayFeedbacks();
-                double diff = newScore - oldScore;
                 float power = Helpers.RemapClamped((float)diff,
                     inputTickPowerRange.x, inputTickPowerRange.y,
                     outputTickPowerRange.x, outputTickPowerRange.y);
@@ -141,6 +142,10 @@ public class RoundScoreUI : MonoBehaviour
 
             // percent health remaining
             int percent = Mathf.CeilToInt(remainingFrac * 100f);
+            if (percent < 0)
+            {
+                percent = 0;
+            }
             roundScoreMultText.text = $"{percent}%";
 
             oldScore = newScore;

@@ -56,6 +56,8 @@ public class GameStateMachine : MonoBehaviour
     public static Action EnteringScoringAction;
     public static Action ExitingScoringAction;
     public static IntDelegate ExtraBallGainedAction;
+    public static Action RoundFailedEvent;
+    public static Action GameStateMachineStartedAction;
 
     public delegate void GSMDelegate(GameStateMachine gsm);
     public static GSMDelegate GSM_Enabled_Event;
@@ -113,6 +115,8 @@ public class GameStateMachine : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameStateMachineStartedAction?.Invoke();
+        
         if (Singleton.Instance.bossFightManager.isBossFight)
         {
             Singleton.Instance.bossFightManager.gsm = this;
@@ -343,6 +347,7 @@ public class GameStateMachine : MonoBehaviour
         currentRoundScore = 0;
         currentRoundScoreOverMult = 0;
         roundScoreOverMultRounded = 0;
+        pointsBankedFromWallPoppedCabbages = 0;
         RoundScoreUpdatedEvent?.Invoke(currentRoundScore);
     }
     
@@ -501,6 +506,7 @@ public class GameStateMachine : MonoBehaviour
             foreach (BonkableSlotSpawner bss in bonkableSlotSpawners)
             {
                 bss.SpawnBonkableSlots();
+                yield return null; //wait a frame for lists to settle
                 gameStateMachine.bonkableSlots.AddRange(bss.bonkableSlots);
             }
 
@@ -757,6 +763,7 @@ public class GameStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(1.5f);
                 if (Singleton.Instance.playerStats.lives > 0)
                 {
+                    RoundFailedEvent?.Invoke();
                     Singleton.Instance.runManager.ReloadCurrentScene();
                     yield break;
                 }

@@ -56,10 +56,14 @@ MonoBehaviour:
   holofoilEffects: []
   holofoilEffectDescription: 
   triggers:
-  - rid: 328110182838304993
+  - rid: 6680768040027291800
   triggerChance: 1
   hasCooldown: 0
   limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -79,10 +83,12 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -94,8 +100,8 @@ MonoBehaviour:
         wallMoveDistanceRange: {x: 0.3, y: 0.3}
         wallRotationRange: {x: 0, y: 0}
         moveDuration: 1
-    - rid: 328110182838304993
-      type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
+    - rid: 6680768040027291800
+      type: {class: GameStateMachineStartedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0

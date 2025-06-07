@@ -10,6 +10,8 @@ public class BossPhase
         public Difficulty difficulty;
         public double totalHealth;
     }
+
+    public int musicPhase = 0;
     
     public List<DifficultyInfo> difficultyInfos;
     
@@ -23,6 +25,8 @@ public class BossPhase
     public List<DialogueTask> postBoardPopulateTasks;
     [SerializeReference]
     public List<DialogueTask> postBounceStateExitedTasks;
+    [SerializeReference]
+    public List<DialogueTask> postPhaseBeatEarlyTasks;
     [SerializeReference]
     public List<DialogueTask> postPhaseBeatTasks;
 }

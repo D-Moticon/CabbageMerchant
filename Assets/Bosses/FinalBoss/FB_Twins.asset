@@ -17,6 +17,7 @@ MonoBehaviour:
   - rid: 4405298487544512625
   - rid: 4405298487544512626
   - rid: 4405298487544512627
+  - rid: 6680768040027291729
   references:
     version: 2
     RefIds:
@@ -50,3 +51,14 @@ MonoBehaviour:
       type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
       data:
         numberSlotsToUnfreeze: 1
+    - rid: 6680768040027291729
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 285369ac057456b449a587fdf50173cd, type: 2}
+        dialogueLine: This fight's gonna be so awesome!!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}

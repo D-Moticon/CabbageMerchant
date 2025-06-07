@@ -9,6 +9,7 @@ public class Singleton : MonoBehaviour
     public PlayerInputManager playerInputManager;
     public FloaterManager floaterManager;
     public AudioManager audioManager;
+    public MusicManager musicManager;
     public PrefabReferences prefabReferences;
     public ItemManager itemManager;
     public ItemGraveyard itemGraveyard;

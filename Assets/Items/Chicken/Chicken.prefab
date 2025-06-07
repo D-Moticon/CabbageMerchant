@@ -60,9 +60,11 @@ MonoBehaviour:
   - rid: 328110359655481516
   triggerChance: 1
   hasCooldown: 0
-  limitPerShot: 0
+  limitPerShot: 10
   isTemporary: 0
+  allowTriggerRandomization: 1
   numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -87,6 +89,7 @@ MonoBehaviour:
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:

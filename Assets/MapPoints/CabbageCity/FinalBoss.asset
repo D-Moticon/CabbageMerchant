@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c9ae5648f09964cbf72d0cef60df35, type: 3}
+  m_Name: FinalBoss
+  m_EditorClassIdentifier: 
+  sceneName: CabbageShoot
+  displayName: Cabbage Patch of Ancient Annihilation
+  description: A dark entity threatens all of Cabbage City with annihilation!
+  mapIcon: {fileID: 21300000, guid: d2aa89fe38fa9b34aa6b9bc11bc971d7, type: 3}
+  biome: {fileID: 11400000, guid: 946510f7ce955aa469cd805b8a000b5b, type: 2}
+  mapPointExtras: []
+  specialGameRules: []
+  specificDialogue: {fileID: 0}
+  boss: {fileID: 11400000, guid: 54b2c4642d51cfe4fb1aecc5483875cd, type: 2}
+  references:
+    version: 2
+    RefIds: []

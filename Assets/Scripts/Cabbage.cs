@@ -140,6 +140,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         points = startingPoints;
         sizeLevel = startingSizeLevel;
         bonkMultiplier = baseBonkMultiplier;
+        UpdateSizeLevel();
     }
 
     void Start()
@@ -285,6 +286,8 @@ public class Cabbage : MonoBehaviour, IBonkable
         points = 0;
         sizeLevel = startingSizeLevel;
         bonkMultiplier = baseBonkMultiplier;
+        UpdateSizeLevel();
+        UpdateColorLevel();
     }
 
     public GameObject GetGameObject()

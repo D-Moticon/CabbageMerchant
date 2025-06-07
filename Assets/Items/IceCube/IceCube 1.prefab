@@ -62,11 +62,13 @@ MonoBehaviour:
   hasCooldown: 0
   limitPerShot: 0
   isTemporary: 1
+  allowTriggerRandomization: 1
   numberShotsBeforeDestroy: 7
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
-  normalizedPrice: 1.4
+  normalizedPrice: 1
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
   itemWrapper: {fileID: 0}
@@ -87,6 +89,7 @@ MonoBehaviour:
   firstUseHint: 
   keepTriggerOnUpgrade: 0
   isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:

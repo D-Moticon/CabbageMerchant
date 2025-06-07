@@ -23,4 +23,10 @@ public class MakeAllCabbagesVariantEffect : ItemEffect
     {
         return ($"Make all cabbages {variant.ToString()}");
     }
+
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        chance = Random.Range(0.01f, 0.1f);
+    }
 }

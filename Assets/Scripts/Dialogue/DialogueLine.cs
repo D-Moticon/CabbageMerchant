@@ -56,7 +56,7 @@ public class DialogueLine : DialogueTask
         if (dc.dialogueBox.isHidden)
         {
             dc.dialogueBox.dialogueTextAnimator.SetText("");
-            Task t = new Task(dc.dialogueBox.FadeInDialogueBox(1f));
+            Task t = new Task(dc.dialogueBox.FadeInDialogueBox(.75f));
             while (t.Running)
             {
                 yield return null;

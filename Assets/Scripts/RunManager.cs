@@ -78,6 +78,7 @@ public class RunManager : MonoBehaviour
 
     public void GoToMap()
     {
+        print("Going to map");
         // Because we never unload the map scene, we skip re-loading if already loaded
         StartCoroutine(SlideToMapScene());
     }
@@ -540,11 +541,15 @@ public class RunManager : MonoBehaviour
 
     private IEnumerator ReloadSceneRoutine(string sceneName)
     {
+        yield return null; //Needed to let events fire to stop coroutines etc.
+        
         // 1) Unload just that scene
         AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
         while (!unloadOp.isDone)
             yield return null;
-
+        
+        yield return null;
+        
         // 2) Load it back additively
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)

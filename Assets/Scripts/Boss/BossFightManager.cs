@@ -24,8 +24,11 @@ public class BossFightManager : MonoBehaviour
     public static Action BossPhaseBeatStateEnterEvent;
     public static Action BossPhaseBeatStateExitedEvent;
 
+    public SFXInfo bossFullBeatSFX;
     public PooledObjectData phaseBeatCabbagePopVFX;
     public SFXInfo phaseBeatCabbagePopSFX;
+
+    public Animator bossStrikeAnimator;
 
     public void SetBossFight(Boss b)
     {
@@ -43,12 +46,25 @@ public class BossFightManager : MonoBehaviour
     public void StartBossFight()
     {
         _currentPhaseIndex = 0;
+        if (!boss.bossMusic.IsNull)
+        {
+            bool forceRestart = false;
+            if (Singleton.Instance.musicManager.GetMusicPhase() > 0)
+            {
+                forceRestart = true;
+                Singleton.Instance.musicManager.SetMusicPhase(0);
+            }
+            
+            Singleton.Instance.musicManager.ChangeMusic(boss.bossMusic, true, forceRestart);
+        }
+        
         StartCoroutine(RunPhase());
     }
 
     private IEnumerator RunPhase()
     {
         var phase = boss.phases[_currentPhaseIndex];
+        Singleton.Instance.musicManager.SetMusicPhase(phase.musicPhase);
         var difficulty = Singleton.Instance.playerStats.currentDifficulty;
 
         var info = phase.difficultyInfos
@@ -94,18 +110,45 @@ public class BossFightManager : MonoBehaviour
         
 
         bool phaseBeat = false;
+        bool roundFailed = false;
         void OnPhaseBeat(double over) => phaseBeat = (over >= 1);
+        void OnRoundFailed() => roundFailed = true;
         GameStateMachine.RoundGoalOverHitEvent += OnPhaseBeat;
+        GameStateMachine.RoundFailedEvent += OnRoundFailed;
 
         while (!phaseBeat)
+        {
+            if (roundFailed)
+            {
+                _currentPhaseIndex = 0;
+                StopAllCoroutines();
+            }
+            
             yield return null;
+        }
+            
         
         GameStateMachine.RoundGoalOverHitEvent -= OnPhaseBeat;
+        GameStateMachine.RoundFailedEvent -= OnRoundFailed;
         
         gsm.KillAllBalls();
         gsm.ClearBoardOfGlobalObjects();
         gsm.stopTryButton.SetActive(false);
 
+        if (_currentPhaseIndex >= boss.phases.Count - 1)
+        {
+            if (!boss.bossAfterMusic.IsNull)
+            {
+                Singleton.Instance.musicManager.ChangeMusic(boss.bossAfterMusic);
+            }
+        }
+        
+
+        yield return StartCoroutine(
+            Singleton.Instance.dialogueManager
+                .DialogueTaskRoutine(phase.postPhaseBeatEarlyTasks)
+        );
+        
         gsm.ChangeState(new BossPhaseBeatenState());
         bool stateFinished = false;
         void OnScoringExited() => stateFinished = true;
@@ -126,13 +169,16 @@ public class BossFightManager : MonoBehaviour
 
         // ─── 10) Advance to next phase or finish boss ─────────────────────────
         _currentPhaseIndex++;
+
         if (_currentPhaseIndex < boss.phases.Count)
         {
+            bossFullBeatSFX?.Play();
             yield return StartCoroutine(RunPhase());
         }
         else
         {
-            OnBossDefeated();
+            yield return StartCoroutine(OnBossDefeated());
+            yield break;
         }
     }
 
@@ -159,10 +205,28 @@ public class BossFightManager : MonoBehaviour
 
         IEnumerator BossPhaseBeatenCoroutine()
         {
+            if (gameStateMachine == null)
+            {
+                Debug.Log("BossPhaseBeatenCoroutine: gameStateMachine was null");
+                if (GameSingleton.Instance != null)
+                {
+                    gameStateMachine = GameSingleton.Instance.gameStateMachine;
+                }
+
+                else
+                {
+                    Debug.Log("BossPhaseBeatenCoroutine: GameSingleton was null");
+                }
+            }
+            
             List<Cabbage> cabbages = new List<Cabbage>(gameStateMachine.activeCabbages);
 
             for (int i = 0; i < cabbages.Count; i++)
             {
+                if (cabbages[i] == null)
+                {
+                    continue;
+                }
                 if (!cabbages[i].gameObject.activeInHierarchy)
                 {
                     continue;
@@ -181,21 +245,20 @@ public class BossFightManager : MonoBehaviour
                 cabbages[i].FullReset();
                 cabbages[i].Remove();
                 
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.1f);
             }
             
             //CLeanup any other cabbages
-            Cabbage[] cs = GameSingleton.Instance.GetComponentsInChildren<Cabbage>();
-            foreach (Cabbage cabbage in cs)
+            if (GameSingleton.Instance != null)
             {
-                if (!cabbage.gameObject.activeInHierarchy)
+                Cabbage[] cs = GameSingleton.Instance.GetComponentsInChildren<Cabbage>();
+                foreach (Cabbage cabbage in cs)
                 {
-                    continue;
+                    cabbage.FullReset();
+                    cabbage.Remove();
                 }
-                
-                cabbage.Remove();
             }
-
+            
             yield return new WaitForSeconds(1f); //mostly to allow item stuff to get destroyed
             ExitState();
         }
@@ -215,12 +278,20 @@ public class BossFightManager : MonoBehaviour
         GameStateMachine.ExitingScoringAction -= OnExit;
     }
     
-    void OnBossDefeated()
+    IEnumerator OnBossDefeated()
     {
+        
         BossPhaseBeatStateExitedEvent?.Invoke();
         Physics2D.gravity = new Vector2(0f,-9.81f);
         GameStateMachine.ExitingScoringAction?.Invoke();
         isBossFight = false;
+
+        yield return StartCoroutine(
+            Singleton.Instance.dialogueManager
+                .DialogueTaskRoutine(boss.postBeatTasks)
+        );
+        
+        print("Ending Boss");
         Singleton.Instance.runManager.GoToMap();
     }
 }

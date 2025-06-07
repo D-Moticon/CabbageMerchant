@@ -138,8 +138,8 @@ MonoBehaviour:
   - rid: 328109895874511141
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2
@@ -915,8 +915,8 @@ MonoBehaviour:
   - rid: 328109895874511219
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2
@@ -998,7 +998,7 @@ MonoBehaviour:
         TargetRenderer: {fileID: 5797199626413394737}
         ExtraTargetRenderers: []
         MaterialID: 0
-        PropertyID: _Brightness
+        PropertyName: _Brightness
         PropertyType: 1
         NewColor: {r: 1, g: 0, b: 0, a: 1}
         NewFloat: 20
@@ -1363,8 +1363,8 @@ MonoBehaviour:
   - rid: 328109895874511141
   KeepPlayModeChanges: 0
   PerformanceMode: 0
-  RestoreInitialValuesOnDisable: 0
-  StopFeedbacksOnDisable: 0
+  RestoreInitialValuesOnDisable: 1
+  StopFeedbacksOnDisable: 1
   PlayCount: 0
   references:
     version: 2

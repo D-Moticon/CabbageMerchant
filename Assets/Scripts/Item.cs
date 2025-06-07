@@ -38,6 +38,7 @@ public class Item : MonoBehaviour, IHoverable
     public int numberShotsBeforeDestroy = 1;
     private int temporaryCountdown = 1;
     private int timesTriggeredThisShot = 0;
+    [HideInInspector] public bool triggeredThisBoard = false;
     [ShowIf("@hasCooldown == true")]
     public float cooldownDuration = 1f;
     [HideInInspector]public float cooldownCounter = 0f;
@@ -58,6 +59,8 @@ public class Item : MonoBehaviour, IHoverable
 
     public static event ItemDelegate ItemTriggeredEvent;
     public static event ItemDelegate WeaponTriggeredEvent;
+    public static event ItemDelegate ItemFrozenEvent;
+    public static event ItemDelegate ItemUnFrozenEvent;
 
     private static int triggerPerFrameLimit = 5;
     private int currentFrameTriggerCount = 0;
@@ -67,6 +70,7 @@ public class Item : MonoBehaviour, IHoverable
     [HideInInspector] public bool keepTriggerOnUpgrade = false;
 
     [HideInInspector] public bool isMysterious = false;
+    [HideInInspector] public bool isFrozen = false;
 
     public class DestroyItemParams
     {
@@ -130,6 +134,7 @@ public class Item : MonoBehaviour, IHoverable
         GameStateMachine.EnteringAimStateAction += EnteringAimStateListener;
         ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
         GameStateMachine.BallFiredEvent += BallFiredListener;
+        GameStateMachine.PreBoardPopulateAction += PrePopulateBoardListener;
     }
 
     protected virtual void OnDisable()
@@ -152,6 +157,7 @@ public class Item : MonoBehaviour, IHoverable
         GameStateMachine.EnteringAimStateAction -= EnteringAimStateListener;
         ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
         GameStateMachine.BallFiredEvent -= BallFiredListener;
+        GameStateMachine.PreBoardPopulateAction -= PrePopulateBoardListener;
     }
 
     public void SetIcon(Sprite newIcon)
@@ -317,8 +323,7 @@ public class Item : MonoBehaviour, IHoverable
 
         timesTriggeredThisShot++;
         currentFrameTriggerCount++;
-        
-        
+        triggeredThisBoard = true;
     }
     
     public virtual string GetTitleText(HoverableModifier hoverableModifier = null)
@@ -567,14 +572,17 @@ public class Item : MonoBehaviour, IHoverable
 
     public void RandomizeEffectPowers()
     {
+        print($"Randomizing {itemName}");
         foreach (var effect in effects)
         {
             effect.RandomizePower();
+            print(effect.GetDescription());
         }
         
         foreach (var effect in holofoilEffects)
         {
             effect.RandomizePower();
+            print($"holo ({isHolofoil}): {effect.GetDescription()})");
         }
     }
 
@@ -722,5 +730,30 @@ public class Item : MonoBehaviour, IHoverable
             current = current.upgradedItem;
         }
         return current;
+    }
+    
+    private void PrePopulateBoardListener()
+    {
+        triggeredThisBoard = false;
+    }
+
+    public void FreezeItem()
+    {
+        if (!isFrozen)
+        {
+            ItemFrozenEvent?.Invoke(this);
+        }
+        
+        isFrozen = true;
+    }
+
+    public void UnFreezeItem()
+    {
+        if (isFrozen)
+        {
+            ItemUnFrozenEvent?.Invoke(this);
+        }
+        
+        isFrozen = false;
     }
 }

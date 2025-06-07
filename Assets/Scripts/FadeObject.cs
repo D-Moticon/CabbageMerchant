@@ -40,7 +40,7 @@ public class FadeObject : MonoBehaviour
         }
         yield return null;
     }
-
+    
     private IEnumerator AnimateProperty(Prop prop, bool fadeIn)
     {
         float elapsedTime = 0f;
@@ -144,15 +144,11 @@ public class FadeObject : MonoBehaviour
             startPosition = transform.localPosition;
             startRotation = transform.localRotation.eulerAngles.z;
         }
-
-
-
+        
         while (elapsedTime < prop.duration)
         {
             float t = elapsedTime / prop.duration;
             float curveT = prop.curve.Evaluate(t);
-
-            
 
             switch (prop.propertyType)
             {
@@ -303,7 +299,10 @@ public class FadeObject : MonoBehaviour
                 break;
             case MaterialHandlingMode.SharedMaterial:
                 if (renderer != null) renderer.material.SetFloat(propName, value);
-                if (image != null) image.material.SetFloat(propName, value);
+                if (image != null)
+                {
+                    image.material.SetFloat(propName, value);
+                }
                 break;
         }
     }

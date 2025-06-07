@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{04cd64ec-8f11-4ff2-811e-3c7b27088eff}">
+		<property name="assetPath">
+			<value>Music/FinalBoss.ogg</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>148.94117913832198</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{10f3be65-4092-4627-94db-b5cd34dae883}</destination>
+		</relationship>
+	</object>
+</objects>

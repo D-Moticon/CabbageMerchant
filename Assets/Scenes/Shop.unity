@@ -1393,12 +1393,16 @@ PrefabInstance:
       objectReference: {fileID: 763103695}
     - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
       propertyPath: shopManagers.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
       propertyPath: 'shopManagers.Array.data[0]'
       value: 
       objectReference: {fileID: 763103695}
+    - target: {fileID: 7018581488051371576, guid: 6682bf45eeaa6f34988d3e98d4f89256, type: 3}
+      propertyPath: 'shopManagers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 635294291}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

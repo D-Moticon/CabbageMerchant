@@ -32,6 +32,16 @@ public class ShopItemLevelEffect : ItemEffect
             return;
         }
         
-        Singleton.Instance.itemManager.UpgradeItem(item);
+        Item upItem = Singleton.Instance.itemManager.UpgradeItem(item);
+        
+        //Need to fire the event to (for instance) make the mystery CC give the correct price
+        //But need to not fire this script by itself
+        if (upItem != null)
+        {
+            ShopManager.ItemSpawnedInShopEvent -= ItemSpawnedInShopListener;
+            ShopManager.ItemSpawnedInShopEvent?.Invoke(upItem);
+            ShopManager.ItemSpawnedInShopEvent += ItemSpawnedInShopListener;
+        }
+        
     }
 }

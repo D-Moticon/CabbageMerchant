@@ -59,6 +59,12 @@ public class EffectChangeOnSlotChange : ItemEffect
             return;
         }
 
+        if (!Singleton.Instance.itemManager.itemSlots.Contains(owningItem.currentItemSlot))
+        {
+            //prevent change in store slots
+            return;
+        }
+
         changeSFX.Play(owningItem.transform.position);
         currentSlot = owningItem.currentItemSlot.slotNumber;
         if (currentSlot < effectInfos.Count)
@@ -141,5 +147,14 @@ public class EffectChangeOnSlotChange : ItemEffect
     public EffectInfo GetCurrentEffectInfo()
     {
         return currentEffectInfo;
+    }
+
+    public override void RandomizePower()
+    {
+        base.RandomizePower();
+        foreach (var effect in effectInfos)
+        {
+            effect.itemEffect.RandomizePower();
+        }
     }
 }

@@ -34,8 +34,16 @@ public class CircleBonkableSpawner : BonkableSlotSpawner
             {
                 foreach (Transform childT in slot.transform)
                 {
-                    childT.gameObject.SetActive(false);
-                    childT.gameObject.transform.SetParent(transform.parent);
+                    Cabbage c = childT.GetComponent<Cabbage>();
+                    if (c != null)
+                    {
+                        c.Remove();
+                    }
+                    else
+                    {
+                        childT.gameObject.SetActive(false);
+                        childT.gameObject.transform.SetParent(transform.parent);
+                    }
                 }
                 
                 Destroy(slot.gameObject);

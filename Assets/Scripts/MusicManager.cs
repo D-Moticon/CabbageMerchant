@@ -21,6 +21,7 @@ public class MusicManager : MonoBehaviour
     public EventReference victoryMusic;
     private EventReference musicEvent;
     private EventInstance musicInstance;
+    private int currentMusicPhase = 0;
 
     private void OnEnable()
     {
@@ -71,13 +72,18 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     /// <param name="newEvent">The EventReference you want to play next.</param>
     /// <param name="playNow">If true, starts playback immediately after swapping.</param>
-    public void ChangeMusic(EventReference newEvent, bool playNow = true)
+    public void ChangeMusic(EventReference newEvent, bool playNow = true, bool forceRestart = false)
     {
-        if (musicInstance.isValid() && newEvent.Guid == musicEvent.Guid)
+        if (!forceRestart)
         {
-            // already playing that exact event → nothing to do
-            return;
+            if (musicInstance.isValid() && newEvent.Guid == musicEvent.Guid)
+            {
+                // already playing that exact event → nothing to do
+                return;
+            }
         }
+
+        SetMusicPhase(0);
         
         // stop whatever’s playing
         StopCurrentInstance(STOP_MODE.IMMEDIATE);
@@ -87,6 +93,17 @@ public class MusicManager : MonoBehaviour
 
         if (playNow)
             PlayMusic();
+    }
+
+    public int GetMusicPhase()
+    {
+        return currentMusicPhase;
+    }
+    
+    public void SetMusicPhase(int newMusicPhase)
+    {
+        currentMusicPhase = newMusicPhase;
+        musicInstance.setParameterByName("region", currentMusicPhase);
     }
 
     private void StopCurrentInstance(STOP_MODE mode)
