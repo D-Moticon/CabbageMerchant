@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 766ac6fa57c74eb4d95a83ef35e091ce, type: 3}
   itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 1
   effects:
   - rid: 328110234980581463
@@ -58,6 +60,11 @@ MonoBehaviour:
   - rid: 328110234980581464
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 2
@@ -75,10 +82,14 @@ MonoBehaviour:
         Data4: 0
       Path: 
     vol: 0.5
-  upgradedItem: {fileID: 0}
+  upgradedItem: {fileID: 2295320855855764854, guid: 18db2c4547a7a28498389d6cfbc1ce92, type: 3}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -89,7 +100,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         pooledObject: {fileID: 11400000, guid: d461eaa28e5e4a14199856031be2de7a, type: 2}
         objectName: Golf Hole
-        objectDescription: doubles all cabbage points if ball lands inside
+        objectDescription: multiplies round score by 2 if ball lands inside
         xRange: {x: -3.8, y: 3.8}
         yRange: {x: -4.8, y: -4.8}
         quantity: 1
@@ -98,6 +109,7 @@ MonoBehaviour:
       type: {class: FirstCabbageHitTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
     - rid: 328110234980581465
       type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -105,7 +117,7 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         pooledObject: {fileID: 11400000, guid: d461eaa28e5e4a14199856031be2de7a, type: 2}
         objectName: Golf Hole
-        objectDescription: doubles all cabbage points if ball lands inside
+        objectDescription: multiplies round score by 2 if ball lands inside
         xRange: {x: -3.8, y: 3.8}
         yRange: {x: -4.8, y: -4.8}
         quantity: 1

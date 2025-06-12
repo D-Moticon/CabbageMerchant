@@ -4150,7 +4150,7 @@ MonoBehaviour:
   cellSize: 0.6
   viscosity: 0.001
   jacobiIterations: 15
-  externalVelocityMult: 0.5
+  externalVelocityMult: 1
   buoyancyCoefficient: 1
   weightCoefficient: 1
   ambientTemperature: 0
@@ -5179,6 +5179,7 @@ MonoBehaviour:
   drawShader: {fileID: 4800000, guid: d50ac8b9baaa68b49bf043ac7619336c, type: 3}
   externalVelocityRT: {fileID: 8400000, guid: 643b3437e8c0a694299ef14057f7435e, type: 2}
   maxVelocity: 50
+  fluidColliders: []
 --- !u!1 &2317449340517010888
 GameObject:
   m_ObjectHideFlags: 0
@@ -5499,6 +5500,12 @@ MonoBehaviour:
     initialQuantity: 15
     maxQuantity: 25
   - objectData: {fileID: 11400000, guid: d461eaa28e5e4a14199856031be2de7a, type: 2}
+    initialQuantity: 5
+    maxQuantity: 10
+  - objectData: {fileID: 11400000, guid: 7fa3a10ad68d2ea4989c604bf848c445, type: 2}
+    initialQuantity: 5
+    maxQuantity: 10
+  - objectData: {fileID: 11400000, guid: b1912fe2041064d42b47c6c9a2475e6a, type: 2}
     initialQuantity: 5
     maxQuantity: 10
   - objectData: {fileID: 11400000, guid: 6c75de8a6bdd1764d9cbc70d35bb3d44, type: 2}
@@ -7539,7 +7546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forceVel: 1
   forceRad: 10
-  densityInjection: 1
+  densityInjection: 2
   color: {r: 0.028301895, g: 0.016081626, b: 0.015085444, a: 1}
   temperature: 0
   spawnPointOffset: 0.5

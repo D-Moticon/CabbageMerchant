@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 62ce005ac9d2a9e42b412d6dc4f26327, type: 3}
   itemType: 2
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
   - rid: 328110296925208661
@@ -58,6 +60,11 @@ MonoBehaviour:
   - rid: 328110296925208662
   triggerChance: 1
   hasCooldown: 1
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 10
   cooldownCounter: 0
   rarity: 0
@@ -76,9 +83,13 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 8474212204131141607, guid: 8316aa344466f2849bf02171206be50c, type: 3}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -88,14 +99,14 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
-        boxSize: {x: 10, y: 0.75}
+        boxSize: {x: 10, y: 1.25}
         bonkValue: 2
         numberShears: 2
         bonkableLayerMask:
           serializedVersion: 2
           m_Bits: 129
         splitUpwardAngleRange: 60
-        splitSpeedRange: {x: 8, y: 18}
+        splitSpeedRange: {x: 15, y: 20}
         ballLayerMask:
           serializedVersion: 2
           m_Bits: 64
@@ -120,14 +131,14 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         ballPooledObject: {fileID: 11400000, guid: 14be57a860059474e933e3054484183d, type: 2}
-        boxSize: {x: 10, y: 0.75}
+        boxSize: {x: 10, y: 1.25}
         bonkValue: 3
         numberShears: 2
         bonkableLayerMask:
           serializedVersion: 2
           m_Bits: 129
         splitUpwardAngleRange: 60
-        splitSpeedRange: {x: 8, y: 18}
+        splitSpeedRange: {x: 15, y: 20}
         ballLayerMask:
           serializedVersion: 2
           m_Bits: 64

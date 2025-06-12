@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4585573914818128766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1499337087877818493}
+  - component: {fileID: 2295320855855764854}
+  m_Layer: 0
+  m_Name: Caddy 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1499337087877818493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585573914818128766}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2295320855855764854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585573914818128766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Caddy III
+  itemDescription: 
+  icon: {fileID: 21300000, guid: b1bb7f1b6b5a36749b0aaaf5806acdf3, type: 3}
+  itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
+  effects:
+  - rid: 328110234980581463
+  holofoilEffects:
+  - rid: 328110234980581465
+  holofoilEffectDescription: Bigger Hole
+  triggers:
+  - rid: 328110234980581464
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 2
+  normalizedPrice: 2
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110234980581463
+      type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        pooledObject: {fileID: 11400000, guid: b1912fe2041064d42b47c6c9a2475e6a, type: 2}
+        objectName: Golf Hole
+        objectDescription: multiplies round score by 10 if ball lands inside
+        xRange: {x: -3.8, y: 3.8}
+        yRange: {x: -4.8, y: -4.8}
+        quantity: 1
+        scale: 1
+    - rid: 328110234980581464
+      type: {class: FirstCabbageHitTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
+    - rid: 328110234980581465
+      type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        pooledObject: {fileID: 11400000, guid: b1912fe2041064d42b47c6c9a2475e6a, type: 2}
+        objectName: Large Golf Hole
+        objectDescription: multiplies round score by 10 if ball lands inside
+        xRange: {x: -3.8, y: 3.8}
+        yRange: {x: -4.8, y: -4.8}
+        quantity: 1
+        scale: 1.25

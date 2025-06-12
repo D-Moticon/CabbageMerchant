@@ -40,7 +40,7 @@ public class GameStateMachine : MonoBehaviour
     public float roundGoalMultBeforeStopTryButton = 50f;
     public static int coinsPerRoundGoal = 3;
     private double pointsBankedFromWallPoppedCabbages = 0;
-    public int minCabbagesBeforeNewSpawns = 8;
+    public int minCabbagesBeforeNewSpawns = 10;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
@@ -104,6 +104,19 @@ public class GameStateMachine : MonoBehaviour
         Ball.BallDisabledEvent += BallDisabledListener;
         
         GSM_Enabled_Event?.Invoke(this);
+
+        if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
+        {
+            Debug.Log($"Entering Game State Machine.  Item List:");
+            List<Item> items = Singleton.Instance.itemManager.GetItemsInInventory();
+            foreach (var item in items)
+            {
+                Debug.Log(item.itemName);
+                Debug.Log(item.GetDescriptionText());
+                Debug.Log(item.GetTriggerText());
+                Debug.Log("-----");
+            }
+        }
     }
 
     private void OnDisable()
@@ -462,7 +475,7 @@ public class GameStateMachine : MonoBehaviour
 
         if (activeCabbages.Count < minCabbagesBeforeNewSpawns)
         {
-            BonkableSlot bs = GetEmptyBonkableSlot(true, .65f);
+            BonkableSlot bs = GetEmptyBonkableSlot(true, 1.5f);
             if (bs != null)
             {
                 Cabbage c = SpawnCabbageInSlot(bs);
@@ -470,6 +483,13 @@ public class GameStateMachine : MonoBehaviour
         }
     }
 
+    public void MultiplyRoundScore(double multiple)
+    {
+        double bankScore = currentRoundScore * multiple - currentRoundScore;
+        pointsBankedFromWallPoppedCabbages += bankScore;
+        UpdateRoundScore();
+    }
+    
     public void CollectChaosCabbage(ChaosCabbageSO ccso)
     {
         chaosCabbageToAward = ccso;

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BallSpawnedTrigger : Trigger
 {
+    private bool isHandling = false; //infinite loop preventer
+    
     public override void InitializeTrigger(Item item)
     {
         Ball.BallEnabledEvent += OnBallSpawned;
@@ -19,8 +21,13 @@ public class BallSpawnedTrigger : Trigger
 
     void OnBallSpawned(Ball ball)
     {
+        if (isHandling) return;
+        isHandling = true;
+        
         TriggerContext tc = new TriggerContext();
         tc.ball = ball;
         owningItem.TryTriggerItem(tc);
+
+        isHandling = false;
     }
 }

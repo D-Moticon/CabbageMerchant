@@ -46,6 +46,7 @@ public class RandomizeItemTriggerEffect : ItemEffect
         item.triggers.Clear();
         item.triggers.Add(clone);
         item.keepTriggerOnUpgrade = true;
+        
     }
 
     public override string GetDescription()

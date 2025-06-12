@@ -18,12 +18,15 @@ public class MultiplyAllCabbagesOnTrigger : MonoBehaviour
             return;
         }
 
-        List<Cabbage> cabbages = GameSingleton.Instance.gameStateMachine.activeCabbages;
+        /*List<Cabbage> cabbages = GameSingleton.Instance.gameStateMachine.activeCabbages;
         foreach (Cabbage c in cabbages)
         {
             c.points *= scoreMultiplier;
             scoreUpVFX.Spawn(c.transform.position);
-        }
+        }*/
+        
+        GameSingleton.Instance.gameStateMachine.MultiplyRoundScore(scoreMultiplier);
+        Singleton.Instance.floaterManager.SpawnPopFloater($"Round Score x{scoreMultiplier:F1}!",this.transform.position,Color.green, 2f);
 
         ballCollideSFX.Play();
         ballCollideVFX.Spawn(b.transform.position);

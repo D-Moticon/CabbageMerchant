@@ -8,7 +8,7 @@ public class FluidColliderVelocityTextureGenerator : MonoBehaviour
     private Material drawMaterial;
     public RenderTexture externalVelocityRT;
     public float maxVelocity = 50f;
-    private List<FluidCollider> fluidColliders = new List<FluidCollider>();
+    public List<FluidCollider> fluidColliders = new List<FluidCollider>();
 
     void Start()
     {
@@ -19,6 +19,10 @@ public class FluidColliderVelocityTextureGenerator : MonoBehaviour
 
     public void AddToFluidColliders(FluidCollider fc)
     {
+        if (fluidColliders.Contains(fc))
+        {
+            return;
+        }
         fluidColliders.Add(fc);
     }
 

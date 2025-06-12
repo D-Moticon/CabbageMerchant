@@ -17,6 +17,8 @@ public class FluidCollider : MonoBehaviour
 
     private void OnEnable()
     {
+        GameStateMachine.GSM_Enabled_Event += GameStateMachineEnabledListener;
+        
         if (GameSingleton.Instance == null)
         {
             return;
@@ -26,11 +28,23 @@ public class FluidCollider : MonoBehaviour
 
     private void OnDisable()
     {
+        GameStateMachine.GSM_Enabled_Event -= GameStateMachineEnabledListener;
         if (GameSingleton.Instance == null)
         {
             return;
         }
         GameSingleton.Instance.fluidRTReferences.fluidColliderVelocityTextureGenerator.RemoveFromFluidColliders(this);
+    }
+    
+    private void GameStateMachineEnabledListener(GameStateMachine gsm)
+    {
+        if (GameSingleton.Instance == null)
+        {
+            print("NU");
+            return;
+        }
+        
+        GameSingleton.Instance.fluidRTReferences.fluidColliderVelocityTextureGenerator.AddToFluidColliders(this);
     }
 
     void Start()
@@ -92,7 +106,7 @@ public class FluidCollider : MonoBehaviour
 
             //normalizedCamPositions[i] = Camera.main.WorldToViewportPoint(samplePoints[i].position);
             
-            // Convert world position to camera-local space.
+            /*// Convert world position to camera-local space.
             // This makes the camera's center (and its orientation) our reference.
             Vector3 localPos = Camera.main.transform.InverseTransformPoint(samplePoints[i].position);
         
@@ -102,7 +116,12 @@ public class FluidCollider : MonoBehaviour
             float normalizedX = (localPos.x / (2f * halfWidth)) + 0.5f;
             float normalizedY = (localPos.y / (2f * halfHeight)) + 0.5f;
         
-            normalizedCamPositions[i] = new Vector2(normalizedX, normalizedY);
+            normalizedCamPositions[i] = new Vector2(normalizedX, normalizedY);*/
+            
+            Vector3 vp = Camera.main.WorldToViewportPoint(samplePoints[i].position);
+            normalizedCamPositions[i] = new Vector2(vp.x, vp.y);
+            normalizedCamPositions[i].x = Mathf.Clamp01(normalizedCamPositions[i].x);
+            normalizedCamPositions[i].y = Mathf.Clamp01(normalizedCamPositions[i].y);
         }
     }
 
@@ -200,4 +219,6 @@ public class FluidCollider : MonoBehaviour
     {
         Gizmos.DrawWireSphere(this.transform.position, pointRadius);
     }
+    
+    
 }

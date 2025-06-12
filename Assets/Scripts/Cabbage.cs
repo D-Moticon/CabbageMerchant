@@ -408,6 +408,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         // Spawn VFX at the merged position
         GameObject pVFX = c.popVFX.Spawn(pos, Quaternion.identity);
         float sca = scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
+        sca = Mathf.Min(sca, 4f);
         pVFX.transform.localScale = new Vector3(sca, sca, 1f);
         Singleton.Instance.screenShaker.ShakeScreen();
 

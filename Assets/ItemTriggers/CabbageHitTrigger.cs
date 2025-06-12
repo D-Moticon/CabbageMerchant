@@ -5,7 +5,8 @@ public class CabbageHitTrigger : Trigger
     public int everyXHit = 1;
     private int hitCounter = 0;
     public bool onlyByBall = false;
-    public static Vector2Int randomizeEveryXHitRange = new Vector2Int(1, 10);    
+    public static Vector2Int randomizeEveryXHitRange = new Vector2Int(1, 10);
+    private bool isHandling = false;
     
     public override void InitializeTrigger(Item item)
     {
@@ -48,6 +49,9 @@ public class CabbageHitTrigger : Trigger
         {
             return;
         }
+        
+        if (isHandling) return;
+        isHandling = true;
 
         itemHasTriggeredThisFrame = true;
         
@@ -62,6 +66,8 @@ public class CabbageHitTrigger : Trigger
             owningItem.TryTriggerItem(tc);
             hitCounter = 0;
         }
+
+        isHandling = false;
     }
 
     void AimStateEnteredListener()

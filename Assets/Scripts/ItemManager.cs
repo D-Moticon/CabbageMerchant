@@ -556,7 +556,6 @@ public class ItemManager : MonoBehaviour
         {
             // put back in shop or do nothing
             draggingItem.itemWrapper.transform.position = draggingStartPos;
-            Debug.Log("Item put back to shop location or left in world space.");
         }
     }
 
@@ -570,7 +569,6 @@ public class ItemManager : MonoBehaviour
             double cost = perkItem.GetItemPrice();
             if (Singleton.Instance.playerStats.coins < cost)
             {
-                Debug.Log("Cannot afford perk.");
                 return;
             }
 
@@ -617,7 +615,7 @@ public class ItemManager : MonoBehaviour
                 {
                     // show override
                     HoverableModifier hm = new HoverableModifier();
-                    hm.isHolofoil = draggingItem.isHolofoil;
+                    hm.isHolofoil = draggingItem.isHolofoil || hoveredItem.isHolofoil;
                     if (draggingItem.keepTriggerOnUpgrade)
                     {
                         hm.takeTriggersFromItem = draggingItem;
@@ -715,10 +713,6 @@ public class ItemManager : MonoBehaviour
         else
         {
             item.UnFreezeItem();
-        }
-        if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
-        {
-            Debug.Log($"{item.itemName} added to slot {itemSlot.slotNumber}");
         }
     }
     

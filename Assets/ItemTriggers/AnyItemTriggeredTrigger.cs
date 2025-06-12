@@ -5,6 +5,7 @@ public class AnyItemTriggeredTrigger : Trigger
     public int quantity = 1;
     private int currentCount = 0;
     private static Vector2Int randomizeQuantityRange = new Vector2Int(1, 7);
+    private bool isHandling = false; //infinite loop preventer
     
     public override void InitializeTrigger(Item item)
     {
@@ -53,12 +54,17 @@ public class AnyItemTriggeredTrigger : Trigger
             return;
         }
         
+        if (isHandling) return;
+        isHandling = true;
+        
         currentCount++;
         if (currentCount >= quantity)
         {
             owningItem.TryTriggerItem();
             currentCount = 0;
         }
+        
+        isHandling = false;
     }
 
     void BallFiredListener(Ball b)

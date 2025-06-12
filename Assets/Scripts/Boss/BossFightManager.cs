@@ -250,7 +250,7 @@ public class BossFightManager : MonoBehaviour
             //CLeanup any other cabbages
             if (GameSingleton.Instance != null)
             {
-                Cabbage[] cs = GameSingleton.Instance.GetComponentsInChildren<Cabbage>();
+                Cabbage[] cs = GameSingleton.Instance.transform.parent.GetComponentsInChildren<Cabbage>();
                 foreach (Cabbage cabbage in cs)
                 {
                     cabbage.FullReset();
