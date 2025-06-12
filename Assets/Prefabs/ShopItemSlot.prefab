@@ -80,7 +80,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1958674045
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4660572901948121282
 MonoBehaviour:
@@ -225,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotNumber: 0
   currentItem: {fileID: 0}
+  frameSpriteRenderer: {fileID: 0}
   priceTextParent: {fileID: 5163467968873660990}
   priceText: {fileID: 4660572901948121282}
   isEventSlot: 0
@@ -260,6 +261,29 @@ MonoBehaviour:
       Path: event:/KeyUnlock
     vol: 0.5
   slotNumberText: {fileID: 0}
+  frozenFrameColor: {r: 1, g: 0, b: 0, a: 1}
+  isFrozen: 0
+  frozenGameObject: {fileID: 0}
+  frozenVFX: {fileID: 0}
+  frozenSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  unfrozenVFX: {fileID: 0}
+  unfrozenSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
   allowedTypes: 0
 --- !u!61 &7819962026239484316
 BoxCollider2D:
@@ -438,7 +462,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 1958674045
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_SortAtRoot: 1
 --- !u!1 &6929944097054844872
 GameObject:
@@ -515,7 +539,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1958674045
   m_SortingLayer: 1
-  m_SortingOrder: 4
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 8e08dc6aaa9335846a14d6c77c24cbfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

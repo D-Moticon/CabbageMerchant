@@ -59,6 +59,11 @@ public class SpawnRBItemEffect : ItemEffect
 
     public override void TriggerItemEffect(TriggerContext tc)
     {
+        if (GameSingleton.Instance == null)
+        {
+            return;
+        }
+        
         // Use the trigger context values:
         Vector2 pos = Vector2.zero;
         Vector2 normal = Vector2.up;

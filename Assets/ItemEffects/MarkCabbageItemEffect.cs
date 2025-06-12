@@ -30,6 +30,11 @@ public class MarkCabbageItemEffect : ItemEffect
 
         Cabbage c = GameSingleton.Instance.gameStateMachine.GetRandomActiveCabbage();
 
+        if (c == null)
+        {
+            return;
+        }
+        
         BonkMarker.MarkCabbage(c, currentBonkValue, owningItem);
         currentBonkValue += scoreIncreaseOnMarkHit;
     }

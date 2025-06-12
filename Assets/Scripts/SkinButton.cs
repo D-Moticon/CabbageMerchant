@@ -169,8 +169,6 @@ public class SkinButton : MonoBehaviour, IHoverable
     public string GetDescriptionText(HoverableModifier mod = null)
     {
         bool owned = Singleton.Instance.skinManager.ownedSkins.Contains(skin);
-        if (owned)
-            return skin.description;
 
         // unowned: list requirements
         if (skin.requirements == null || skin.requirements.Count == 0)
@@ -180,6 +178,10 @@ public class SkinButton : MonoBehaviour, IHoverable
         foreach (var req in skin.requirements)
         {
             bool met = req.IsRequirementMet();
+            if (owned)
+            {
+                sb.AppendLine(skin.description);
+            }
             string desc = req.GetRequirementDescription();
             string color = met ? "green" : "red";
             sb.AppendLine($"<color={color}>{desc}</color>");

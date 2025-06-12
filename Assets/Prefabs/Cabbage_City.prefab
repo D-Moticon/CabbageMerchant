@@ -1344,7 +1344,7 @@ MonoBehaviour:
   growthMode: 2
   logBase: 2
   logMultiplier: 1
-  rootExponent: 0.39
+  rootExponent: 0.44
   isMerging: 0
   isStolen: 0
   baseBonkMultiplier: 1

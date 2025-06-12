@@ -58,6 +58,10 @@ public class BonkMarker : MonoBehaviour
 
     public static BonkMarker MarkCabbage(Cabbage c, double bValue, Item item)
     {
+        if (c == null)
+        {
+            return null;
+        }
         BonkMarker bm = Singleton.Instance.prefabReferences.bonkMarkerPrefab.Spawn(c.transform.position).GetComponent<BonkMarker>();
         bm.InitializeOnCabbage(c,bValue,item);
         return bm;
@@ -81,8 +85,8 @@ public class BonkMarker : MonoBehaviour
         {
             return;
         }
-        
-        if (bp.ball == null && !bp.forceMarkBonk)
+
+        if (!bp.treatAsBall && bp.ball == null && !bp.forceMarkBonk)
         {
             return;
         }
@@ -124,6 +128,11 @@ public class BonkMarker : MonoBehaviour
 
     void TransferMark(Cabbage newCabbage)
     {
+        if (newCabbage == null)
+        {
+            return;
+        }
+        
         MarkCabbage(newCabbage, bonkValue, owningItem);
         GameSingleton.Instance.objectPoolManager.ReturnToPool(thisPooledObject, this.gameObject);
     }

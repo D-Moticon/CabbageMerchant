@@ -88,6 +88,16 @@ public class ItemManager : MonoBehaviour
         HandleItemHoverAndMerging();
     }
 
+    public bool IsDraggingItem()
+    {
+        if (draggingItem != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
     public void AddItemToInventoryFromPrefab(Item itemPrefab, bool forceHolofoil = false)
     {
         ItemSlot itemSlot = GetEmptySlot();
@@ -311,7 +321,7 @@ public class ItemManager : MonoBehaviour
                     }
 
                     // Show float text
-                    sellFloater.Spawn(value.ToString(), draggingItem.transform.position, Color.white);
+                    sellFloater.Spawn($"{value:F0}", draggingItem.transform.position, Color.white);
                     ItemSoldEvent?.Invoke(draggingItem);
 
                     // Destroy it immediately
@@ -608,6 +618,10 @@ public class ItemManager : MonoBehaviour
                     // show override
                     HoverableModifier hm = new HoverableModifier();
                     hm.isHolofoil = draggingItem.isHolofoil;
+                    if (draggingItem.keepTriggerOnUpgrade)
+                    {
+                        hm.takeTriggersFromItem = draggingItem;
+                    }
                     Singleton.Instance.toolTip.ShowOverrideTooltip(draggingItem.upgradedItem, hm);
                     return;
                 }

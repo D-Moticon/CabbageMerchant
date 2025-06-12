@@ -85,7 +85,7 @@ public class CreateRandomItemInSlotEffect : ItemEffect
             case SpawnDirection.FirstOpen:
                 for (int i = 0; i < slots.Count; i++)
                 {
-                    if (slots[i].currentItem == null)
+                    if (slots[i].currentItem == null || slots[i].isLocked)
                     {
                         targetIndex = i;
                         break;

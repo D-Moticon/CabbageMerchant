@@ -169,6 +169,9 @@ public class SaveManager : MonoBehaviour
 
     public bool HasSeenLibraryIntro()     => data.seenLibraryIntro;
     public void MarkSeenLibraryIntro()    { data.seenLibraryIntro = true; SaveToDisk(); }
+    
+    public bool HasSeenRestaurantIntro()     => data.seenRestaurantIntro;
+    public void MarkSeenRestaurantIntro()    { data.seenRestaurantIntro = true; SaveToDisk(); }
 
     /// <summary>
     /// Clears all saved data (IDs, runs, meta, story) and writes defaults to disk.
@@ -208,5 +211,6 @@ public class SaveManager : MonoBehaviour
         public bool seenShopIntro;
         public bool seenDojoIntro;
         public bool seenLibraryIntro;
+        public bool seenRestaurantIntro;
     }
 }

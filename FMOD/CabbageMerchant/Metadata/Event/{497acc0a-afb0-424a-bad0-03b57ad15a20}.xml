@@ -111,20 +111,20 @@
 	<object class="MixerBusPanner" id="{7b74013b-67ba-4c4a-9cf9-d2383847c69e}" />
 	<object class="MultiSound" id="{5d6859aa-d2ad-4ac0-9b17-6280c7b662e4}">
 		<property name="pitch">
-			<value>-2</value>
+			<value>2</value>
 		</property>
 		<property name="playlistMode">
 			<value>3</value>
 		</property>
 		<relationship name="sounds">
-			<destination>{b338b404-021e-470a-8714-7c78b8f2f859}</destination>
+			<destination>{21a003d0-705c-48b2-a556-6cac4a628a88}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{4d318110-0bef-4fa3-aef0-5a5bc91f36c1}" />
 	<object class="MixerBusFader" id="{8f63e4b9-30c6-4d5f-8dcb-c3f364403c26}" />
-	<object class="SingleSound" id="{b338b404-021e-470a-8714-7c78b8f2f859}">
+	<object class="SingleSound" id="{21a003d0-705c-48b2-a556-6cac4a628a88}">
 		<relationship name="audioFile">
-			<destination>{ec66233e-817b-4b6a-80bf-a47ae8a003d9}</destination>
+			<destination>{87deae8b-f4ab-454a-85c0-9086eaed33b7}</destination>
 		</relationship>
 	</object>
 </objects>

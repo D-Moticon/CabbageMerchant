@@ -18,7 +18,7 @@ public class GraveyardItemsTask : DialogueTask
     public PooledObjectData ghostSpawnVFX;
     public SFXInfo ghostSpawnSFX;
     public SFXInfo pickedSFX;
-
+    
     [Tooltip("Horizontal spacing between the two slots.")]
     public float slotSpacing = 1.5f;
 
@@ -27,7 +27,10 @@ public class GraveyardItemsTask : DialogueTask
         // Gather graveyard contents
         Singleton.Instance.itemGraveyard.RemoveNullItems();
         var graveItems = Singleton.Instance.itemGraveyard.GetGraveyardContents().ToList();
-        if (graveItems.Count == 0)
+
+        var filteredItems = graveItems.Where(x => x.itemType == Item.ItemType.Item).ToList();
+        
+        if (filteredItems.Count == 0)
         {
             if (noItemsDialogueLine != null)
                 yield return noItemsDialogueLine.RunTask(dc);
@@ -35,15 +38,15 @@ public class GraveyardItemsTask : DialogueTask
         }
 
         // Shuffle and take up to two
-        for (int i = graveItems.Count - 1; i > 0; i--)
+        for (int i = filteredItems.Count - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
-            var tmp = graveItems[i];
-            graveItems[i] = graveItems[j];
-            graveItems[j] = tmp;
+            var tmp = filteredItems[i];
+            filteredItems[i] = filteredItems[j];
+            filteredItems[j] = tmp;
         }
-        int offerCount = Mathf.Min(2, graveItems.Count);
-        var offered = graveItems.GetRange(0, offerCount);
+        int offerCount = Mathf.Min(2, filteredItems.Count);
+        var offered = filteredItems.GetRange(0, offerCount);
 
         // Spawn slots and populate
         var slots = new List<ItemSlot>();

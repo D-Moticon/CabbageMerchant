@@ -617,7 +617,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         RemapIntensityZero: 0
-        RemapIntensityOne: 6
+        RemapIntensityOne: 10
         InstantIntensity: 1
         ToDestinationIntensity: 1
         ModifyFalloff: 1

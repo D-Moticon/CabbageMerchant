@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Hilbert
-  itemDescription: Spawn 8 hippo bubbles at the start of the round.  When they are
+  itemDescription: Spawn 3 hippo bubbles at the start of the round.  When they are
     all collected, spawn a random food item in an open slot.
   icon: {fileID: 21300000, guid: ceb50e0d5ba861545ada7771c98f8067, type: 3}
   itemType: 3
@@ -99,5 +99,19 @@ MonoBehaviour:
         owningItem: {fileID: 0}
         triggerMode: 0
         objectToSpawn: {fileID: 11400000, guid: 6255677f374baef468151ad8fe1129a4, type: 2}
-        numberObjects: 6
-        effectsOnCondition: []
+        numberObjects: 3
+        effectsOnCondition:
+        - rid: 6680768159893684314
+    - rid: 6680768159893684314
+      type: {class: CreateRandomItemInSlotEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        spawnDirection: 4
+        itemCollections:
+        - {fileID: 11400000, guid: 0b8e6f329d6e9804287b7392d059b8ab, type: 2}
+        itemLevel: 0
+        makeHolofoil: 0
+        destroyOnBounceExited: 0
+        spawnVFX: {fileID: 11400000, guid: d983a7448b1f6ae4584590df1159b842, type: 2}
+        itemDescription: 

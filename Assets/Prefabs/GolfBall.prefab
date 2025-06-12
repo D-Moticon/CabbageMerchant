@@ -257,7 +257,7 @@ MonoBehaviour:
   bonkValueUpFloaterColor: {r: 0, g: 1, b: 0, a: 1}
   bonkValueUpVFX: {fileID: 11400000, guid: 42e8069a7f5d6b84aaf7f4fc29b0f8ca, type: 2}
   bonkValueUpFloater: {fileID: 11400000, guid: 7c2a2f07a1cee2e4990a982f1786a44a, type: 2}
-  pooledObjectRef: {fileID: 0}
+  pooledObjectRef: {fileID: 11400000, guid: 7adae652fb4b22043a0dd66d32fef505, type: 2}
   wallBonkSFX:
     sfx:
       Guid:

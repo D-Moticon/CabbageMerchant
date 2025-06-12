@@ -38,6 +38,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]public float keyChance = 0.34f;
     [HideInInspector] public int currentMapLayer = 0;
     public Difficulty currentDifficulty;
+    [HideInInspector] public float timerAdd = 0f;
 
     [HideInInspector] public double totalCabbagesBonkedThisRun;
     [HideInInspector] public double totalBonkValueThisRun;
@@ -108,6 +109,7 @@ public class PlayerStats : MonoBehaviour
         totalBonkValueThisRun = 0;
         totalRunTime = 0;
         totalConsumablesUsedThisRun = 0;
+        timerAdd = 0f;
     }
 
     private void Update()
@@ -262,5 +264,10 @@ public class PlayerStats : MonoBehaviour
             totalConsumablesUsedThisRun++;
             ConsumablesUsedUpdatedEvent?.Invoke(totalConsumablesUsedThisRun);
         }
+    }
+
+    public void AddTimerDuration(float durAdd)
+    {
+        timerAdd += durAdd;
     }
 }

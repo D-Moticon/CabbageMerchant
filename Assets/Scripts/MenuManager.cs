@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
 {
     public string firstPanelName;
     [Tooltip("Drag in all of your MenuPanel components here")]
-    [SerializeField] private List<MenuPanel> allPanels;
+    public List<MenuPanel> allPanels;
 
     // fast lookup by panel name
     private Dictionary<string, MenuPanel> panelsByName;
@@ -33,9 +33,9 @@ public class MenuManager : MonoBehaviour
         foreach (var panel in allPanels)
             panel.OnHide();
         ShowPanel(firstPanelName);
-
-        
     }
+    
+    
 
     /// <summary>
     /// Show a panel by its GameObject name.
@@ -109,5 +109,10 @@ public class MenuManager : MonoBehaviour
     void RunStartedListener(RunManager.RunStartParams rsp)
     {
         HideAll();
+    }
+    
+    public bool AreAnyPanelsOpen()
+    {
+        return history.Count > 0;
     }
 }

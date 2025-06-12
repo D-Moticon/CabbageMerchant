@@ -568,6 +568,7 @@ public class Item : MonoBehaviour, IHoverable
     public void SetGhost()
     {
         itemWrapper.spriteRenderer.material = itemWrapper.ghostMaterial;
+        SetNormalizedPrice(0);
     }
 
     public void RandomizeEffectPowers()
@@ -674,6 +675,11 @@ public class Item : MonoBehaviour, IHoverable
 
     public void SetExtraText(string text)
     {
+        if (itemWrapper == null)
+        {
+            itemWrapper = GetComponentInParent<ItemWrapper>();
+        }
+        
         if (itemWrapper == null)
         {
             Debug.Log($"Tried to set extra text but item wrapper was null: {this.gameObject.name}, {this.itemName}");

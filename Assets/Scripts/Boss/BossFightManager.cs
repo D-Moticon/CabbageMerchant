@@ -134,6 +134,7 @@ public class BossFightManager : MonoBehaviour
         gsm.KillAllBalls();
         gsm.ClearBoardOfGlobalObjects();
         gsm.stopTryButton.SetActive(false);
+        bossFullBeatSFX?.Play();
 
         if (_currentPhaseIndex >= boss.phases.Count - 1)
         {
@@ -172,13 +173,11 @@ public class BossFightManager : MonoBehaviour
 
         if (_currentPhaseIndex < boss.phases.Count)
         {
-            bossFullBeatSFX?.Play();
             yield return StartCoroutine(RunPhase());
         }
         else
         {
             yield return StartCoroutine(OnBossDefeated());
-            yield break;
         }
     }
 

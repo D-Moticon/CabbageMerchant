@@ -381,6 +381,15 @@ MonoBehaviour:
         Data4: 451797762
       Path: event:/UITick01
     vol: 0.35
+  clickSFX:
+    sfx:
+      Guid:
+        Data1: 1703500424
+        Data2: 1222186358
+        Data3: 423788707
+        Data4: 814810851
+      Path: event:/UI_Click
+    vol: 0.5
 --- !u!61 &8531541808410119982
 BoxCollider2D:
   m_ObjectHideFlags: 0

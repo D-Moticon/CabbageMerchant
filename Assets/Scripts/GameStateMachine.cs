@@ -40,6 +40,7 @@ public class GameStateMachine : MonoBehaviour
     public float roundGoalMultBeforeStopTryButton = 50f;
     public static int coinsPerRoundGoal = 3;
     private double pointsBankedFromWallPoppedCabbages = 0;
+    public int minCabbagesBeforeNewSpawns = 8;
     
     [HideInInspector]public List<Ball> activeBalls = new List<Ball>();
     [HideInInspector]public List<Cabbage> activeCabbages = new List<Cabbage>();
@@ -80,6 +81,7 @@ public class GameStateMachine : MonoBehaviour
 
     public GameObject stopTryButton;
     private bool stopTry = false;
+    public GameObject harvestButton;
 
     [FormerlySerializedAs("keyYPos")] public float keyMaxYPos = -3.5f;
 
@@ -134,6 +136,16 @@ public class GameStateMachine : MonoBehaviour
         if (currentState != null)
         {
             currentState.UpdateState();
+        }
+
+        if (currentRoundScore > roundGoal && !Singleton.Instance.bossFightManager.isBossFight)
+        {
+            harvestButton.SetActive(true);
+        }
+
+        else
+        {
+            harvestButton.SetActive(false);
         }
     }
 
@@ -424,6 +436,19 @@ public class GameStateMachine : MonoBehaviour
     {
         stopTry = true;
     }
+
+    public void Harvest()
+    {
+        if (Singleton.Instance.bossFightManager.isBossFight)
+        {
+            return;
+        }
+        if (currentRoundScore > roundGoal)
+        {
+            KillAllBalls();
+            ChangeState(new ScoringState());
+        }
+    }
     
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {
@@ -432,6 +457,15 @@ public class GameStateMachine : MonoBehaviour
             if (bonkableSlots[i].bonkable as Object == cmp.oldCabbageA as Object || bonkableSlots[i].bonkable as Object == cmp.oldCabbageB as Object)
             {
                 bonkableSlots[i].bonkable = null;
+            }
+        }
+
+        if (activeCabbages.Count < minCabbagesBeforeNewSpawns)
+        {
+            BonkableSlot bs = GetEmptyBonkableSlot(true, .65f);
+            if (bs != null)
+            {
+                Cabbage c = SpawnCabbageInSlot(bs);
             }
         }
     }

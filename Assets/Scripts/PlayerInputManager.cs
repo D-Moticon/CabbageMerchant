@@ -12,6 +12,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] private InputActionReference weaponFireInput;
     [SerializeField] private InputActionReference dialogueSkipInput;
     [SerializeField] private InputActionReference pauseInput;
+    [SerializeField] private InputActionReference mapScrollInput;
 
     public Vector2 crosshairMove;
     public Crosshair crosshair;
@@ -24,7 +25,8 @@ public class PlayerInputManager : MonoBehaviour
     public bool weaponFireHeld;
     public bool weaponFireUp;
     public bool dialogueSkipDown;
-    [FormerlySerializedAs("pauseInputDown")] public bool pauseDown;
+    public bool pauseDown;
+    public float mapScroll;
 
     public static System.Action fireDownAction;
     public static System.Action fireUpAction;
@@ -58,6 +60,8 @@ public class PlayerInputManager : MonoBehaviour
         weaponFireUp = weaponFireInput.action.WasReleasedThisFrame();
 
         pauseDown = pauseInput.action.WasPressedThisFrame();
+
+        mapScroll = mapScrollInput.action.ReadValue<float>();
 
         if (fireDown)
         {

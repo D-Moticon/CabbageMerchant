@@ -81,6 +81,10 @@ MonoBehaviour:
     enabled: 1
     weight: 1.5
     InDemo: 0
+  - item: {fileID: 5315308231697591864, guid: 1cb0fc630de5b554db96a96bce77043b, type: 3}
+    enabled: 1
+    weight: 1.5
+    InDemo: 0
   - item: {fileID: 5139854800872270107, guid: f56a460392c1af9459494fecb93afd83, type: 3}
     enabled: 1
     weight: 1

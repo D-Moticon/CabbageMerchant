@@ -171,6 +171,17 @@ MonoBehaviour:
   scrollDuration: 1
   yOffset: -1.5
   initialCharacterYOffset: -2.5
+  scroll_MouseInputXRange: {x: -4.5, y: 4.5}
+  mapIconClickSFX:
+    sfx:
+      Guid:
+        Data1: 1703500424
+        Data2: 1222186358
+        Data3: 423788707
+        Data4: 814810851
+      Path: event:/UI_Click
+    vol: 0.5
+  manualScrollSpeed: 40
 --- !u!1 &1100633564
 GameObject:
   m_ObjectHideFlags: 0

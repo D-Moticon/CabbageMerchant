@@ -11,6 +11,7 @@ public class StoryManager : MonoBehaviour
     public Dialogue shopIntro;
     public Dialogue dojoIntro;
     public Dialogue libraryIntro;
+    public Dialogue restaurantIntro;
     
     void Awake()
     {
@@ -106,6 +107,15 @@ public class StoryManager : MonoBehaviour
             {
                 Singleton.Instance.dialogueManager.PlayDialogue(libraryIntro);
                 saveManager.MarkSeenLibraryIntro();
+            }
+        }
+
+        if (s == "Food")
+        {
+            if (!saveManager.HasSeenRestaurantIntro())
+            {
+                Singleton.Instance.dialogueManager.PlayDialogue(restaurantIntro);
+                saveManager.MarkSeenRestaurantIntro();
             }
         }
     }

@@ -98,13 +98,13 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        valueAdd: 1
+        valueAdd: 2
     - rid: 4405298346403037284
       type: {class: BallBonkValueItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        valueAdd: 1.5
+        valueAdd: 3
     - rid: 4405298346403037285
       type: {class: BallFiredTrigger, ns: , asm: Assembly-CSharp}
       data:

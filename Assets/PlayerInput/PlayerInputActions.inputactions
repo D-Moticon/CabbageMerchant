@@ -139,6 +139,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MapScroll",
+                    "type": "Value",
+                    "id": "6083abc7-7e45-4fd4-9135-5cf77d89d818",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -606,6 +615,17 @@
                 },
                 {
                     "name": "",
+                    "id": "aa44b826-4e39-4f27-b4c2-d79ce5d0af5c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "68ef2af3-5ab2-423e-8b7c-51ea61bcdaa3",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -645,6 +665,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b9f1f83-75b7-4275-9fe8-2292e0314463",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MapScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

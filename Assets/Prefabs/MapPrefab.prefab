@@ -48,9 +48,9 @@ MonoBehaviour:
   mapLinePrefab: {fileID: 2331468742112783071, guid: 4550589c59a98b141a6892f33ead331f, type: 3}
   mapIconPrefab: {fileID: 6900709704605111530, guid: f635418f4b8761c41a8ec2576eae6e1e, type: 3}
   xOffset: -0.5
-  xStep: 3.5
+  xStep: 3
   verticalSpacing: 3
-  randomXOffset: 1
+  randomXOffset: 0.5
   randomYOffset: 0.5
   mapBG: {fileID: 2111436783076589469}
   mapFarBGPrefab: {fileID: 3783086909706734505, guid: cc1089f886f5a034faa44365278f566d, type: 3}
@@ -117,7 +117,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fdf3034bda52a5c48af9dc053a044319, type: 2}
+  - {fileID: 2100000, guid: 44e6516e5f3e28c46a37480f13c479a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

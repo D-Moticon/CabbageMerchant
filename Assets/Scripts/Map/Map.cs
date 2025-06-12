@@ -44,7 +44,7 @@ public class Map : MonoBehaviour
     public void InitializeMap(MapBlueprint mapBlueprint)
     {
         // Number of layers from the blueprint.
-        int numLayers = mapBlueprint.mapLayers.Count;
+        int numLayers = layers.Count;
         if (numLayers < 1)
             numLayers = 1;
 

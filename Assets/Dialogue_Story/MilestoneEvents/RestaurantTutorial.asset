@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e84abe6ba1d2a42b0bb90991e40627, type: 3}
+  m_Name: RestaurantTutorial
+  m_EditorClassIdentifier: 
+  dialogueTasks:
+  - rid: 328110250964549717
+  - rid: 6680768056204460036
+  - rid: 6680768056204460037
+  - rid: 6680768056204460038
+  - rid: 328110250964549737
+  references:
+    version: 2
+    RefIds:
+    - rid: 328110250964549717
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 1f8c8d1a88fc44c4990b2e35969aa148, type: 2}
+        dialogueLine: Oui oui! Steak, sushi, ice cream! Chez Jacques' menu knows
+          no bounds!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 328110250964549737
+      type: {class: GiveCoinsIfBelowThreshold, ns: , asm: Assembly-CSharp}
+      data:
+        coinThreshold: 5
+    - rid: 6680768056204460036
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 1f8c8d1a88fc44c4990b2e35969aa148, type: 2}
+        dialogueLine: When you place a consumable in the sell slot, it activates
+          the effect!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768056204460037
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 1f8c8d1a88fc44c4990b2e35969aa148, type: 2}
+        dialogueLine: Take a look at the icons at the top of your screen to see which
+          effects are in place for the next shot!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+    - rid: 6680768056204460038
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: 1f8c8d1a88fc44c4990b2e35969aa148, type: 2}
+        dialogueLine: "Et voil\xE0, you are a master connoisseur!"
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}

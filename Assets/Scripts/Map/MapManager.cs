@@ -17,7 +17,21 @@ public class MapManager : MonoBehaviour
     public float scrollDuration = 1.0f;
     public float yOffset = -3f;
     public float initialCharacterYOffset = -1f;
+    public Vector2 scroll_MouseInputXRange = new Vector2(-4f, 4f);
 
+    [Header("FX")]
+    public SFXInfo mapIconClickSFX;
+
+    [Header("Manual Scrolling Settings")]
+    [Tooltip("Speed for axis‐based scroll (units per second)")]
+    public float manualScrollSpeed = 20f;
+
+    // internal state
+    private bool isAutoScrolling = false;
+    private bool isDragging = false;
+    private Vector3 dragStartMouseWorldPos;
+    private Vector3 dragStartMapLocalPos;
+    
     private void Start()
     {
         MapBlueprint mbp = Singleton.Instance.runManager.startingMapBlueprint;
@@ -50,6 +64,11 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        HandleScrollInput();
+    }
+    
     public void MoveToNextLayer()
     {
         if (Singleton.Instance.playerStats.currentMapLayer >= map.layers.Count - 1)
@@ -67,6 +86,7 @@ public class MapManager : MonoBehaviour
         int layerIndex = FindIconLayer(icon);
         if (layerIndex == Singleton.Instance.playerStats.currentMapLayer)
         {
+            mapIconClickSFX.Play();
             StartCoroutine(MoveCharacterAndGoToScene(icon));
         }
         else
@@ -77,6 +97,8 @@ public class MapManager : MonoBehaviour
 
     private IEnumerator MoveCharacterAndGoToScene(MapIcon targetIcon)
     {
+        isAutoScrolling = true;
+        
         Vector3 startCharPos = mapCharacter.transform.localPosition;
         Vector3 endCharPos = targetIcon.transform.localPosition;
 
@@ -101,6 +123,8 @@ public class MapManager : MonoBehaviour
         map.transform.localPosition = endMapPos;
         mapCharacter.StopWalkingAnimation();
 
+        isAutoScrolling = false;
+        
         if (!string.IsNullOrEmpty(targetIcon.mapPoint.sceneName))
         {
             Singleton.Instance.runManager.GoToScene(targetIcon.mapPoint.sceneName, targetIcon.mapPoint);
@@ -147,5 +171,65 @@ public class MapManager : MonoBehaviour
     public void SetCurrentLayerIndex(int newLayer)
     {
         Singleton.Instance.playerStats.currentMapLayer = newLayer;
+    }
+    
+    private void HandleScrollInput()
+    {
+        // only allow manual scroll when not in your MoveCharacter coroutine
+        if (isAutoScrolling) return;
+
+        // 1) axis‐based scroll
+        float scrollInput = -Singleton.Instance.playerInputManager.mapScroll;
+        if (Mathf.Abs(scrollInput) > 0.01f)
+        {
+            ScrollByAmount(scrollInput * manualScrollSpeed * Time.deltaTime);
+        }
+
+        // 2) click-and-drag scroll (optional)
+        var input = Singleton.Instance.playerInputManager;
+        Vector2 mousePosWorldSpace = Singleton.Instance.playerInputManager.mousePosWorldSpace;
+        if (mousePosWorldSpace.x > scroll_MouseInputXRange.x
+            && mousePosWorldSpace.x < scroll_MouseInputXRange.y
+            && !Singleton.Instance.menuManager.AreAnyPanelsOpen())
+        {
+            if (input.fireDown)
+            {
+                isDragging = true;
+                dragStartMouseWorldPos = mousePosWorldSpace;
+                dragStartMapLocalPos    = map.transform.localPosition;
+            }
+            else if (input.fireHeld && isDragging)
+            {
+                Vector3 currentMouseWorld = Singleton.Instance.playerInputManager.mousePosWorldSpace;
+                float   deltaY            = currentMouseWorld.y - dragStartMouseWorldPos.y;
+                // a 1:1 drag, so no extra speed factor
+                SetMapY(dragStartMapLocalPos.y + deltaY);
+            }
+            else if (input.fireUp)
+            {
+                isDragging = false;
+            }
+        }
+
+        else
+        {
+            isDragging = false;
+        }
+    }
+    
+    private void ScrollByAmount(float delta)
+    {
+        SetMapY(map.transform.localPosition.y + delta);
+    }
+    
+    private void SetMapY(float newY)
+    {
+        // clamp between top (layer 0) and bottom (last layer)
+        float topY    =        yOffset;
+        float bottomY = -(map.layers.Count - 1) * map.verticalSpacing + yOffset;
+        newY = Mathf.Clamp(newY, bottomY, topY);
+
+        Vector3 pos = map.transform.localPosition;
+        map.transform.localPosition = new Vector3(pos.x, newY, pos.z);
     }
 }

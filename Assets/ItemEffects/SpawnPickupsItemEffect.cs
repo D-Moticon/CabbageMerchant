@@ -61,7 +61,10 @@ public class SpawnPickupsItemEffect : ItemEffect
         {
             foreach (GameObject p in spawnedPickups)
             {
-                p.gameObject.SetActive(false);
+                if (p != null)
+                {
+                    p.gameObject.SetActive(false);
+                }
             }
             spawnedPickups.Clear();
         }

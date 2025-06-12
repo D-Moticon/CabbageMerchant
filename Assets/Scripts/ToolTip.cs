@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Febucci.UI;
 
 public class ToolTip : MonoBehaviour
@@ -19,10 +21,9 @@ public class ToolTip : MonoBehaviour
     public Material normalMat;
     public Material holofoilMat;
 
-    [Header("World Space Settings")]
+    [Header("World-Space Settings")]
     [Tooltip("How far in front of the Camera should this tooltip appear?")]
     public float distanceFromCamera = 10f;
-
     [Tooltip("Offset in world space relative to the computed tooltip position.")]
     public Vector2 worldOffset = new Vector2(0.3f, 0.3f);
 
@@ -31,113 +32,104 @@ public class ToolTip : MonoBehaviour
     public float fadeDuration = 0.2f;
 
     private IHoverable currentHover;
+    private IHoverable overrideHoverable;
     private Coroutine fadeRoutine;
-
-    // If we're using a custom IHoverable override (e.g., for merging), store it here
-    private IHoverable overrideHoverable = null;
-
     private bool IsUsingOverride => overrideHoverable != null;
-    
+
     public delegate void HoverableDelegate(IHoverable hoverable);
     public static event HoverableDelegate HoverableHoveredEvent;
-    
+
     private void Start()
     {
-        // Start fully invisible
+        // start hidden & non-interactable
         tooltipCanvasGroup.alpha = 0f;
-        tooltipCanvasGroup.interactable = false;
         tooltipCanvasGroup.blocksRaycasts = false;
+        tooltipCanvasGroup.interactable   = false;
     }
 
     private void Update()
     {
-        // If we have an overrideHoverable, we skip normal detection
+        // override mode bypasses normal hover
         if (IsUsingOverride)
         {
-            Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
-            PositionTooltip(mousePos);
+            PositionTooltip(Singleton.Instance.playerInputManager.mousePosWorldSpace);
             return;
         }
-
         CheckForHover(false);
     }
+
+    public void ForceToolTipUpdate() => CheckForHover(true);
 
     void CheckForHover(bool updateIfSame = false)
     {
         Vector2 mouseWorldPos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
         PositionTooltip(mouseWorldPos);
 
-        // Detect if we are hovering something that implements IHoverable
-        Collider2D collider = Physics2D.OverlapPoint(mouseWorldPos);
-        if (collider)
+        var openPanels = Singleton.Instance.menuManager.allPanels
+            .Where(p => p.gameObject.activeInHierarchy)
+            .Select(p => p.transform)
+            .ToArray();
+        bool panelOpen = openPanels.Length > 0;
+
+        var hits = Physics2D.OverlapPointAll(mouseWorldPos);
+        foreach (var col in hits)
         {
-            IHoverable hoverable = collider.GetComponentInChildren<IHoverable>()
-                                   ?? collider.GetComponentInParent<IHoverable>();
-            if (hoverable != null)
+            var hoverable = col.GetComponentInChildren<IHoverable>()
+                           ?? col.GetComponentInParent<IHoverable>();
+            if (hoverable == null) continue;
+
+            if (panelOpen)
             {
-                if (hoverable != currentHover || updateIfSame)
-                {
-                    currentHover = hoverable;
-                    
-                    HoverableModifier hm = new HoverableModifier();
-                    
-                    Item item = hoverable as Item;
-                    if (item != null)
-                    {
-                        if (item.isHolofoil)
-                        {
-                            hm.isHolofoil = true;
-                        }
-                    }
-                    
-                    ShowTooltip(hoverable, hm);
-                    
-                    HoverableHoveredEvent?.Invoke(hoverable);
-                }
-                return;
+                bool underPanel = openPanels.Any(panel => col.transform.IsChildOf(panel));
+                if (!underPanel) continue;
             }
+
+            if (hoverable != currentHover || updateIfSame)
+            {
+                currentHover = hoverable;
+                var hm = new HoverableModifier();
+                if (hoverable is Item item && item.isHolofoil)
+                    hm.isHolofoil = true;
+
+                ShowTooltip(hoverable, hm);
+                HoverableHoveredEvent?.Invoke(hoverable);
+            }
+            return;
         }
 
-        // If no valid hoverable object is under the mouse
         if (currentHover != null)
         {
             currentHover = null;
             HideTooltip();
         }
     }
-    
-    public void ForceToolTipUpdate()
-    {
-        CheckForHover(true);
-    }
-    
-    /// <summary>
-    /// Sets the tooltip fields from the hovered item's data, then fades it in.
-    /// </summary>
+
     private void ShowTooltip(IHoverable hoverable, HoverableModifier hm = null)
     {
         if (hoverable == null) return;
 
-        overrideHoverable = null;  // Clear any override
-        SetTooltipFields(hoverable, hm);
+        // cancel any running fade
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+            fadeRoutine = null;
+        }
+
+        overrideHoverable = null;
+
+        // set fields
+        SetTooltipFields(hoverable, hm ?? new HoverableModifier());
+
+        // use FadeCanvasGroup for fade-in
         FadeCanvasGroup(1f);
     }
 
-    /// <summary>
-    /// Called to hide the tooltip (fades out).
-    /// If we were overriding, that override is canceled.
-    /// </summary>
     public void HideTooltip()
     {
-        overrideHoverable = null;  
+        overrideHoverable = null;
         FadeCanvasGroup(0f);
     }
 
-    /// <summary>
-    /// Replaces the normal hover logic with an override IHoverable (e.g. merging scenario).
-    /// This sets overrideHoverable so normal detection is bypassed.
-    /// Use HideTooltip() to revert to normal.
-    /// </summary>
     public void ShowOverrideTooltip(IHoverable customHoverable, HoverableModifier hm = null)
     {
         if (customHoverable == null)
@@ -147,54 +139,24 @@ public class ToolTip : MonoBehaviour
         }
 
         overrideHoverable = customHoverable;
-        SetTooltipFields(overrideHoverable, hm);
+        SetTooltipFields(customHoverable, hm);
         FadeCanvasGroup(1f);
-
-        // Position near mouse
-        Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
-        PositionTooltip(mousePos);
+        PositionTooltip(Singleton.Instance.playerInputManager.mousePosWorldSpace);
     }
 
-    private void SetTooltipFields(IHoverable hoverable, HoverableModifier hm = null)
+    private void SetTooltipFields(IHoverable hoverable, HoverableModifier hm)
     {
         titleTextAnimator.SetText(hoverable.GetTitleText(hm));
         descriptionTextAnimator.SetText(hoverable.GetDescriptionText(hm));
-        typeText.text = hoverable.GetTypeText(hm);
-        rarityText.text      = hoverable.GetRarityText();
-        itemImage.sprite     = hoverable.GetImage();
-        triggerText.text     = hoverable.GetTriggerText();
-        valueText.text = hoverable.GetValueText();
-        if(string.IsNullOrEmpty(hoverable.GetValueText()))
-        {
-            valueHeader.gameObject.SetActive(false);
-        }
-        else
-        {
-            valueHeader.gameObject.SetActive(true);
-        }
-
-        if (hm != null)
-        {
-            if (hm.isHolofoil)
-            {
-                itemImage.material = holofoilMat;
-            }
-
-            else
-            {
-                itemImage.material = normalMat;
-            }
-        }
-
-        else
-        {
-            itemImage.material = normalMat;
-        }
+        typeText.text           = hoverable.GetTypeText(hm);
+        rarityText.text         = hoverable.GetRarityText();
+        triggerText.text        = hm?.takeTriggersFromItem?.GetTriggerText() ?? hoverable.GetTriggerText();
+        valueText.text          = hoverable.GetValueText();
+        valueHeader.gameObject.SetActive(!string.IsNullOrEmpty(valueText.text));
+        itemImage.sprite        = hoverable.GetImage();
+        itemImage.material      = (hm.isHolofoil ? holofoilMat : normalMat);
     }
 
-    /// <summary>
-    /// Positions the tooltip near the mouse in 2D world space.
-    /// </summary>
     private void PositionTooltip(Vector2 mouseWorldPos)
     {
         // Compute the desired world position based on your worldOffset.
@@ -232,15 +194,9 @@ public class ToolTip : MonoBehaviour
         transform.position = correctedWorldPos;
     }
 
-    /// <summary>
-    /// Smoothly fades the tooltip's CanvasGroup to the target alpha.
-    /// </summary>
     private void FadeCanvasGroup(float targetAlpha)
     {
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
+        if (fadeRoutine != null) StopCoroutine(fadeRoutine);
         fadeRoutine = StartCoroutine(FadeRoutine(targetAlpha));
     }
 
@@ -252,26 +208,21 @@ public class ToolTip : MonoBehaviour
             tooltipCanvasGroup.interactable   = true;
         }
 
-        float startAlpha = tooltipCanvasGroup.alpha;
-        float elapsed    = 0f;
-
+        float start = tooltipCanvasGroup.alpha;
+        float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / fadeDuration);
-            tooltipCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
+            tooltipCanvasGroup.alpha = Mathf.Lerp(start, targetAlpha, elapsed / fadeDuration);
             yield return null;
         }
-
         tooltipCanvasGroup.alpha = targetAlpha;
 
-        // Disable interaction if fully transparent
         if (targetAlpha <= 0f)
         {
             tooltipCanvasGroup.blocksRaycasts = false;
             tooltipCanvasGroup.interactable   = false;
         }
-
         fadeRoutine = null;
     }
 }

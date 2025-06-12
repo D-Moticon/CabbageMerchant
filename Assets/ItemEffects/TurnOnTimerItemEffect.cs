@@ -5,7 +5,7 @@ public class TurnOnTimerItemEffect : ItemEffect
     public float timerDuration = 7f;
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        GameSingleton.Instance.gameStateMachine.SetTimerMode(true, timerDuration);
+        GameSingleton.Instance.gameStateMachine.SetTimerMode(true, timerDuration + Singleton.Instance.playerStats.timerAdd);
     }
 
     public override string GetDescription()

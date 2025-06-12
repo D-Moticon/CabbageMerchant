@@ -115,7 +115,18 @@ public class SurvivalManager : MonoBehaviour
 
         else
         {
-            AddFood(foodValue);
+            int hpGain = foodValue;
+            if (item.effects != null)
+            {
+                if (item.effects.Count > 0)
+                {
+                    if (item.effects[0] is SurvivalModeFoodEffect)
+                    {
+                        hpGain = ((SurvivalModeFoodEffect)item.effects[0]).foodValue;
+                    }
+                }
+            }
+            AddFood(hpGain);
         }
         
     }

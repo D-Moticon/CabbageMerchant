@@ -34,7 +34,7 @@ MonoBehaviour:
     - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
       totalHealth: 1500
     - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
-      totalHealth: 35000
+      totalHealth: 30000
     - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
       totalHealth: 1000000
     preBoardPopulateTasks:
@@ -51,7 +51,7 @@ MonoBehaviour:
     - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
       totalHealth: 1000
     - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
-      totalHealth: 15000
+      totalHealth: 12000
     - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
       totalHealth: 35000
     preBoardPopulateTasks:

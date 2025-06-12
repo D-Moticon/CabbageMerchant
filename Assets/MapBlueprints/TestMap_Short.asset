@@ -15,13 +15,13 @@ MonoBehaviour:
   metacurrencyLayerPeriod: 4
   mapLayers:
   - possiblePointInfos:
-    - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
+    - mapPoint: {fileID: 11400000, guid: 2604779bcaf39614c9e173e44d7d07cf, type: 2}
       weight: 1
       requirements: []
     forceAll: 1
     newBiome: {fileID: 0}
   - possiblePointInfos:
-    - mapPoint: {fileID: 11400000, guid: 0abc7f08c03c7074ca32ab1bc12055fb, type: 2}
+    - mapPoint: {fileID: 11400000, guid: 386d9a6f0d360d041be22d0d7a3c2dd5, type: 2}
       weight: 1
       requirements: []
     forceAll: 1
