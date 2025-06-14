@@ -20,8 +20,12 @@ public class DialogueBox : MonoBehaviour
     public Transform itemSlotParent;
 
     public CanvasGroup canvasGroup;
+    public Canvas canvas;
     public bool isHidden = false;
 
+    public int normalCanvasLayer = -5;
+    public int topCanvasLayer = 100;
+    
     public void ActivateButtons(int quantity)
     {
         HideAllChoiceButtons();

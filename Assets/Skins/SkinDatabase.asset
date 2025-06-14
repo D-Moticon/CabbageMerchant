@@ -29,19 +29,31 @@ MonoBehaviour:
     InDemo: 0
   - skin: {fileID: 11400000, guid: 877997438d1cba343b8d635ecaf60eb3, type: 2}
     InDemo: 1
+  - skin: {fileID: 11400000, guid: 7a2587ef69611604eba8e0044a094268, type: 2}
+    InDemo: 0
   - skin: {fileID: 11400000, guid: 14d33bfb32f61b6478979cb19bd8e907, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: a217915230ffbca40ac38eba2fb8564c, type: 2}
     InDemo: 0
+  - skin: {fileID: 11400000, guid: 38c9390c1da55c6408e2d87e6bf8995b, type: 2}
+    InDemo: 0
   - skin: {fileID: 11400000, guid: f031d9c87784a2e4d9719a3b6e17f651, type: 2}
+    InDemo: 0
+  - skin: {fileID: 11400000, guid: c6e9f231090a68f4084bb2ec05757fc5, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: 58a064d1b8936474d83d9b20ff3b199d, type: 2}
     InDemo: 0
+  - skin: {fileID: 11400000, guid: 94963884f83bccd40af101ff3fd68ea4, type: 2}
+    InDemo: 0
   - skin: {fileID: 11400000, guid: bec4bc47ccef08c42addd4bbb445fdc8, type: 2}
+    InDemo: 0
+  - skin: {fileID: 11400000, guid: 03ac62c9d5337f24ca78706b3331bb66, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: 4339721fc0702ff4697ecb5bf9cf7342, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: 1ff3af2f98600ba4b855c0ee9dacc630, type: 2}
+    InDemo: 0
+  - skin: {fileID: 11400000, guid: 15a3795d98a94d0498370ea45e1bf6c2, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: 2b8dab2f291f84d4fbe89b553e445348, type: 2}
     InDemo: 0

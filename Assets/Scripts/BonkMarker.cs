@@ -114,7 +114,8 @@ public class BonkMarker : MonoBehaviour
         if (bonkMarkerVFX != null)
         {
             GameObject bvfx = bonkMarkerVFX.Spawn(this.transform.position);
-            bvfx.transform.localScale = this.transform.localScale;
+            float sca = Mathf.Min(this.transform.localScale.x, 4f);
+            bvfx.transform.localScale = new Vector3(sca, sca, sca);
         }
 
         bonkSFX.Play(this.transform.position);

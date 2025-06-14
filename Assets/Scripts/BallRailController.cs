@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using FMOD.Studio;
 using System.Collections;
@@ -18,6 +19,14 @@ public class BallRailController : MonoBehaviour
     [Tooltip("Distance between successive raycast origins in the velocity direction.")]
     public float  sampleForwardSpacing  = 0.05f;
 
+    [Header("Stuck detection")]
+    [Tooltip("How far the ball must move to be considered 'unstuck'.")]
+    public float stuckDistanceThreshold = 0.1f;
+    [Tooltip("How long the ball can sit within that threshold before we bail.")]
+    public float stuckTimeThreshold     = 0.5f;
+    private Vector2 stuckAnchor;
+    private float   stuckTimer;
+    
     [Header("Debug gizmos")]
     public bool showDebugLines = true;
 
@@ -65,6 +74,26 @@ public class BallRailController : MonoBehaviour
     {
         // Only start on rails
         var newRail = c.collider.GetComponent<GrindRail>();
+        
+        //Wall collide logic
+        if (newRail == null && grinding)
+        {
+            // flip our direction sign
+            dirSign = -dirSign;
+
+            // recompute tangent along the _same_ railNormal
+            Vector2 tangent = (dirSign > 0
+                    ? new Vector2(-railNormal.y,  railNormal.x)
+                    : new Vector2( railNormal.y, -railNormal.x)
+                ).normalized;
+
+            // re-apply the same speed in the opposite direction
+            rb.linearVelocity = tangent * speed;
+
+            // early out — don’t try to start a new grind
+            return;
+        }
+        
         if (newRail == null) return;
 
         // Cancel any pending exit cleanup (and kill old VFX/SFX)
@@ -77,6 +106,9 @@ public class BallRailController : MonoBehaviour
             PerformCleanup();
         }
 
+        stuckAnchor = rb.position;
+        stuckTimer  = 0f;
+        
         // Now begin grinding the new one
         currentRail         = newRail;
         currentRailCollider = c.collider;
@@ -119,6 +151,31 @@ public class BallRailController : MonoBehaviour
         if (!grinding) return;
         if (Singleton.Instance.pauseManager.isPaused) return;
 
+        //Stuck detect
+        Vector2 currentPos = rb.position;
+        if (Vector2.Distance(currentPos, stuckAnchor) < stuckDistanceThreshold)
+        {
+            stuckTimer += Time.deltaTime;
+            if (stuckTimer >= stuckTimeThreshold)
+            {
+                // we're stuck! clean up immediately
+                if (currentRail != null)
+                {
+                    currentRail.HandleDestruction(rb.position);
+                    currentRail = null;
+                }
+                PerformCleanup();
+                return;
+            }
+        }
+        
+        else
+        {
+            // we moved far enough → reset the timer
+            stuckAnchor = currentPos;
+            stuckTimer  = 0f;
+        }
+        
         // Prepare for multi‐raycast
         Vector2 velDir        = rb.linearVelocity.normalized;
         float   len           = col.radius + skin * 3f;
@@ -209,6 +266,20 @@ public class BallRailController : MonoBehaviour
         }
 
         // kill any lingering SFX
+        if (sfxInstance.isValid())
+        {
+            sfxInstance.stop(STOP_MODE.IMMEDIATE);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (vfxInstance != null)
+        {
+            vfxInstance.SetActive(false);
+            vfxInstance = null;
+        }
+        
         if (sfxInstance.isValid())
         {
             sfxInstance.stop(STOP_MODE.IMMEDIATE);

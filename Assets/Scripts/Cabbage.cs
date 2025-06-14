@@ -140,6 +140,8 @@ public class Cabbage : MonoBehaviour, IBonkable
         points = startingPoints;
         sizeLevel = startingSizeLevel;
         bonkMultiplier = baseBonkMultiplier;
+        isMerging   = false;
+        isHarvesting = false;
         UpdateSizeLevel();
     }
 
@@ -552,8 +554,8 @@ public class Cabbage : MonoBehaviour, IBonkable
 
         currentVariantType = CabbageVariantType.none;
         sr.material = baseMaterial;
-        points = 0;
-        bonkMultiplier = 1;
+        //points = 0;
+        //bonkMultiplier = 1;
     }
 
     public void AddBonkMultiplier(double multAdd)

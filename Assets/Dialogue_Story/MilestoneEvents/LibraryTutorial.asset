@@ -32,6 +32,8 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 328110250964549740
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -43,6 +45,8 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 328110250964549741
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -53,6 +57,8 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 328110250964549742
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -64,6 +70,8 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 328110250964549743
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -74,3 +82,5 @@ MonoBehaviour:
         extraWaitTime: 0
         centerText: 0
         playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 1

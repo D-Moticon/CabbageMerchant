@@ -89,7 +89,10 @@ MonoBehaviour:
   - {fileID: 3954685614785633557}
   itemSlotParent: {fileID: 4077174268744516848}
   canvasGroup: {fileID: 4349644584365102761}
+  canvas: {fileID: 1601188933926079626}
   isHidden: 0
+  normalCanvasLayer: -5
+  topCanvasLayer: 100
 --- !u!225 &4349644584365102761
 CanvasGroup:
   m_ObjectHideFlags: 0

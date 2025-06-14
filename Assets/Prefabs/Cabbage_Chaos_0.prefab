@@ -516,7 +516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7832643851235227578
 Transform:
   m_ObjectHideFlags: 0
@@ -527,7 +527,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.89, y: 1.35, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.0848932, y: 3.0848932, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8290643376152692135}
@@ -652,7 +652,7 @@ MonoBehaviour:
   popFloater: {fileID: 11400000, guid: 676c92c679e2cdb4f9eb8c5e93566ff0, type: 2}
   scoreFloater: {fileID: 11400000, guid: 184b250b48c41a24391b8f5f623bd8b1, type: 2}
   baseMaterial: {fileID: 2100000, guid: 6c81cc06d7891574480594870dfa3114, type: 2}
-  sizeLevel: 0
+  sizeLevel: 1000
   colorLevel: 0
   maxSizeLevel: 1000
   maxColorLevel: 100

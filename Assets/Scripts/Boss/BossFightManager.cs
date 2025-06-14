@@ -109,33 +109,44 @@ public class BossFightManager : MonoBehaviour
         );
         
 
-        bool phaseBeat = false;
+        bool phaseBeat   = false;
         bool roundFailed = false;
-        void OnPhaseBeat(double over) => phaseBeat = (over >= 1);
-        void OnRoundFailed() => roundFailed = true;
+
+        void OnPhaseBeat(double over) => phaseBeat   = (over >= 1);
+        void OnRoundFailed()          => roundFailed = true;
+
         GameStateMachine.RoundGoalOverHitEvent += OnPhaseBeat;
-        GameStateMachine.RoundFailedEvent += OnRoundFailed;
+        GameStateMachine.RoundFailedEvent    += OnRoundFailed;
 
-        while (!phaseBeat)
+        try
         {
-            if (roundFailed)
+            while (!phaseBeat)
             {
-                _currentPhaseIndex = 0;
-                StopAllCoroutines();
+                if (roundFailed)
+                {
+                    gsm.stopTryButton.SetActive(false);
+                    yield break; // jumps to finally, unsubscribing cleanly
+                }
+                yield return null;
             }
-            
-            yield return null;
         }
-            
+        finally
+        {
+            gsm.KillAllBalls();
+            gsm.ClearBoardOfGlobalObjects();
+            gsm.stopTryButton.SetActive(false);
+            GameStateMachine.RoundGoalOverHitEvent -= OnPhaseBeat;
+            GameStateMachine.RoundFailedEvent    -= OnRoundFailed;
+        }
         
-        GameStateMachine.RoundGoalOverHitEvent -= OnPhaseBeat;
-        GameStateMachine.RoundFailedEvent -= OnRoundFailed;
+        //If gsm.ChangeState is here, then the BossBeatenExit event gets called before we can subscribe to it
+        bool stateFinished = false;
+        void OnScoringExited() => stateFinished = true;
+        BossPhaseBeatStateExitedEvent += OnScoringExited;
+        gsm.ChangeState(new BossPhaseBeatenState());
         
-        gsm.KillAllBalls();
-        gsm.ClearBoardOfGlobalObjects();
-        gsm.stopTryButton.SetActive(false);
         bossFullBeatSFX?.Play();
-
+        
         if (_currentPhaseIndex >= boss.phases.Count - 1)
         {
             if (!boss.bossAfterMusic.IsNull)
@@ -150,10 +161,6 @@ public class BossFightManager : MonoBehaviour
                 .DialogueTaskRoutine(phase.postPhaseBeatEarlyTasks)
         );
         
-        gsm.ChangeState(new BossPhaseBeatenState());
-        bool stateFinished = false;
-        void OnScoringExited() => stateFinished = true;
-        BossPhaseBeatStateExitedEvent += OnScoringExited;
         while (!stateFinished) yield return null;
         BossPhaseBeatStateExitedEvent -= OnScoringExited;
         

@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 150fd1f817674d74d9c4cd7923a47163, type: 3}
   itemType: 1
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
   - rid: 328110359655481493
@@ -58,9 +60,14 @@ MonoBehaviour:
   - rid: 328110359655481495
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
-  rarity: 0
+  rarity: 1
   normalizedPrice: 0
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
@@ -77,9 +84,12 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:

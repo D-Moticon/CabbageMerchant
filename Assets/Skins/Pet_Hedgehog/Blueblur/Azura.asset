@@ -31,4 +31,4 @@ MonoBehaviour:
       type: {class: RunBeatenWithPetRequirement, ns: , asm: Assembly-CSharp}
       data:
         requiredPet: {fileID: 11400000, guid: 9ad6e6b3df25b95469aa982eccfe5cb6, type: 2}
-        minDifficultyLevel: 0
+        minDifficultyLevel: 2

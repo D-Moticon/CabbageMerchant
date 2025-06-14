@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 8640260237976776603}
   - component: {fileID: 1894412592247389826}
   - component: {fileID: 559775842699787069}
+  - component: {fileID: 1620864988258347737}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -269,8 +270,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &1620864988258347737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610212958181275555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &685935563728571358
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +297,7 @@ GameObject:
   - component: {fileID: 7468844412637107476}
   - component: {fileID: 2972744459502157777}
   - component: {fileID: 4469230939994802941}
+  - component: {fileID: 6443053385822738341}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -478,8 +492,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &6443053385822738341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685935563728571358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1394876770109822114
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +519,7 @@ GameObject:
   - component: {fileID: 5991946137122102816}
   - component: {fileID: 9131256956694299099}
   - component: {fileID: 8541037357057409559}
+  - component: {fileID: 652360894470064383}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -687,8 +714,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &652360894470064383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394876770109822114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3699189144082177175
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,6 +741,7 @@ GameObject:
   - component: {fileID: 432152982218696289}
   - component: {fileID: 2138790427859813999}
   - component: {fileID: 761664263101968577}
+  - component: {fileID: 8587897135807458400}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -896,8 +936,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &8587897135807458400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699189144082177175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3910804414615732819
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +963,7 @@ GameObject:
   - component: {fileID: 1010390891453701095}
   - component: {fileID: 1031783282049435011}
   - component: {fileID: 617473859065379746}
+  - component: {fileID: 3752197539777986610}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -1105,8 +1158,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &3752197539777986610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910804414615732819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4666004095945406615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1185,7 @@ GameObject:
   - component: {fileID: 1039918345248952364}
   - component: {fileID: 8569342633715377010}
   - component: {fileID: 7197402211448495053}
+  - component: {fileID: 8186823146221311225}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -1314,8 +1380,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &8186823146221311225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4666004095945406615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5083327019008965002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1329,6 +1407,7 @@ GameObject:
   - component: {fileID: 709990268531833432}
   - component: {fileID: 2454592622383116830}
   - component: {fileID: 8634300641380992567}
+  - component: {fileID: 1084448773677553715}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -1523,8 +1602,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &1084448773677553715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5083327019008965002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5268689008320837519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,6 +1629,7 @@ GameObject:
   - component: {fileID: 3860462037659182255}
   - component: {fileID: 1352829676041610913}
   - component: {fileID: 1675736068355185736}
+  - component: {fileID: 3824751660605975033}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -1732,8 +1824,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &3824751660605975033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5268689008320837519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5372040382698302787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1883,7 @@ GameObject:
   - component: {fileID: 2347783279677302125}
   - component: {fileID: 5156188256349161745}
   - component: {fileID: 1019413384791284918}
+  - component: {fileID: 5433518314413771841}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -1973,8 +2078,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &5433518314413771841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024851149557018598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8428255750903533873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,6 +2105,7 @@ GameObject:
   - component: {fileID: 928408757961007090}
   - component: {fileID: 7518216417573632572}
   - component: {fileID: 4609122253850649414}
+  - component: {fileID: 8601444684006597551}
   m_Layer: 14
   m_Name: GrindRail_Piece(Clone)
   m_TagString: Untagged
@@ -2182,5 +2300,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59540b499e19db7449fe28da827cd103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnExit: 1
+  hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &8601444684006597551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428255750903533873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

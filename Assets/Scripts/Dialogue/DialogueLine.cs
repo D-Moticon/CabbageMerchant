@@ -15,6 +15,7 @@ public class DialogueLine : DialogueTask
     [FoldoutGroup("Extras")] public bool centerText = false;
     [FoldoutGroup("Extras")] public bool playSFX = true;
     [FoldoutGroup("Extras")] public Sprite overrideSprite;
+    [FoldoutGroup("Extras")] public bool forceTopLayer = false;
 
     public override IEnumerator RunTask(DialogueContext dc)
     {
@@ -51,6 +52,20 @@ public class DialogueLine : DialogueTask
         else
         {
             dc.dialogueBox.nameTextAnimator.SetText(dialogueCharacter.displayName);
+        }
+
+
+        if (dc.dialogueBox.canvas != null)
+        {
+            if (forceTopLayer)
+            {
+                dc.dialogueBox.canvas.sortingOrder = dc.dialogueBox.topCanvasLayer;
+            }
+
+            else
+            {
+                dc.dialogueBox.canvas.sortingOrder = dc.dialogueBox.normalCanvasLayer;
+            }
         }
         
         if (dc.dialogueBox.isHidden)

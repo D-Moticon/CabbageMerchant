@@ -33,6 +33,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 328110250964549737
       type: {class: GiveCoinsIfBelowThreshold, ns: , asm: Assembly-CSharp}
       data:
@@ -49,6 +50,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 6680768056204460037
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -61,6 +63,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 1
     - rid: 6680768056204460038
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -72,3 +75,4 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 1

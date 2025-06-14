@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4838520270944332665}
   - component: {fileID: 5573942202396975898}
   - component: {fileID: 4657741889239959260}
+  - component: {fileID: 2100916709078583044}
   m_Layer: 14
   m_Name: GrindRail_Piece
   m_TagString: Untagged
@@ -209,3 +210,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 1
   destroyVFX: {fileID: 11400000, guid: c01f5a098104b9747907f2391e951186, type: 2}
+--- !u!114 &2100916709078583044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682748525319905929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eae962880f360478e3e6570245a1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

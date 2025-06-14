@@ -460,7 +460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2061831746081510738
 Transform:
   m_ObjectHideFlags: 0
@@ -471,7 +471,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.29681265, y: 2.64, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8838839366633682225}
@@ -602,8 +602,11 @@ MonoBehaviour:
   maxColorLevel: 100
   huePerLevel: 0.05
   maxHue: 0.65
+  startingPoints: 0
+  startingSizeLevel: 0
   startingScale: 0.75
   scalePerLevel: 0.22
+  reverseGrowth: 0
   growthMode: 2
   logBase: 2
   logMultiplier: 1
@@ -611,7 +614,7 @@ MonoBehaviour:
   isMerging: 0
   isStolen: 0
   baseBonkMultiplier: 3
-  bonkMultiplier: 1
+  bonkMultiplier: 3
   points: 0
   bonkMultPerColor: 1.5
   pointMultText: {fileID: 6219578883052846515}
@@ -674,9 +677,9 @@ MonoBehaviour:
     screenShakeIntensity: 2
   variantInfos:
   - variantType: 1
-    cabbageVariantPrefab: {fileID: 4773969002426643059, guid: d0957df6d35631b4787ff23cfbc396b2, type: 3}
+    cabbageVariantPooledObject: {fileID: 0}
   - variantType: 2
-    cabbageVariantPrefab: {fileID: 6639290188826528234, guid: a00b34af2cdfefb4baaa1f2ebae7b203, type: 3}
+    cabbageVariantPooledObject: {fileID: 0}
   currentVariant: {fileID: 0}
   currentVariantType: 0
 --- !u!114 &7930413585672566272
@@ -1146,7 +1149,7 @@ MonoBehaviour:
         TargetRenderer: {fileID: 8088052285559140281}
         ExtraTargetRenderers: []
         MaterialID: 0
-        PropertyID: _Brightness
+        PropertyName: _Brightness
         PropertyType: 1
         NewColor: {r: 1, g: 0, b: 0, a: 1}
         NewFloat: 20

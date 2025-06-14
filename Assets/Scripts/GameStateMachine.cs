@@ -59,6 +59,7 @@ public class GameStateMachine : MonoBehaviour
     public static IntDelegate ExtraBallGainedAction;
     public static Action RoundFailedEvent;
     public static Action GameStateMachineStartedAction;
+    public static Action ClearBoardAction;
 
     public delegate void GSMDelegate(GameStateMachine gsm);
     public static GSMDelegate GSM_Enabled_Event;
@@ -473,13 +474,26 @@ public class GameStateMachine : MonoBehaviour
             }
         }
 
-        if (activeCabbages.Count < minCabbagesBeforeNewSpawns)
+        UpdateActiveCabbages();
+        
+        // 3) How many new cabbages do we actually need?
+        int needed = minCabbagesBeforeNewSpawns - activeCabbages.Count;
+        if (needed <= 0) return;
+
+        // 4) Gather all truly empty slots
+        var emptySlots = bonkableSlots
+            .Where(bs => bs.bonkable == null)
+            .ToList();
+
+        // 5) Shuffle & take up to 'needed'
+        var toSpawn = emptySlots
+            .OrderBy(_ => UnityEngine.Random.value)
+            .Take(needed);
+
+        // 6) Spawn exactly once per chosen slot
+        foreach (var bs in toSpawn)
         {
-            BonkableSlot bs = GetEmptyBonkableSlot(true, 1.5f);
-            if (bs != null)
-            {
-                Cabbage c = SpawnCabbageInSlot(bs);
-            }
+            SpawnCabbageInSlot(bs);
         }
     }
 
@@ -506,6 +520,8 @@ public class GameStateMachine : MonoBehaviour
     {
         public override void EnterState()
         {
+            gameStateMachine.forceEndRound = false;
+            gameStateMachine.forceRoundFail = false;
             gameStateMachine.currentBalls = Singleton.Instance.playerStats.maxBalls;
             gameStateMachine.StartCoroutine(PopulateBoard());
             BallsRemainingUpdatedEvent?.Invoke(gameStateMachine.currentBalls);
@@ -624,8 +640,32 @@ public class GameStateMachine : MonoBehaviour
     public void ClearBoardOfGlobalObjects()
     {
         Singleton.Instance.objectPoolManager.DespawnAll(Singleton.Instance.itemManager.keyPooledObject);
+        ClearBoardAction?.Invoke();
     }
-    
+
+    public void ClearBoard()
+    {
+        ClearBoardOfGlobalObjects();
+        HardClearAllCabbages();
+    }
+
+    public void HardClearAllCabbages()
+    {
+        activeCabbages.Clear();
+
+        // include inactive so nothing slips through
+        var allCabbages = FindObjectsByType<Cabbage>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        foreach (var c in allCabbages)
+        {
+            c.FullReset();
+            c.Remove();  // returns to pool & deactivates :contentReference[oaicite:1]{index=1}
+        }
+    }
+
     public class AimingState : State
     {
         public override void EnterState()

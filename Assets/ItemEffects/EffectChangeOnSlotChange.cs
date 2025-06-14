@@ -49,6 +49,11 @@ public class EffectChangeOnSlotChange : ItemEffect
     
     private void ItemAddedToSlotListener(Item item, ItemSlot slot)
     {
+        if (item != owningItem)
+        {
+            return;
+        }
+        
         if (owningItem.currentItemSlot == null)
         {
             return;
@@ -59,9 +64,19 @@ public class EffectChangeOnSlotChange : ItemEffect
             return;
         }
 
-        if (!Singleton.Instance.itemManager.itemSlots.Contains(owningItem.currentItemSlot))
+        foreach (var ei in effectInfos)
         {
-            //prevent change in store slots
+            if (ei.itemEffect != null)
+                ei.itemEffect.DestroyItemEffect();
+            if (ei.trigger != null)
+                ei.trigger.RemoveTrigger(owningItem);
+        }
+        
+        var inventorySlots = Singleton.Instance.itemManager.itemSlots;
+        if (!inventorySlots.Contains(slot))
+        {
+            currentSlot = -1;
+            currentEffectInfo = null;
             return;
         }
 
@@ -87,6 +102,7 @@ public class EffectChangeOnSlotChange : ItemEffect
                 {
                     effectInfos[i].itemEffect.owningItem = owningItem;
                     effectInfos[i].itemEffect.InitializeItemEffect();
+                    
                 }
 
                 if (effectInfos[i].trigger != null)

@@ -48,14 +48,23 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 5643b3a287103da46bfd928ecd97b454, type: 3}
   itemType: 1
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
   effects:
   - rid: 328110079628279891
   holofoilEffects:
   - rid: 328110079628279892
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110079628279893
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -74,7 +83,13 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -82,13 +97,16 @@ MonoBehaviour:
       type: {class: WeaponCooldownStatEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
-        cooldownMultAdd: 0.35
+        owningItem: {fileID: 0}
+        cooldownMultAdd: 0.25
     - rid: 328110079628279892
       type: {class: WeaponCooldownStatEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
-        cooldownMultAdd: 0.7
+        owningItem: {fileID: 0}
+        cooldownMultAdd: 0.5
     - rid: 328110079628279893
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
