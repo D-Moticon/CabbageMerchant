@@ -49,7 +49,7 @@ public class Weapon_Portal_ItemEffect : ItemEffect
 
     public override string GetDescription()
     {
-        return $"Create a portal pair that teleports the ball to the top of the board and increases its bonk power by {bonkValue}";
+        return $"Create a portal pair that teleports the ball to the top of the board and increases its bonk power by {bonkValue} * WP";
         //throw new System.NotImplementedException();
     }
 

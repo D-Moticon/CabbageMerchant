@@ -79,6 +79,7 @@ public class GameStateMachine : MonoBehaviour
 
     public delegate void FloatDelegate(float value);
     public static FloatDelegate TimerUpdatedEvent;
+    public static Action TimerUpEvent;
 
     public GameObject stopTryButton;
     private bool stopTry = false;
@@ -466,7 +467,7 @@ public class GameStateMachine : MonoBehaviour
     
     void CabbageMergedListener(Cabbage.CabbageMergedParams cmp)
     {
-        for(int i = 0; i < bonkableSlots.Count; i++)
+        for (int i = 0; i < bonkableSlots.Count; i++)
         {
             if (bonkableSlots[i].bonkable as Object == cmp.oldCabbageA as Object || bonkableSlots[i].bonkable as Object == cmp.oldCabbageB as Object)
             {
@@ -475,26 +476,40 @@ public class GameStateMachine : MonoBehaviour
         }
 
         UpdateActiveCabbages();
-        
-        // 3) How many new cabbages do we actually need?
+
         int needed = minCabbagesBeforeNewSpawns - activeCabbages.Count;
         if (needed <= 0) return;
 
-        // 4) Gather all truly empty slots
+        const float minMergeDistance = 1.25f; // adjust as needed
+
+        // 1) Get all truly empty slots
         var emptySlots = bonkableSlots
             .Where(bs => bs.bonkable == null)
             .ToList();
 
-        // 5) Shuffle & take up to 'needed'
-        var toSpawn = emptySlots
+        // 2) Filter out slots too close to existing cabbages
+        var safeSlots = emptySlots
+            .Where(slot => IsFarFromAllCabbages(slot.transform.position, minMergeDistance))
             .OrderBy(_ => UnityEngine.Random.value)
-            .Take(needed);
+            .Take(needed)
+            .ToList();
 
-        // 6) Spawn exactly once per chosen slot
-        foreach (var bs in toSpawn)
+        // 3) Spawn in safe slots only
+        foreach (var slot in safeSlots)
         {
-            SpawnCabbageInSlot(bs);
+            Cabbage c = SpawnCabbageInSlot(slot);
+            c.FullReset();
         }
+    }
+    
+    private bool IsFarFromAllCabbages(Vector3 pos, float minDist)
+    {
+        foreach (var cabbage in activeCabbages)
+        {
+            if (Vector3.Distance(pos, cabbage.transform.position) < minDist)
+                return false;
+        }
+        return true;
     }
 
     public void MultiplyRoundScore(double multiple)
@@ -758,6 +773,7 @@ public class GameStateMachine : MonoBehaviour
                 TimerUpdatedEvent?.Invoke(gameStateMachine.countdownTimer);
                 if (gameStateMachine.countdownTimer <= 0f)
                 {
+                    TimerUpEvent?.Invoke();
                     gameStateMachine.KillAllBalls();
                 }
             }

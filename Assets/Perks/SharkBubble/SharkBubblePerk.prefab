@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5642527488055600350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 795923979434220646}
+  - component: {fileID: 5967482709542143992}
+  m_Layer: 0
+  m_Name: SharkBubblePerk
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &795923979434220646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642527488055600350}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5967482709542143992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642527488055600350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Pool Tactics
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 1c92fb6efbb01a14b80c6bb338bfb6ff, type: 3}
+  itemType: 1
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
+  effects:
+  - rid: 6680768431229763667
+  holofoilEffects:
+  - rid: 6680768431229763668
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 6680768431229763669
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 0
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 0
+  normalizedPrice: 0
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 11400000, guid: f3223013576e9d640b663e8c7034e38f, type: 2}
+  requiredPets:
+  - {fileID: 11400000, guid: f3223013576e9d640b663e8c7034e38f, type: 2}
+  survivalModeOnly: 0
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 6680768431229763667
+      type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        pooledObject: {fileID: 11400000, guid: 38f8b62c5e18a3a4a816149f36831cdc, type: 2}
+        objectName: Multiplier Bubble
+        objectDescription: Multiplies the multiplier of cabbages that pass through
+          it
+        xRange: {x: -4, y: 4}
+        yRange: {x: -4, y: 4}
+        quantity: 1
+        scale: 1
+    - rid: 6680768431229763668
+      type: {class: SpawnPooledObjectItemEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        pooledObject: {fileID: 11400000, guid: 38f8b62c5e18a3a4a816149f36831cdc, type: 2}
+        objectName: Multiplier Bubble
+        objectDescription: Multiplies the multiplier of cabbages that pass through
+          it
+        xRange: {x: -4, y: 4}
+        yRange: {x: -4, y: 4}
+        quantity: 2
+        scale: 1
+    - rid: 6680768431229763669
+      type: {class: BoardFinishedPopulatingTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

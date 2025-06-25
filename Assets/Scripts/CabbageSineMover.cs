@@ -46,6 +46,7 @@ public class CabbageSineMover : MonoBehaviour
         foreach (var cabbage in active)
         {
             if (cabbage == null) continue;
+            if (cabbage.isDynamic) continue;
             Transform trs = cabbage.transform;
             if (!startPositions.ContainsKey(trs))
                 startPositions[trs] = trs.position;
@@ -67,6 +68,10 @@ public class CabbageSineMover : MonoBehaviour
                 toRemove.Add(trs);
                 continue;
             }
+            
+            var cabbage = trs.GetComponent<Cabbage>();
+            if (cabbage != null && cabbage.isDynamic)
+                continue;
 
             Vector3 basePos = kv.Value;
             float phase, offset;

@@ -49,3 +49,7 @@ MonoBehaviour:
     enabled: 1
     weight: 1
     InDemo: 0
+  - item: {fileID: 4518711806939631458, guid: 0dac7dcefd9a4db468703ba7a03f668b, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0

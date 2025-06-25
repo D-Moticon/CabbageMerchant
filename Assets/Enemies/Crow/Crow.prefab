@@ -398,8 +398,8 @@ MonoBehaviour:
   cabbageFlightSpeed: 0.55
   targetMode: 0
   grabRadius: 0.5
-  grabYOffset: 6.6
-  grabParent: {fileID: 7486694817543064887}
+  grabYOffset: 0.66
+  grabParent: {fileID: 8019346992013077539}
   pauseDuringAim: 1
 --- !u!50 &1520207439958064666
 Rigidbody2D:
@@ -850,7 +850,7 @@ MonoBehaviour:
         - TargetRenderer: {fileID: 6141126304489423306}
           MaterialID: 0
         MaterialID: 0
-        PropertyID: _Brightness
+        PropertyName: _Brightness
         PropertyType: 1
         NewColor: {r: 1, g: 0, b: 0, a: 1}
         NewFloat: 20

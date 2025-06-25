@@ -36,6 +36,6 @@ public class RerollButton : ClickableObject
     private void Update()
     {
         rollsRemainingText.text = $"{shopManagers[0].rerollsRemaining.ToString()} remaining";
-        rollCostText.text = $"{Singleton.Instance.playerStats.reRollCost}";
+        rollCostText.text = $"{Singleton.Instance.playerStats.reRollCost*shopManagers[0].rerollCostMultiplier}";
     }
 }

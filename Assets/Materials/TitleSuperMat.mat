@@ -170,7 +170,7 @@ Material:
     - _CamouflageSmoothnessA: 0.2
     - _CamouflageSmoothnessB: 0.2
     - _CheckerboardDarken: 0.52
-    - _CheckerboardTiling: 3.64
+    - _CheckerboardTiling: 10
     - _ColorReplaceContrast: 1
     - _ColorReplaceFade: 1
     - _ColorReplaceRange: 0.05

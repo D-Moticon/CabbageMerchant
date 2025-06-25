@@ -67,7 +67,7 @@ MonoBehaviour:
   triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
-  rarity: 1
+  rarity: 0
   normalizedPrice: 0
   sellValueMultiplier: 1
   currentItemSlot: {fileID: 0}
@@ -84,6 +84,9 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 11400000, guid: df204f4cefcd34c4bb8d43ec55aa3a75, type: 2}
+  requiredPets:
+  - {fileID: 11400000, guid: df204f4cefcd34c4bb8d43ec55aa3a75, type: 2}
+  - {fileID: 11400000, guid: f3223013576e9d640b663e8c7034e38f, type: 2}
   survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
@@ -98,12 +101,14 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         timeAdd: 1
     - rid: 6680768056204460140
       type: {class: TimerDurationItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         timeAdd: 1.5
     - rid: 6680768056204460141
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}

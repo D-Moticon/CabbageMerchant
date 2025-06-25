@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15cddc50af84940997e3976db43ad1, type: 3}
+  m_Name: Surfer
+  m_EditorClassIdentifier: 
+  displayName: Surf's Up
+  dataName: surfer
+  description: 
+  unlockedByDefault: 0
+  cost: 25
+  requirements:
+  - rid: 6680768282176520348
+  dialogueSprite: {fileID: 21300000, guid: 8093ddfe1fa9f954189dc7d859eebca4, type: 3}
+  upSprite: {fileID: 354428328, guid: 4285ec8a22ad92d449065aa3d39f449a, type: 3}
+  downSprite: {fileID: 1841833685, guid: 4285ec8a22ad92d449065aa3d39f449a, type: 3}
+  leftSprite: {fileID: 95401241, guid: 4285ec8a22ad92d449065aa3d39f449a, type: 3}
+  rightSprite: {fileID: -291920987, guid: 4285ec8a22ad92d449065aa3d39f449a, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 6680768282176520348
+      type: {class: RunBeatenWithPetRequirement, ns: , asm: Assembly-CSharp}
+      data:
+        requiredPet: {fileID: 11400000, guid: f3223013576e9d640b663e8c7034e38f, type: 2}
+        minDifficultyLevel: 2

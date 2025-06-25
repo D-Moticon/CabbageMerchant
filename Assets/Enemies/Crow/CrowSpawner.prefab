@@ -45,6 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 11400000, guid: d50b34038d6fbad4da14941cc5df69b6, type: 2}
+  spawnVFX: {fileID: 0}
+  spawnSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
   spawnOffset: {x: 0, y: 0}
   spawnBounds:
     m_Center: {x: 0, y: -2.69, z: 0}
@@ -52,8 +62,9 @@ MonoBehaviour:
   spawnType: 1
   spawnLocation: 1
   firstRoundEnemiesPerSecond: 1
-  burstCount: 5
+  burstCount: 3
   burstInterval: 0.02
+  burstMinSeparation: 1
   cabbageSpawnHeightOffset: 0.5
   epsBase: 0.5
   epsPower: 1.5

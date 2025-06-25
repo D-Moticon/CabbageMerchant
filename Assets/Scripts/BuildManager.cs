@@ -16,6 +16,7 @@ public class BuildManager : MonoBehaviour
         startAtSpecificEvent,
         startAtRestaurant,
         startAtLibrary,
+        startAtDojo,
         none
     }
 
@@ -185,6 +186,22 @@ public class BuildManager : MonoBehaviour
             case BuildMode.startAtLibrary:
                 Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
                 Singleton.Instance.runManager.StartNewRun("Library");
+                Singleton.Instance.menuManager.HideAll();
+                PopulateStartingItems();
+                Singleton.Instance.playerStats.AddCoins(startingCoins);
+                Singleton.Instance.playerStats.AddKey(startingKeys);
+                Singleton.Instance.runManager.ChangeBiome(startingBiome);
+                Singleton.Instance.playerStats.currentDifficulty = startingDifficulty;
+                Singleton.Instance.petManager.SetCurrentPet(startingPet);
+                if (unlockAllSlots)
+                {
+                    Singleton.Instance.itemManager.UnLockAllInventorySlots();
+                }
+                Singleton.Instance.playerStats.IncreaseReRolls(startingReRolls);
+                break;
+            case BuildMode.startAtDojo:
+                Singleton.Instance.runManager.startingMapBlueprint = mapBlueprint;
+                Singleton.Instance.runManager.StartNewRun("Dojo");
                 Singleton.Instance.menuManager.HideAll();
                 PopulateStartingItems();
                 Singleton.Instance.playerStats.AddCoins(startingCoins);

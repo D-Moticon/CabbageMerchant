@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46edb8a9969644419bdcaad9103a7b0, type: 3}
+  m_Name: ForbiddenLibraryCollection
+  m_EditorClassIdentifier: 
+  items:
+  - item: {fileID: 5896980625055076928, guid: 99e8a547804a9134e89bc4ea7ce47631, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0
+  - item: {fileID: 3740227613675664772, guid: 2ab4d753e2c4dc34da3c3cd50a9a0432, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0
+  - item: {fileID: 86054423248226442, guid: ebe94259dd8ef684e97ee35be675e363, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0

@@ -84,6 +84,7 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  requiredPets: []
   survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
@@ -98,8 +99,9 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         quantity: 1
-        multMult: 2
+        multMult: 3
         vfx: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
         sfx:
           sfx:
@@ -115,8 +117,9 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         quantity: 1
-        multMult: 4
+        multMult: 6
         vfx: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
         sfx:
           sfx:

@@ -17,7 +17,10 @@ MonoBehaviour:
   firstRoundGoal: 15
   referenceFirstRoundGoal: 15
   referenceFunctionPieces:
-  - rid: 328110304141508618
+  - rid: 6680768470102311000
+  - rid: 6680768470102311001
+  - rid: 6680768470102311002
+  - rid: 6680768470102311003
   metacurrencyBase: 0.2
   metacurrencyPower: 1.05
   maxMetaCurrencyPerLayer: 10
@@ -29,24 +32,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 328110304141508618
-      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
-      data:
-        firstLayer: 0
-        baseValue: 1.8
-        exponent: 2.26474
     - rid: 328110304141508619
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 0
-        baseValue: 6
+        baseValue: 5
         exponent: 1.05
     - rid: 328110304141508620
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 7
-        baseValue: 34
-        exponent: 1.15
+        baseValue: 30
+        exponent: 1.1
     - rid: 328110304141508621
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
@@ -54,6 +51,30 @@ MonoBehaviour:
         baseValue: 54.6
         exponent: 1.8
     - rid: 328110304141508622
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 30
+        baseValue: 57.4
+        exponent: 3.7
+    - rid: 6680768470102311000
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 0
+        baseValue: 6
+        exponent: 1.05
+    - rid: 6680768470102311001
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 7
+        baseValue: 34
+        exponent: 1.15
+    - rid: 6680768470102311002
+      type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
+      data:
+        firstLayer: 15
+        baseValue: 54.6
+        exponent: 1.8
+    - rid: 6680768470102311003
       type: {class: Difficulty/PowerFunctionPiece, ns: , asm: Assembly-CSharp}
       data:
         firstLayer: 30

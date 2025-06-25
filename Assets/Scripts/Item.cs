@@ -52,6 +52,7 @@ public class Item : MonoBehaviour, IHoverable
     public SFXInfo triggerSFX;
     public Item upgradedItem;
     public PetDefinition requiredPet;
+    public List<PetDefinition> requiredPets;
     public bool survivalModeOnly = false;
     [HideInInspector] public bool isHolofoil = false;
 
@@ -76,6 +77,8 @@ public class Item : MonoBehaviour, IHoverable
     {
         public Item item;
         public bool stopDestroy = false;
+        public bool isBeingSentToGraveyard = false;
+        public bool isBeingSold = false;
     }
 
     public delegate void DestroyItemDelegate(DestroyItemParams dip);
@@ -86,7 +89,7 @@ public class Item : MonoBehaviour, IHoverable
     private void Update()
     {
         currentFrameTriggerCount = 0;
-
+        
         if (Singleton.Instance.pauseManager.isPaused)
         {
             return;
@@ -219,7 +222,8 @@ public class Item : MonoBehaviour, IHoverable
 
     public float GetItemPrice()
     {
-        return (normalizedPrice * globalItemPriceMult * Singleton.Instance.playerStats.shopDiscountMult);
+        float price = Mathf.Floor(normalizedPrice * globalItemPriceMult * Singleton.Instance.playerStats.shopDiscountMult);
+        return (price);
     }
 
     public void ForceTriggerItem(TriggerContext tc = null)
@@ -618,12 +622,14 @@ public class Item : MonoBehaviour, IHoverable
         return (Math.Floor(normalizedPrice * globalItemPriceMult * 0.5*sellValueMultiplier));
     }
 
-    public void DestroyItem(bool withFX = false, bool sendToGraveyard = false)
+    public void DestroyItem(bool withFX = false, bool sendToGraveyard = false, bool isBeingSold = false)
     {
         //Before destroying, we see if anything wants to prevent the destruction
         DestroyItemParams dip = new DestroyItemParams();
         dip.item = this;
         dip.stopDestroy = false;
+        dip.isBeingSentToGraveyard = sendToGraveyard;
+        dip.isBeingSold = isBeingSold;
         DestroyItemPreEvent?.Invoke(dip);
         if (dip.stopDestroy)
         {
@@ -761,5 +767,15 @@ public class Item : MonoBehaviour, IHoverable
         }
         
         isFrozen = false;
+    }
+
+    public bool IsOwned()
+    {
+        if (Singleton.Instance.itemManager.GetItemsAndPerks().Contains(this))
+        {
+            return true;
+        }
+        
+        return false;
     }
 }

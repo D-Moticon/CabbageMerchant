@@ -71,6 +71,7 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     [HideInInspector] public bool isMerging = false;
     [HideInInspector] public bool isStolen = false;
+    [HideInInspector] public bool isDynamic = false;
 
     [Header("Scoring")]
     public double baseBonkMultiplier = 1;
@@ -131,6 +132,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     public static event CabbagePoppedDelegate CabbagePoppedEvent;
 
     public delegate void CabbageEvent(Cabbage c);
+    public static CabbageEvent CabbageSpawnedEvent;
     
     bool isHarvesting = false;
     
@@ -143,11 +145,14 @@ public class Cabbage : MonoBehaviour, IBonkable
         isMerging   = false;
         isHarvesting = false;
         UpdateSizeLevel();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        isDynamic = false;
+        
+        CabbageSpawnedEvent?.Invoke(this);
     }
 
     void Start()
     {
-        rb.bodyType = RigidbodyType2D.Kinematic;
         sr = GetComponentInChildren<SpriteRenderer>();
 
         UpdateSizeLevel();
@@ -238,7 +243,8 @@ public class Cabbage : MonoBehaviour, IBonkable
         // VFX and feedback
         if (!bp.overrideSFX)
         {
-            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * (float)Math.Abs(bp.bonkerPower));
+            float vol = Mathf.Max(0.35f, (float)Math.Abs(bp.bonkerPower));
+            bonkSFX.Play(bp.collisionPos, bonkSFX.vol * vol);
         }
 
         GameObject vfx = bonkVFX.Spawn(bp.collisionPos, Quaternion.identity);
@@ -288,6 +294,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         points = 0;
         sizeLevel = startingSizeLevel;
         bonkMultiplier = baseBonkMultiplier;
+        colorLevel = 0;
         UpdateSizeLevel();
         UpdateColorLevel();
     }
@@ -312,23 +319,6 @@ public class Cabbage : MonoBehaviour, IBonkable
         {
             GameSingleton.Instance.gameStateMachine.BankPoints(points);
         }
-
-
-        
-        
-        
-        //OLD
-        /*rb.bodyType = RigidbodyType2D.Dynamic;
-        popVFX.Spawn(collisionPos, Quaternion.identity);
-        bonkFeel.PlayFeedbacks(transform.position, 2f, false);
-        Singleton.Instance.screenShaker.ShakeScreen();
-        Singleton.Instance.floaterManager.SpawnFloater(popFloater, "100", transform.position, floaterColor);
-
-        rb.angularVelocity = Random.Range(-400f, 400f);
-        popSFX.Play(collisionPos);
-        gameObject.layer = LayerMask.NameToLayer("TransparentFX");*/
-
-
     }
 
     public void Harvest()
@@ -341,13 +331,40 @@ public class Cabbage : MonoBehaviour, IBonkable
         isHarvesting = true;
     }
 
+    public void MakeDynamic()
+    {
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        isDynamic = true;
+    }
+
+    public void MakeUnDynamic()
+    {
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        isDynamic = false;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.layer == wallLayerMask
             && other.gameObject.GetComponent<Vine>() == null
-            && GameSingleton.Instance.gameStateMachine.GetNumberActiveCabbages() > 1)
+            && GameSingleton.Instance.gameStateMachine.GetNumberActiveCabbages() > 1
+            && !isDynamic)
         {
             Pop(other.GetContact(0).point);
+        }
+
+        if (isDynamic)
+        {
+            Cabbage c = col.GetComponent<Cabbage>();
+            if (c != null && c.enabled)
+            {
+                BonkParams bp = new BonkParams();
+                bp.bonkedCabbage = c;
+                bp.bonkerPower = Singleton.Instance.playerStats.dynamicCabbageBonkPower;
+                bp.collisionPos = other.GetContact(0).point;
+                c.Bonk(bp);
+            }
         }
     }
 
@@ -371,10 +388,8 @@ public class Cabbage : MonoBehaviour, IBonkable
     {
         if (isHarvesting || otherCabbage.isHarvesting) return;   
         if (isMerging || otherCabbage.isMerging) return;
-        if (!col.enabled || !otherCabbage.col.enabled)
-        {
-            return;
-        }
+        if (!col.enabled || !otherCabbage.col.enabled) return;
+        if (isDynamic) return;
         
         isMerging = true;
         otherCabbage.isMerging = true;
@@ -496,6 +511,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     {
         GameObject pVFX = popVFX.Spawn(transform.position, Quaternion.identity);
         float sca = scalePerLevel * Mathf.Pow(sizeLevel, rootExponent);
+        sca = Mathf.Min(sca, 4f);
         pVFX.transform.localScale = new Vector3(sca, sca, 1f);
     }
 

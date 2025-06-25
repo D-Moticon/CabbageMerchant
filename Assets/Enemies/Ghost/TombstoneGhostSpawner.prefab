@@ -517,7 +517,7 @@ MonoBehaviour:
         TargetRenderer: {fileID: 7303401014417477808}
         ExtraTargetRenderers: []
         MaterialID: 0
-        PropertyID: _Brightness
+        PropertyName: _Brightness
         PropertyType: 1
         NewColor: {r: 1, g: 0, b: 0, a: 1}
         NewFloat: 20
@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objToSpawn: {fileID: 11400000, guid: 486aa5dd8d437be44bf478f11a85bcb0, type: 2}
-  secondsPerSpawnRange: {x: 1.6, y: 2.3}
+  secondsPerSpawnRange: {x: 2, y: 2.7}
   spawnVFX: {fileID: 11400000, guid: 92cd6676791361f47b884242977f4a27, type: 2}
   spawnSFX:
     sfx:

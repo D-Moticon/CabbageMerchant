@@ -91,11 +91,13 @@ public class Weapon_Rocket_ItemEffect : ItemEffect
             //Return to pool logic
             GameSingleton.Instance.objectPoolManager.ReturnToPool(rocket,instantiatedRocket);
         }
+
+        int finalQty = Mathf.CeilToInt(explosionPieceQuantity * Singleton.Instance.playerStats.GetWeaponPowerMult());
         
-        for (int i = 0; i < explosionPieceQuantity; i++)
+        for (int i = 0; i < finalQty; i++)
         {
             Rigidbody2D expPiece = explosionPiece.Spawn(ball.transform.position).GetComponent<Rigidbody2D>();
-            float ang = 360f / explosionPieceQuantity * i;
+            float ang = 360f / finalQty * i;
             Vector2 dir = Helpers.AngleDegToVector2(ang);
             Vector2 vel = dir * explosionPieceSpeed;
             expPiece.linearVelocity = vel;

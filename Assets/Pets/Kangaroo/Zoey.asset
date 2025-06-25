@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
+  m_Name: Zoey
+  m_EditorClassIdentifier: 
+  InDemo: 0
+  displayName: Zoey
+  dataName: kangaroo
+  itemPrefab: {fileID: 3774003164092393507, guid: a22d22bae95b2f64dbb1660bc09e81d9, type: 3}
+  cost: 150
+  upSprite: {fileID: 123259550, guid: eeeb43cc9c9adb04da5718c7ed35b849, type: 3}
+  downSprite: {fileID: -1972826801, guid: eeeb43cc9c9adb04da5718c7ed35b849, type: 3}
+  leftSprite: {fileID: 1721319476, guid: eeeb43cc9c9adb04da5718c7ed35b849, type: 3}
+  rightSprite: {fileID: -375298717, guid: eeeb43cc9c9adb04da5718c7ed35b849, type: 3}

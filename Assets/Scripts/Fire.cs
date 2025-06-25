@@ -21,6 +21,7 @@ public class Fire : MonoBehaviour
     public PooledObjectData killVFX;
     public Sprite spriteForFloater;
     public Color floaterColor;
+    public SpriteRenderer spriteRenderer;
 
     public static int stacksToGiveBallsOnHit = 1;
     
@@ -37,6 +38,14 @@ public class Fire : MonoBehaviour
         Cabbage.CabbageMergedEventPreDestroy += CabbageMergedListener;
         CalculateSecondsPerBonk();
         stackTimer = secondsPerBonk;
+
+        if (spriteRenderer != null)
+        {
+            MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+            spriteRenderer.GetPropertyBlock(mpb);
+            mpb.SetFloat("_Hue", (Singleton.Instance.playerStats.flameLevel-1)/2.5f);
+            spriteRenderer.SetPropertyBlock(mpb);
+        }
     }
 
     private void OnDisable()
@@ -85,8 +94,10 @@ public class Fire : MonoBehaviour
 
     void PopStack()
     {
+        float finalBonkValue = bonkValue * Singleton.Instance.playerStats.flameLevel;
+        
         BonkParams bp = new BonkParams();
-        bp.bonkerPower = bonkValue;
+        bp.bonkerPower = finalBonkValue;
         bp.collisionPos = this.transform.position;
         bp.normal = Vector2.up;
         bp.overrideSFX = true;
@@ -97,8 +108,8 @@ public class Fire : MonoBehaviour
         bonkVFX.Spawn(this.transform.position);
         bonkSFX.Play();
         bonkFeel.PlayFeedbacks();
-        stackText.text = stacksRemaining.ToString();
-        Singleton.Instance.floaterManager.SpawnSpriteFloater(bonkValue.ToString(), this.transform.position, spriteForFloater, floaterColor);
+        stackText.text = $"{(stacksRemaining*finalBonkValue):F0}";
+        Singleton.Instance.floaterManager.SpawnSpriteFloater(finalBonkValue.ToString(), this.transform.position, spriteForFloater, floaterColor);
     }
 
     void StopFire()

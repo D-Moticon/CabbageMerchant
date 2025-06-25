@@ -254,7 +254,7 @@ MonoBehaviour:
   - label: Bankrupt
     color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
     backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-    weight: 1
+    weight: 0.75
     textPrefix: 
     taskOnWin:
       rid: 4405298309054857336
@@ -268,7 +268,7 @@ MonoBehaviour:
   - label: Destroy An Item
     color: {r: 1, g: 0, b: 0.027672768, a: 1}
     backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-    weight: 1
+    weight: 0.75
     textPrefix: 
     taskOnWin:
       rid: 4405298309054857342
@@ -345,6 +345,7 @@ MonoBehaviour:
     centerText: 0
     playSFX: 1
     overrideSprite: {fileID: 0}
+    forceTopLayer: 0
   fadeInDialogueTask:
     rid: 328110079628280038
   wheelSpinSFX:
@@ -418,6 +419,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298309054857338
       type: {class: BankruptDialogueTask, ns: , asm: Assembly-CSharp}
       data: 
@@ -438,10 +440,11 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298309054857341
       type: {class: AddCoinsDialogueTask, ns: , asm: Assembly-CSharp}
       data:
-        coinAmount: 15
+        coinAmount: 20
     - rid: 4405298309054857342
       type: {class: DialogueSequenceTask, ns: , asm: Assembly-CSharp}
       data:
@@ -459,6 +462,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298309054857344
       type: {class: DestroyRandomItemDialogueTask, ns: , asm: Assembly-CSharp}
       data: 
@@ -479,6 +483,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298309054857347
       type: {class: MakeRandomItemHolofoilTask, ns: , asm: Assembly-CSharp}
       data:
@@ -509,6 +514,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298309054857350
       type: {class: AddLifeDialogueTask, ns: , asm: Assembly-CSharp}
       data: 
@@ -529,6 +535,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298309054857353
       type: {class: GiveRandomItemDialogueTask, ns: , asm: Assembly-CSharp}
       data:
@@ -543,6 +550,7 @@ MonoBehaviour:
           centerText: 0
           playSFX: 1
           overrideSprite: {fileID: 0}
+          forceTopLayer: 0
 --- !u!1 &6943074570050128287
 GameObject:
   m_ObjectHideFlags: 0

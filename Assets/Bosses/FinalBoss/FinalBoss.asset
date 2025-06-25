@@ -51,7 +51,7 @@ MonoBehaviour:
     - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
       totalHealth: 1000
     - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
-      totalHealth: 12000
+      totalHealth: 10000
     - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
       totalHealth: 35000
     preBoardPopulateTasks:
@@ -111,6 +111,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298468862034011
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -123,6 +124,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298468862034017
       type: {class: FreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
       data:
@@ -138,6 +140,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298487544512603
       type: {class: FreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
       data:
@@ -153,6 +156,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 4405298487544512623
       type: {class: ConvertToDialogueCabbagesTask, ns: , asm: Assembly-CSharp}
       data:
@@ -164,7 +168,7 @@ MonoBehaviour:
         - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
           bonksToPop: 10
         - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
-          bonksToPop: 50
+          bonksToPop: 40
         replaceVFX: {fileID: 11400000, guid: 740626d7430b1334dafe909e079bcadf, type: 2}
         replaceSFX:
           sfx:
@@ -208,6 +212,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291732
       type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
       data:
@@ -236,6 +241,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291754
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -248,6 +254,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291755
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -259,6 +266,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291771
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -271,6 +279,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291772
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -282,6 +291,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291773
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -293,6 +303,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291774
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -304,6 +315,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291775
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -316,6 +328,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291776
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -328,6 +341,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291777
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -339,6 +353,7 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0
     - rid: 6680768040027291778
       type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
       data:
@@ -351,3 +366,4 @@ MonoBehaviour:
         centerText: 0
         playSFX: 1
         overrideSprite: {fileID: 0}
+        forceTopLayer: 0

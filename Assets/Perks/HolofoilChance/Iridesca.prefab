@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 3403c501bbc881047966bfe6990dc9dd, type: 3}
   itemType: 1
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 1
   effects:
   - rid: 328109986689057254
@@ -58,6 +60,11 @@ MonoBehaviour:
   - rid: 328109942880338123
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 0
@@ -77,9 +84,12 @@ MonoBehaviour:
     vol: 0.5
   upgradedItem: {fileID: 0}
   requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -93,10 +103,10 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        holofoilChanceAdd: 0.05
+        holofoilChanceAdd: 0.03
     - rid: 328109986689057255
       type: {class: HolofoilChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        holofoilChanceAdd: 0.1
+        holofoilChanceAdd: 0.06

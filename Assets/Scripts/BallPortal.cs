@@ -73,7 +73,7 @@ public class BallPortal : MonoBehaviour
         // apply bonk value if Ball
         var ball = go.GetComponent<Ball>();
         if (ball != null)
-            ball.AddBonkValue(bonkValue);
+            ball.AddBonkValue(bonkValue * Singleton.Instance.playerStats.GetWeaponPowerMult());
     }
 
     private void OnTriggerExit2D(Collider2D col)

@@ -59,15 +59,16 @@ public class BonkCabbageItemEffect : ItemEffect
 
         foreach (var c in selectedCabbages)
         {
+            double finalBonkPower = bonkValue * powerMult;
             BonkParams bp = new BonkParams();
-            bp.bonkerPower = bonkValue;
+            bp.bonkerPower = finalBonkPower;
             bp.collisionPos = c.transform.position;
             c.Bonk(bp);
 
             string floaterString = "";
             if (displayBonkValueInFloater)
             {
-                floaterString = $"{bonkValue:F1}";
+                floaterString = $"{finalBonkPower:F1}";
             }
             
             if (spawnItemAtCabbage != null)
@@ -86,7 +87,7 @@ public class BonkCabbageItemEffect : ItemEffect
     {
         if (cabbageSelection == CabbageSelection.bonked)
         {
-            return($"Bonk cabbage for additional {bonkValue:F1} points");
+            return($"Bonk cabbage for additional {bonkValue*powerMult:F1} points");
         }
         
         string selectionDescription = cabbageSelection switch
@@ -96,14 +97,15 @@ public class BonkCabbageItemEffect : ItemEffect
             CabbageSelection.highest => "highest",
             _ => throw new ArgumentOutOfRangeException()
         };
-
-        return ($"Bonk {quantity} {selectionDescription} cabbage(s) for {bonkValue:F1}");
+        
+        return ($"Bonk {quantity} {selectionDescription} cabbage(s) for {bonkValue*powerMult:F1}");
     }
     
     public override void RandomizePower()
     {
         base.RandomizePower();
-        bonkValue = Random.Range(0.5f, 10f);
+        powerMult = (double)Random.Range(0.5f, 10f);
+        //bonkValue = Random.Range(0.5f, 10f);
         quantity = Random.Range(1, 8);
     }
 }

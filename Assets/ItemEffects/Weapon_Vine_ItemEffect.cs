@@ -38,11 +38,11 @@ public class Weapon_Vine_ItemEffect : ItemEffect
         }
         
         IncreaseBallBonkValueOnCollide ibv = vineGO.GetComponent<IncreaseBallBonkValueOnCollide>();
-        ibv.bonkValueAdd = vineBallBonkValueAdd;
+        ibv.bonkValueAdd = (vineBallBonkValueAdd*Singleton.Instance.playerStats.GetWeaponPowerMult());
     }
 
     public override string GetDescription()
     {
-        return $"Hold weapon fire to draw a vine. When ball bounces off vine, it gains {vineBallBonkValueAdd:F1} bonk power.";
+        return $"Hold weapon fire to draw a vine. When ball bounces off vine, it gains {vineBallBonkValueAdd:F1} * WP bonk power.";
     }
 }

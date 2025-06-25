@@ -6,6 +6,7 @@ public class CabbageBonkCountdown : Trigger
 {
     public double startingCountdown = 1000;
     private double currentCountdown = 1000;
+    public bool resetOnTrigger = false;
 
     public enum CountdownType
     {
@@ -55,8 +56,6 @@ public class CabbageBonkCountdown : Trigger
             case CountdownType.totalBonkValue:
                 currentCountdown -= bp.totalBonkValueGained;
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
 
         owningItem.SetExtraText($"{currentCountdown:F0}");
@@ -64,6 +63,12 @@ public class CabbageBonkCountdown : Trigger
         if (currentCountdown <= 0)
         {
             owningItem.TryTriggerItem();
+
+            if (resetOnTrigger)
+            {
+                currentCountdown = startingCountdown;
+                owningItem.SetExtraText($"{currentCountdown:F0}");
+            }
         }
     }
 

@@ -48,12 +48,25 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: c9eff5c085f96e4428bf02e4f222f49a, type: 3}
   itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
   effects:
   - rid: 328109986689056856
   holofoilEffects:
   - rid: 328109986689057193
+  holofoilEffectDescription: 
   triggers:
   - rid: 328109986689057194
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
   rarity: 0
   normalizedPrice: 1.2
   sellValueMultiplier: 1
@@ -70,13 +83,23 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 244236678911322488, guid: ea73084412dc46a44be712cb7895ba9c, type: 3}
+  requiredPet: {fileID: 0}
+  requiredPets: []
+  survivalModeOnly: 0
   isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
     - rid: 328109986689056856
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
+        owningItem: {fileID: 0}
+        powerMult: 1
         objectToSpawn: {fileID: 11400000, guid: c9ebe486a71bf304fa073574a11e86a9, type: 2}
         spawnLocation: 1
         spawnCenter: {x: 0, y: 5}
@@ -84,7 +107,7 @@ MonoBehaviour:
         objectName: rain drop
         objectDescription: fall from the sky and bonk cabbages for 0.5
         quantity: 10
-        speedRange: {x: 0, y: 2}
+        speedRange: {x: 5, y: 10}
         spreadAngle: 0
         scaleRange: {x: 1, y: 1}
         spreadType: 1
@@ -93,9 +116,14 @@ MonoBehaviour:
         rotateVFXtoNormal: 0
         velocityDirection: 1
         worldVelocityDirection: {x: 0, y: -1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05
     - rid: 328109986689057193
       type: {class: SpawnRBItemEffect, ns: , asm: Assembly-CSharp}
       data:
+        chance: 1
+        owningItem: {fileID: 0}
+        powerMult: 1
         objectToSpawn: {fileID: 11400000, guid: c9ebe486a71bf304fa073574a11e86a9, type: 2}
         spawnLocation: 1
         spawnCenter: {x: 0, y: 5}
@@ -103,7 +131,7 @@ MonoBehaviour:
         objectName: rain drop
         objectDescription: fall from the sky and bonk cabbages for 0.5
         quantity: 20
-        speedRange: {x: 0, y: 2}
+        speedRange: {x: 5, y: 10}
         spreadAngle: 0
         scaleRange: {x: 1, y: 1}
         spreadType: 1
@@ -112,9 +140,14 @@ MonoBehaviour:
         rotateVFXtoNormal: 0
         velocityDirection: 1
         worldVelocityDirection: {x: 0, y: -1}
+        makeRainbowBonker: 0
+        rainbowConvertChance: 0.05
     - rid: 328109986689057194
       type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
         numberBounces: 10
+        resetOnBallFire: 1
+        showCountdown: 0
         bounceType: 0

@@ -64,7 +64,7 @@ public class Weapon_Shears_ItemEffect : ItemEffect
                 if (((1 << col.gameObject.layer) & bonkableLayerMask) != 0
                     && col.TryGetComponent<IBonkable>(out var bonkable))
                 {
-                    bonkable.Bonk(new BonkParams { bonkerPower = bonkValue });
+                    bonkable.Bonk(new BonkParams { bonkerPower = bonkValue*Singleton.Instance.playerStats.GetWeaponPowerMult() });
                 }
             }
 
@@ -124,7 +124,7 @@ public class Weapon_Shears_ItemEffect : ItemEffect
         string plural = numberShears > 1 ? "s" : "";
         string antiPlural = numberShears > 1 ? "" : "s";
         return
-            $"Create {numberShears} slice{plural} at the mouse position that bonk{antiPlural} cabbages for {bonkValue} and split{antiPlural} balls into 2.";
+            $"Create {numberShears} slice{plural} at the mouse position that bonk{antiPlural} cabbages for {bonkValue} * WP and split{antiPlural} balls into 2.";
     }
 
     // -- Editor helper to visualize the box in-scene --

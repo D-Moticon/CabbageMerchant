@@ -48,14 +48,23 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: 23c37d0e97f40c64e924f9ff321affd0, type: 3}
   itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
   effects:
   - rid: 328110125889880153
   holofoilEffects:
   - rid: 328110125889880154
+  holofoilEffectDescription: 
   triggers:
   - rid: 328110125889880155
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 2
@@ -74,9 +83,13 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 8255348728563987033, guid: 0addc342f197d8440bf4764fa9b9e1b5, type: 3}
+  requiredPet: {fileID: 0}
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -96,5 +109,6 @@ MonoBehaviour:
       type: {class: BallBounceTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
-        numberBounces: 10
+        itemHasTriggeredThisFrame: 0
+        numberBounces: 7
         bounceType: 0

@@ -22,11 +22,11 @@ MonoBehaviour:
   - skin: {fileID: 11400000, guid: 438ce60586ce51a4a9bf6edc1074ef88, type: 2}
     InDemo: 1
   - skin: {fileID: 11400000, guid: 239705fe8455a5e44a84bee9bb03020d, type: 2}
-    InDemo: 0
+    InDemo: 1
   - skin: {fileID: 11400000, guid: 13446e36c2602a84fa33844e5ce981a4, type: 2}
-    InDemo: 0
+    InDemo: 1
   - skin: {fileID: 11400000, guid: d7dc295f6fc7f4b4da14ef47d4ce61b8, type: 2}
-    InDemo: 0
+    InDemo: 1
   - skin: {fileID: 11400000, guid: 877997438d1cba343b8d635ecaf60eb3, type: 2}
     InDemo: 1
   - skin: {fileID: 11400000, guid: 7a2587ef69611604eba8e0044a094268, type: 2}
@@ -54,6 +54,12 @@ MonoBehaviour:
   - skin: {fileID: 11400000, guid: 1ff3af2f98600ba4b855c0ee9dacc630, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: 15a3795d98a94d0498370ea45e1bf6c2, type: 2}
+    InDemo: 0
+  - skin: {fileID: 11400000, guid: 6cdc5b8bc457091478ce118bd18b2c6f, type: 2}
+    InDemo: 0
+  - skin: {fileID: 11400000, guid: 8777f6c58ade54a4d93d2e3ab48ac5aa, type: 2}
+    InDemo: 0
+  - skin: {fileID: 11400000, guid: 6ea34bf4f81872e4e8ed0aca2edea501, type: 2}
     InDemo: 0
   - skin: {fileID: 11400000, guid: 2b8dab2f291f84d4fbe89b553e445348, type: 2}
     InDemo: 0

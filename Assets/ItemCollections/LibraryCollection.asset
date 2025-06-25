@@ -57,3 +57,19 @@ MonoBehaviour:
     enabled: 1
     weight: 1
     InDemo: 0
+  - item: {fileID: 3355435051231642642, guid: 9be4258eebf8f734fa0814095cf4ebe3, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0
+  - item: {fileID: 5967482709542143992, guid: 1dda403760440924f83bccb7f051d439, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0
+  - item: {fileID: 1711593319811027107, guid: d95db794d9864cc4886a76d5aec6ed24, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 1
+  - item: {fileID: 3441880565860316481, guid: 7c3352652f014694ba28b632f7e5b3d6, type: 3}
+    enabled: 1
+    weight: 1
+    InDemo: 0

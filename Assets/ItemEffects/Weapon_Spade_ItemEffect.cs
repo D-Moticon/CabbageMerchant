@@ -95,7 +95,7 @@ public class Weapon_Spade_ItemEffect : ItemEffect
         
         string desc = $"Turn all balls into a spade that launches downward at great speed and explodes into {numString} rocks that bonk cabbages for 2. {extraDescriptionInfo}";
         desc += "\n";
-        desc += $"On collision: {Helpers.ToPercentageString(coinChance)} to dig up coin. {extraDescriptionInfo}";
+        desc += $"On collision: {Helpers.ToPercentageString(coinChance)} * WP to dig up coin. {extraDescriptionInfo}";
         return desc;
     }
 
@@ -129,7 +129,7 @@ public class Weapon_Spade_ItemEffect : ItemEffect
                 tc.point = bhp.point;
                 ballHitEffect.TriggerItemEffect(tc);
                 float coinRand = Random.Range(0f, 1f);
-                if (coinRand < coinChance)
+                if (coinRand < coinChance*Singleton.Instance.playerStats.GetWeaponPowerMult())
                 {
                     coinVFX.Spawn(tc.point);
                     coinSFX.Play();

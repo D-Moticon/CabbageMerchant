@@ -62,8 +62,9 @@ MonoBehaviour:
   spawnType: 1
   spawnLocation: 0
   firstRoundEnemiesPerSecond: 1
-  burstCount: 4
+  burstCount: 3
   burstInterval: 0.2
+  burstMinSeparation: 1
   cabbageSpawnHeightOffset: 0
   epsBase: 0.5
   epsPower: 1.5

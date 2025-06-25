@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece1da5ca849b0e419a4879d37bec6be, type: 3}
+  m_Name: Shark
+  m_EditorClassIdentifier: 
+  InDemo: 0
+  displayName: Keiko
+  dataName: shark
+  itemPrefab: {fileID: 3012011919954557663, guid: a4847fbda9f3a7c4e8775522b0175b07, type: 3}
+  cost: 100
+  upSprite: {fileID: 1733056929, guid: c29ce106577edd2438ec5352f3fd5153, type: 3}
+  downSprite: {fileID: -602980358, guid: c29ce106577edd2438ec5352f3fd5153, type: 3}
+  leftSprite: {fileID: -884298825, guid: c29ce106577edd2438ec5352f3fd5153, type: 3}
+  rightSprite: {fileID: 981281367, guid: c29ce106577edd2438ec5352f3fd5153, type: 3}

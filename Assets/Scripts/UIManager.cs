@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
         BuildManager.FullGameStartedEvent += FullGameStartedListener;
         ChaosManager.ChaosCabbageGetEvent += ChaosCabbageGetListener;
         GameStateMachine.ExtraBallGainedAction += BallGainedListener;
+        
     }
 
     private void OnDisable()
@@ -73,6 +74,7 @@ public class UIManager : MonoBehaviour
         BuildManager.FullGameStartedEvent -= FullGameStartedListener;
         ChaosManager.ChaosCabbageGetEvent -= ChaosCabbageGetListener;
         GameStateMachine.ExtraBallGainedAction -= BallGainedListener;
+        
     }
 
 
@@ -237,4 +239,5 @@ public class UIManager : MonoBehaviour
         extraBallGainedAnimator.Play("LifeGained");
         extraBallGainedTypewriter.ShowText($"<wave a=.2>+{ballsGained}</wave>");
     }
+    
 }

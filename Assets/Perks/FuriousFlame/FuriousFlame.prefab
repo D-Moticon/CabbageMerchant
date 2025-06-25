@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6496486690848004224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 682432873946728495}
+  - component: {fileID: 5896980625055076928}
+  m_Layer: 0
+  m_Name: FuriousFlame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &682432873946728495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6496486690848004224}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.89102, y: 0.38593, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5896980625055076928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6496486690848004224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6f6b574dbeeee4780dc2ffc7ff938c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Furious Flame
+  itemDescription: 
+  icon: {fileID: 21300000, guid: 35e5abe4d3fc035448ddb45b4c66d8e9, type: 3}
+  itemType: 1
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
+  canBeForceTriggered: 1
+  effects:
+  - rid: 6680768444004302958
+  holofoilEffects:
+  - rid: 6680768444004302959
+  holofoilEffectDescription: 
+  triggers:
+  - rid: 6680768444004302960
+  triggerChance: 1
+  hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 0
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
+  cooldownDuration: 1
+  cooldownCounter: 0
+  rarity: 2
+  normalizedPrice: 0
+  sellValueMultiplier: 1
+  currentItemSlot: {fileID: 0}
+  itemWrapper: {fileID: 0}
+  purchasable: 0
+  triggerSFX:
+    sfx:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    vol: 0.5
+  upgradedItem: {fileID: 0}
+  requiredPet: {fileID: 0}
+  requiredPets: []
+  survivalModeOnly: 0
+  isHolofoil: 0
+  firstUseHint: 
+  keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 6680768444004302958
+      type: {class: FlameLevelEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        flameLevelAdd: 1
+    - rid: 6680768444004302959
+      type: {class: FlameLevelEffect, ns: , asm: Assembly-CSharp}
+      data:
+        chance: 1
+        owningItem: {fileID: 0}
+        flameLevelAdd: 2
+    - rid: 6680768444004302960
+      type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0

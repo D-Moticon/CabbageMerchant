@@ -5,10 +5,29 @@ public class BallBonkValueItemEffect : ItemEffect
     public float valueAdd = 1f;
     public override void TriggerItemEffect(TriggerContext tc)
     {
-        if (tc != null && tc.ball != null)
+        if (GameSingleton.Instance == null)
         {
-            tc.ball.AddBonkValue(valueAdd);
+            return;
         }
+        
+        Ball b = null;
+        if (tc != null)
+        {
+            b = tc.ball;
+        }
+
+        if (b == null)
+        {
+            b = GameSingleton.Instance.gameStateMachine.GetRandomActiveBall();
+        }
+
+        if (b == null)
+        {
+            return;
+        }
+        
+        b.AddBonkValue(valueAdd);
+        
     }
 
     public override string GetDescription()

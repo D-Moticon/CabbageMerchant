@@ -66,7 +66,9 @@ public class Weapon_Sprinkler_ItemEffect : ItemEffect
         string desc =
             $"Balls turn into {spawnedWeaponName}s that spawn {projectileName}s that {projectileDescription}" +
             $"\n Nozzles: {numberObjectsPerSpawn}" +
+            $"\n Spawns Per Second: {spawnsPerSecond:F0} * WP" +
             $"\n Duration: {sprinklerDuration}s";
+        
         
         return desc;
     }
@@ -77,7 +79,7 @@ public class Weapon_Sprinkler_ItemEffect : ItemEffect
     )
     {
         float elapsed        = 0f;
-        float interval       = 1f / spawnsPerSecond;
+        float interval       = 1f / (spawnsPerSecond*Singleton.Instance.playerStats.GetWeaponPowerMult());
         float timeSinceSpawn = 0f;
         float angleOffset    = 0f;
 

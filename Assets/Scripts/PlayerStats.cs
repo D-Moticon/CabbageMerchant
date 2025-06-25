@@ -39,11 +39,18 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public int currentMapLayer = 0;
     public Difficulty currentDifficulty;
     [HideInInspector] public float timerAdd = 0f;
-
+    [HideInInspector] public float weaponPowerLevel = 0;
+    public double baseDynamicCabbageBonkPower = 0.05;
+    [HideInInspector] public double dynamicCabbageBonkPower = 0.05;
+    [HideInInspector] public double catYarnBallPointAdd = 0;
+    [HideInInspector] public float flameLevel = 1f;
+    [HideInInspector] public bool allowHybridMerging = false;
+    
     [HideInInspector] public double totalCabbagesBonkedThisRun;
     [HideInInspector] public double totalBonkValueThisRun;
     [HideInInspector] public float totalRunTime = 0f;
     [HideInInspector] public int totalConsumablesUsedThisRun = 0;
+    
     
     public delegate void DoubleEvent(double value);
     public static DoubleEvent CoinsUpdated;
@@ -55,6 +62,11 @@ public class PlayerStats : MonoBehaviour
     public static event IntEvent KeysUpdatedEvent;
     public static event DoubleEvent MetacurrencyUpdatedEvent;
     public static IntEvent ConsumablesUsedUpdatedEvent;
+    public static IntEvent WeaponPowerUpdatedEvent;
+
+    public delegate void FloatEvent(float value);
+    public static FloatEvent WeaponCooldownSpeedUpdatedEvent;
+    public static IntEvent ReRollsIncreasedEvent;
     
     private void OnEnable()
     {
@@ -98,6 +110,11 @@ public class PlayerStats : MonoBehaviour
         reRollCost = startingReRollCost;
         allHolofoilRollChance = 0f;
         weaponCooldownSpeedMult = 1f;
+        weaponPowerLevel = 0f;
+        
+        WeaponCooldownSpeedUpdatedEvent?.Invoke(weaponCooldownSpeedMult);
+        WeaponPowerUpdatedEvent?.Invoke((int)weaponPowerLevel);
+        
         lives = startingLives;
         LivesUpdated?.Invoke(lives);
         maxCoins = startingMaxCoins;
@@ -110,11 +127,19 @@ public class PlayerStats : MonoBehaviour
         totalRunTime = 0;
         totalConsumablesUsedThisRun = 0;
         timerAdd = 0f;
+        dynamicCabbageBonkPower = baseDynamicCabbageBonkPower;
+        catYarnBallPointAdd = 0;
+        flameLevel = 1f;
+        allowHybridMerging = false;
     }
 
     private void Update()
     {
-        totalRunTime += Time.deltaTime;
+        if (!Singleton.Instance.pauseManager.isPaused)
+        {
+            totalRunTime += Time.deltaTime;
+        }
+        
     }
 
     public void AddCoins(double coinsToAdd)
@@ -186,6 +211,7 @@ public class PlayerStats : MonoBehaviour
     public void IncreaseReRolls(int number)
     {
         shopReRolls += number;
+        ReRollsIncreasedEvent?.Invoke(number);
     }
 
     public void AddAllHolofoilRollChance(float chanceAdd)
@@ -196,6 +222,7 @@ public class PlayerStats : MonoBehaviour
     public void AddWeaponCooldownSpeedMult(float multAdd)
     {
         weaponCooldownSpeedMult += multAdd;
+        WeaponCooldownSpeedUpdatedEvent?.Invoke(weaponCooldownSpeedMult);
     }
 
     public void AddLife(int livesToAdd)
@@ -269,5 +296,45 @@ public class PlayerStats : MonoBehaviour
     public void AddTimerDuration(float durAdd)
     {
         timerAdd += durAdd;
+    }
+
+    public float GetWeaponPowerMult()
+    {
+        return (1f + weaponPowerLevel * 0.2f);
+    }
+
+    public void IncreaseWeaponPower(float amount)
+    {
+        weaponPowerLevel += amount;
+        if (weaponPowerLevel > 10f)
+        {
+            weaponPowerLevel = 10f;
+        }
+        WeaponPowerUpdatedEvent?.Invoke((int)weaponPowerLevel);
+    }
+
+    public void AddDynamicCabbageBonkPower(double valueAdd)
+    {
+        dynamicCabbageBonkPower += valueAdd;
+    }
+
+    public void AddYarnBallPointAdd(double addAmount)
+    {
+        catYarnBallPointAdd += addAmount;
+    }
+
+    public void AddKeyChance(float chanceAdd)
+    {
+        keyChance += chanceAdd;
+    }
+
+    public void AddFlameLevel(float flameLevelAdd)
+    {
+        flameLevel += flameLevelAdd;
+    }
+
+    public void AllowHybridMerging()
+    {
+        allowHybridMerging = true;
     }
 }

@@ -5,6 +5,7 @@ public abstract class ItemEffect
 {
     public float chance = 1f;
     [HideInInspector] public Item owningItem;
+    [HideInInspector] public double powerMult = 1;
 
     public virtual void InitializeItemEffect()
     {
@@ -14,6 +15,16 @@ public abstract class ItemEffect
     public virtual void DestroyItemEffect()
     {
         
+    }
+
+    public void IncreasePowerMult(double multAdd)
+    {
+        powerMult += multAdd;
+    }
+
+    public void MultiplyPowerMult(double multMult)
+    {
+        powerMult *= multMult;
     }
     
     public void TryTriggerItemEffect(TriggerContext tc)

@@ -43,7 +43,7 @@ public class ItemCollection : ScriptableObject
             if (demo && !info.InDemo) 
                 continue;
 
-            if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) 
+            if (info.item.requiredPet != null && !info.item.requiredPets.Contains(equippedPet)) 
                 continue;
 
             if (info.item.survivalModeOnly && !Singleton.Instance.survivalManager.survivalModeOn) 
@@ -73,7 +73,7 @@ public class ItemCollection : ScriptableObject
             if (demo && !info.InDemo) 
                 continue;
 
-            if (info.item.requiredPet != null && info.item.requiredPet != equippedPet) 
+            if (info.item.requiredPet != null && !info.item.requiredPets.Contains(equippedPet)) 
                 continue;
 
             matchingItems.Add(info.item);

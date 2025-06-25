@@ -59,7 +59,7 @@ public class Weapon_LeafBlower_ItemEffect : ItemEffect
     )
     {
         float elapsed       = 0f;
-        float interval      = 1f / fireRate;
+        float interval      = 1f / (fireRate*Singleton.Instance.playerStats.GetWeaponPowerMult());
         float timeSinceShot = 0f;
 
         while (elapsed < effectDuration)
@@ -155,7 +155,7 @@ public class Weapon_LeafBlower_ItemEffect : ItemEffect
     public override string GetDescription()
     {
         return $"Hold to fire " +
-            $"{projectilesPerShot} leaves/ball @ {fireRate:F1} shots/sec " +
+            $"{projectilesPerShot} leaves/ball @ {fireRate:F1} WP shots/sec " +
             $"for {effectDuration:F1}s";
     }
 }

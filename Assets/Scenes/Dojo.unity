@@ -235,11 +235,13 @@ MonoBehaviour:
   itemSlotPrefab: {fileID: 5549780481484750882, guid: 2f043b620a3a8df4a88bd675e5d5f168, type: 3}
   itemSlotTransforms:
   - {fileID: 1400982171}
+  - {fileID: 797906299}
   baseNumberItems: 2
   onlyBuyOne: 0
   onlyBuyOneIndicator: {fileID: 0}
   noDupes: 1
   lockSlots: 0
+  rerollCostMultiplier: 1
   itemCollection: {fileID: 11400000, guid: 64836e011e74e074089037a67f069ae5, type: 2}
   spawnedItems: []
   rarityWeights:
@@ -269,11 +271,12 @@ Transform:
   m_GameObject: {fileID: 525640131}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1400982171}
+  - {fileID: 797906299}
   m_Father: {fileID: 804611306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &569339946
@@ -481,6 +484,7 @@ MonoBehaviour:
   onlyBuyOneIndicator: {fileID: 0}
   noDupes: 1
   lockSlots: 0
+  rerollCostMultiplier: 1
   itemCollection: {fileID: 11400000, guid: baa07dbabb7d1e14c9495fbd4ed26ff2, type: 2}
   spawnedItems: []
   rarityWeights:
@@ -593,6 +597,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779737547}
   m_CullTransparentMesh: 1
+--- !u!1 &797906298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797906299}
+  m_Layer: 0
+  m_Name: ItemSlot (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &797906299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797906298}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 525640133}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &802828332
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +881,7 @@ Transform:
   m_GameObject: {fileID: 1400982170}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

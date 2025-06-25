@@ -325,7 +325,7 @@ public class ItemManager : MonoBehaviour
                     ItemSoldEvent?.Invoke(draggingItem);
 
                     // Destroy it immediately
-                    draggingItem.DestroyItem(false, true);
+                    draggingItem.DestroyItem(false, true, true);
                 }
             }
             else
@@ -447,17 +447,27 @@ public class ItemManager : MonoBehaviour
         
         else
         {
-            // ——— 1) If both items came from inventory AND names differ, swap them ———
+            bool allowHybridMerging = Singleton.Instance.playerStats.allowHybridMerging;
+            bool sameItemName = draggingItem.itemName == slot.currentItem.itemName;
+
+            bool isHybridMergeCandidate = allowHybridMerging &&
+                                          (
+                                              (draggingItem.upgradedItem != null && draggingItem.upgradedItem.itemName == slot.currentItem.itemName) ||
+                                              (slot.currentItem.upgradedItem != null && slot.currentItem.upgradedItem.itemName == draggingItem.itemName)
+                                          );
+
+            // ——— 1) If both items came from inventory AND cannot merge, try to swap ———
             if (draggingStartSlot != null &&
                 IsInventorySlot(slot) &&
                 IsInventorySlot(draggingStartSlot) &&
-                draggingItem.itemName != slot.currentItem.itemName)
+                !sameItemName &&
+                !isHybridMergeCandidate)
             {
                 SwapItemsBetweenSlots(draggingStartSlot, slot);
                 return;
             }
 
-            // ——— 2) Otherwise, if they’re the same item and upgradable, merge ———
+            // ——— 2) Try merging ———
             if (CheckForDuplicateMerge(draggingItem, slot.currentItem, slot))
             {
                 mergeVFX.transform.position = slot.transform.position;
@@ -466,7 +476,7 @@ public class ItemManager : MonoBehaviour
             }
             else
             {
-                // ——— 3) Fallback: can’t merge or swap, so revert ———
+                // ——— 3) Fallback ———
                 RevertDraggedItem();
             }
         }
@@ -477,68 +487,81 @@ public class ItemManager : MonoBehaviour
     //===================================
     private bool CheckForDuplicateMerge(Item dragged, Item inSlot, ItemSlot slot)
     {
-        if (dragged.itemName == inSlot.itemName && dragged.upgradedItem != null)
+        bool allowHybridMerging = Singleton.Instance.playerStats.allowHybridMerging;
+
+        bool isStandardMerge = dragged.itemName == inSlot.itemName && dragged.upgradedItem != null;
+
+        bool isHybridMerge =
+            allowHybridMerging &&
+            (
+                (dragged.upgradedItem != null && dragged.upgradedItem.itemName == inSlot.itemName && inSlot.upgradedItem != null) ||
+                (inSlot.upgradedItem != null && inSlot.upgradedItem.itemName == dragged.itemName && dragged.upgradedItem != null)
+            );
+
+        if (!isStandardMerge && !isHybridMerge)
         {
-            // 1) figure out holofoil & upgrade‐flag state up front
-            bool isHolofoil = inSlot.isHolofoil || dragged.isHolofoil;
-            bool keep       = dragged.keepTriggerOnUpgrade || inSlot.keepTriggerOnUpgrade;
-
-            // if we need to keep triggers, pick the one that had the flag
-            List<Trigger> triggersToCopy = null;
-            if (keep)
-            {
-                var src = dragged.keepTriggerOnUpgrade ? dragged : inSlot;
-                triggersToCopy = src.triggers;
-            }
-
-            ItemsMergedEvent?.Invoke(dragged, inSlot);
-            
-            // 2) destroy the old wrappers/items
-            Destroy(inSlot.itemWrapper.gameObject);
-            Destroy(dragged.itemWrapper.gameObject);
-
-            // 3) create the new upgraded item
-            Item upgraded = GenerateItemWithWrapper(dragged.upgradedItem);
-            if (isHolofoil) upgraded.SetHolofoil();
-            AddItemToSlot(upgraded, slot);
-            ItemAddedToSlotEvent?.Invoke(upgraded, slot);
-            ItemResultedFromMergeEvent?.Invoke(upgraded);
-            
-            // 4) if we’re carrying over triggers, deep‐clone & init them
-            if (keep && triggersToCopy != null)
-            {
-                foreach (Trigger t in upgraded.triggers)
-                {
-                    t.RemoveTrigger(upgraded);
-                }
-                upgraded.triggers = new List<Trigger>();
-                foreach (var trig in triggersToCopy)
-                {
-                    // deep‐clone the trigger instance
-                    var clone = Helpers.DeepClone(trig);
-                    clone.owningItem = upgraded;
-                    clone.InitializeTrigger(upgraded);
-                    upgraded.triggers.Add(clone);
-                }
-                // carry the flag forward
-                upgraded.keepTriggerOnUpgrade = true;
-            }
-
-            // 5) handle shop payment & purchased event
-            if (dragged.purchasable)
-            {
-                double cost = dragged.GetItemPrice();
-                Singleton.Instance.playerStats.AddCoins(-cost);
-                dragged.purchasable = false;
-                ItemPurchasedEvent?.Invoke(upgraded);
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
-    }
+        // Determine what the target upgrade is
+        Item targetUpgrade = isStandardMerge
+            ? dragged.upgradedItem
+            : (dragged.upgradedItem == inSlot ? inSlot.upgradedItem : dragged.upgradedItem.upgradedItem);
 
+        if (targetUpgrade == null)
+            return false;
+
+        // Inherit holofoil and trigger settings
+        bool isHolofoil = inSlot.isHolofoil || dragged.isHolofoil;
+        bool keep = dragged.keepTriggerOnUpgrade || inSlot.keepTriggerOnUpgrade;
+
+        List<Trigger> triggersToCopy = null;
+        if (keep)
+        {
+            var src = dragged.keepTriggerOnUpgrade ? dragged : inSlot;
+            triggersToCopy = src.triggers;
+        }
+
+        ItemsMergedEvent?.Invoke(dragged, inSlot);
+
+        Destroy(inSlot.itemWrapper.gameObject);
+        Destroy(dragged.itemWrapper.gameObject);
+
+        Item upgraded = GenerateItemWithWrapper(targetUpgrade);
+        if (isHolofoil) upgraded.SetHolofoil();
+        AddItemToSlot(upgraded, slot);
+        ItemAddedToSlotEvent?.Invoke(upgraded, slot);
+        ItemResultedFromMergeEvent?.Invoke(upgraded);
+
+        if (keep && triggersToCopy != null)
+        {
+            foreach (Trigger t in upgraded.triggers)
+            {
+                t.RemoveTrigger(upgraded);
+            }
+
+            upgraded.triggers = new List<Trigger>();
+            foreach (var trig in triggersToCopy)
+            {
+                var clone = Helpers.DeepClone(trig);
+                clone.owningItem = upgraded;
+                clone.InitializeTrigger(upgraded);
+                upgraded.triggers.Add(clone);
+            }
+
+            upgraded.keepTriggerOnUpgrade = true;
+        }
+
+        if (dragged.purchasable)
+        {
+            double cost = dragged.GetItemPrice();
+            Singleton.Instance.playerStats.AddCoins(-cost);
+            dragged.purchasable = false;
+            ItemPurchasedEvent?.Invoke(upgraded);
+        }
+
+        return true;
+    }
 
     private void RevertDraggedItem()
     {
@@ -596,6 +619,83 @@ public class ItemManager : MonoBehaviour
     private void HandleItemHoverAndMerging()
     {
         if (draggingItem == null) return;
+
+        Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
+        Collider2D col = Physics2D.OverlapPoint(mousePos);
+        if (col)
+        {
+            Item hoveredItem = col.GetComponentInChildren<Item>();
+            if (hoveredItem != null)
+            {
+                if (hoveredItem == draggingItem)
+                {
+                    Singleton.Instance.toolTip.HideTooltip();
+                    return;
+                }
+
+                bool allowHybridMerging = Singleton.Instance.playerStats.allowHybridMerging;
+
+                // 1. Standard merge (same item name)
+                if (hoveredItem.itemName == draggingItem.itemName &&
+                    draggingItem.upgradedItem != null)
+                {
+                    HoverableModifier hm = new HoverableModifier();
+                    hm.isHolofoil = draggingItem.isHolofoil || hoveredItem.isHolofoil;
+                    if (draggingItem.keepTriggerOnUpgrade)
+                    {
+                        hm.takeTriggersFromItem = draggingItem;
+                    }
+                    Singleton.Instance.toolTip.ShowOverrideTooltip(draggingItem.upgradedItem, hm);
+                    return;
+                }
+
+                // 2. Hybrid merge (L1 + L2 → L3)
+                if (allowHybridMerging)
+                {
+                    Item baseItem = null;
+
+                    // Case A: draggingItem is Level 1, hoveredItem is Level 2
+                    if (draggingItem.upgradedItem != null &&
+                        draggingItem.upgradedItem.itemName == hoveredItem.itemName &&
+                        hoveredItem.upgradedItem != null)
+                    {
+                        baseItem = hoveredItem;
+                    }
+
+                    // Case B: hoveredItem is Level 1, draggingItem is Level 2
+                    else if (hoveredItem.upgradedItem != null &&
+                             hoveredItem.upgradedItem.itemName == draggingItem.itemName &&
+                             draggingItem.upgradedItem != null)
+                    {
+                        baseItem = draggingItem;
+                    }
+
+                    if (baseItem != null)
+                    {
+                        Item targetUpgrade = baseItem.upgradedItem;
+                        HoverableModifier hm = new HoverableModifier();
+                        hm.isHolofoil = draggingItem.isHolofoil || hoveredItem.isHolofoil;
+
+                        if (draggingItem.keepTriggerOnUpgrade || hoveredItem.keepTriggerOnUpgrade)
+                        {
+                            hm.takeTriggersFromItem = draggingItem.keepTriggerOnUpgrade ? draggingItem : hoveredItem;
+                        }
+
+                        Singleton.Instance.toolTip.ShowOverrideTooltip(targetUpgrade, hm);
+                        return;
+                    }
+                }
+            }
+        }
+
+        Singleton.Instance.toolTip.HideTooltip();
+    }
+
+
+    
+    /*private void HandleItemHoverAndMerging()
+    {
+        if (draggingItem == null) return;
         if (draggingItem.upgradedItem == null) return;
 
         Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
@@ -626,7 +726,7 @@ public class ItemManager : MonoBehaviour
             }
         }
         Singleton.Instance.toolTip.HideTooltip();
-    }
+    }*/
 
     //===================================
     // SELLING: HANDLED ABOVE
@@ -937,7 +1037,7 @@ public class ItemManager : MonoBehaviour
     /// Completely removes an Item from the game: unhooks it from any slot or perk,
     /// destroys its wrapper (and thus the Item component), and clears references.
     /// </summary>
-    public void DestroyItem(Item item, bool sendToGraveyard = false)
+    public void DestroyItem(Item item, bool sendToGraveyard = false, bool isBeingSold = false)
     {
         if (item == null)
             return;
@@ -967,7 +1067,7 @@ public class ItemManager : MonoBehaviour
         // 3) Destroy the visual wrapper (this also destroys the Item component)
         if (item.itemWrapper != null)
         {
-            item.DestroyItem(false,sendToGraveyard);
+            item.DestroyItem(false,sendToGraveyard,isBeingSold);
         }
     }
     

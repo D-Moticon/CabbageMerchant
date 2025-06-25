@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: dccfaeb7259e9ec42be3435a757cc45d, type: 3}
   itemType: 0
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 1
   effects:
   - rid: 328110326145876135
@@ -59,6 +61,11 @@ MonoBehaviour:
   - rid: 328110326145876138
   triggerChance: 1
   hasCooldown: 0
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 1
   cooldownCounter: 0
   rarity: 2
@@ -77,9 +84,14 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 2326779694842750914, guid: 380a4d7c8122cbe4b8905567b724ad96, type: 3}
+  requiredPet: {fileID: 0}
+  requiredPets: []
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -88,22 +100,25 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         direction: 1
     - rid: 328110326145876136
       type: {class: ForceTriggerAdjacentSlotEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         direction: 2
     - rid: 328110326145876137
       type: {class: ForceTriggerAdjacentSlotEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         direction: 1
     - rid: 328110326145876138
       type: {class: TimeElapsedTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
         itemHasTriggeredThisFrame: 0
-        duration: 1
+        duration: 0.5

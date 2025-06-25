@@ -6,6 +6,9 @@ public class BallBounceTrigger : Trigger
 {
     public int numberBounces = 1;
     private int bounceCount = 0;
+    public bool resetOnBallFire = true;
+    public bool showCountdown = false;
+    
 
     public enum BounceType
     {
@@ -91,6 +94,12 @@ public class BallBounceTrigger : Trigger
         }
         
         bounceCount++;
+
+        if (showCountdown)
+        {
+            owningItem.SetExtraText($"{numberBounces-bounceCount:F0}");
+        }
+        
         if (bounceCount >= numberBounces)
         {
             TriggerContext tc = new TriggerContext();
@@ -105,7 +114,11 @@ public class BallBounceTrigger : Trigger
 
     void BallFiredListener(Ball b)
     {
-        bounceCount = 0;
+        if (resetOnBallFire)
+        {
+            bounceCount = 0;
+        }
+        
     }
 
     public override void RandomizeTrigger()

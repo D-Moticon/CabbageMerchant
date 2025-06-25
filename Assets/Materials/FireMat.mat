@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ENABLEBRIGHTNESS_ON
+  - _ENABLEHUE_ON
   - _ENABLEWIGGLE_ON
   - _SHADERFADING_NONE
   - _SHADERSPACE_UV
@@ -201,7 +202,7 @@ Material:
     - _EnableGlitch: 0
     - _EnableHalftone: 0
     - _EnableHologram: 0
-    - _EnableHue: 0
+    - _EnableHue: 1
     - _EnableInkSpread: 0
     - _EnableInnerOutline: 0
     - _EnableMetal: 0

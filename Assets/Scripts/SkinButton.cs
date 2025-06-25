@@ -80,7 +80,7 @@ public class SkinButton : MonoBehaviour, IHoverable
             else
             {
                 string costStr = skin.cost.ToString();
-                costText.text = ps.metaCurrency >= skin.cost
+                costText.text = ps.metaCurrency >= skin.cost && requirementsMet
                     ? $"<sprite=0>{costStr}"
                     : $"<sprite=0><color=red>{costStr}</color>";
             }

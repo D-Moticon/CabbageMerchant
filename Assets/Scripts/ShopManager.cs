@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
     public GameObject onlyBuyOneIndicator;
     public bool noDupes = true;
     public bool lockSlots = false;
+    public float rerollCostMultiplier = 1f;
 
     public ItemCollection itemCollection;
     [HideInInspector] public List<Item> spawnedItems = new List<Item>();
@@ -51,11 +52,13 @@ public class ShopManager : MonoBehaviour
     private void OnEnable()
     {
         ItemManager.ItemPurchasedEvent += ItemPurchasedListener;
+        PlayerStats.ReRollsIncreasedEvent += ReRollsIncreasedListener;
     }
 
     private void OnDisable()
     {
         ItemManager.ItemPurchasedEvent -= ItemPurchasedListener;
+        PlayerStats.ReRollsIncreasedEvent -= ReRollsIncreasedListener;
     }
 
     private void Awake()
@@ -150,7 +153,9 @@ public class ShopManager : MonoBehaviour
 
     public void ReRoll()
     {
-        if (rerollsRemaining <= 0 || Singleton.Instance.playerStats.coins < Singleton.Instance.playerStats.reRollCost)
+        double cost = Singleton.Instance.playerStats.reRollCost * rerollCostMultiplier;
+        
+        if (rerollsRemaining <= 0 || Singleton.Instance.playerStats.coins < cost)
             return;
 
         rerollsRemaining--;
@@ -173,7 +178,7 @@ public class ShopManager : MonoBehaviour
             foreach (var it in spawnedItems) it.SetHolofoil();
         }
 
-        Singleton.Instance.playerStats.AddCoins(-Singleton.Instance.playerStats.reRollCost);
+        Singleton.Instance.playerStats.AddCoins(-cost);
         ShopRerolledEvent?.Invoke(rerollsRemaining);
     }
 
@@ -208,6 +213,11 @@ public class ShopManager : MonoBehaviour
 
         foreach (var it in spawnedItems)
         {
+            if (it == null)
+            {
+                continue;
+            }
+            
             if (it != purchased)
             {
                 it.currentItemSlot.HidePriceText();
@@ -226,5 +236,10 @@ public class ShopManager : MonoBehaviour
     {
         onlyBuyOne = false;
         onlyBuyOneIndicator?.SetActive(false);
+    }
+    
+    private void ReRollsIncreasedListener(int value)
+    {
+        rerollsRemaining += value;
     }
 }

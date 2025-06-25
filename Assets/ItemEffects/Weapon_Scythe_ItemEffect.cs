@@ -60,10 +60,10 @@ public class Weapon_Scythe_ItemEffect : ItemEffect
             if (rb != null)
             {
                 Vector2 tangent = new Vector2(direction.y, -direction.x).normalized;
-                rb.AddForce(tangent * boostSpeed, ForceMode2D.Impulse);
+                rb.AddForce(tangent * boostSpeed * Singleton.Instance.playerStats.GetWeaponPowerMult(), ForceMode2D.Impulse);
             }
 
-            ball.gameObject.layer = LayerMask.NameToLayer("BallWallsOnly");
+            ball.gameObject.layer = LayerMask.NameToLayer("BallNoWalls");
             
             // 5) Start a coroutine that updates the rotation and the line renderer while the effect is active,
             // then cleans up after the duration.
@@ -83,7 +83,10 @@ public class Weapon_Scythe_ItemEffect : ItemEffect
                                                Vector2 anchorPos)
     {
         float timer = 0f;
-        while (timer < effectDuration && !Singleton.Instance.playerInputManager.weaponFireUp)
+
+        float finalEffectDuration = effectDuration * Singleton.Instance.playerStats.GetWeaponPowerMult();
+        
+        while (timer < finalEffectDuration && !Singleton.Instance.playerInputManager.weaponFireUp)
         {
             while (Singleton.Instance.pauseManager.isPaused)
             {
@@ -138,9 +141,9 @@ public class Weapon_Scythe_ItemEffect : ItemEffect
     {
         string desc = $"Attach a chain scythe between each ball and the mouse position. {extraDescriptionInfo}";
         desc += "\n";
-        desc += $"Boost Speed: {boostSpeed}";
+        desc += $"Boost Speed: {boostSpeed} * WP";
         desc += "\n";
-        desc += $"Duration: {duration}s or until fire released.";
+        desc += $"Duration: {duration}s * WP or until fire released.";
         return desc;
     }
 }
