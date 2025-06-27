@@ -15,7 +15,7 @@ MonoBehaviour:
   metacurrencyLayerPeriod: 4
   mapLayers:
   - possiblePointInfos:
-    - mapPoint: {fileID: 11400000, guid: b09a5e85d58e53d4683c11eb1cd5eebd, type: 2}
+    - mapPoint: {fileID: 11400000, guid: 42efbc037376ffb4cb06f9afeb383772, type: 2}
       weight: 1
       requirements: []
     forceAll: 1

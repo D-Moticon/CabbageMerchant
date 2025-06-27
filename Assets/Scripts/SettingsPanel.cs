@@ -45,7 +45,23 @@ public class SettingsPanel : MenuPanel
         sfxBus   = RuntimeManager.GetBus(sfxBusPath);
 
         // build resolution list
-        availableResolutions = new List<Resolution>(Screen.resolutions);
+        availableResolutions = new List<Resolution>(); 
+        foreach (var res in Screen.resolutions)
+        {
+            float aspect = (float)res.width / res.height;
+            if (Mathf.Abs(aspect - (16f / 9f)) < 0.01f) // Allow tiny tolerance
+            {
+                availableResolutions.Add(res);
+            }
+        }
+
+        // Fallback in case none found
+        if (availableResolutions.Count == 0)
+        {
+            availableResolutions.AddRange(Screen.resolutions);
+        }
+        
+        
         var options = new List<string>(availableResolutions.Count);
         foreach (var res in availableResolutions)
             options.Add($"{res.width} x {res.height}");

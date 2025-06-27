@@ -192,6 +192,12 @@ MonoBehaviour:
     forceAll: 0
     newBiome: {fileID: 0}
   - possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
+      weight: 1
+      requirements: []
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePointInfos:
     - mapPoint: {fileID: 11400000, guid: bae2518ac058c904388bf3d95f7535f6, type: 2}
       weight: 1
       requirements: []
@@ -214,6 +220,24 @@ MonoBehaviour:
       weight: 1
       requirements: []
     - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
+      weight: 1
+      requirements: []
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: ed0ae8e87cd896249954751ab1fe9bf0, type: 2}
+      weight: 1
+      requirements: []
+    forceAll: 0
+    newBiome: {fileID: 0}
+  - possiblePointInfos:
+    - mapPoint: {fileID: 11400000, guid: 8694fea14a6f7814fb9c8225dc9f7bbe, type: 2}
+      weight: 1
+      requirements: []
+    - mapPoint: {fileID: 11400000, guid: 9f91249c310916049a8897adb2286c93, type: 2}
+      weight: 1
+      requirements: []
+    - mapPoint: {fileID: 11400000, guid: 314d8587f3ebf134584f101c99ad2e77, type: 2}
       weight: 1
       requirements: []
     forceAll: 0

@@ -10,13 +10,14 @@ public class GridBonkableSpawner : BonkableSlotSpawner
 
     private void Start()
     {
-        SpawnBonkableSlots();
+        //SpawnBonkableSlots();
     }
 
     public override void SpawnBonkableSlots()
     {
         // Clear existing slots
         foreach (var slot in bonkableSlots)
+        {
             if (slot != null)
             {
                 foreach (Transform childT in slot.transform)
@@ -32,9 +33,11 @@ public class GridBonkableSpawner : BonkableSlotSpawner
                         childT.gameObject.transform.SetParent(transform.parent);
                     }
                 }
-                
+
                 Destroy(slot.gameObject);
             }
+        }
+
         bonkableSlots.Clear();
 
         float totalW = (columns - 1) * spacing.x;

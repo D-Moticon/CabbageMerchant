@@ -100,13 +100,15 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
-        valueAdd: 1
+        powerMult: 1
+        valueAdd: 5
     - rid: 6680768431229763680
       type: {class: CatYarnBallValueEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
-        valueAdd: 2
+        powerMult: 1
+        valueAdd: 10
     - rid: 6680768431229763681
       type: {class: ItemAddedTrigger, ns: , asm: Assembly-CSharp}
       data:

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c9ae5648f09964cbf72d0cef60df35, type: 3}
+  m_Name: Gloomy_Boss
+  m_EditorClassIdentifier: 
+  sceneName: CabbageShoot
+  displayName: Morbid Mansion
+  description: A creepy mansion holding dark secrets
+  mapIcon: {fileID: 21300000, guid: ca8f830504036db4997a3be9f24e8bb2, type: 3}
+  biome: {fileID: 11400000, guid: d1652969be53ade4f8eec3249c6e288f, type: 2}
+  mapPointExtras: []
+  specialGameRules: []
+  specificDialogue: {fileID: 0}
+  boss: {fileID: 11400000, guid: a3d96df661704054296ec2c36e4941f4, type: 2}
+  references:
+    version: 2
+    RefIds: []

@@ -48,6 +48,8 @@ MonoBehaviour:
   itemDescription: 
   icon: {fileID: 21300000, guid: a0f9980224bea52468e97d9622239d26, type: 3}
   itemType: 2
+  customMaterial: {fileID: 0}
+  materialPropertyOverrides: []
   canBeForceTriggered: 0
   effects:
   - rid: 328110207799132274
@@ -58,6 +60,11 @@ MonoBehaviour:
   - rid: 328110207799132276
   triggerChance: 1
   hasCooldown: 1
+  limitPerShot: 0
+  isTemporary: 0
+  allowTriggerRandomization: 1
+  numberShotsBeforeDestroy: 1
+  triggeredThisBoard: 0
   cooldownDuration: 10
   cooldownCounter: 0
   rarity: 0
@@ -76,9 +83,14 @@ MonoBehaviour:
       Path: 
     vol: 0.5
   upgradedItem: {fileID: 8066147288160129959, guid: ee6af4cf635171d40add6b17f255fb3f, type: 3}
+  requiredPet: {fileID: 0}
+  requiredPets: []
+  survivalModeOnly: 0
   isHolofoil: 0
   firstUseHint: 
   keepTriggerOnUpgrade: 0
+  isMysterious: 0
+  isFrozen: 0
   references:
     version: 2
     RefIds:
@@ -87,11 +99,12 @@ MonoBehaviour:
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         projectilePrefab: {fileID: 11400000, guid: 3ec711a577dadd44ab136bbb6509509c, type: 2}
         projectileSpeed: 20
         projectilesPerShot: 2
         spreadAngle: 10
-        fireRate: 15
+        fireRate: 18
         effectDuration: 1.5
         blowerSpritePrefab: {fileID: 11400000, guid: fccfa8d47bbe79e4aadb5fca415e3c1b, type: 2}
         leafBlowerSFX:
@@ -116,11 +129,13 @@ MonoBehaviour:
       type: {class: WeaponFireTrigger, ns: , asm: Assembly-CSharp}
       data:
         owningItem: {fileID: 0}
+        itemHasTriggeredThisFrame: 0
     - rid: 328110207799132295
       type: {class: Weapon_LeafBlower_ItemEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
+        powerMult: 1
         projectilePrefab: {fileID: 11400000, guid: 3ec711a577dadd44ab136bbb6509509c, type: 2}
         projectileSpeed: 20
         projectilesPerShot: 2

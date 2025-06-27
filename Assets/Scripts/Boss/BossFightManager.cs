@@ -9,7 +9,7 @@ public class BossFightManager : MonoBehaviour
 {
     [HideInInspector]public Boss boss;
     [HideInInspector]public GameStateMachine gsm;
-    private int _currentPhaseIndex = 0;
+    [HideInInspector]public int _currentPhaseIndex = 0;
     private double _currentPhaseStartHealth;
     [HideInInspector]public bool isBossFight = false;
 
@@ -30,6 +30,8 @@ public class BossFightManager : MonoBehaviour
 
     public Animator bossStrikeAnimator;
 
+    private Coroutine currentPhaseCoroutine;
+    
     public void SetBossFight(Boss b)
     {
         if (b == null)
@@ -58,9 +60,30 @@ public class BossFightManager : MonoBehaviour
             Singleton.Instance.musicManager.ChangeMusic(boss.bossMusic, true, forceRestart);
         }
         
-        StartCoroutine(RunPhase());
+        if (boss.preFightTasks != null && boss.preFightTasks.Count > 0)
+        {
+            StartCoroutine(RunPreFightDialogueThenStart());
+        }
+        else
+        {
+            currentPhaseCoroutine = StartCoroutine(RunPhase());
+        }
     }
 
+    private IEnumerator RunPreFightDialogueThenStart()
+    {
+        yield return Singleton.Instance.dialogueManager
+            .DialogueTaskRoutine(boss.preFightTasks);
+
+        // stop any existing just in case
+        if (currentPhaseCoroutine != null) 
+            StopCoroutine(currentPhaseCoroutine);
+
+        // now start and capture the real phase
+        currentPhaseCoroutine = StartCoroutine(RunPhase());
+        yield break;
+    }
+    
     private IEnumerator RunPhase()
     {
         var phase = boss.phases[_currentPhaseIndex];
@@ -139,14 +162,17 @@ public class BossFightManager : MonoBehaviour
             GameStateMachine.RoundFailedEvent    -= OnRoundFailed;
         }
         
+        //IF LOOPING, THE FOLLOWING CODE WILL NOT EXECUTE
+        
         //If gsm.ChangeState is here, then the BossBeatenExit event gets called before we can subscribe to it
         bool stateFinished = false;
         void OnScoringExited() => stateFinished = true;
         BossPhaseBeatStateExitedEvent += OnScoringExited;
+        
         gsm.ChangeState(new BossPhaseBeatenState());
-        
+    
         bossFullBeatSFX?.Play();
-        
+    
         if (_currentPhaseIndex >= boss.phases.Count - 1)
         {
             if (!boss.bossAfterMusic.IsNull)
@@ -154,27 +180,25 @@ public class BossFightManager : MonoBehaviour
                 Singleton.Instance.musicManager.ChangeMusic(boss.bossAfterMusic);
             }
         }
-        
 
         yield return StartCoroutine(
             Singleton.Instance.dialogueManager
                 .DialogueTaskRoutine(phase.postPhaseBeatEarlyTasks)
         );
-        
+    
         while (!stateFinished) yield return null;
         BossPhaseBeatStateExitedEvent -= OnScoringExited;
-        
+    
         yield return StartCoroutine(
             Singleton.Instance.dialogueManager
-                     .DialogueTaskRoutine(phase.postPhaseBeatTasks)
+                .DialogueTaskRoutine(phase.postPhaseBeatTasks)
         );
-        
+    
         yield return StartCoroutine(
             Singleton.Instance.dialogueManager
-                     .DialogueTaskRoutine(phase.postBounceStateExitedTasks)
+                .DialogueTaskRoutine(phase.postBounceStateExitedTasks)
         );
-        // ──────────────────────────────────────────────────────────────────────┘
-
+        
         // ─── 10) Advance to next phase or finish boss ─────────────────────────
         _currentPhaseIndex++;
 
@@ -186,6 +210,19 @@ public class BossFightManager : MonoBehaviour
         {
             yield return StartCoroutine(OnBossDefeated());
         }
+    }
+    
+    public void AdvanceToNextBossPhase()
+    {
+        // tear down the old one
+        if (currentPhaseCoroutine != null)
+        {
+            StopCoroutine(currentPhaseCoroutine);
+            currentPhaseCoroutine = null;
+        }
+
+        _currentPhaseIndex++;
+        currentPhaseCoroutine = StartCoroutine(RunPhase());
     }
 
     public class BossPhaseBeatenState : GameStateMachine.State
@@ -299,5 +336,31 @@ public class BossFightManager : MonoBehaviour
         
         print("Ending Boss");
         Singleton.Instance.runManager.GoToMap();
+    }
+    
+    public IEnumerator FinishPhaseRoutine(bool loopPhase)
+    {
+        if (currentPhaseCoroutine != null)
+        {
+            StopCoroutine(currentPhaseCoroutine);
+            currentPhaseCoroutine = null;
+        }
+        
+        GameSingleton.Instance.gameStateMachine.ClearBoard();
+        GameSingleton.Instance.gameStateMachine.ChangeState(new GameStateMachine.StandbyState());
+        yield return null;
+        
+        if (loopPhase)
+        {
+            // FULL clear here, since RunPhase's branch won't run
+            currentPhaseCoroutine = StartCoroutine(RunPhase());
+        }
+        else
+        {
+            _currentPhaseIndex++;
+            currentPhaseCoroutine = StartCoroutine(RunPhase());
+        }
+
+        yield break;
     }
 }

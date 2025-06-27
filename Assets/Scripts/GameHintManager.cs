@@ -99,6 +99,9 @@ public class GameHintManager : MonoBehaviour
         {
             return;
         }
+        
+        if(Singleton.Instance.bossFightManager.isBossFight) return;
+        
         if (weaponRoundCounter >= noWeaponUsedRoundsBeforeHint)
         {
             // If player never used a weapon at all

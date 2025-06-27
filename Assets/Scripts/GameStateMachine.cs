@@ -98,6 +98,9 @@ public class GameStateMachine : MonoBehaviour
     
     private bool noRoundGoal = false;
     private ChaosCabbageSO chaosCabbageToAward;
+    public bool allowFiring = true;
+    
+    private List<GameObject> _customSpawnerRoots = new List<GameObject>();
     
     private void OnEnable()
     {
@@ -107,6 +110,8 @@ public class GameStateMachine : MonoBehaviour
         
         GSM_Enabled_Event?.Invoke(this);
 
+        stopTryButton.SetActive(false);
+        
         if (Singleton.Instance.buildManager.buildMode == BuildManager.BuildMode.release)
         {
             Debug.Log($"Entering Game State Machine.  Item List:");
@@ -166,6 +171,7 @@ public class GameStateMachine : MonoBehaviour
 
     public void ChangeState(State newState)
     {
+        
         if (currentState != null)
         {
             currentState.ExitState();
@@ -316,9 +322,9 @@ public class GameStateMachine : MonoBehaviour
         roundEndMessageOverride = failMessage;
     }
 
-    public Cabbage SpawnCabbageInSlot(BonkableSlot bs)
+    public Cabbage SpawnCabbageInSlot(BonkableSlot bs, PooledObjectData overridePrefab = null)
     {
-        PooledObjectData cabbagePrefab = GameSingleton.Instance.currentBiomeParent.cabbagePooledObject;
+        PooledObjectData cabbagePrefab = overridePrefab ?? GameSingleton.Instance.currentBiomeParent.cabbagePooledObject;
         
         BonkableSlotSpawner bss = bs.GetComponentInParent<BonkableSlotSpawner>();
         if (bss != null)
@@ -328,19 +334,26 @@ public class GameStateMachine : MonoBehaviour
                 cabbagePrefab = bss.cabbageOverride;
             }
         }
-        
-        Cabbage c = cabbagePrefab.Spawn(bs.transform.position, Quaternion.identity).GetComponent<Cabbage>();
-        c.transform.parent = bs.transform;
-        bs.bonkable = c;
-        c.bonkFeel.PlayFeedbacks();
 
-        float goldRand = Random.Range(0f, 1f);
-        if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
+        GameObject go = cabbagePrefab.Spawn(bs.transform.position, Quaternion.identity);
+        go.transform.parent = bs.transform;
+        
+        Cabbage c = go.GetComponent<Cabbage>();
+        
+        if (c != null)
         {
-            c.SetVariant(CabbageVariantType.golden);
+            bs.bonkable = c;
+            c.bonkFeel.PlayFeedbacks();
+            
+            float goldRand = Random.Range(0f, 1f);
+            if (goldRand < Singleton.Instance.playerStats.goldenCabbageChance)
+            {
+                c.SetVariant(CabbageVariantType.golden);
+            }
+            
+            activeCabbages.Add(c);
         }
-                
-        activeCabbages.Add(c);
+
         return c;
     }
 
@@ -556,7 +569,6 @@ public class GameStateMachine : MonoBehaviour
         IEnumerator PopulateBoard()
         {
             PreBoardPopulateAction?.Invoke();
-            
             gameStateMachine.ResetRoundScore();
             gameStateMachine.SetRoundGoal();
 
@@ -575,7 +587,39 @@ public class GameStateMachine : MonoBehaviour
             gameStateMachine.bonkableSlots.Clear();
             gameStateMachine.activeCabbages.Clear();
 
-            BonkableSlotSpawner[] bonkableSlotSpawners = boardVariant.GetComponentsInChildren<BonkableSlotSpawner>();
+            //BonkableSlotSpawner[] bonkableSlotSpawners = boardVariant.GetComponentsInChildren<BonkableSlotSpawner>();
+            //CHANGED
+            BoardPopulateInfo customPopulate = Singleton.Instance.bossFightManager
+                ?.boss?.phases?[Singleton.Instance.bossFightManager._currentPhaseIndex]?.boardPopulateInfo;
+            
+            if (customPopulate != null 
+                && customPopulate.overrideStartingCabbages >= 0)
+            {
+                numPegs = customPopulate.overrideStartingCabbages;
+            }
+            
+            BonkableSlotSpawner[] bonkableSlotSpawners;
+
+            if (customPopulate != null && customPopulate.spawnerRootPrefabs.Count > 0)
+            {
+                GameObject selected = customPopulate.spawnerRootPrefabs[
+                    Random.Range(0, customPopulate.spawnerRootPrefabs.Count)
+                ];
+
+                GameObject customRoot = Instantiate(selected);
+                customRoot.transform.SetParent(boardVariant.transform);
+                customRoot.transform.localPosition = Vector3.zero;
+                gameStateMachine._customSpawnerRoots.Add(customRoot);
+
+                bonkableSlotSpawners = customRoot.GetComponentsInChildren<BonkableSlotSpawner>(true);
+            }
+            else
+            {
+                bonkableSlotSpawners = boardVariant.GetComponentsInChildren<BonkableSlotSpawner>(true);
+            }
+            
+            //END CHANGED
+
             
             if (GameSingleton.Instance.currentBiomeParent.spawnCabbagesInAllSlots)
             {
@@ -662,6 +706,9 @@ public class GameStateMachine : MonoBehaviour
     {
         ClearBoardOfGlobalObjects();
         HardClearAllCabbages();
+        foreach(var root in _customSpawnerRoots)
+            if (root != null) Destroy(root);
+        _customSpawnerRoots.Clear();
     }
 
     public void HardClearAllCabbages()
@@ -701,14 +748,14 @@ public class GameStateMachine : MonoBehaviour
             {
                 return;
             }
-            if (playerInputManager.fireDown)
+            if (playerInputManager.fireDown && gameStateMachine.allowFiring)
             {
                 Vector2 mousePos = Singleton.Instance.playerInputManager.mousePosWorldSpace;
                 Collider2D hit = Physics2D.OverlapPoint(mousePos);
-                if (hit != null && hit.GetComponentInParent<ItemSlot>() != null)
+                if (hit != null)
                 {
-                    // we’re over an item slot → do not fire
-                    return;
+                    if (hit.GetComponentInParent<ItemSlot>() != null) return;
+                    if (hit.GetComponent<UnityEngine.UI.Button>() != null) return;
                 }
                 
                 Ball b = gameStateMachine.launcher.LaunchBall();
@@ -729,6 +776,24 @@ public class GameStateMachine : MonoBehaviour
         }
     }
 
+    public class StandbyState : State
+    {
+        public override void EnterState()
+        {
+            
+        }
+
+        public override void UpdateState()
+        {
+            
+        }
+
+        public override void ExitState()
+        {
+            
+        }
+    }
+    
     public class BouncingState : State
     {
         private Coroutine stopTryCoroutine;

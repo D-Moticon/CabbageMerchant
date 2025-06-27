@@ -1,0 +1,239 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b7907e807c1bd4eae98a1072c963b3, type: 3}
+  m_Name: GloomyBoss
+  m_EditorClassIdentifier: 
+  bossName: Beet Banshee
+  bossSprite: {fileID: 0}
+  bossMusic:
+    Guid:
+      Data1: -931605810
+      Data2: 1230102282
+      Data3: -1827213154
+      Data4: -1961102936
+    Path: event:/Music/HauntedMansion
+  bossAfterMusic:
+    Guid:
+      Data1: 1815889344
+      Data2: 1160058521
+      Data3: -169872732
+      Data4: -589422593
+    Path: event:/Music/AfterBoss
+  preFightTasks:
+  - rid: 6680768507596505232
+  - rid: 6680768507596505299
+  - rid: 6680768507596505301
+  - rid: 6680768507596505300
+  - rid: 6680768507596505302
+  - rid: 6680768491471765790
+  phases:
+  - musicPhase: 0
+    difficultyInfos:
+    - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
+      totalHealth: 666
+    - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
+      totalHealth: 666
+    - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
+      totalHealth: 666
+    boardPopulateInfo:
+      spawnerRootPrefabs:
+      - {fileID: 1462896389204389658, guid: b4fbc574899c2cf48bb5e21780caa869, type: 3}
+      overrideStartingCabbages: 22
+    preBoardPopulateTasks:
+    - rid: 6680768507596505177
+    postBoardPopulateTasks: []
+    postBounceStateExitedTasks: []
+    postPhaseBeatEarlyTasks: []
+    postPhaseBeatTasks: []
+    repeatUntilManuallyBroken: 1
+  - musicPhase: 0
+    difficultyInfos:
+    - difficulty: {fileID: 11400000, guid: a23a674dd8e8a5b429be708d71bfecf7, type: 2}
+      totalHealth: 400
+    - difficulty: {fileID: 11400000, guid: be801e7e661ed0b48b4528914575d71e, type: 2}
+      totalHealth: 3000
+    - difficulty: {fileID: 11400000, guid: a18a14f4a2ed2164faa3690ff6e312b2, type: 2}
+      totalHealth: 10000
+    boardPopulateInfo:
+      spawnerRootPrefabs: []
+      overrideStartingCabbages: -1
+    preBoardPopulateTasks:
+    - rid: 6680768507596505303
+    - rid: 6680768507596505304
+    - rid: 6680768507596505306
+    postBoardPopulateTasks:
+    - rid: 6680768507596505307
+    - rid: 6680768507596505298
+    postBounceStateExitedTasks: []
+    postPhaseBeatEarlyTasks:
+    - rid: 6680768507596505321
+    postPhaseBeatTasks:
+    - rid: 6680768507596505284
+    - rid: 6680768507596505322
+    - rid: 6680768507596505323
+    repeatUntilManuallyBroken: 0
+  postBeatTasks: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6680768491471765790
+      type: {class: GenerateBoardGameDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        availableSquares:
+        - squareSO: {fileID: 11400000, guid: e9e057a7e8ab92e45ac207a1831dbe5b, type: 2}
+          weight: 1.5
+        - squareSO: {fileID: 11400000, guid: be6ab4d4f35969444bdadf94bd5c893f, type: 2}
+          weight: 0.7
+        - squareSO: {fileID: 11400000, guid: 9566269d8ba2eca4e99749a46bcd9112, type: 2}
+          weight: 1
+        - squareSO: {fileID: 11400000, guid: fb87375a37d999841bcba1c5a6d7dd41, type: 2}
+          weight: 0.9
+        - squareSO: {fileID: 11400000, guid: 958ea7a043372c240816a947450f9452, type: 2}
+          weight: 1
+        - squareSO: {fileID: 11400000, guid: 130916e498dd56e49b106740397019ee, type: 2}
+          weight: 1
+        boardLength: 15
+    - rid: 6680768507596505177
+      type: {class: DialogueTask_PopulateBoardGameBuckets, ns: , asm: Assembly-CSharp}
+      data:
+        moveAmounts: 010000000300000005000000060000000400000002000000
+    - rid: 6680768507596505232
+      type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToUnfreeze: 8
+    - rid: 6680768507596505284
+      type: {class: UnfreezeItemSlotsTask, ns: , asm: Assembly-CSharp}
+      data:
+        numberSlotsToUnfreeze: 8
+    - rid: 6680768507596505298
+      type: {class: AddBallsDialogueTask, ns: , asm: Assembly-CSharp}
+      data:
+        ballsToAdd: 2
+    - rid: 6680768507596505299
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: A murder most mysterious...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505300
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: d9b616d217339e045bf4c18b764798df, type: 2}
+        dialogueLine: Be my guest... At the <wave a=.5>Morbid Mansion!!</wave>
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505301
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: A game quite curious...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505302
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: d9b616d217339e045bf4c18b764798df, type: 2}
+        dialogueLine: Dodge curses and ghouls, on this path so paved... To find the
+          murderer most depraved!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505303
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 0}
+        dialogueLine: After careful consideration of all the facts...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505304
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: d9b616d217339e045bf4c18b764798df, type: 2}
+        dialogueLine: The BUTLER did it!!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505306
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: d9b616d217339e045bf4c18b764798df, type: 2}
+        dialogueLine: With the AXE!!! <wave a=.5>MWAHAHAHAHA!!</wave>
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505307
+      type: {class: InstantiateObjectTask, ns: , asm: Assembly-CSharp}
+      data:
+        prefab: {fileID: 8584900133358101600, guid: f600e0eadc06ac84a973af055cad5077, type: 3}
+        position: {x: 0, y: 4}
+        rotationAngle: 0
+        scale: {x: 1, y: 1}
+    - rid: 6680768507596505321
+      type: {class: BossStrikeTask, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 6680768507596505322
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: d9b616d217339e045bf4c18b764798df, type: 2}
+        dialogueLine: I would've gotten away with it...
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0
+    - rid: 6680768507596505323
+      type: {class: DialogueLine, ns: , asm: Assembly-CSharp}
+      data:
+        dialogueCharacter: {fileID: 11400000, guid: d9b616d217339e045bf4c18b764798df, type: 2}
+        dialogueLine: If it weren't for that meddling Cabbage twit!
+        hideCharacterName: 0
+        waitForSkipInput: 1
+        extraWaitTime: 0
+        centerText: 0
+        playSFX: 1
+        overrideSprite: {fileID: 0}
+        forceTopLayer: 0

@@ -91,8 +91,8 @@ public class RoundScoreUI : MonoBehaviour
         // 4) Display boss sprite
         if (bossSpriteImage != null && bossDef != null)
         {
-            bossSpriteImage.sprite = bossDef.bossSprite;
-            bossSpriteImage.gameObject.SetActive(true);
+            //bossSpriteImage.sprite = bossDef.bossSprite;
+            //bossSpriteImage.gameObject.SetActive(true);
         }
     }
     

@@ -56,8 +56,23 @@ public class Weapon_Cholla_Effect : ItemEffect
 
     private void OnBallBounced(Ball ball, Collision2D collision)
     {
-        if (!bounceCounters.ContainsKey(ball))
+        if (owningItem.cooldownCounter > 0f)
             return;
+        
+        if (!bounceCounters.ContainsKey(ball))
+        {
+            // Reattach counter if it was removed
+            GameObject counterGO = counterObject.Spawn(ball.transform.position, Quaternion.identity);
+            counterGO.transform.SetParent(ball.transform, false);
+            counterGO.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+
+            TMP_Text text = counterGO.GetComponentInChildren<TMP_Text>();
+            text.text = "0";
+
+            bounceCounters[ball] = 0;
+            counterObjects[ball] = counterGO;
+            counterTexts[ball] = text;
+        }
 
         bounceCounters[ball]++;
         counterTexts[ball].text = bounceCounters[ball].ToString();

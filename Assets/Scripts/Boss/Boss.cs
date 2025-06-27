@@ -9,6 +9,8 @@ public class Boss : ScriptableObject
     public Sprite bossSprite;
     public EventReference bossMusic;
     public EventReference bossAfterMusic;
+    [SerializeReference]
+    public List<DialogueTask> preFightTasks;
     public List<BossPhase> phases = new List<BossPhase>();
     [SerializeReference]
     public List<DialogueTask> postBeatTasks;

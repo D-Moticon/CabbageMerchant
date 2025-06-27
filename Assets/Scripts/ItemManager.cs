@@ -340,8 +340,16 @@ public class ItemManager : MonoBehaviour
         }
 
         // Otherwise check if we are dropping on an inventory slot
-        Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
-        ItemSlot slot = col ? col.GetComponentInParent<ItemSlot>() : null;
+        //Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
+        //ItemSlot slot = col ? col.GetComponentInParent<ItemSlot>() : null;
+        
+        // Find all colliders at that point
+        Collider2D[] hits = Physics2D.OverlapPointAll(mouseWorldPos);
+
+        // Try to find an ItemSlot first…
+        ItemSlot slot = hits
+            .Select(h => h.GetComponentInParent<ItemSlot>())
+            .FirstOrDefault(s => s != null);
 
         if (slot != null && slot.isLocked)
         {

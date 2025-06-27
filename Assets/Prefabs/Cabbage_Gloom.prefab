@@ -981,6 +981,7 @@ MonoBehaviour:
   pooledObjectReference: {fileID: 11400000, guid: eb0ae1fd333cfd242956a2bfd402d237, type: 2}
   rb: {fileID: 7392536720596753261}
   col: {fileID: 7189143988555630485}
+  unPoppable: 0
   sr: {fileID: 7360230487334003405}
   bonkVFX: {fileID: 11400000, guid: e473311aa1d29d743b06018cf28abc51, type: 2}
   popVFX: {fileID: 11400000, guid: 0579dfd895315904497642bdb8571dc6, type: 2}
@@ -1033,9 +1034,10 @@ MonoBehaviour:
   growthMode: 2
   logBase: 2
   logMultiplier: 1
-  rootExponent: 0.5
+  rootExponent: 0.515
   isMerging: 0
   isStolen: 0
+  isDynamic: 0
   baseBonkMultiplier: 1
   bonkMultiplier: 1
   points: 0

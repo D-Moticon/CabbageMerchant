@@ -36,6 +36,7 @@ public class Fire : MonoBehaviour
         GameStateMachine.ExitingBounceStateAction += OnBounceStateExited;
         Ball.BallHitBonkableEvent += OnBallBonkedBonkable;
         Cabbage.CabbageMergedEventPreDestroy += CabbageMergedListener;
+        Cabbage.CabbageRemovedEvent += CabbageRemovedListener;
         CalculateSecondsPerBonk();
         stackTimer = secondsPerBonk;
 
@@ -54,6 +55,7 @@ public class Fire : MonoBehaviour
         GameStateMachine.ExitingBounceStateAction -= OnBounceStateExited;
         Ball.BallHitBonkableEvent -= OnBallBonkedBonkable;
         Cabbage.CabbageMergedEventPreDestroy -= CabbageMergedListener;
+        Cabbage.CabbageRemovedEvent -= CabbageRemovedListener;
     }
 
     private void Update()
@@ -188,6 +190,14 @@ public class Fire : MonoBehaviour
         if (cmp.oldCabbageA as Object == bonkable as Object || cmp.oldCabbageB as Object == bonkable as Object)
         {
             SetBonkableOnFire(cmp.newCabbage, stacksRemaining);
+            StopFire();
+        }
+    }
+    
+    private void CabbageRemovedListener(Cabbage c)
+    {
+        if (c.gameObject == bonkable.GetGameObject())
+        {
             StopFire();
         }
     }

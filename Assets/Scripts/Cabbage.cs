@@ -21,6 +21,7 @@ public class Cabbage : MonoBehaviour, IBonkable
     public PooledObjectData pooledObjectReference;
     public Rigidbody2D rb;
     public Collider2D col;
+    public bool unPoppable = false;
     public SpriteRenderer sr;
     public PooledObjectData bonkVFX;
     public PooledObjectData popVFX;
@@ -133,6 +134,7 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public delegate void CabbageEvent(Cabbage c);
     public static CabbageEvent CabbageSpawnedEvent;
+    public static CabbageEvent CabbageRemovedEvent;
     
     bool isHarvesting = false;
     
@@ -169,44 +171,6 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     void CheckForOverlaps()
     {
-        /*// Enforce global merge cooldown to prevent chain reactions
-        if (Time.time - lastGlobalMergeTime < globalMergeCooldown)
-            return;
-
-        if (isHarvesting || isMerging)
-            return;
-
-        var col2d = GetComponent<CircleCollider2D>();
-        float myLossy = Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
-        float myRad = col2d.radius * myLossy;
-
-        var snapshot = new List<Cabbage>(GameSingleton.Instance.gameStateMachine.activeCabbages);
-
-        foreach (var other in snapshot)
-        {
-            if (other == null || other == this || other.isMerging)
-                continue;
-
-            var otherCol = other.GetComponent<CircleCollider2D>();
-            float otherLossy = Mathf.Max(other.transform.lossyScale.x, other.transform.lossyScale.y);
-            float otherRad = otherCol.radius * otherLossy;
-
-            float combined = myRad + otherRad;
-            float dist = (transform.position - other.transform.position).magnitude;
-
-            if (dist <= combined)
-            {
-                //Debug.DrawLine(transform.position, other.transform.position, Color.red, 1f);
-                //Debug.Break();
-
-                // Update global merge cooldown timestamp
-                lastGlobalMergeTime = Time.time;
-
-                Merge(other);
-                return;
-            }
-        }*/
-        
         if (isHarvesting)
         {
             return;
@@ -219,7 +183,7 @@ public class Cabbage : MonoBehaviour, IBonkable
             if (col.gameObject == this.gameObject) continue;
 
             Cabbage c = col.GetComponent<Cabbage>();
-            if (c != null && c.enabled)
+            if (c != null && c.gameObject.activeInHierarchy && c.enabled)
             {
                 Merge(c);
             }
@@ -280,6 +244,8 @@ public class Cabbage : MonoBehaviour, IBonkable
 
     public void Remove()
     {
+        CabbageRemovedEvent?.Invoke(this);
+        
         if (GameSingleton.Instance != null)
         {
             GameSingleton.Instance.gameStateMachine.RemoveActiveCabbage(this);
@@ -349,7 +315,8 @@ public class Cabbage : MonoBehaviour, IBonkable
         if (other.gameObject.layer == wallLayerMask
             && other.gameObject.GetComponent<Vine>() == null
             && GameSingleton.Instance.gameStateMachine.GetNumberActiveCabbages() > 1
-            && !isDynamic)
+            && !isDynamic
+            && !unPoppable)
         {
             Pop(other.GetContact(0).point);
         }
@@ -390,6 +357,7 @@ public class Cabbage : MonoBehaviour, IBonkable
         if (isMerging || otherCabbage.isMerging) return;
         if (!col.enabled || !otherCabbage.col.enabled) return;
         if (isDynamic) return;
+        if (unPoppable) return;
         
         isMerging = true;
         otherCabbage.isMerging = true;

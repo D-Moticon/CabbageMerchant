@@ -29,4 +29,7 @@ public class BossPhase
     public List<DialogueTask> postPhaseBeatEarlyTasks;
     [SerializeReference]
     public List<DialogueTask> postPhaseBeatTasks;
+    
+    [Header("Loop Control")]
+    public bool repeatUntilManuallyBroken = false;
 }

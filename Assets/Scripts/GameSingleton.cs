@@ -11,6 +11,7 @@ public class GameSingleton : MonoBehaviour, IBiomeChangeable
     public GasFluidManager gasSim;
     public LiquidManager liquidSim;
     public FluidRTReferences fluidRTReferences;
+    public BoardGameManager boardGameManager;
 
     [System.Serializable]
     public class BiomeInfo

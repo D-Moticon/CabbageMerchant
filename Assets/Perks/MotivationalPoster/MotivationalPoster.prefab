@@ -100,14 +100,14 @@ MonoBehaviour:
         chance: 1
         owningItem: {fileID: 0}
         powerMult: 1
-        bonkValueIncrease: 5
+        bonkValueIncrease: 8
     - rid: 6680768282176520279
       type: {class: ForceNextBallRainbowEffect, ns: , asm: Assembly-CSharp}
       data:
         chance: 1
         owningItem: {fileID: 0}
         powerMult: 1
-        bonkValueIncrease: 10
+        bonkValueIncrease: 16
     - rid: 6680768282176520280
       type: {class: RoundGoalMissedTrigger, ns: , asm: Assembly-CSharp}
       data:
